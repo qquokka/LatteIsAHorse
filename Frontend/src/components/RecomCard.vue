@@ -1,6 +1,6 @@
 <template>
     <div>
-        <img :src="imgUrl" class="card-img-top" :alt="alt" >
+        <img :src="imgUrl" class="card-img-top circular-img" :alt="alt">
         <div class="card-body">
             <h5 class="card-title">{{ i }}번 째 카페 맛집</h5>
             <p class="card-text">분위기가 돋보이는 카페 맛집 어쩌구 저쩌구</p>
@@ -29,5 +29,7 @@ export default {
 </script>
 
 <style>
-
+.circular-img {
+    border-radius: 50% !important;
+}
 </style>
