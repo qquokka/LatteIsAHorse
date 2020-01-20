@@ -2,6 +2,7 @@
   <div class="home container">
     <search-bar @todoCreate-event="todoCreate" />
     <todo-list @todoDelete-event="todoUpdate" :todos="todos" />
+    <recom-list/>
   </div>
 </template>
 
@@ -11,11 +12,13 @@
   import router from 'vue-router'
   import TodoList from '@/components/TodoList.vue'
   import SearchBar from '@/components/SearchBar.vue'
+  import RecomList from '@/components/RecomList.vue'
   export default {
     name: 'home',
     components: {
       TodoList,
       SearchBar,
+      RecomList
     },
     data() {
       return {
