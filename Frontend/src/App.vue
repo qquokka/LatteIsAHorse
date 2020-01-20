@@ -1,71 +1,60 @@
 <template>
-  <div class='container' id="app">
-    <h1 class="bg-danger text-white mx-5"><i class="fab fa-youtube"></i>Youtube 검색기</h1>
-    <div class="container mt-5">
-      <search-bar @input-change-event="onInputChange" />
+  <div id="app">
+    <div id="nav">
+      <!-- router-link :  vue-router 
+        to : router/index.js에 있는 routex 중에 path 값
+        -> routes에 정의된 해당 컴포넌트를 불러온다.
+      
+      -->
+      <div v-if="!isAuthenticated">
+        <router-link to="/">Home</router-link> |
+        <router-link to="/login">Login</router-link>
+      </div>
+      <div v-else>
+        <router-link to="/">Home</router-link> |
+        <a href="#" @click.prevent="logout">Logout</a>
+      </div>
     </div>
-    <div class="row">
-      <video-detail class="col-8" :video="selected"/>
-      <video-list class='col' @video-select-event="selectedVideo" :videos="videos" />
-    </div>
+    <router-view/>
   </div>
 </template>
-
 <script>
-  import axios from 'axios'
-  import SearchBar from './components/SearchBar.vue'
-  import VideoList from './components/VideoList.vue'
-  import VideoDetail from'./components/VideoDetail.vue'
-  const API_KEY = process.env.VUE_APP_API_KEY
-
-  export default {
-    name: 'app',
-    components: {
-      SearchBar,
-      VideoList,
-      VideoDetail
-    },
-    data() {
-      return {
-        videos: [],
-        selected: {},
-      }
-    },
-    methods: {
-      onInputChange(value) {
-        console.log('==App==')
-        console.log(value)
-        axios.get('https://www.googleapis.com/youtube/v3/search', {
-            params: {
-              key: API_KEY,
-              part: 'snippet',
-              q: value,
-
-            }
-          }).then(response => {
-            this.videos = response.data.items
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      },
-      selectedVideo(v){
-        this.selected = v
-      },
+import router from './router'
+export default {
+  name: 'App',
+  data() {
+    return {
+      isAuthenticated: this.$session.has('jwt')
     }
+  },
+  methods: {
+    logout() {
+      this.$session.destroy()
+      this.$store.dispatch('logout')
+      router.push('/login')
+    }
+  },
+  updated() {
+    this.isAuthenticated = this.$session.has('jwt')
   }
+}
 </script>
-
 <style>
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-  }
-  .related{
-    height: 2000px;
-  }
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+#nav {
+  padding: 30px;
+}
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
 </style>
