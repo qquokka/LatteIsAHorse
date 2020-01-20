@@ -1,14 +1,11 @@
 <template>
-    <md-field>
-        <label>지역, 카페 이름 </label>
-        <md-input v-model="inputText"></md-input>
-        <span class="md-helper-text">Helper text</span>
-        <md-button @click="onInput"  type="submit" class=""><md-icon >search</md-icon>검색</md-button>
-    </md-field>
+    <div class="input-group mb-3">
+        <input v-model="inputText" type="text" class="form-control form-control-lg" placeholder="검색어를 입력하세요">
+        <input @click="onInput" type="submit" class="btn btn-lg btn-outline-secondary ml-2 input-group-append" value="검색">
+    </div>
 </template>
 
 <script>
-/* eslint-disable */
     export default {
         name: 'SearchBar',
         data() {
@@ -19,14 +16,13 @@
         methods: {
             onInput() {
                 console.log('==SearchBar==')
+                // $emit(이벤트이름, 값) : 커스텀 이벤트 발생
+                // 이벤트이름의 이벤트를 발생시킴(트리거)
                 this.$emit('input-change-event', this.inputText)
             }
         }
     }
 </script>
 
-<style lang="scss" scoped>
-label {
-    color: white;
-}
+<style>
 </style>
