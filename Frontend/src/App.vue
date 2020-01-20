@@ -1,27 +1,26 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <!-- router-link :  vue-router 
-        to : router/index.js에 있는 routex 중에 path 값
-        -> routes에 정의된 해당 컴포넌트를 불러온다.
-      
-      -->
-      <div v-if="!isAuthenticated">
+      <nav-bar />
+      <!-- <div v-if="!isAuthenticated">
         <router-link to="/">Home</router-link> |
         <router-link to="/login">Login</router-link>
-      </div>
-      <div v-else>
+      </div> -->
+      <!-- <div v-else>
         <router-link to="/">Home</router-link> |
         <a href="#" @click.prevent="logout">Logout</a>
-      </div>
-    </div>
+      </div> -->
+    <!-- </div> -->
     <router-view/>
   </div>
 </template>
 <script>
 import router from './router'
+import NavBar from '@/components/NavBar.vue'
 export default {
   name: 'App',
+  components: {
+    NavBar,
+  },
   data() {
     return {
       isAuthenticated: this.$session.has('jwt')

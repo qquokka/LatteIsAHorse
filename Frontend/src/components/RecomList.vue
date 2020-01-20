@@ -1,7 +1,6 @@
 <template>
-    <div class="card-deck">
-        <h1>RecomList</h1>
-        <div v-for="i in 3" :key="i" class="row">
+    <div class="card-deck row">
+        <div v-for="i in 3" :key="i" class="col-sm">
             <recom-card :imgUrl="imgUrl" :i="i"/>
         </div>
     </div>

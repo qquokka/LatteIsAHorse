@@ -1,8 +1,18 @@
 <template>
   <div class="home container">
-    <search-bar @todoCreate-event="todoCreate" />
-    <todo-list @todoDelete-event="todoUpdate" :todos="todos" />
-    <recom-list/>
+    <image-header />
+    <div class="banner-quote col-12 col-md-4 offset-md-2 mt-5">
+      <h2>라떼는 말이야...</h2>
+      <h2>까페 대신 다방을 갔어</h2>
+    </div>
+    <div class="row justify-content-center mt-5">
+      <search-bar @todoCreate-event="todoCreate" />
+    </div>
+    <div id="main-raise" class="container shadow">
+      <h1 class="display-1 text-white">무언가를 넣을 훌륭한 자리가 매우 많이 비어 있으니 여러분의 많은 협조 바랍니다.</h1>
+      <h2>Recommendation List</h2>
+      <recom-list/>
+    </div>
   </div>
 </template>
 
@@ -10,15 +20,16 @@
   import axios from 'axios'
   import { mapGetters } from 'vuex' 
   import router from 'vue-router'
-  import TodoList from '@/components/TodoList.vue'
-  import SearchBar from '@/components/SearchBar.vue'
+	import SearchBar from '@/components/SearchBar.vue'
+  import ImageHeader from '@/views/section/ImageHeader.vue'
   import RecomList from '@/components/RecomList.vue'
+
   export default {
     name: 'home',
     components: {
-      TodoList,
-      SearchBar,
-      RecomList
+			SearchBar,
+      ImageHeader,
+      RecomList,
     },
     data() {
       return {
@@ -76,3 +87,18 @@
     }
   }
 </script>
+
+<style>
+body {
+  height: 5000px;
+}
+.banner-quote {
+  color: white;
+  text-align: left;
+}
+#main-raise {
+  position: relative;
+  background: rgba(0,0,0,0.5);
+  height: 2000px;
+}
+</style>
