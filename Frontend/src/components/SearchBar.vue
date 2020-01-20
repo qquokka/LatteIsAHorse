@@ -24,6 +24,11 @@ export default {
 </script>
 
 <style scoped>
+.btn-info {
+    background-color: #88D8B0;
+    color: #fff ;
+    border: 0;
+}
 .todo-form {
     width: 55%;
     min-width: 450px;
