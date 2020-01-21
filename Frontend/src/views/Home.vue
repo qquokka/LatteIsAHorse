@@ -102,4 +102,7 @@ body {
   height: 2000px;
   padding: 2rem;
 }
+.list-container {
+  background-color: rgba(255, 255, 255, 0.74);
+}
 </style>
