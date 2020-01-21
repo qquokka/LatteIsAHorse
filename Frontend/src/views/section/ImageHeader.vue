@@ -17,11 +17,11 @@ export default {
 <style>
     #background {
         height: 65vh;
-        position: absolute;
+        position: absolute !important;
         top: 0;
         left: 0;
         z-index: -1;
-        background-size: cover;
+        background-size: cover !important;
         filter: black();
     }
 </style>

@@ -1,5 +1,7 @@
-!<template>
+<template>
+
   <nav class="navbar navbar-expand-lg bg-transparent sticky-top">
+<<<<<<< HEAD
     <a class="navbar-brand" href="#">라떼는 말이야</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -18,12 +20,36 @@
       </ul>
     </div>
   </nav>
+=======
+    
+  <a class="navbar-brand" href="/">라떼는 말이야</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" type="button" data-toggle="modal" data-target="#staticBackdrop">
+          <i class="fa fa-key"></i> 로그인
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#"><i class="fa fa-user"></i> About Us</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#"><i class="fa fa-map"></i> 내 주변 보기</a>
+      </li>
+    </ul>
+  </div>
+  
+</nav>
+
+>>>>>>> 7b3ed73e2d79c6a8730293abd6f1d427a8cb3a45
 </template>
 
 <script>
-export default {
 
-}
+
 </script>
 
 <style>

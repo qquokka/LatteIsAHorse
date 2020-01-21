@@ -1,17 +1,24 @@
 <template>
   <div class="home container">
     <image-header />
-    <div class="banner-quote col-12 col-md-4 offset-md-2 mt-5">
+    <div class="banner-quote col-12 col-md-4 offset-0 offset-sm-2 mt-5">
       <h2>라떼는 말이야...</h2>
       <h2>까페 대신 다방을 갔어</h2>
     </div>
     <div class="row justify-content-center mt-5" >
       <search-bar @todoCreate-event="todoCreate" />
     </div>
+<<<<<<< HEAD
     <div style="height: 150px">
 
     </div>
     <div class="bg-white shadow">
+=======
+    <div>
+      <h1 class="display-1">SOMETHING IN HERE</h1>
+    </div>
+    <div id="main-raise" class="container shadow">
+>>>>>>> 7b3ed73e2d79c6a8730293abd6f1d427a8cb3a45
       <h2>Recommendation List</h2>
       <recom-list/>
       <h2>Editor's Pick List</h2>
@@ -104,8 +111,10 @@ body {
 }
 #main-raise {
   position: relative;
-  background: rgba(0,0,0,0.5);
+  background: white;
+  border-radius: 15px 15px;
   height: 2000px;
+  padding: 2rem;
 }
 .list-container {
   background-color: rgba(255, 255, 255, 0.74);
