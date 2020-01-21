@@ -1,7 +1,22 @@
 <template>
-  <div class="home container">
-    <search-bar @todoCreate-event="todoCreate" />
-    <todo-list @todoDelete-event="todoUpdate" :todos="todos" />
+  <div class="container">
+    <image-header />
+    <div class="banner-quote col-12 col-md-4 offset-0 offset-sm-2 mt-5">
+      <h2>라떼는 말이야...</h2>
+      <h2>까페 대신 다방을 갔어</h2>
+    </div>
+    <div class="row justify-content-center mt-5">
+      <search-bar @search-event="searchNow" />
+    </div>
+    <div>
+      <h1 class="display-1">SOMETHING IN HERE</h1>
+    </div>
+    <div id="main-raise" class="container shadow">
+      <h2>Recommendation List</h2>
+      <recom-list/>
+      <h2>Editor's Pick List</h2>
+      <editor-pick-list/>
+    </div>
   </div>
 </template>
 
@@ -9,17 +24,22 @@
   import axios from 'axios'
   import { mapGetters } from 'vuex' 
   import router from 'vue-router'
-  import TodoList from '@/components/TodoList.vue'
-  import SearchBar from '@/components/SearchBar.vue'
+	import SearchBar from '@/components/SearchBar.vue'
+  import ImageHeader from '@/views/section/ImageHeader.vue'
+  import RecomList from '@/components/RecomList.vue'
+  import EditorPickList from '@/components/EditorPickList.vue'
+
   export default {
     name: 'home',
     components: {
-      TodoList,
-      SearchBar,
+			SearchBar,
+      ImageHeader,
+      RecomList,
+      EditorPickList
     },
     data() {
       return {
-        todos: [],
+        answers: [],
         username: '',
       }
     },
@@ -30,32 +50,26 @@
       ])
     },
     methods: {
-      todoCreate(title) {
+      searchNow(query) {
         const datas = {
-          title: title,
+          query: query,
           user: this.user
         }
-        // const formData = new FormData()
-        // formData.append('title', title)
-        // formData.append('user', 1)
         axios.post('http://127.0.0.1:8000/api/v1/todos/', datas, this.options)
           .then(response => {
             console.log(response)
-            this.getTodos()
+            this.getAnswers()
           })
           .catch(error => {
             console.log(error)
           })
       },
-      getTodos() {
+      getAnswers() {
         axios.get(`http://127.0.0.1:8000/api/v1/users/${this.user}`, this.options)
           .then(response => {
             console.log(response)
-            this.todos = response.data.todo_set
+            this.answers = response.data
           })
-      },
-      todoUpdate(){
-        this.getTodos()
       },
       isLogin() {
         this.$session.start()
@@ -69,7 +83,30 @@
     },
     mounted() {
       this.isLogin()
-      this.getTodos()
     }
   }
+  
 </script>
+
+<style>
+body {
+  height: fit-content;
+}
+#app {
+  background: ivory;
+}
+.banner-quote {
+  color: white;
+  text-align: left;
+}
+#main-raise {
+  position: relative;
+  background: white;
+  border-radius: 15px 15px;
+  height: 2000px;
+  padding: 2rem;
+}
+.list-container {
+  background-color: rgba(255, 255, 255, 0.74);
+}
+</style>
