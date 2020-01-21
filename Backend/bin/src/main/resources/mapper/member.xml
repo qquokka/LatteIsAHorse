@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="latte.member">
+	<!-- active 값에 따라서 동적 쿼리?-->
+	<select id="getAllMemberList" resultType="com.latte.dto.Member">
+		SELECT * FROM TEST_TABLE
+	</select>
+
+	
+</mapper>
