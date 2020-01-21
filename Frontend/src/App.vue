@@ -28,7 +28,7 @@ export default {
   },
   data() {
     return {
-      isAuthenticated: this.$session.has('jwt')
+      isAuthenticated: this.$session.has('jwt'),
     }
   },
   methods: {
@@ -39,7 +39,7 @@ export default {
     },
     login(credentials) {
       console.log(credentials)
-      axios.post('http://127.0.0.1:8000/api-token-auth/', credentials)
+      axios.post('http://192.168.41.111:8197/latte', credentials)
         .then(response => {
             console.log('로그인성공')
             console.log(response.data.token)
@@ -49,16 +49,19 @@ export default {
             this.$store.dispatch('login', token)
             router.push('/')
           })
-    }   
+    },
   },
   updated() {
     this.isAuthenticated = this.$session.has('jwt')
-  }
+  },
+  mounted () {
+  window.addEventListener('scroll', this.onScroll)
+},
 }
 </script>
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -73,5 +76,22 @@ export default {
 }
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #42b983;
+  border-radius: 10px;
 }
 </style>

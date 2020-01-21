@@ -21,7 +21,8 @@ export default {
         position: absolute !important;
         top: 0;
         left: 0;
-        z-index: -1;
+        z-index: 0;
+        filter: brightness(50%);
         background-size: cover !important;
     }
 </style>

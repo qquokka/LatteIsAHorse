@@ -1,5 +1,5 @@
 <template>
-  <div class="home container">
+  <div class="container">
     <image-header />
     <div class="banner-quote col-12 col-md-4 offset-0 offset-sm-2 mt-5">
       <h2>라떼는 말이야...</h2>
@@ -85,11 +85,15 @@
       this.isLogin()
     }
   }
+  
 </script>
 
 <style>
 body {
   height: fit-content;
+}
+#app {
+  background: ivory;
 }
 .banner-quote {
   color: white;

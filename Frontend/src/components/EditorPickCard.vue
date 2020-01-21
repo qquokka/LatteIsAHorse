@@ -9,7 +9,7 @@
         <small class="text-muted">Last updated 3 mins ago</small>
         </div>
     </div>
-</template>
+</template>body {background-color: coral;}
 
 <script>
 export default {
