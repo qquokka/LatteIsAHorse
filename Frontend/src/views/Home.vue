@@ -8,8 +8,10 @@
     <div class="row justify-content-center mt-5">
       <search-bar @todoCreate-event="todoCreate" />
     </div>
+    <div>
+      <h1 class="display-1">SOMETHING IN HERE</h1>
+    </div>
     <div id="main-raise" class="container shadow">
-      <h1 class="display-1 text-white">무언가를 넣을 훌륭한 자리가 매우 많이 비어 있으니 여러분의 많은 협조 바랍니다.</h1>
       <h2>Recommendation List</h2>
       <recom-list/>
       <h2>Editor's Pick List</h2>
@@ -102,7 +104,9 @@ body {
 }
 #main-raise {
   position: relative;
-  background: rgba(0,0,0,0.5);
+  background: white;
+  border-radius: 15px 15px;
   height: 2000px;
+  padding: 2rem;
 }
 </style>
