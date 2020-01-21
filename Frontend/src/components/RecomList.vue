@@ -1,8 +1,6 @@
 <template>
-    <div class="card-deck row">
-        <div v-for="i in 3" :key="i" class="col-sm">
-            <recom-card :imgUrl="imgUrl" :i="i"/>
-        </div>
+    <div class="row my-4">
+        <recom-card v-for="i in 4" :imgUrl="imgUrl" :i="i" :key="i"/>
     </div>
 </template>
 

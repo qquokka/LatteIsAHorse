@@ -12,6 +12,8 @@
       <h1 class="display-1 text-white">무언가를 넣을 훌륭한 자리가 매우 많이 비어 있으니 여러분의 많은 협조 바랍니다.</h1>
       <h2>Recommendation List</h2>
       <recom-list/>
+      <h2>Editor's Pick List</h2>
+      <editor-pick-list/>
     </div>
   </div>
 </template>
@@ -23,6 +25,7 @@
 	import SearchBar from '@/components/SearchBar.vue'
   import ImageHeader from '@/views/section/ImageHeader.vue'
   import RecomList from '@/components/RecomList.vue'
+  import EditorPickList from '@/components/EditorPickList.vue'
 
   export default {
     name: 'home',
@@ -30,6 +33,7 @@
 			SearchBar,
       ImageHeader,
       RecomList,
+      EditorPickList
     },
     data() {
       return {

@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div class="col-12 col-sm-6 col-lg-3">
+        <div class="card">
         <img :src="imgUrl" class="card-img-top circular-img" :alt="alt">
         <div class="card-body">
             <h5 class="card-title">{{ i }}번 째 카페 맛집</h5>
@@ -8,7 +9,8 @@
         <div class="card-footer">
             <small class="text-muted">Last updated 3 mins ago</small>
         </div>
-    </div>  
+        </div>
+    </div>
 </template>
 
 <script>
