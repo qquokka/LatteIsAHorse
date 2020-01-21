@@ -1,7 +1,7 @@
 <template>
   <div id="app">
       <nav-bar />
-      <login-form @login-event="login"/>
+      <login-form   @login-event="login"/>
       <!-- <div v-if="!isAuthentic
       ated">
         <router-link to="/">Home</router-link> |

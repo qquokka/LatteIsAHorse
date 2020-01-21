@@ -8,9 +8,14 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
+      <li v-if="!isAuthenticated" class="nav-item">
         <a class="nav-link" type="button" data-toggle="modal" data-target="#staticBackdrop">
           <i class="fa fa-key"></i> 로그인
+        </a>
+      </li>
+      <li v-else class="nav-item">
+        <a class="nav-link" type="button" data-toggle="modal" data-target="#staticBackdrop">
+          <i class="fa fa-key"></i> 로그아웃
         </a>
       </li>
       <li class="nav-item">

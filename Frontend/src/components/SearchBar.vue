@@ -1,6 +1,6 @@
 <template>
-<form class="search-form input-group mb-3" @submit.prevent="todoCreate">
-    <input v-model="title" id="title" type="text" style="height:3rem;border-radius:15px 0 0 15px;border: 2px solid #FFEEAD ;" class="form-control" placeholder="지역명, 카페 이름 등" aria-describedby="button-addon2">
+<form class="search-form input-group mb-3" @submit.prevent="searchNow">
+    <input v-model="query" id="title" type="text" style="height:3rem;border-radius:15px 0 0 15px;border: 2px solid #FFEEAD ;" class="form-control" placeholder="지역명, 카페 이름 등" aria-describedby="button-addon2">
     <div class="input-group-append">
         <button  class="btn btn-info" type="button" id="button-addon2">검색</button>
     </div>
@@ -12,12 +12,12 @@ export default {
     name: 'TodoForm',
     data() {
         return {
-            title: ''
+            query: ''
         }
     },
     methods: {
-        todoCreate() {
-            this.$emit('todoCreate-event', this.title)
+        searchNow() {
+            this.$emit('search-event', this.query)
         }
     }
 }

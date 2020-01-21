@@ -6,7 +6,7 @@
       <h2>까페 대신 다방을 갔어</h2>
     </div>
     <div class="row justify-content-center mt-5">
-      <search-bar @todoCreate-event="todoCreate" />
+      <search-bar @search-event="searchNow" />
     </div>
     <div>
       <h1 class="display-1">SOMETHING IN HERE</h1>
@@ -39,7 +39,7 @@
     },
     data() {
       return {
-        todos: [],
+        answers: [],
         username: '',
       }
     },
@@ -50,32 +50,26 @@
       ])
     },
     methods: {
-      todoCreate(title) {
+      searchNow(query) {
         const datas = {
-          title: title,
+          query: query,
           user: this.user
         }
-        // const formData = new FormData()
-        // formData.append('title', title)
-        // formData.append('user', 1)
         axios.post('http://127.0.0.1:8000/api/v1/todos/', datas, this.options)
           .then(response => {
             console.log(response)
-            this.getTodos()
+            this.getAnswers()
           })
           .catch(error => {
             console.log(error)
           })
       },
-      getTodos() {
+      getAnswers() {
         axios.get(`http://127.0.0.1:8000/api/v1/users/${this.user}`, this.options)
           .then(response => {
             console.log(response)
-            this.todos = response.data.todo_set
+            this.answers = response.data
           })
-      },
-      todoUpdate(){
-        this.getTodos()
       },
       isLogin() {
         this.$session.start()
@@ -89,7 +83,6 @@
     },
     mounted() {
       this.isLogin()
-      this.getTodos()
     }
   }
 </script>
