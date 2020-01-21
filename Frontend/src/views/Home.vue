@@ -8,17 +8,10 @@
     <div class="row justify-content-center mt-5" >
       <search-bar @todoCreate-event="todoCreate" />
     </div>
-<<<<<<< HEAD
-    <div style="height: 150px">
-
-    </div>
-    <div class="bg-white shadow">
-=======
     <div>
       <h1 class="display-1">SOMETHING IN HERE</h1>
     </div>
     <div id="main-raise" class="container shadow">
->>>>>>> 7b3ed73e2d79c6a8730293abd6f1d427a8cb3a45
       <h2>Recommendation List</h2>
       <recom-list/>
       <h2>Editor's Pick List</h2>
