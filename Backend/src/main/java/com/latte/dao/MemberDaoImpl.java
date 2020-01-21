@@ -7,18 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.latte.dto.Member;
-import com.latte.dto.TestUser;
-
 
 @Repository
 public class MemberDaoImpl {
 
-	String ns = "latte.member.";
+	String ns = "latte.member."; // ns : namespace
 
 	@Autowired
 	private SqlSession sqlSession;
 
-	public List<TestUser> getAllMemberList() {
+	public List<Member> getAllMemberList() {
 		return sqlSession.selectList(ns + "getAllMemberList");
 	}
 
@@ -49,7 +47,5 @@ public class MemberDaoImpl {
 	public boolean checkPwd(String password) {
 		return sqlSession.selectOne(ns + "checkPwd", password);
 	}
-
-	
 
 }

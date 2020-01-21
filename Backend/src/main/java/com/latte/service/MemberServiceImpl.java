@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.latte.dao.MemberDaoImpl;
 import com.latte.dto.Member;
-import com.latte.dto.TestUser;
 
 @Service
 public class MemberServiceImpl implements IMemberService {
@@ -17,51 +16,99 @@ public class MemberServiceImpl implements IMemberService {
 	private MemberDaoImpl memberdao;
 
 	@Override
-	@Transactional(readOnly = true)
-	public List<TestUser> getAllMemberList() {
-		return memberdao.getAllMemberList();
+	public List<Member> getAllMemberList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	@Transactional(readOnly = true)
-	public Member getMember(String id) {
-		return memberdao.getMember(id);
+	public Member getMemberById(String id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	@Transactional(readOnly = true)
-	public int getTotalMembers() {
-		return memberdao.getTotalMembers();
+	public int getTotalMemberCounts() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
-	@Transactional
 	public int addMember(Member member) {
-		return memberdao.addMember(member);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
-	@Transactional
-	public void updateMember(Member member) {
-		memberdao.updateMember(member);
+	public void updateMemberInfo(Member member) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
-	@Transactional
 	public boolean deleteMember(String id) {
-		return memberdao.deleteMember(id);
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public int checkId(String uid) {
-		return memberdao.checkId(uid);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public boolean checkPwd(String password) {
-		return memberdao.checkPwd(password);
+		// TODO Auto-generated method stub
+		return false;
 	}
+
+//	@Override
+//	@Transactional(readOnly = true)
+//	public List<TestUser> getAllMemberList() {
+//		return memberdao.getAllMemberList();
+//	}
+//
+//	@Override
+//	@Transactional(readOnly = true)
+//	public Member getMember(String id) {
+//		return memberdao.getMember(id);
+//	}
+//
+//	@Override
+//	@Transactional(readOnly = true)
+//	public int getTotalMembers() {
+//		return memberdao.getTotalMembers();
+//	}
+//
+//	@Override
+//	@Transactional
+//	public int addMember(Member member) {
+//		return memberdao.addMember(member);
+//	}
+//
+//	@Override
+//	@Transactional
+//	public void updateMember(Member member) {
+//		memberdao.updateMember(member);
+//	}
+//
+//	@Override
+//	@Transactional
+//	public boolean deleteMember(String id) {
+//		return memberdao.deleteMember(id);
+//	}
+//
+//	@Override
+//	@Transactional(readOnly = true)
+//	public int checkId(String uid) {
+//		return memberdao.checkId(uid);
+//	}
+//
+//	@Override
+//	@Transactional(readOnly = true)
+//	public boolean checkPwd(String password) {
+//		return memberdao.checkPwd(password);
+//	}
 
 }

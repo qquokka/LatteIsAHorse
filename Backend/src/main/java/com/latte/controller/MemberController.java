@@ -7,6 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.latte.dto.Member;
-import com.latte.dto.TestUser;
 import com.latte.service.IMemberService;
 
 import io.swagger.annotations.Api;
@@ -25,24 +25,34 @@ import io.swagger.annotations.ApiOperation;
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("/api")
-@Api(value = "LATTE", description = "SSAFY Resouces Management 2019")
+@Api(value = "LATTE", description = "Member APIs")
 public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
 	@Autowired
 	private IMemberService memberservice;
-
+	
+	@Autowired
+	ApplicationContext applicationContext;
+	
 	@ApiOperation(value = "모든 회원 정보를 반환한다.", response = List.class)
 	@RequestMapping(value = "/getAllMemberList", method = RequestMethod.GET)
-	public ResponseEntity<List<TestUser>> getAllMemberList() throws Exception {
+	public ResponseEntity<List<Member>> getAllMemberList() throws Exception {
 		logger.info("1-------------getAllMemberList-----------------------------" + new Date());
-		List<TestUser> members = memberservice.getAllMemberList();
+		List<Member> members = memberservice.getAllMemberList();
 		if (members.isEmpty() || members == null) {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
 
-		return new ResponseEntity<List<TestUser>>(members, HttpStatus.OK);
+		return new ResponseEntity<List<Member>>(members, HttpStatus.OK);
 	}
+	
+//	@ApiOperation(value = "beans test", response = List.class)
+//	@RequestMapping(value = "/beans", method = RequestMethod.GET)
+//	public ResponseEntity<String[]> getBeans() throws Exception{
+//		String[] beans = applicationContext.getBeanDefinitionNames(); 
+//		return new ResponseEntity<String[]>(beans, HttpStatus.OK);
+//	}
 //
 //	@ApiOperation(value = "회원 정보를 반환한다.", response = Member.class)
 //	@RequestMapping(value = "/getMember", method = RequestMethod.POST)
