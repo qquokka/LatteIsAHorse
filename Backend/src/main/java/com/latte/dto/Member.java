@@ -3,9 +3,6 @@ package com.latte.dto;
 import java.io.Serializable;
 
 public class Member implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4897905121165107128L;
 	private String mid; // user id
 	private String pwd; // user password
