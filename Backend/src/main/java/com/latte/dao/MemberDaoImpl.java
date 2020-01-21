@@ -37,6 +37,7 @@ public class MemberDaoImpl {
 	}
 
 	public boolean deleteMember(String id) {
+	
 		return sqlSession.update(ns + "deleteMember", id) > 0 ? true : false;
 	}
 
