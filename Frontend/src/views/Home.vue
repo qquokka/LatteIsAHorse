@@ -1,7 +1,7 @@
 <template>
   <div class="home container">
     <image-header />
-    <div class="banner-quote col-12 col-md-4 offset-md-2 mt-5">
+    <div class="banner-quote col-12 col-md-4 offset-0 offset-sm-2 mt-5">
       <h2>라떼는 말이야...</h2>
       <h2>까페 대신 다방을 갔어</h2>
     </div>
