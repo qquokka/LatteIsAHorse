@@ -94,7 +94,7 @@
 
 <style>
 body {
-  height: 5000px;
+  height: fit-content;
 }
 .banner-quote {
   color: white;

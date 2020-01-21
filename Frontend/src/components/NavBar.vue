@@ -1,5 +1,5 @@
 !<template>
-  <nav class="navbar navbar-expand-lg bg-none sticky-top">
+  <nav class="navbar navbar-expand-lg bg-transparent sticky-top">
   <a class="navbar-brand" href="#">라떼는 말이야</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -7,7 +7,7 @@
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" href="#"><i class="fa fa-key"></i>로그인</a>
+        <a class="nav-link" href="/login"><i class="fa fa-key"></i>로그인</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#"><i class="fa fa-user"></i> About Us</a>

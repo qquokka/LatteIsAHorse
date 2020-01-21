@@ -1,7 +1,6 @@
 <template>
     <div class="container">
-        <h2 class="text-success font-weight-bolder">HaPPY <span class="text-info">LoGIN</span></h2>
-        <form class="col-5 mx-auto p-4 shadow-lg border border-top-0" @submit.prevent="login">
+        <form class="col-11 col-md-5 mx-auto p-4 shadow-lg bg-white" @submit.prevent="login">
             <div class="form-group">
                 <input type="text" class="form-control" id="inputId" placeholder="username" v-model="credentials.username">
                 <small id="idHelp" class="form-text text-muted">가입하실 때 작성하신 사용자 이름을 입력하세요.</small>

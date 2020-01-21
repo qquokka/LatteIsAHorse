@@ -1,6 +1,8 @@
-<template>
-    <div class="login">
-        <login-form @login-event="login"/>
+<template >
+<div class="container-fluid" :style="{'background-image': `url(${require('../assets/img/loginbg.jpg')})`}">
+    <div class="row loginrow">
+        <login-form class="logindiv" @login-event="login"/>
+    </div>
 </div>
 </template>
 
@@ -33,4 +35,12 @@
 </script>
 
 <style>
+.container-fluid {
+    height: 100vh;
+    position: absolute;
+    top:0;
+}
+.loginrow {
+    height: 100%;
+}
 </style>
