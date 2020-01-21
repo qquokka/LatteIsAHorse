@@ -5,11 +5,13 @@
       <h2>라떼는 말이야...</h2>
       <h2>까페 대신 다방을 갔어</h2>
     </div>
-    <div class="row justify-content-center mt-5">
+    <div class="row justify-content-center mt-5" >
       <search-bar @todoCreate-event="todoCreate" />
     </div>
-    <div id="main-raise" class="container shadow">
-      <h1 class="display-1 text-white">무언가를 넣을 훌륭한 자리가 매우 많이 비어 있으니 여러분의 많은 협조 바랍니다.</h1>
+    <div style="height: 150px">
+
+    </div>
+    <div class="bg-white shadow">
       <h2>Recommendation List</h2>
       <recom-list/>
       <h2>Editor's Pick List</h2>
@@ -104,5 +106,8 @@ body {
   position: relative;
   background: rgba(0,0,0,0.5);
   height: 2000px;
+}
+.list-container {
+  background-color: rgba(255, 255, 255, 0.74);
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="card-group my-4">
+    <div class="card-group mx-auto my-4">
         <editor-pick-card v-for="i in 3" :imgUrl="imgUrl" :imgAlt="imgAlt" :key="i"/>
     </div>
 </template>
