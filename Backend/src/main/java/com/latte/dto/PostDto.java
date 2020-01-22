@@ -14,15 +14,27 @@ public class PostDto implements Serializable {
 
 	public PostDto() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public PostDto(int post_id, String post_title, String post_content, String post_writer, Date posted_date) {
-		super();
 		this.post_id = post_id;
 		this.post_title = post_title;
 		this.post_content = post_content;
 		this.post_writer = post_writer;
+		this.posted_date = posted_date;
+	}
+
+	public PostDto(String post_title, String post_content, String post_writer, Date posted_date) {
+		this.post_title = post_title;
+		this.post_content = post_content;
+		this.post_writer = post_writer;
+		this.posted_date = posted_date;
+	}
+
+	public PostDto(int post_id, String post_title, String post_content, Date posted_date) {
+		this.post_id = post_id;
+		this.post_title = post_title;
+		this.post_content = post_content;
 		this.posted_date = posted_date;
 	}
 
