@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="latte.post">
+
+	<select id="getAllPostList" resultType="com.latte.dto.PostDto">
+		SELECT
+		POST_ID,
+		POST_TITLE,
+		POST_CONTENT,
+		POST_WRITER,
+		POSTED_DATE
+		FROM post
+		ORDER BY
+		post_id
+	</select>
+
+	<select id="getPostByPostId" parameterType="java.lang.Integer"
+		resultType="com.latte.dto.PostDto">
+		SELECT
+		POST_ID,
+		POST_TITLE,
+		POST_CONTENT,
+		POST_WRITER,
+		POSTED_DATE
+		FROM post
+		WHERE POST_ID=#{postid}
+	</select>
+
+	<select id="addPost" parameterType="com.latte.dto.PostDto"
+		resultType="java.lang.Integer">
+		INSERT INTO post
+		(POST_TITLE, POST_CONTENT ,
+		POST_WRITER ,
+		POSTED_DATE)
+		VALUES
+		(
+		#{post_title},
+		#{post_content},
+		#{post_writer},
+		#{posted_date}
+		)
+	</select>
+
+	<select id="updatePostInfo"
+		parameterType="com.latte.dto.PostDto" resultType="java.lang.Integer">
+		UPDATE post
+		SET
+		POST_TITLE=#{post_title},
+		POST_CONTENT=#{post_content},
+		POSTED_DATE=#{posted_date}
+		WHERE
+		POST_ID=#{post_id}
+	</select>
+
+	<select id="deletePost" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		DELETE
+		FROM post
+		WHERE POST_ID =#{postid}
+	</select>
+
+</mapper>

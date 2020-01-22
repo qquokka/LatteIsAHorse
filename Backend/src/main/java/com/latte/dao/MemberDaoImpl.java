@@ -36,9 +36,11 @@ public class MemberDaoImpl {
 		return sqlSession.update(ns + "updateMemberInfo", member);
 	}
 
+
 	public int deleteMember(String email) {
 		return sqlSession.update(ns + "deleteMember", email);
 	}
+
 
 	public int isValidEmail(String email) {
 		return sqlSession.selectOne(ns + "isValidEmail", email);
