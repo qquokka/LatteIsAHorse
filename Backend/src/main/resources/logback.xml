@@ -25,10 +25,9 @@
 			<!-- 파일에 기록할 로그 포맷 -->
 		</encoder>
 	</appender>
-	<logger name="com.ssafy.safefood.vue.controller" level="INFO"/>
-	<logger name="com.ssafy.safefood.vue.dao" level="INFO"/>
-	<logger name="com.ssafy.safefood.vue.service" level="INFO"/>
-	
+	<logger name="com.latte.controller" level="INFO"/>
+	<logger name="com.latte.dao" level="INFO"/>
+	<logger name="com.latte.service" level="INFO"/>
 	<logger name="org.springframework" level="INFO"/>
 	
 	<root level="debug">

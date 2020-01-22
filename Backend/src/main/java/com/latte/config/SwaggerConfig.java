@@ -1,4 +1,4 @@
-package com.latte;
+package com.latte.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,15 +23,15 @@ public class SwaggerConfig {
 	}
 
 	private Predicate<String> postPaths() {
-		return or(regex("/api/posts.*"), regex("/api.*"));
+		return or(regex("/v1.*"), regex("/api.*"));
 	}
 
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder().title("SSAFY API")
-				.description("SSAFY API Reference for Developers")
-				.termsOfServiceUrl("https://edu.ssafy.com")
-				.contact("ujakifox2@gmail.com").license("Latte License")
-				.licenseUrl("uajkifox2@gmail.com").version("1.0").build();
+				.description("Latte API Reference for Developers")
+				.termsOfServiceUrl("https://test.com")
+				.license("Latte License")
+				.licenseUrl("admin@latte.com").version("1.0").build();
 	}
 
 }
