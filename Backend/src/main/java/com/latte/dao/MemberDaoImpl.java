@@ -11,7 +11,7 @@ import com.latte.dto.Member;
 @Repository
 public class MemberDaoImpl {
 
-	String ns = "latte.member."; // ns : namespace
+	private final String ns = "mapper.member."; // ns : namespace
 
 	@Autowired
 	private SqlSession sqlSession;
@@ -20,33 +20,34 @@ public class MemberDaoImpl {
 		return sqlSession.selectList(ns + "getAllMemberList");
 	}
 
-	public Member getMember(String id) {
-		return sqlSession.selectOne(ns + "getMember", id);
+	public Member getMemberById(String email) {
+		return sqlSession.selectOne(ns + "getMemberById", email);
 	}
 
-	public int getTotalMembers() {
-		return sqlSession.selectOne(ns + "getTotalMembers");
+	public int getTotalMemberCounts() {
+		return sqlSession.selectOne(ns + "getTotalMemberCounts");
 	}
 
-	public int addMember(Member member) {
-		return sqlSession.insert(ns + "addMember", member);
+	public int singUpMember(Member member) {
+		return sqlSession.insert(ns + "singUpMember", member);
 	}
 
-	public void updateMember(Member member) {
-		sqlSession.update(ns + "updateMember", member);
+	public int updateMemberInfo(Member member) {
+		return sqlSession.update(ns + "updateMemberInfo", member);
 	}
 
-	public boolean deleteMember(String id) {
-	
-		return sqlSession.update(ns + "deleteMember", id) > 0 ? true : false;
+
+	public int deleteMember(String email) {
+		return sqlSession.update(ns + "deleteMember", email);
 	}
 
-	public int checkId(String uid) {
-		return sqlSession.selectOne(ns + "checkId", uid);
+
+	public int isValidEmail(String email) {
+		return sqlSession.selectOne(ns + "isValidEmail", email);
 	}
 
-	public boolean checkPwd(String password) {
-		return sqlSession.selectOne(ns + "checkPwd", password);
+	public int isValidPassword(String pwd) {
+		return sqlSession.selectOne(ns + "isValidPassword", pwd);
 	}
 
 }
