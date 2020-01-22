@@ -1,7 +1,7 @@
 <template>
   <div id="app">
       <nav-bar />
-      <login-form   @login-event="login"/>
+      <login-form @login-event="login"/>
       <!-- <div v-if="!isAuthentic
       ated">
         <router-link to="/">Home</router-link> |
@@ -20,6 +20,7 @@ import axios from 'axios'
 import router from './router'
 import NavBar from '@/components/NavBar.vue'
 import LoginForm from '@/components/LoginForm.vue'
+
 export default {
   name: 'App',
   components: {
