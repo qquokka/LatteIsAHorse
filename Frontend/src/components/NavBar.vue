@@ -1,7 +1,6 @@
 <template>
-
-  <nav class="navbar navbar-expand-lg sticky-top" id="topnav">
-  <a class="navbar-brand text-shadow" href="/" style="color:#fff;font-weight:900">라떼는 말이야</a>
+  <nav class="navbar navbar-expand-lg fixed-top" id="topnav">
+  <router-link class="navbar-brand text-shadow" to="/" style="color:#fff;font-weight:900">라떼는 말이야</router-link>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -18,10 +17,10 @@
         </a>
       </li>
       <li class="nav-item" >
-        <a class="nav-link" href="#"><i class="fa fa-user"></i> About Us</a>
+        <router-link class="nav-link" to="about"><i class="fa fa-user"></i> About Us</router-link>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#"><i class="fa fa-map"></i> 내 주변 보기</a>
+        <router-link class="nav-link" to="map"><i class="fa fa-map"></i> 내 주변 보기</router-link>
       </li>
     </ul>
   </div>
@@ -35,7 +34,8 @@ export default {
   
   data () {
   return {
-    scrolled: false
+    scrolled: false,
+    isAuthenticated: false
   };
 },
 methods: {
@@ -43,8 +43,7 @@ methods: {
     this.scrolled = window.scrollY > 0;
     const topnav = document.getElementById('topnav')
     if (this.scrolled) {
-      topnav.style.background = "#7873f5"
-      topnav.style.backgroundImage = "linear-gradient(to right, #ec77ab 0%, #7873f5 100%)"
+      topnav.style.background = "rgba(30,60,50,0.8)"
       topnav.style.boxShadow = "2px 2px 12px black"
     }
     else {
