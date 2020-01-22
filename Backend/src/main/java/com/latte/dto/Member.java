@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 
 public class Member implements Serializable {
+	
 	private static final long serialVersionUID = 4897905121165107128L;
 	private String email; // 회원의 이메일 주소(ID) varchar(100) primary key NOT NULL ,
 	private String mem_pwd; // 회원의 패스워드 varchar(30) NOT NULL,
