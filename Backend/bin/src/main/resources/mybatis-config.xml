@@ -11,9 +11,5 @@
 <!-- 		<typeAlias type="com.ssafy.safefood.vue.dto.FoodSearch" alias="foodsearch"/> -->
 <!-- 	</typeAliases>  -->
  
-    <mappers>
 
-        <mapper resource="mapper/member.xml"/>
-
-    </mappers>
 </configuration>
