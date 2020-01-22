@@ -10,7 +10,8 @@
 		POST_WRITER,
 		POSTED_DATE
 		FROM post
-		ORDER BY post_id
+		ORDER BY
+		post_id
 	</select>
 
 	<select id="getPostByPostId" parameterType="java.lang.Integer"
@@ -28,31 +29,34 @@
 	<select id="addPost" parameterType="com.latte.dto.PostDto"
 		resultType="java.lang.Integer">
 		INSERT INTO post
-		(POST_ID, POST_TITLE, POST_CONTENT ,
-		POST_WRITER , POSTED_DATE)
+		(POST_TITLE, POST_CONTENT ,
+		POST_WRITER ,
+		POSTED_DATE)
 		VALUES
-		(#{post_id},
+		(
 		#{post_title},
 		#{post_content},
 		#{post_writer},
-		#{posted_date})
+		#{posted_date}
+		)
 	</select>
 
-	<select id="updatePostInfo" parameterType="com.latte.dto.PostDto"
-		resultType="java.lang.Integer">
+	<select id="updatePostInfo"
+		parameterType="com.latte.dto.PostDto" resultType="java.lang.Integer">
 		UPDATE post
 		SET
 		POST_TITLE=#{post_title},
 		POST_CONTENT=#{post_content},
-		POST_WRITER=#{post_writer},
 		POSTED_DATE=#{posted_date}
-		WHERE POST_ID=#{post_id}
+		WHERE
+		POST_ID=#{post_id}
 	</select>
-	
-	<select id="deletePost" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+
+	<select id="deletePost" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
 		DELETE
 		FROM post
-		WHERE POSTID =#{postid}
+		WHERE POST_ID =#{postid}
 	</select>
 
 </mapper>

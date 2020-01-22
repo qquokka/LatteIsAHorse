@@ -36,7 +36,7 @@ public class PostController {
 	@Autowired
 	ApplicationContext applicationContext;
 
-	@ApiOperation(value = "모든 post를 반환한다.", response = List.class)
+	@ApiOperation(value = "post list", response = List.class)
 	@RequestMapping(value = "/post", method = RequestMethod.GET)
 	public ResponseEntity<List<PostDto>> getAllPostList() throws Exception {
 		logger.info("1-------------getAllPostList-----------------------------" + new Date());
@@ -47,7 +47,7 @@ public class PostController {
 		return new ResponseEntity<List<PostDto>>(postlist, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "지정된 post를 반환한다.", response = List.class)
+	@ApiOperation(value = "get post", response = List.class)
 	@RequestMapping(value = "/post/{postid}", method = RequestMethod.GET)
 	public ResponseEntity<PostDto> getPostByPostId(@PathVariable int postid) throws Exception {
 		logger.info("1-------------getPostByPostId-----------------------------" + new Date());
@@ -58,24 +58,63 @@ public class PostController {
 		return new ResponseEntity<PostDto>(post, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "post 수정", response = NumberResult.class)
-	@RequestMapping(value = "/post", method = RequestMethod.PUT)
+	@ApiOperation(value = "modify post", response = NumberResult.class)
+	@RequestMapping(value = "/post/{postid}", method = RequestMethod.PUT)
 	public ResponseEntity<NumberResult> updatePostInfo(@RequestBody PostDto post) throws Exception {
 		logger.info("-------------updatePostInfo-----------------------------" + new Date());
 		logger.info("-------------updatePostInfo-----------------------------" + post.toString());
-
 		int confirm = postservice.updatePostInfo(post);
 		NumberResult nr = new NumberResult();
 		nr.setName("updatepost");
 		nr.setState("succ");
-
 		logger.info("-------------updatePost confirm-------------" + confirm);
-
 		if (confirm <= 0) {
 			nr.setCount(-1);
 			nr.setName("updatePostInfo");
 			nr.setState("fail");
 			return new ResponseEntity<NumberResult>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<NumberResult>(nr, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "delete post", response = NumberResult.class)
+	@RequestMapping(value = "/post/{postid}", method = RequestMethod.DELETE)
+	public ResponseEntity<NumberResult> deletePost(@PathVariable int postid) throws Exception {
+		logger.info("-------------deletePost-----------------------------" + new Date());
+
+		int confirm = postservice.deletePost(postid);
+		NumberResult nr = new NumberResult();
+		nr.setName("deletePost");
+		nr.setState("succ");
+
+		logger.info("-------------deletePost confirm-------------" + confirm);
+
+		if (confirm <= 0) {
+			nr.setCount(-1);
+			nr.setName("deletePost");
+			nr.setState("fail");
+			return new ResponseEntity<NumberResult>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<NumberResult>(nr, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "add post", response = NumberResult.class)
+	@RequestMapping(value = "/post", method = RequestMethod.POST)
+	public ResponseEntity<NumberResult> addMember(@RequestBody PostDto post) throws Exception {
+		logger.info("-------------addPost-------------" + new Date());
+
+		int total = postservice.addPost(post);
+
+		NumberResult nr = new NumberResult();
+		nr.setCount(total);
+		nr.setName("addPost");
+		nr.setState("succ");
+		logger.info("-------------addPost-------id------------------" + total);
+		if (total <= 0) {
+			nr.setCount(-1);
+			nr.setName("addPost");
+			nr.setState("fail");
+			return new ResponseEntity<NumberResult>(nr, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<NumberResult>(nr, HttpStatus.OK);
 	}
@@ -118,27 +157,7 @@ public class PostController {
 //		nr.setState("succ");
 //v
 //
-//	@ApiOperation(value = "회원 정보 추가(회원가입)", response = NumberResult.class)
-//	@RequestMapping(value = "/addMember", method = RequestMethod.POST)
-//	public ResponseEntity<NumberResult> addMember(@RequestBody Member member) throws Exception {
-//		logger.info("-------------addMember-------------" + new Date());
-//
-//		int total = memberservice.addMember(member);
-//
-//		NumberResult nr = new NumberResult();
-//		nr.setCount(total);
-//		nr.setName("addEmployee");
-//		nr.setState("succ");
-//		logger.info("5-------------addMember-------id------------------" + total);
-//		if (total <= 0) {
-//			nr.setCount(-1);
-//			nr.setName("addMember");
-//			nr.setState("fail");
-//			// return new ResponseEntity(HttpStatus.NO_CONTENT);
-//			return new ResponseEntity<NumberResult>(nr, HttpStatus.OK);
-//		}
-//		return new ResponseEntity<NumberResult>(nr, HttpStatus.OK);
-//	}
+
 //
 //	@ApiOperation(value = "회원 정보 수정", response = BoolResult.class)
 //	@RequestMapping(value = "/updateMember", method = RequestMethod.PUT)
