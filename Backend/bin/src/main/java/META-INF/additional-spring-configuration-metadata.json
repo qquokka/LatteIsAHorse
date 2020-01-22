@@ -1,0 +1,32 @@
+{"properties": [
+  {
+    "name": "app.jwtSecret",
+    "type": "java.lang.String",
+    "description": "A description for 'app.jwtSecret'"
+  },
+  {
+    "name": "app.jwtExpirationMs",
+    "type": "java.lang.String",
+    "description": "A description for 'app.jwtExpirationMs'"
+  },
+  {
+    "name": "app.jwtExpirationMs",
+    "type": "java.lang.String",
+    "description": "A description for 'app.jwtExpirationMs'"
+  },
+  {
+    "name": "app.jwtExpirationMs",
+    "type": "java.lang.String",
+    "description": "A description for 'app.jwtExpirationMs'"
+  },
+  {
+    "name": "latte.app.jwtSecret",
+    "type": "java.lang.String",
+    "description": "A description for 'latte.app.jwtSecret'"
+  },
+  {
+    "name": "latte.app.jwtExpirationMs",
+    "type": "java.lang.String",
+    "description": "A description for 'latte.app.jwtExpirationMs'"
+  }
+]}
