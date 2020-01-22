@@ -69,7 +69,9 @@ export default {
     },
     data() {
         return {
-            markers: []
+            markers: [
+                
+                ]
         }
         
     },
