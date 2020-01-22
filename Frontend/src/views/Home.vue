@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <image-header />
-    <div class="banner-quote col-12 col-md-4 offset-0 offset-sm-2 mt-5">
-      <h2>라떼는 말이야...</h2>
-      <h2>까페 대신 다방을 갔어</h2>
+    <nav-bar style="position:fixed;left:0;width:100%" />
+    <div id="background" :style="{'background-image': `url(${require('../assets/img/cafebg.jpg')})`}">
+      <h1 style="margin-top:5rem !important;color:white" id="slogan"></h1>
     </div>
-    <div class="row justify-content-center mt-5">
+    
+    <div class="row justify-content-center" style="margin-top:12rem">
       <search-bar @search-event="searchNow" />
     </div>
     <div>
@@ -23,9 +23,8 @@
 <script>
   import axios from 'axios'
   import { mapGetters } from 'vuex' 
-  import router from 'vue-router'
-	import SearchBar from '@/components/SearchBar.vue'
-  import ImageHeader from '@/views/section/ImageHeader.vue'
+  import SearchBar from '@/components/SearchBar.vue'
+  import NavBar from '@/components/NavBar.vue'
   import RecomList from '@/components/RecomList.vue'
   import EditorPickList from '@/components/EditorPickList.vue'
 
@@ -33,14 +32,16 @@
     name: 'home',
     components: {
 			SearchBar,
-      ImageHeader,
       RecomList,
-      EditorPickList
+      EditorPickList,
+      NavBar
     },
     data() {
       return {
         answers: [],
         username: '',
+        i: 0,
+        slogan: '커피가 맛있으면 뭐해 손님이 없는걸'
       }
     },
     computed: {
@@ -53,7 +54,8 @@
       searchNow(query) {
         const datas = {
           query: query,
-          user: this.user
+          user: this.user,
+
         }
         axios.post('http://127.0.0.1:8000/api/v1/todos/', datas, this.options)
           .then(response => {
@@ -74,15 +76,23 @@
       isLogin() {
         this.$session.start()
         if (!this.$session.has('jwt')) {
-          router.push('/login')
+          this.$router.push('/login')
         } else {
           // 로그인 되어 있다면, vuex token 업데이트
           this.$store.dispatch('login', this.$session.get('jwt'))
         }
+      },
+      typeWriter() {
+        if (this.i < this.slogan.length) {
+          console.log(this.slogan)
+          document.getElementById("slogan").innerText += this.slogan.charAt(this.i);
+          this.i++;
+          setTimeout(this.typeWriter, 95);
+        }
       }
     },
     mounted() {
-      this.isLogin()
+      this.typeWriter()
     }
   }
   
@@ -93,9 +103,10 @@ body {
   height: fit-content;
 }
 #app {
-  background: ivory;
+  background: whitesmoke;
 }
 .banner-quote {
+  padding-top: 50px;
   color: white;
   text-align: left;
 }
@@ -108,5 +119,15 @@ body {
 }
 .list-container {
   background-color: rgba(255, 255, 255, 0.74);
+}
+#background {
+    height: 65vh;
+    width: 100% !important;
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    filter: brightness(50%);
+    background-size: cover !important;
 }
 </style>

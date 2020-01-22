@@ -1,5 +1,5 @@
 <template>
-<div id="background" class="container-fluid" :style="{'background-image': `url(${require('../../assets/img/cafebg.jpg')})`}">
+<div id="background" :style="{'background-image': `url(${require('../../assets/img/cafebg.jpg')})`}">
 
 </div>
 </template>
