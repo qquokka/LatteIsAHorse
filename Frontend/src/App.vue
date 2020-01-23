@@ -2,6 +2,7 @@
   <div id="app">
       
       <login-form  @login-event="login"/>
+      <modal/>
       <!-- <div v-if="!isAuthentic
       ated">
         <router-link to="/">Home</router-link> |
@@ -18,12 +19,14 @@
 <script>
 import axios from 'axios'
 import router from './router'
-import LoginForm from '@/components/LoginForm.vue'
+// import LoginForm from '@/components/LoginForm.vue'
+import Modal from '@/components/Modal.vue'
 
 export default {
   name: 'App',
   components: {
-    LoginForm,
+    // LoginForm,
+    Modal
   },
   data() {
     return {
