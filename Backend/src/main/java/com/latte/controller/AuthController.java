@@ -37,7 +37,7 @@ import java.util.Date;
 @RequestMapping("/api/auth")
 public class AuthController {
 	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
-	
+
 	@Autowired
 	AuthenticationManager authenticationManager;
 
@@ -60,16 +60,16 @@ public class AuthController {
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-
+	
 		String jwt = tokenProvider.generateToken(authentication);
+		
 		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
 	}
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 		logger.info("AuthController / registerUser --------------------" + new Date());
-		
-		
+
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return new ResponseEntity(new ApiResponse(false, "Username is already taken!"), HttpStatus.BAD_REQUEST);
 		}
@@ -84,6 +84,7 @@ public class AuthController {
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
+		//Default User Role is "ROLE_USER"
 		Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
 				.orElseThrow(() -> new AppException("User Role not set."));
 
@@ -96,4 +97,7 @@ public class AuthController {
 
 		return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
 	}
+	
+//	@PostMapping("/logout")
+//	public Resp
 }

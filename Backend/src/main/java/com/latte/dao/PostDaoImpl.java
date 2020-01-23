@@ -11,7 +11,7 @@ import com.latte.dto.PostDto;
 @Repository
 public class PostDaoImpl {
 
-	String ns = "latte.post."; // ns : namespace
+	String ns = "mapper.post."; // ns : namespace
 
 	@Autowired
 	private SqlSession sqlSession;
