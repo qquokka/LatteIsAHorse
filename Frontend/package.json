@@ -1,5 +1,5 @@
 {
-  "name": "youtube",
+  "name": "Latte",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -14,11 +14,11 @@
     "expose-loader": "^0.7.5",
     "jquery": "^3.4.1",
     "jwt-decode": "^2.2.0",
+    "load-script-once": "^2.0.1",
     "popper.js": "^1.16.0",
     "vue": "^2.6.10",
     "vue-router": "^3.1.5",
     "vue-session": "^1.0.0",
-    "vue-youtube-embed": "^2.2.2",
     "vuex": "^3.1.2"
   },
   "devDependencies": {

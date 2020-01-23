@@ -9,6 +9,7 @@ import VueSession from 'vue-session'
 import store from './store' // vuex
 
 
+
 Vue.config.productionTip = false
 Vue.use(VueSession)
 
