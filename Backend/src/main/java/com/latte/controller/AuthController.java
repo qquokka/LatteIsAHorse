@@ -78,11 +78,11 @@ public class AuthController {
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 			return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"), HttpStatus.BAD_REQUEST);
 		}
-
+		
 		// Creating user's account
 		User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
 				signUpRequest.getPassword());
-
+		
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
 		//Default User Role is "ROLE_USER"
