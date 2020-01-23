@@ -1,16 +1,12 @@
 <template>
   <div class="container">
     <nav-bar style="position:fixed;left:0;width:100%" />
-    <div id="background" :style="{'background-image': `url(${require('../assets/img/cafebg.jpg')})`}">
-      <h1 style="margin-top:5rem !important;color:white" id="slogan"></h1>
-    </div>
-    
-    <div class="row justify-content-center" style="margin-top:12rem">
-      <search-bar @search-event="searchNow" />
-    </div>
-    <div>
-      <h1 class="display-1">SOMETHING IN HERE</h1>
-    </div>
+    <h1 id="slogan"></h1>
+    <video id="background"  width="100%" muted loop>
+      <source src="../assets/indexmovie.webm" type="video/webm" >
+    </video>
+    <search-bar @search-event="searchNow" class="mx-auto my-5 pb-5"/>
+
     <div id="main-raise" class="container shadow">
       <h2>Recommendation List</h2>
       <recom-list/>
@@ -41,7 +37,7 @@
         answers: [],
         username: '',
         i: 0,
-        slogan: '커피가 맛있으면 뭐해 손님이 없는걸'
+        slogan: '커피가 맛있으면 뭐해 손님이 없는걸...'
       }
     },
     computed: {
@@ -84,23 +80,36 @@
       },
       typeWriter() {
         if (this.i < this.slogan.length) {
-          console.log(this.slogan)
           document.getElementById("slogan").innerText += this.slogan.charAt(this.i);
           this.i++;
-          setTimeout(this.typeWriter, 95);
+          setTimeout(this.typeWriter, 125);
         }
+      },
+      playBackground() {
+        const vid = document.getElementById("background")
+        vid.play()
       }
     },
     mounted() {
       this.typeWriter()
+      this.playBackground()
     }
   }
   
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif+KR:600&display=swap');
 body {
   height: fit-content;
+}
+#slogan {
+  font-family: 'Noto Serif KR', serif;
+  position: relative;
+  z-index: 5;
+  color: whitesmoke;
+  padding-top: 8rem;
+  text-shadow: 2px 2px 3px violet;
 }
 #app {
   background: whitesmoke;
@@ -121,13 +130,10 @@ body {
   background-color: rgba(255, 255, 255, 0.74);
 }
 #background {
-    height: 65vh;
-    width: 100% !important;
     position: absolute !important;
     top: 0;
     left: 0;
     z-index: 0;
-    filter: brightness(50%);
-    background-size: cover !important;
+    filter: brightness(80%)
 }
 </style>

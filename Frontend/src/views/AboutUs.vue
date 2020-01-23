@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <nav-bar style="position:fixed;left:0;width:100%;background: black" />
+    <nav-bar style="position:fixed;left:0;width:100%;" />
 		<h1 class="display-1 mt-5">라떼는 말이야는</h1>
 
   </div>
