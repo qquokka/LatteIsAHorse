@@ -60,8 +60,9 @@ public class AuthController {
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-
+	
 		String jwt = tokenProvider.generateToken(authentication);
+		
 		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
 	}
 
@@ -83,6 +84,7 @@ public class AuthController {
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
+		//Default User Role is "ROLE_USER"
 		Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
 				.orElseThrow(() -> new AppException("User Role not set."));
 
@@ -95,4 +97,7 @@ public class AuthController {
 
 		return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
 	}
+	
+//	@PostMapping("/logout")
+//	public Resp
 }
