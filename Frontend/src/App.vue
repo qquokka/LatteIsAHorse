@@ -1,7 +1,12 @@
 <template>
   <div id="app">
+<<<<<<< HEAD
       <nav-bar />
       <login-form @login-event="login"/>
+=======
+      
+      <login-form   @login-event="login"/>
+>>>>>>> 88d13c622241789f9107b96baee510353d107343
       <!-- <div v-if="!isAuthentic
       ated">
         <router-link to="/">Home</router-link> |
@@ -18,13 +23,11 @@
 <script>
 import axios from 'axios'
 import router from './router'
-import NavBar from '@/components/NavBar.vue'
 import LoginForm from '@/components/LoginForm.vue'
 
 export default {
   name: 'App',
   components: {
-    NavBar,
     LoginForm,
   },
   data() {
@@ -78,6 +81,8 @@ export default {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+
 
 /* width */
 ::-webkit-scrollbar {
