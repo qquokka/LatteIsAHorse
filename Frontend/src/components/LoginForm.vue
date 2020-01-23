@@ -12,10 +12,6 @@
           </button>
         </div>
 
-        <div class="coming-down alert alert-warning" role="alert">
-  This is a warning alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
-</div>
-
         <div class="modal-body">
           <div v-if="showLogin">
             <form @submit.prevent="login" class="p-3">
@@ -31,14 +27,12 @@
                 <button type="submit" class="btn btn-block btn-outline-warning font-weight-bolder">로그인</button>
             </form>
           </div>
+
           <div v-else>
-
-
-            
             <form @submit.prevent="signup" class="p-3">
                 <div class="form-group">
                     <label for="signupEmail">이메일: </label>
-                    <input type="email" class="form-control" id="signupEmail2" placeholder="ID (your_id@example.com)" v-model="credentials.username">
+                    <input type="email" class="form-control" id="signupEmail" placeholder="ID (your_id@example.com)" v-model="credentials.email">
                 </div>
                 <div class="form-group">
                     <label for="signupPW">비밀번호: </label>
@@ -49,8 +43,12 @@
                     <input type="password" class="form-control" id="signupPW2" placeholder="PASSWORD" v-model="password2">
                 </div>
                 <div class="form-group">
-                    <label for="nickname">닉네임: </label>
-                    <input type="text" class="form-control" id="nickname" placeholder="NiCKNAME" v-model="credentials.nickname">
+                    <label for="name">이름: </label>
+                    <input type="text" class="form-control" id="name" placeholder="NAME" v-model="credentials.name">
+                </div>
+                <div class="form-group">
+                    <label for="username">닉네임: </label>
+                    <input type="text" class="form-control" id="username" placeholder="USERNAME" v-model="credentials.username">
                 </div>
                 <b><small>저희 회원이신가요? <span style="color: #88D8B0 !important;cursor:pointer" @click="switchToSignup()">로그인</span></small></b>
                 <button type="submit" class="btn btn-block btn-outline-warning font-weight-bolder">회원가입</button>
@@ -63,6 +61,8 @@
 </template>
 
 <script>
+  import axios from 'axios';
+
   export default {
       name: 'LoginForm',
       // props: {
@@ -73,10 +73,11 @@
       // },
       data() {
           return {
-              credentials: {
-              },
+              credentials: {},
+              password2: '',
+              lengthLimit: {}
+              lengthCheck: {},
               showLogin: true,
-              password2: ''
           }
       },
       methods: {
@@ -94,16 +95,44 @@
           },
           signup() {
             if (this.credentials.password === this.password2) {
-              this.$emit('signup-event', this.credentials)
-              this.credentials = {}
+              console.log(this.credentials)
+              axios.post('http://192.168.31.111:8080/api/auth/signup', this.credentials)
+                .then(response => {
+                console.log('회원가입 성공')
+                console.log(response.data.success)
+                console.log(response.data.message)
+                this.credentials = {}
+                })
+                .catch(error => {
+                  console.log(error)
+                })
             } else {
               console.log('비밀번호 불일치')
             }
           }
       },
-      // created() {
-      //   this.showLogin = this.showLoginInitial
-      // }
+      watch: {
+        credentials: {
+          deep: true,
+          handler() {
+            for (var info in this.credentials) {
+
+for(var n in roles){
+  console.log('object => ', n, 'value => ', roles[n]);
+}
+
+
+              if (info > 5 && this.credentials.password < 21) {
+                this.lengthCheck.password = true
+                console.log(this.lengthCheck)
+              } else {
+                this.lengthCheck.password = false
+                console.log(this.lengthCheck)
+              }
+            }
+          }
+        }
+      }
   }
 </script>
 

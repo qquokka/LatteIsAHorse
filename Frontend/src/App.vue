@@ -1,12 +1,7 @@
 <template>
   <div id="app">
-<<<<<<< HEAD
-      <nav-bar />
-      <login-form @login-event="login"/>
-=======
       
-      <login-form   @login-event="login"/>
->>>>>>> 88d13c622241789f9107b96baee510353d107343
+      <login-form  @login-event="login"/>
       <!-- <div v-if="!isAuthentic
       ated">
         <router-link to="/">Home</router-link> |
@@ -54,6 +49,16 @@ export default {
             router.push('/')
           })
     },
+    signup(credentials) {
+      console.log(credentials)
+      axios.post('http://192.168.31.111:8080/api/auth/signup', credentials)
+        .then(response => {
+            console.log('회원가입 성공')
+            console.log(response.data.success)
+            console.log(response.data.message)
+          })
+      // 요청보내서 가입시키기
+    }
   },
   updated() {
     this.isAuthenticated = this.$session.has('jwt')
