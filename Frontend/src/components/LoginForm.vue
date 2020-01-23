@@ -75,7 +75,7 @@
           return {
               credentials: {},
               password2: '',
-              lengthLimit: {}
+              lengthLimit: {},
               lengthCheck: {},
               showLogin: true,
           }
@@ -111,28 +111,28 @@
             }
           }
       },
-      watch: {
-        credentials: {
-          deep: true,
-          handler() {
-            for (var info in this.credentials) {
+//       watch: {
+//         credentials: {
+//           deep: true,
+//           handler() {
+//             for (var info in this.credentials) {
 
-for(var n in roles){
-  console.log('object => ', n, 'value => ', roles[n]);
-}
+// for(var n in roles){
+//   console.log('object => ', n, 'value => ', roles[n]);
+// }
 
 
-              if (info > 5 && this.credentials.password < 21) {
-                this.lengthCheck.password = true
-                console.log(this.lengthCheck)
-              } else {
-                this.lengthCheck.password = false
-                console.log(this.lengthCheck)
-              }
-            }
-          }
-        }
-      }
+//               if (info > 5 && this.credentials.password < 21) {
+//                 this.lengthCheck.password = true
+//                 console.log(this.lengthCheck)
+//               } else {
+//                 this.lengthCheck.password = false
+//                 console.log(this.lengthCheck)
+//               }
+//             }
+//           }
+//         }
+//       }
   }
 </script>
 
