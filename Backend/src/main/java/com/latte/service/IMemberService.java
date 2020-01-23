@@ -10,24 +10,24 @@ public interface IMemberService {
 	List<Member> getAllMemberList();
 
 	// ID(Email)에 해당되는 회원정보 반환
-	Member getMemberById(String id);
+	Member getMemberById(String email);
 
 	// 모든 회원수 반환
 	int getTotalMemberCounts();
 
 	// 회원가입
-	int addMember(Member member);
+	int singUpMember(Member member);
 
 	// 회원정보 수정
-	void updateMemberInfo(Member member);
+	int updateMemberInfo(Member member);
 
-	// 회원정보 삭제(delflag 변경하기), DB에서 정보 삭제 하지 않음
-	boolean deleteMember(String id);
+	// 회원정보 삭제(mem_active 변경하기), DB에서 정보 삭제 하지 않음
+	int deleteMember(String email);
 
 	// 아이디가 존재하는지 체크
-	int checkId(String uid);
+	int isValidEmail(String email);
 
 	// 유효한 비밀번호인지 체크
-	boolean checkPwd(String password);
+	int isValidPassword(String pwd);
 
 }

@@ -10,6 +10,7 @@ public class NumberResult implements Serializable {
 	private String state = "true"; // false
 
 	public NumberResult() {
+		super();
 	}
 
 	public NumberResult(String name, int count, String state) {
