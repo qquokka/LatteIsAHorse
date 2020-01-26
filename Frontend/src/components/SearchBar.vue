@@ -1,6 +1,6 @@
 <template>
 <form class="search-form input-group mb-3" @submit.prevent="searchNow">
-    <input v-model="query" id="title" type="text" style="height:3rem;border-radius:5px 0 0 5px;" class="form-control" placeholder="지역명, 카페 이름 등" aria-describedby="button-addon2">
+    <input v-model="query" id="title" type="text" class="form-control" placeholder=" 🔍지역명, 카페 이름 등" aria-describedby="button-addon2">
     <div class="input-group-append">
         <button  class="btn btn-info" type="button" id="button-addon2">검색</button>
     </div>
@@ -24,14 +24,24 @@ export default {
 </script>
 
 <style scoped>
+#title {
+    height: 4rem;
+    border-radius: 20px 0 0 20px;
+    font-size: 1.2rem;
+}
 .btn-info {
     background-color: #88D8B0;
     color: #fff ;
-    border-radius: 0 5px 5px 0;
+    width: 5rem;
+    font-size: 1.25rem;
+    border-radius: 0 20px 20px 0;
     border: 0;
 }
 .search-form {
-    width: 65%;
+    width: 40%;
     min-width: 450px;
+}
+input {
+    font-family: "Font Awesome 5 Free";
 }
 </style>

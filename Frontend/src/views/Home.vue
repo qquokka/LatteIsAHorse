@@ -1,18 +1,17 @@
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <nav-bar style="position:fixed;left:0;width:100%" />
     <h1 id="slogan"></h1>
     <video id="background"  width="100%" muted loop>
       <source src="../assets/indexmovie.webm" type="video/webm" >
     </video>
     <search-bar @search-event="searchNow" class="mx-auto my-5 pb-5"/>
-
-    <div id="main-raise" class="container shadow">
-      <h2>Recommendation List</h2>
-      <recom-list/>
-      <h2>Editor's Pick List</h2>
-      <editor-pick-list/>
-    </div>
+  <div id="main-raise" class="shadow">
+    <h2 class="article-header">당신에게 꼭 맞는 오늘의 카페</h2>
+    <recom-list/>
+    <h2 class="article-header">EDITOR's PICK</h2>
+    <editor-pick-list/>
+  </div>
   </div>
 </template>
 
@@ -99,17 +98,18 @@
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Noto+Serif+KR:600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:900&display=swap');
 body {
   height: fit-content;
 }
+
 #slogan {
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Noto Sans KR', sans-serif;
   position: relative;
   z-index: 5;
   color: whitesmoke;
   padding-top: 8rem;
-  text-shadow: 2px 2px 3px violet;
+  text-shadow: 2px 2px 1px #3f3f3f;
 }
 #app {
   background: whitesmoke;
@@ -121,13 +121,25 @@ body {
 }
 #main-raise {
   position: relative;
-  background: white;
+  border: 1px solid white;
+
+  margin: 0 auto;
+  background: rgba(255,255,255,0.75);
   border-radius: 15px 15px;
+  width: 85%;
   height: 2000px;
+  min-width: 450px;
   padding: 2rem;
 }
 .list-container {
   background-color: rgba(255, 255, 255, 0.74);
+}
+.article-header {
+  color: #3f3f3f;
+  text-align: left;
+  border-left: 15px solid pink;
+  padding-left: 2rem;
+  margin-top: 2rem;
 }
 #background {
     position: absolute !important;

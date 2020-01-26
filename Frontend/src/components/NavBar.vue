@@ -47,7 +47,6 @@ methods: {
       topnav.style.background = "whitesmoke"
       topnav.style.boxShadow = "2px 2px 12px gray"
       for (var i=0;i<navitem.length;i++){
-        console.log(navitem[i])
         navitem[i].style.color = "#2f2f2f"
       }
     }
