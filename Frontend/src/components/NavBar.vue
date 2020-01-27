@@ -20,6 +20,9 @@
         <router-link class="nav-link" to="about"><i class="fa fa-user"></i> About Us</router-link>
       </li>
       <li class="nav-item">
+        <router-link class="nav-link" to="posts"><i class="fa fa-newspaper"></i> 포스트 보기</router-link>
+      </li>
+      <li class="nav-item">
         <router-link class="nav-link" to="map"><i class="fa fa-map"></i> 내 주변 보기</router-link>
       </li>
     </ul>
@@ -73,18 +76,16 @@ destroyed () {
 nav {
   transition: 0.25s ease-in-out;
 }
+
 .nav-link {
   color: white;
-  margin:auto
+  margin:auto;
+  cursor:pointer;
+  transition: 0.25s ease-in-out;
 }
 
-a {
-	transition: 0.5s ease-in-out;
-}
-a:hover {
+.nav-link:hover, a:hover {
 	color:  #88D8B0 !important;
 }
-.navbar-brand:hover {
-	color: #FFCC5C !important;
-}
+
 </style>

@@ -1,11 +1,14 @@
 <template>
   <div class="container-fluid p-0">
     <nav-bar style="position:fixed;left:0;width:100%" />
+    <h2 class="brand" style="margin-top: 8rem;">믿고 한번 가봐...</h2>
     <h1 id="slogan"></h1>
+
     <video id="background"  width="100%" muted loop>
       <source src="../assets/indexmovie.webm" type="video/webm" >
     </video>
-    <search-bar @search-event="searchNow" class="mx-auto my-5 pb-5"/>
+    <search-bar @search-event="searchNow" class="mx-auto"/>
+    <hash-tags class="position-relative mb-5 pb-5" />
     <div id="main-raise" class="shadow">
       <h2 class="article-header">당신에게 꼭 맞는 오늘의 카페</h2>
       <recom-list/>
@@ -23,6 +26,7 @@
   import NavBar from '@/components/NavBar.vue'
   import RecomList from '@/components/RecomList.vue'
   import EditorPickList from '@/components/EditorPickList.vue'
+  import HashTags from '@/components/HashTags.vue'
   import Footer from '@/views/section/Footer.vue'
 
   export default {
@@ -32,6 +36,7 @@
       RecomList,
       EditorPickList,
       NavBar,
+      HashTags,
       Footer
     },
     data() {
@@ -39,7 +44,7 @@
         answers: [],
         username: '',
         i: 0,
-        slogan: '커피가 맛있으면 뭐해 손님이 없는걸...'
+        slogan: '이게 다 너 잘먹으라고 하는 소리야.'
       }
     },
     computed: {
@@ -111,8 +116,17 @@ body {
   position: relative;
   z-index: 5;
   color: whitesmoke;
-  padding-top: 8rem;
   text-shadow: 2px 2px 1px #3f3f3f;
+  user-select: none;
+}
+
+.brand {
+  font-family: 'Noto Sans KR', sans-serif;
+  position: relative;
+  z-index: 5;
+  color: whitesmoke;
+  text-shadow: 2px 2px 1px #3f3f3f;
+  user-select: none;
 }
 #app {
   background: whitesmoke;

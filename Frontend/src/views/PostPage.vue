@@ -1,7 +1,8 @@
 <template>
   <div id="post-page-main">
+    <img id="post-background" src="../assets/img/postlist.jpeg">
     <nav-bar style="position:fixed;left:0;width:100%;" />
-    <h1 class="mt-5">{{ this.$store.state.constants.SERVER }}</h1>
+    <hash-tags class="position-relative mt-5 py-5" />
     <post-list />
   </div>
 </template>
@@ -10,12 +11,14 @@
 // import axios from 'axios'
 import NavBar from '@/components/NavBar.vue'
 import PostList from '@/views/section/PostList.vue'
+import HashTags from '@/components/HashTags.vue'
 
   export default {
     name: 'posts',
     components: {
       NavBar,
-      PostList
+      PostList,
+      HashTags
     },
     data() {
       return {
@@ -34,7 +37,12 @@ import PostList from '@/views/section/PostList.vue'
 </script>
 
 <style>
-
+#post-background {
+  width: 99.6vw;
+  position: absolute;
+  left:0;
+  top:0;
+}
 nav {
   background: transparent;
 }

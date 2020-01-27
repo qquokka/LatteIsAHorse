@@ -30,7 +30,7 @@ export default {
     font-size: 1.2rem;
 }
 .btn-info {
-    background-color: #88D8B0;
+    background-color: slateblue;
     color: #fff ;
     width: 5rem;
     font-size: 1.25rem;
@@ -38,7 +38,7 @@ export default {
     border: 0;
 }
 .search-form {
-    width: 40%;
+    width: 60%;
     min-width: 450px;
 }
 input {
