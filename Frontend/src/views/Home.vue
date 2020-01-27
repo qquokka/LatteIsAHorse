@@ -1,17 +1,18 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid p-0">
     <nav-bar style="position:fixed;left:0;width:100%" />
     <h1 id="slogan"></h1>
     <video id="background"  width="100%" muted loop>
       <source src="../assets/indexmovie.webm" type="video/webm" >
     </video>
     <search-bar @search-event="searchNow" class="mx-auto my-5 pb-5"/>
-  <div id="main-raise" class="shadow">
-    <h2 class="article-header">당신에게 꼭 맞는 오늘의 카페</h2>
-    <recom-list/>
-    <h2 class="article-header">EDITOR's PICK</h2>
-    <editor-pick-list/>
-  </div>
+    <div id="main-raise" class="shadow">
+      <h2 class="article-header">당신에게 꼭 맞는 오늘의 카페</h2>
+      <recom-list/>
+      <h2 class="article-header">EDITOR's PICK</h2>
+      <editor-pick-list/>
+    </div>
+    <Footer />
   </div>
 </template>
 
@@ -22,6 +23,7 @@
   import NavBar from '@/components/NavBar.vue'
   import RecomList from '@/components/RecomList.vue'
   import EditorPickList from '@/components/EditorPickList.vue'
+  import Footer from '@/views/section/Footer.vue'
 
   export default {
     name: 'home',
@@ -29,7 +31,8 @@
 			SearchBar,
       RecomList,
       EditorPickList,
-      NavBar
+      NavBar,
+      Footer
     },
     data() {
       return {
@@ -124,15 +127,14 @@ body {
   border: 1px solid white;
 
   margin: 0 auto;
-  background: rgba(255,255,255,0.75);
+  background: rgba(255,255,255,0.95);
   border-radius: 15px 15px;
   width: 85%;
-  height: 2000px;
   min-width: 450px;
   padding: 2rem;
 }
 .list-container {
-  background-color: rgba(255, 255, 255, 0.74);
+  background-color: rgba(255, 255, 255, 0.95);
 }
 .article-header {
   color: #3f3f3f;
