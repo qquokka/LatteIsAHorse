@@ -4,9 +4,9 @@
     <div v-for="post in postData.slice(0, limits)" :key="post.id" class="post-list col-4 p-3">
       <div class="postbody">
         <h3 class="border-bottom p-2">{{ post.title }}</h3><span><i class="fas fa-thumbs-up"> {{ getRandomInt(1, 5000) }}</i></span>
-        <p>by {{ post.reporter_name }} at {{ post.created_at }} </p>
-        <img :src="`https://picsum.photos/300/200?random=${post.id}`" width="100%">
-        <p class="post-preview">{{ post.body }}</p>
+        <p>by {{ post.writer_name }} at {{ post.created_at }} </p>
+        <img :src="post.thumbnail" width="100%">
+        <p class="post-preview">{{ post.content }}</p>
       </div>
     </div>
     <button @click="loadmore" class="btn btn-light btn-block position-relative">더 보기</button>
@@ -15,22 +15,26 @@
 </template>
 
 <script>
-import dummy from "!@/assets/dummy/post_dummy.json"
-
+// import dummy from "!@/assets/dummy/post_dummy.json"
+import axios from 'axios'
 export default {
   data() {
     return {
-      postData: dummy,
+      postData: [],
       limits: 6,
     };
   },
-  created() {
-    // this.axios
-    //   .get(`${this.$store.state.constants.SERVER}/posts`)
-    //   .then(response => {
-    //     this.postData = response.data;
-    //     console.log(this.postData);
-    //   });
+  mounted() {
+    console.log(`${this.$store.state.constants.SERVER}/post`)
+    axios
+      .post(`${this.$store.state.constants.SERVER}/post`,{})
+      .then(response => {
+        this.postData = response.data;
+        console.log("post data loaded from `${this.$store.state.constants.SERVER}/post");
+      })
+      // .catch(error => {
+      //   console.log("post data loaded from dummy");
+      // })
   },
   methods: {
     loadmore() {
