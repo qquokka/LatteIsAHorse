@@ -2,22 +2,23 @@ package com.latte.service;
 
 import java.util.List;
 
-import com.latte.dto.PostDto;
+import com.latte.model.post.Post;
+import com.latte.payload.PostRequest;
 
 public interface IPostService {
 	// DB에 저장된 모든 Post를 반환
-	List<PostDto> getAllPostList();
+	List<Post> getPostList(PostRequest request);
 
 	// Create
-	int addPost(PostDto post);
+	int addPost(Post post);
 
 	// Read
-	PostDto getPostByPostId(int postid);
+	Post getPostByTitle(String title);
 
 	// Update
-	int updatePostInfo(PostDto post);
+	int updatePostById(Long id);
 
 	// Delete
-	int deletePost(int postid);
+	int deletePostById(Long id);
 
 }

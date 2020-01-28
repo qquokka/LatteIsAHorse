@@ -6,34 +6,36 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.latte.dto.PostDto;
+import com.latte.model.post.Post;
+import com.latte.payload.PostRequest;
 
 @Repository
 public class PostDaoImpl {
 
-	String ns = "latte.post."; // ns : namespace
+	String ns = "mapper.post."; // ns : namespace
 
 	@Autowired
 	private SqlSession sqlSession;
 
-	public List<PostDto> getAllPostList() {
-		return sqlSession.selectList(ns + "getAllPostList");
+	public List<Post> getPostList(PostRequest request) {
+		return sqlSession.selectList(ns + "getPostList", request);
 	}
 
-	public int addPost(PostDto post) {
+	public int addPost(Post post) {
 		return sqlSession.insert(ns + "addPost", post);
 	}
 
-	public PostDto getPostByPostId(int postid) {
-		return sqlSession.selectOne(ns + "getPostByPostId", postid);
+	public Post getPostByTitle(String title) {
+		return sqlSession.selectOne(ns + "getPostByTitle", title);
 	}
 
-	public int updatePostInfo(PostDto post) {
-		return sqlSession.update(ns + "updatePostInfo", post);
+	public int updatePostById(Long id) {
+		return sqlSession.update(ns + "updatePostById", id);
 	}
 
-	public int deletePost(int postid) {
-		return sqlSession.delete(ns + "deletePost", postid);
+	public int deletePostById(Long id) {
+		return sqlSession.delete(ns + "deletePostById", id);
 	}
+
 
 }

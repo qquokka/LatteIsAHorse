@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.latte.dao.PostDaoImpl;
-import com.latte.dto.PostDto;
+import com.latte.model.post.Post;
+import com.latte.payload.PostRequest;
 
 @Service
 public class PostServiceImpl implements IPostService {
@@ -15,28 +17,33 @@ public class PostServiceImpl implements IPostService {
 	PostDaoImpl postDao;
 
 	@Override
-	public List<PostDto> getAllPostList() {
-		return postDao.getAllPostList();
+	@Transactional(readOnly = true)
+	public List<Post> getPostList(PostRequest request) {
+		return postDao.getPostList(request);
 	}
 
 	@Override
-	public PostDto getPostByPostId(int postid) {
-		return postDao.getPostByPostId(postid);
-	}
-
-	@Override
-	public int addPost(PostDto post) {
+	@Transactional
+	public int addPost(Post post) {
 		return postDao.addPost(post);
 	}
 
 	@Override
-	public int updatePostInfo(PostDto post) {
-		return postDao.updatePostInfo(post);
+	@Transactional(readOnly = true)
+	public Post getPostByTitle(String title) {
+		return postDao.getPostByTitle(title);
 	}
 
 	@Override
-	public int deletePost(int postid) {
-		return postDao.deletePost(postid);
+	@Transactional
+	public int updatePostById(Long id) {
+		return postDao.updatePostById(id);
+	}
+
+	@Override
+	@Transactional
+	public int deletePostById(Long id) {
+		return postDao.deletePostById(id);
 	}
 
 }

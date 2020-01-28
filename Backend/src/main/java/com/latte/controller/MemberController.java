@@ -36,7 +36,8 @@ public class MemberController {
 	public ResponseEntity<List<Member>> getAllMemberList() throws Exception {
 		logger.info("MemberController / getAllMemberList --------------------" + new Date());
 		List<Member> members = memberservice.getAllMemberList();
-
+		
+		
 		if (members.isEmpty() || members == null) {
 			return new ResponseEntity<List<Member>>(HttpStatus.NO_CONTENT);
 		}
