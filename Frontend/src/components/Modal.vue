@@ -5,15 +5,19 @@
         <div class="modal-header">
           <h4 class="modal-title" id="staticBackdropLabel">
             <strong v-if="showLogin">LOGIN</strong>
-            <strong>SIGN UP</strong>
+            <strong v-else>SIGN UP</strong>
           </h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <login-form v-if="showLogin">회원가입</login-form>
-          <signup-form v-else>로그인</signup-form>
+          <login-form v-if="showLogin" @login="login">
+            <span style="color: #88D8B0 !important;cursor:pointer" @click="switchModal">회원가입</span>
+          </login-form>
+          <signup-form v-else>
+            <span style="color: #88D8B0 !important;cursor:pointer" @click="switchModal">로그인</span>
+          </signup-form>
         </div>
       </div>
     </div>
@@ -27,12 +31,6 @@
 
   export default {
       name: 'Modal',
-      // props: {
-      //   showLoginInitial: {
-      //     showLoginInitial: Boolean,
-      //     required: true
-      //   }
-      // },
       components: {
         LoginForm, SignupForm
       },
@@ -46,17 +44,13 @@
           }
       },
       methods: {
-          loginLog() {
-            console.log(this.id)
-            console.log(this.password)
-          },
           login() {
-              console.log('emit')
-              this.$emit('login-event', this.credentials)
-              this.credentials = {}
+              // console.log('emit')
+              this.$emit('login', this.credentials)
           },
           switchModal() {
             this.showLogin = !this.showLogin
+            this.credentials = {}
           },
           signup() {
             if (this.credentials.password === this.password2) {

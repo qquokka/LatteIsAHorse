@@ -1,17 +1,15 @@
 <template>
   <div id="app">
-      
-      <login-form  @login-event="login"/>
-      <modal/>
-      <!-- <div v-if="!isAuthentic
-      ated">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/login">Login</router-link>
-      </div> -->
-      <!-- <div v-else>
-        <router-link to="/">Home</router-link> |
-        <a href="#" @click.prevent="logout">Logout</a>
-      </div> -->
+    <modal @login="login"/>
+    <!-- <div v-if="!isAuthentic
+    ated">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/login">Login</router-link>
+    </div> -->
+    <!-- <div v-else>
+      <router-link to="/">Home</router-link> |
+      <a href="#" @click.prevent="logout">Logout</a>
+    </div> -->
     <!-- </div> -->
     <router-view />
   </div>
@@ -50,17 +48,9 @@ export default {
             this.$session.set('jwt', token)
             this.$store.dispatch('login', token)
             router.push('/')
-          })
-    },
-    signup(credentials) {
-      console.log(credentials)
-      axios.post('http://192.168.31.111:8080/api/auth/signup', credentials)
-        .then(response => {
-            console.log('회원가입 성공')
-            console.log(response.data.success)
-            console.log(response.data.message)
-          })
-      // 요청보내서 가입시키기
+          }).catch(error =>
+            console.log(error)
+          )
     }
   },
   updated() {
