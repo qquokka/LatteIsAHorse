@@ -50,35 +50,20 @@
             this.showLogin = true
           }
       },
-//       watch: {
-//         credentials: {
-//           deep: true,
-//           handler() {
-//             for (var info in this.credentials) {
-
-// for(var n in roles){
-//   console.log('object => ', n, 'value => ', roles[n]);
-// }
-
-
-//               if (info > 5 && this.credentials.password < 21) {
-//                 this.lengthCheck.password = true
-//                 console.log(this.lengthCheck)
-//               } else {
-//                 this.lengthCheck.password = false
-//                 console.log(this.lengthCheck)
-//               }
-//             }
-//           }
-//         }
-//       }
   }
 </script>
 
+
 <style>
-.modal-content {
-  margin-top: 50%;
-  margin-bottom: 50%;
+#staticBackdrop {
+  overflow: hidden;
+}
+.modal-dialog{
+  align-items: center;
+  position: relative;
+  margin: auto !important;
+  height: 100vh !important;
+  display: flex;
 }
 .modal-header {
   background: #88D8B0;
@@ -86,6 +71,7 @@
 }
 .modal-body {
   border-radius: 15px 15px !important;
+
 }
 .btn-outline-warning {
   border: 1px solid #88D8B0 !important;

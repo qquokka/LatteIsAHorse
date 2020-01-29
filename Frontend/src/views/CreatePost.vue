@@ -4,7 +4,13 @@
     <div class="row justify-content-center">
       <h1 class="text-white">글쓰기</h1> 
     </div>
-    <!-- <div class="row justify-content-center"> -->
+    <div class="input-group mb-2">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1">Title</span>
+  </div>
+  <input type="text" name="" id="titleField" v-model="title" aria-label="Title" aria-describedby="basic-addon1">
+</div>
+    
       <editor id="tuiEditor"
       :value="editorHtml"
       :options="editorOptions"
@@ -12,9 +18,8 @@
       :visible="editorVisible"
       previewStyle="vertical"
       height="500px"
-      class="bg-white text-left"
+      class="text-left"
       mode="markdown" />
-    <!-- </div> -->
     <button class="btn btn-danger btn-lg" @click="getHtml">제출을 해봐라?</button>
     
 
@@ -50,6 +55,7 @@
         },
         editorHtml: '',
         editorVisible: true,
+        title: '',
       }
     },
     computed: {
@@ -89,7 +95,7 @@
           console.log('text-only')
         }
         let body = {
-          "title": "title",
+          "title": this.title,
           "content": html.innerHTML,
           "thumbnail" : "T"
         }
@@ -103,6 +109,20 @@
 	background: url(../assets/img/createpostbg.jpg) no-repeat fixed;
   background-size: cover;
   height: 100vh;
+}
+#tuiEditor {
+  border-radius: 20px;
+}
+#titleField {
+  border-radius: 0 15px 15px 0;
+  border: 0;
+  text-align: center;
+  font-weight: 900;
+  color: #2f2f2f;
+  font-family: "Roboto";
+  border-left: 0;
+  background: whitesmoke;
+  width: 35%;
 }
 /**
 * @fileoverview style for editor ui
@@ -153,6 +173,7 @@
     min-height: 0px;
     position: relative;
     height: inherit;
+    
 }
 
 .te-md-container {
@@ -164,12 +185,16 @@
 .te-md-container .te-editor {
     line-height: 1.5;
 }
-
+.te-preview {
+  background: rgba(255, 255, 255, 0.90);
+  border-radius: 20px;
+}
 .te-md-container .te-editor,
 .te-md-container .te-preview {
     box-sizing: border-box;
     padding: 0;
     height: inherit;
+
 }
 
 .te-md-container .CodeMirror {
@@ -188,7 +213,7 @@
 }
 
 .te-md-container .te-preview .tui-editor-contents {
-    padding-top: 8px;
+    padding-top: 8px; 
 }
 
 .tui-editor .te-preview-style-tab>.te-editor,
@@ -227,7 +252,6 @@
     top: 0;
     height: 100%;
     width: 1px;
-    border-left: 1px solid #e5e5e5;
 }
 
 .tui-editor .te-preview-style-vertical .te-md-splitter {
@@ -249,6 +273,7 @@
 
 .te-ww-container .tui-editor-contents:focus {
     outline: none;
+    
 }
 
 .te-ww-container .tui-editor-contents {
@@ -280,7 +305,9 @@
 .tui-editor-defaultUI.te-hide {
     display: none
 }
-
+.CodeMirror-wrap {
+  border-radius: 20px;
+}
 .tui-editor-defaultUI .CodeMirror-lines {
     padding-top: 18px;
     padding-bottom: 18px;
@@ -318,7 +345,6 @@
 /* default UI Styles */
 .tui-editor-defaultUI {
     position: relative;
-    border: 1px solid #e5e5e5;
     height: 100%;
     font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -344,6 +370,7 @@
     height: 31px;
     background-color: #fff;
     border: 0;
+    border-radius: 15px 15px;
     overflow: hidden;
 }
 
@@ -358,14 +385,12 @@
 
 .tui-toolbar-button-group {
     height: 28px;
-    border-right: 1px solid #d9d9d9;
     float: left;
 }
 
 .te-toolbar-section {
     height: 32px;
     box-sizing: border-box;
-    border-bottom: 1px solid #e5e5e5;
 }
 
 .tui-editor-defaultUI-toolbar button {
@@ -373,13 +398,13 @@
     box-sizing: border-box;
     outline: none;
     cursor: pointer;
-    background-color: #fff;
+    background-color: papayawhip;
     width: 22px;
     height: 22px;
     padding: 3px;
-    border-radius: 15px;
     margin: 5px 3px;
-    border: 1px solid #fff;
+    border: 1px dotted violet;
+    border-radius: 3px;
 }
 
 .tui-editor-defaultUI-toolbar button:hover,
@@ -469,7 +494,6 @@
     border-top: 0;
     padding: 0 9px;
     color: #777;
-    border-radius: 0;
     outline: 0;
 }
 
@@ -1490,7 +1514,7 @@ only screen and (                min-resolution: 2dppx) {
 .tui-editor-contents code {
     font-family: Consolas, Courier, "Apple SD 산돌고딕 Neo", -apple-system, "Lucida Grande", "Apple SD Gothic Neo", "맑은 고딕", "Malgun Gothic", "Segoe UI", "돋움", dotum, sans-serif;
     border: 0;
-    border-radius: 0;
+    border-radius: 5px;
 }
 
 .tui-editor-contents pre {
