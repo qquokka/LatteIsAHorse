@@ -69,6 +69,32 @@
 		delete from post_hashtag where id = #{id}
 	</delete>
 	
-	<!-- Post comments related queries -->
+	<!-- Post Comments CRUD -->
+	
+	<select id="getPostComments" resultType="postComments">
+		select pc.*, u.username as writer_name 
+		from posts p, post_comments pc, users u 
+		where p.id = #{post_id} AND u.id = #{writer_id}
+	</select>
+	
+	<insert id="addPostComments">
+		insert into post_comments 
+		(created_at, updated_at, content, post_id, writer_id)
+		values 
+		(now(), now(), #{content}, #{post_id}, #{writer_id)
+	</insert>
+	
+	<update id="updatePostComments">
+		update post_comments set 
+		updated_at = now(),
+		content = #{content}
+		where id = #{id}
+	</update>
+	
+	<delete id="deletePostComments">
+		delete from post_comments where id = #{id}
+	</delete>
+	
+	
 	
 </mapper>

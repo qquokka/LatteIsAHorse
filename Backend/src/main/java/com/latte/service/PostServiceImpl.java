@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.latte.dao.PostDaoImpl;
 import com.latte.model.post.Post;
+import com.latte.model.post.PostComments;
 import com.latte.model.post.PostHashtag;
 import com.latte.payload.PostAddRequest;
 import com.latte.payload.PostRequest;
@@ -90,6 +91,28 @@ public class PostServiceImpl implements IPostService {
 	@Transactional
 	public int deletePostHashtag(Long id) {
 		return postDao.deletePostHashtag(id);
+	}
+	
+	//---------------- Post Comments 관련 ----------------
+	
+	@Override
+	public List<PostComments> getPostComments(PostComments comment) {
+		return postDao.getPostComments(comment);
+	}
+
+	@Override
+	public int addPostComments(PostComments comment) {
+		return postDao.addPostComments(comment);
+	}
+
+	@Override
+	public int updatePostComments(PostComments comment) {
+		return postDao.updatePostComments(comment);
+	}
+
+	@Override
+	public int deletePostComments(Long id) {
+		return postDao.deletePostComments(id);
 	}
 
 }

@@ -14,7 +14,6 @@ public class PostPhotos implements Serializable {
 
 	public PostPhotos() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public PostPhotos(Long id, Long post_id, String path, String file_type, Integer file_length) {

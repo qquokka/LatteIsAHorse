@@ -3,6 +3,7 @@ package com.latte.service;
 import java.util.List;
 
 import com.latte.model.post.Post;
+import com.latte.model.post.PostComments;
 import com.latte.model.post.PostHashtag;
 import com.latte.payload.PostAddRequest;
 import com.latte.payload.PostRequest;
@@ -39,4 +40,13 @@ public interface IPostService {
 	
 	int deletePostHashtag(Long id);
 
+	// Post Comments 관련 
+	List<PostComments> getPostComments(PostComments comment);
+	
+	int addPostComments(PostComments comment);
+	
+	int updatePostComments(PostComments comment);
+	
+	int deletePostComments(Long id);
+	
 }

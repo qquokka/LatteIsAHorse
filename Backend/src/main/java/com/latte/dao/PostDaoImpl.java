@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.latte.model.post.Post;
+import com.latte.model.post.PostComments;
 import com.latte.model.post.PostHashtag;
 import com.latte.payload.PostAddRequest;
 import com.latte.payload.PostRequest;
@@ -67,6 +68,24 @@ public class PostDaoImpl {
 
 	public int deletePostHashtag(Long id) {
 		return sqlSession.delete(ns + "deletePostHashtag", id);
+	}
+
+	//---------------- Post Comments 관련 ----------------
+	
+	public List<PostComments> getPostComments(PostComments comment) {
+		return sqlSession.selectList(ns + "getPostComments", comment);
+	}
+
+	public int addPostComments(PostComments comment) {
+		return sqlSession.insert(ns + "addPostComments", comment);
+	}
+
+	public int updatePostComments(PostComments comment) {
+		return sqlSession.update(ns + "updatePostComments", comment);
+	}
+
+	public int deletePostComments(Long id) {
+		return sqlSession.delete(ns + "deletePostComments", id);
 	}
 
 }
