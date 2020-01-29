@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import MapTest from '../views/MapTest.vue'
 import AboutUs from '../views/AboutUs.vue'
 import PostPage from '../views/PostPage.vue'
+import CreatePost from '../views/CreatePost.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/posts',
     name: 'posts',
     component: PostPage
+  },
+  {
+    path: '/posts/create',
+    name: 'createpost',
+    component: CreatePost
   }
 ]
 
