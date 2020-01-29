@@ -12,12 +12,12 @@
     </div>
     <div class="form-group">
       <p v-show="showText('password')" class="text-left text-danger mb-1"><small>비밀번호를 6 ~ 20자로 입력해주세요</small></p>
-      <input type="password" class="form-control" id="password" placeholder="비밀번호" v-model="password"
+      <input type="password" class="form-control" id="password" placeholder="비밀번호" v-model="pw.password"
       :style="{ 'background-color': bgColor.password }">
     </div>
     <div class="form-group">
       <p v-show="showText('passwordCheck')" class="text-left text-danger mb-1"><small>위에 입력한 비밀번호와 동일하게 입력해주세요</small></p>
-      <input type="password" class="form-control" id="passwordCheck" placeholder="비밀번호를 확인" v-model="passwordCheck"
+      <input type="password" class="form-control" id="passwordCheck" placeholder="비밀번호를 확인" v-model="pw.passwordCheck"
       :style="{ 'background-color': bgColor.passwordCheck }">
     </div>
     <b><small>저희 회원이신가요? <slot></slot></small></b>
@@ -33,8 +33,10 @@ export default {
   data() {
     return {
       email: '',
-      password: '',
-      passwordCheck: '',
+      pw: {
+        password: '',
+        passwordCheck: ''
+      },
       nickname: '',
       isOkay: {
         email: false,
@@ -57,19 +59,22 @@ export default {
       if (this.okay) {
         console.log('회원가입 가능')
         const credentials = {
-          email: this.email,
-          password: this.password,
-          username: this.nickname,
+          'email': this.email,
+          'password': this.pw.password,
+          'username': this.nickname
         }
-        axios.post('http://192.168.31.111:8080/api/auth/signup', credentials)
+        axios.post(`${this.$store.state.constants.SERVER}/signup`, credentials)
           .then(response => {
               console.log('회원가입 성공')
+              console.log(response)
               console.log(response.data.success)
               console.log(response.data.message)
               // 로그인 시켜주기
             })
           .catch(error => {
-            console.log(error)
+            alert(error)
+            console.log('에러남', error.response)
+            
           })
       } else {
         console.log('회원가입 실패')
@@ -91,8 +96,8 @@ export default {
       }
     },
     checkPassword() {
-      let pwLen = this.password.length
-      // console.log('this.password', this.password)
+      let pwLen = this.pw.password.length
+      // console.log('this.pw.password', this.pw.password)
       if (5 < pwLen && pwLen < 21) {
         this.isOkay.password = true
         this.bgColor.password = ''
@@ -103,14 +108,12 @@ export default {
         this.isOkay.password = false
         this.bgColor.password = this.warningColor
       }
-    },
-    checkPasswordCheck() {
-      // console.log(this.passwordCheck)
-      if (this.password === this.passwordCheck) {
-        this.isOkay.passwordCheck = true
-        this.bgColor.passwordCheck = ''
-      } else if (this.passwordCheck === '') {
+      // console.log(this.pw.passwordCheck)
+      if (this.pw.passwordCheck === '') {
         this.isOkay.passwordCheck = false
+        this.bgColor.passwordCheck = ''
+      } else if (this.pw.password === this.pw.passwordCheck) {
+        this.isOkay.passwordCheck = true
         this.bgColor.passwordCheck = ''
       } else {
         this.isOkay.passwordCheck = false
@@ -144,11 +147,11 @@ export default {
     email: function() {
       this.checkEmail()
     },
-    password: function() {
-      this.checkPassword()
-    },
-    passwordCheck: function() {
-      this.checkPasswordCheck()
+    pw: {
+      deep: true,
+      handler() {
+        this.checkPassword()
+      }
     },
     nickname: function() {
       this.checkNickname()
