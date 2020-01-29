@@ -9,7 +9,7 @@
     <b>
       <small>처음이시라면? <slot></slot></small>
     </b>
-    <button type="submit" class="btn btn-block btn-outline-warning font-weight-bolder" @click="login">로그인</button>
+    <button type="submit" class="btn btn-block btn-outline-warning font-weight-bolder">로그인</button>
   </form>
 </template>
 

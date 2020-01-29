@@ -7,7 +7,7 @@
             <strong v-if="showLogin">LOGIN</strong>
             <strong v-else>SIGN UP</strong>
           </h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="initShowLogin">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -25,7 +25,6 @@
 </template>
 
 <script>
-  import axios from 'axios';
   import LoginForm from './LoginForm.vue';
   import SignupForm from './SignupForm.vue';
 
@@ -36,41 +35,19 @@
       },
       data() {
           return {
-            //   credentials: {},
-            //   password2: '',
-            //   lengthLimit: {},
-            //   lengthCheck: {},
-              showLogin: true,
+            showLogin: true,
           }
       },
       methods: {
           login() {
-              // console.log('emit')
-              this.$emit('login', this.credentials)
+            this.$emit('login', this.credentials)
           },
           switchModal() {
             this.showLogin = !this.showLogin
             this.credentials = {}
           },
-          signup() {
-            if (this.credentials.password === this.password2) {
-              console.log(this.credentials)
-              axios.post('http://192.168.31.111:8080/api/auth/signup', this.credentials)
-                .then(response => {
-                console.log('회원가입 성공')
-                console.log(response.data.success)
-                console.log(response.data.message)
-                this.credentials = {}
-                })
-                .catch(error => {
-                  console.log(error)
-                })
-            } else {
-              console.log('비밀번호 불일치')
-            }
-          },
-          mouseoverr() {
-            console.log('마우스오버하면')
+          initShowLogin() {
+            this.showLogin = true
           }
       },
 //       watch: {
@@ -118,36 +95,4 @@
   background: #88D8B0 !important;
   color: #1f1f1f !important
 }
-
-
-/* warning notification 만드는 중: https://css-tricks.com/ease-out-in-ease-in-out/ */
-.coming-down {
-  height: 100px;
-  background: red;
-  -webkit-transition: height 2s; /* Safari */
-  transition: height 0.2s;
-  -webkit-transition-timing-function: ease-in;
-  transition-timing-function: ease-in;
-  /* transform: translateY(130%); */
-}
-
-/* For Safari 3.1 to 6.0 */
-#div1 {-webkit-transition-timing-function: linear;}
-#div2 {-webkit-transition-timing-function: ease;}
-#div3 {-webkit-transition-timing-function: ease-in;}
-#div4 {-webkit-transition-timing-function: ease-out;}
-#div5 {-webkit-transition-timing-function: ease-in-out;}
-
-/* Standard syntax */
-#div1 {transition-timing-function: linear;}
-#div2 {transition-timing-function: ease;}
-#div3 {transition-timing-function: ease-in;}
-#div4 {transition-timing-function: ease-out;}
-#div5 {transition-timing-function: ease-in-out;}
-
-.coming-down:hover {
-  height: 150px;
-}
-/* warning notification 만드는 중: https://css-tricks.com/ease-out-in-ease-in-out/ */
-
 </style>
