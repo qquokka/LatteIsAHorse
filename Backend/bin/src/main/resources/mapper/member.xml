@@ -3,7 +3,7 @@
 <mapper namespace="mapper.member">
 	<!-- active 값에 따라서 동적 쿼리?-->
 	<select id="getAllMemberList" resultType="com.latte.dto.Member">
-		SELECT * FROM latte_member
+		SELECT * FROM USERS
 	</select>
 
 	
