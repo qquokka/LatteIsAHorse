@@ -12,7 +12,6 @@ public class PostHashtag implements Serializable {
 
 	public PostHashtag() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public PostHashtag(Long id, Long post_id, String name) {

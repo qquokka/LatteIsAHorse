@@ -3,6 +3,8 @@ package com.latte.service;
 import java.util.List;
 
 import com.latte.model.post.Post;
+import com.latte.model.post.PostHashtag;
+import com.latte.payload.PostAddRequest;
 import com.latte.payload.PostRequest;
 
 public interface IPostService {
@@ -10,15 +12,31 @@ public interface IPostService {
 	List<Post> getPostList(PostRequest request);
 
 	// Create
-	int addPost(Post post);
+	int addPost(PostAddRequest post);
 
 	// Read
-	Post getPostByTitle(String title);
+	List<Post> getPostByTitle(String title);
+
+	// Read
+	Post getPostById(Long id);
 
 	// Update
 	int updatePostById(Long id);
 
 	// Delete
 	int deletePostById(Long id);
+
+	Long getLastPostedId();
+	
+	// Post hashtag 관련 
+	List<PostHashtag> getPostHashTags(Long post_id);
+	
+	List<PostHashtag> getAllHashTags();
+	
+	int addPostHashtag(PostHashtag hashTag);
+	
+	int updatePostHashtag(PostHashtag hashTag);
+	
+	int deletePostHashtag(Long id);
 
 }

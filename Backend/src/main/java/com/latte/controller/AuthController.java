@@ -34,7 +34,7 @@ import java.util.Collections;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/v1")
 public class AuthController {
 	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 	

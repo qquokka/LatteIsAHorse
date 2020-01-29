@@ -14,7 +14,7 @@ public class Post implements Serializable {
 	private String thumbnail; // varchar(200) default null, -- 썸네일
 	private String title; // varchar(200) not null, -- post의 제목
 	private String content; // text not null, -- post의 게시글 본문
-	private Long writer_id; // bigint(20) not null,
+	private Long writer_id = 0L; // bigint(20) not null,
 	private Instant created_at;
 	private Instant updated_at;
 
@@ -22,6 +22,13 @@ public class Post implements Serializable {
 
 	public Post() {
 		super();
+	}
+
+	public Post(String thumbnail, String title, String content) {
+		super();
+		this.thumbnail = thumbnail;
+		this.title = title;
+		this.content = content;
 	}
 
 	public Post(Long id, Integer like_count, String thumbnail, String title, String content, Long writer_id) {

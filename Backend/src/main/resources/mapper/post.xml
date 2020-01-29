@@ -10,7 +10,65 @@
 		where p.writer_id = u.id
 	</select>
 
+	<insert id="addPost" parameterType="com.latte.payload.PostAddRequest">
+		INSERT INTO POSTS (TITLE, CONTENT, THUMBNAIL, CREATED_AT, UPDATED_AT, WRITER_ID)
+		VALUES(#{title}, #{content}, #{thumbnail}, NOW(), NOW(), #{writer_id})
+	</insert>
 	<!-- <select id="getPostByPostId" parameterType="java.lang.Integer" resultType="com.latte.dto.PostDto"> 
 		</select> -->
-
+	
+	
+	<select id="getPostById" resultType="post">
+		select p.*, u.username as writer_name 
+		from posts p, users u where p.id = #{id} and p.writer_id = u.id
+	</select>
+	
+	<select id="getPostByTitle" resultType="post">
+	select p.*, u.username as writer_name 
+		from posts p, users u where p.title like "%"#{title}"%" and p.writer_id = u.id
+	</select>
+	
+	
+	<!-- 가장 마지막에 저장된 Post의 ID 반환 -->
+	<select id="getLastPostedId" resultType="java.lang.Long">
+		SELECT MAX(ID) FROM POSTS
+	</select>
+	
+	<update id="updatePostById">
+		update posts set 
+		title = #{title},
+		content = #{content},
+		thumbnail = #{thumbnail},
+		UPDATED_AT = now() 
+		where id = #{id}
+	</update>
+	
+	<delete id="deletePostById">
+		delete from posts where id = #{id}
+	</delete>
+	
+	<!-- Post Hashtag related queries -->
+	<select id="getPostHashTags" resultType="posthashtag">
+		select name from posts p, post_hashtag ph where p.id = ph.post_id
+	</select>
+	
+	<select id="getAllHashTags" resultType="posthashtag">
+		select distinct name from post_hashtag 
+	</select>
+	
+	<insert id="addPostHashtag">
+		insert into post_hashtag (name, post_id)
+		values (#{name}, #{post_id})
+	</insert>
+	
+	<update id="updatePostHashtag">
+		update post_hashtag set name = #{name} where id = #{id}
+	</update>
+	
+	<delete id="deletePostHashtag">
+		delete from post_hashtag where id = #{id}
+	</delete>
+	
+	<!-- Post comments related queries -->
+	
 </mapper>

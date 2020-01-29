@@ -17,8 +17,8 @@ public class User extends DateAudit {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank
-	@Size(max = 40)
+//	@NotBlank
+//	@Size(min = 2, max = 40)
 	private String name;
 
 	@NotBlank
@@ -34,8 +34,7 @@ public class User extends DateAudit {
 	@NotBlank
 	@Size(max = 100)
 	private String password;
-
-	@NotBlank
+	
 	@Size(max = 200)
 	private String phone;
 	
