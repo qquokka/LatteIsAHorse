@@ -37,7 +37,7 @@ import java.util.Date;
 @RequestMapping("/v1")
 public class AuthController {
 	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
-	
+
 	@Autowired
 	AuthenticationManager authenticationManager;
 
@@ -69,8 +69,7 @@ public class AuthController {
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 		logger.info("AuthController / registerUser --------------------" + new Date());
-		
-		
+
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return new ResponseEntity(new ApiResponse(false, "Username is already taken!"), HttpStatus.BAD_REQUEST);
 		}
