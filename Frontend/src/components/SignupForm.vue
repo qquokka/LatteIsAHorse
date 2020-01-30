@@ -62,7 +62,7 @@ export default {
       this.fail = {}
       this.$emit('fail-event', {})
       if (this.okay) {
-        console.log('회원가입 가능')
+        // console.log('회원가입 가능')
         const credentials = {
           'email': this.email,
           'password': this.pw.password,
@@ -70,18 +70,14 @@ export default {
         }
         axios.post(`${this.$store.state.constants.SERVER}/signup`, credentials)
           .then(response => {
-              // console.log('회원가입 성공')
-              // console.log(response)
-              // console.log(response.data.success)
               console.log(response.data.message)
               document.querySelector('#modalCloseButton').click()
-              // 로그인 시켜주기
               const credentialsLogin = {
                 'usernameOrEmail': this.email,
                 'password': this.pw.password
               }
-              console.log(credentialsLogin)
-              axios.post(`${this.$store.state.constants.SERVER}/signin`, credentialsLogin)
+              fetch(response)
+              .then(axios.post(`${this.$store.state.constants.SERVER}/signin`, credentialsLogin))
                 .then(response => {
                     const token = response.data.accessToken
                     this.$session.start()
@@ -98,18 +94,14 @@ export default {
               // console.log('에러메세지 저장')
               this.fail.occured = true
               if (error.response.data.message[0] === 'E') {  // Email Address already in use!
-                this.fail.type = '이메일'
-                this.fail.content = '이미 가입되어있는 이메일입니다'
+                this.fail.content = '이미 가입되어있는 이메일입니다! 다른 이메일을 사용해주세요'
               } else if (error.response.data.message[0] === 'U') {  // Username is already taken!
-                this.fail.type = '닉네임'
-                this.fail.content = '이미 사용중인 닉네임입니다'
+                this.fail.content = '이미 사용중인 닉네임입니다! 다른 닉네임을 사용해주세요'
               }
               // console.log(this.fail)
               this.$emit('fail-event', this.fail)
             }
           })
-      } else {
-        console.log('회원가입 실패')
       }
     },
     showText(elem) {

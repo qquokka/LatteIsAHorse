@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <modal @login="login"/>
+    <modal :loginFailed="loginFailed" @login="login"/>
     <!-- <div v-if="!isAuthentic
     ated">
       <router-link to="/">Home</router-link> |
@@ -27,6 +27,7 @@ export default {
   },
   data() {
     return {
+      loginFailed: false
     }
   },
   methods: {
@@ -39,6 +40,7 @@ export default {
       console.log(credentials)
       axios.post(`${this.$store.state.constants.SERVER}/signin`, credentials)
         .then(response => {
+            this.loginFailed = false
             console.log('로그인성공')
             const token = response.data.accessToken
             this.$session.start()
@@ -46,8 +48,11 @@ export default {
             this.$store.dispatch('login', token)
             this.$store.commit('setToken', token)
             document.querySelector('#modalCloseButton').click()
-          }).catch(error =>
-            console.log(error.response)
+          }).catch(error =>{
+            if (error.response.data.status === 401) {
+              this.loginFailed = !this.loginFailed
+            }
+          }
           )
     }
   },
