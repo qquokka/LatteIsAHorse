@@ -23,7 +23,7 @@ import HashTags from '@/components/HashTags.vue'
     },
     data() {
       return {
-        isAuthenticated: this.$session.has('jwt')
+        isAuthenticated: this.$session.exists('jwt'),
       }
     },
     computed: {
