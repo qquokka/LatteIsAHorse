@@ -39,8 +39,8 @@
           }
       },
       methods: {
-          login() {
-            this.$emit('login', this.credentials)
+          login(credentials) {
+            this.$emit('login', credentials)
           },
           switchModal() {
             this.showLogin = !this.showLogin
