@@ -62,12 +62,12 @@
           },
           failMessage(fail) {
             this.fail = fail
-            console.log('모달에서 저장', this.fail)
+            // console.log('모달에서 저장', this.fail)
           }
       },
       watch: {
         loginFailed: function() {
-          console.log('loginFailed', this.loginFailed)
+          // console.log('loginFailed', this.loginFailed)
             this.fail = {
               occured: true,
               content: '이메일 또는 비밀번호를 잘못 입력하셨습니다'

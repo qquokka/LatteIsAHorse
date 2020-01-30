@@ -34,14 +34,14 @@ export default {
     logout() {
       this.$session.destroy()
       this.$store.dispatch('logout')
-      console.log('로그아웃 성공')
+      // console.log('로그아웃 성공')
     },
     login(credentials) {
       console.log(credentials)
       axios.post(`${this.$store.state.constants.SERVER}/signin`, credentials)
         .then(response => {
             this.loginFailed = false
-            console.log('로그인성공')
+            // console.log('로그인성공')
             const token = response.data.accessToken
             this.$session.start()
             this.$session.set('jwt', token)
