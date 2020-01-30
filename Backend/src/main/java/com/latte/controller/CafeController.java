@@ -76,7 +76,7 @@ public class CafeController {
 		logger.info("CafeController------------getAllInfoByCafeId-------------" + new Date());
 		CafeDto cafeInfo = cafeservice.getCafeById(cafe_id);
 		List<MenuDto> menuList = menuservice.getMenuListById(cafe_id);
-		List<Post> postList = postservice.
+		List<Post> postList = postservice.getPostListByCafeId(cafe_id);
 		
 		Map<String, Object> response = new HashMap<>();
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);

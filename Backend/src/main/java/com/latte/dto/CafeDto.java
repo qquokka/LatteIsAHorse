@@ -74,7 +74,7 @@ public class CafeDto implements Serializable {
 				+ tue_open + ", tue_close=" + tue_close + ", wed_open=" + wed_open + ", wed_close=" + wed_close
 				+ ", thu_open=" + thu_open + ", thu_close=" + thu_close + ", fri_open=" + fri_open + ", fri_close="
 				+ fri_close + ", sat_open=" + sat_open + ", sat_close=" + sat_close + ", sun_open=" + sun_open
-				+ like_count + ", tag=" + tag + "]";
+				+ like_count + ", tag=" + tag + "]"
 				+ ", sun_close=" + sun_close + ", closed=" + closed + "]";
 	}
 
