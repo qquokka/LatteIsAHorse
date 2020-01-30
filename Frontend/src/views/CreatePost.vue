@@ -30,7 +30,8 @@
 </template>
 
 <script>
-  import axios from 'axios'
+	import axios from 'axios'
+	import router from 'vue-router'
   import { mapGetters } from 'vuex' 
   import NavBar from '@/components/NavBar.vue'
   // import Footer from '@/views/section/Footer.vue'
@@ -69,7 +70,8 @@
           console.log(body)
           axios.post(`${this.$store.state.constants.SERVER}/addPost`, body, {headers: {'Content-Type': 'application/json'}})
           .then(response => {
-            console.log(response)
+						console.log(response)
+						router.push('/posts')
           }) 
       },
       getHtml() {
@@ -88,7 +90,10 @@
               axios.post(`${this.$store.state.constants.SERVER}/uploadFile`, fd)
               .then(response => {
                 imgList[i].src = response.fileDownloadUri
-                })
+								})
+							.catch(error => {
+								console.log(error.response)
+							})
             })
           }
         } else{
