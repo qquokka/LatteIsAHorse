@@ -1,15 +1,15 @@
 <template>
   <nav class="navbar navbar-expand-lg fixed-top" id="topnav">
-  <router-link class="navbar-brand text-shadow" to="/" style="color:#fff;font-weight:900">라떼는 말이야</router-link>
+  <router-link to="/" ><img src="../assets/img/navlogo2.png"  style="border-radius:3px" width="120"></router-link>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav ml-auto">
       <li v-if="!isAuthenticated" class="nav-item">
-        <a class="nav-link" type="button" data-toggle="modal" data-target="#staticBackdrop">
+        <p class="nav-link" data-toggle="modal" data-target="#staticBackdrop">
           <i class="fa fa-key"></i> 로그인
-        </a>
+        </p>
       </li>
       <li v-else class="nav-item">
         <a class="nav-link" type="button" data-toggle="modal" data-target="#staticBackdrop">
@@ -17,10 +17,13 @@
         </a>
       </li>
       <li class="nav-item" >
-        <router-link class="nav-link" to="about"><i class="fa fa-user"></i> About Us</router-link>
+        <router-link class="nav-link" to="/about"><i class="fa fa-user"></i> About Us</router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="map"><i class="fa fa-map"></i> 내 주변 보기</router-link>
+        <router-link class="nav-link" to="/posts"><i class="fa fa-newspaper"></i> 포스트 보기</router-link>
+      </li>
+      <li class="nav-item">
+        <router-link class="nav-link" to="/map"><i class="fa fa-map"></i> 내 주변 보기</router-link>
       </li>
     </ul>
   </div>
@@ -42,14 +45,21 @@ methods: {
   handleScroll () {
     this.scrolled = window.scrollY > 0;
     const topnav = document.getElementById('topnav')
+    const navitem = document.querySelectorAll('.nav-link')
     if (this.scrolled) {
-      topnav.style.background = "rgba(30,60,50,0.8)"
-      topnav.style.boxShadow = "2px 2px 12px black"
+      topnav.style.background = "whitesmoke"
+      topnav.style.boxShadow = "2px 2px 12px gray"
+      for (var i=0;i<navitem.length;i++){
+        navitem[i].style.color = "#2f2f2f"
+      }
     }
     else {
       topnav.style.background = "none"
       topnav.style.backgroundImage = "unset"
       topnav.style.boxShadow = "0px 0px 0px"
+      for (i=0;i<navitem.length;i++){
+        navitem[i].style.color = "white"
+      }
     }
   }
 },
@@ -66,21 +76,16 @@ destroyed () {
 nav {
   transition: 0.25s ease-in-out;
 }
-.nav-item {
-  color: white;
-}
+
 .nav-link {
   color: white;
-  background-image: unset
+  margin:auto;
+  cursor:pointer;
+  transition: 0.25s ease-in-out;
 }
-a {
-  color: white;
-	transition: 0.5s ease-in-out;
-}
-a:hover {
+
+.nav-link:hover, a:hover {
 	color:  #88D8B0 !important;
 }
-.navbar-brand:hover {
-	color: #FFCC5C !important;
-}
+
 </style>
