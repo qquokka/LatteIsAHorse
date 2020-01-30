@@ -2,26 +2,23 @@
   <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          <strong>{{ error.message }}</strong>다른 {{ error.type }}을 사용해주세요
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
         <div class="modal-header">
           <h4 class="modal-title" id="staticBackdropLabel">
             <strong v-if="showLogin">LOGIN</strong>
             <strong v-else>SIGN UP</strong>
           </h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="initShowLogin">
+          <button type="button" id="modalCloseButton" class="close" data-dismiss="modal" aria-label="Close" @click="initStatus">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <div v-if="fail.occured" class="alert alert-warning mb-0" role="alert" style="border-radius: 20px 20px !important;">
+          <h6 class="mb-0">{{ fail.content }}! 다른 {{ fail.type }}을 사용해주세요</h6>
+        </div>
         <div class="modal-body">
           <login-form v-if="showLogin" @login="login">
-            <span style="color: #88D8B0 !important;cursor:pointer" @click="switchModal" @error="errorMessage">회원가입</span>
+            <span style="color: #88D8B0 !important;cursor:pointer" @click="switchModal">회원가입</span>
           </login-form>
-          <signup-form v-else>
+          <signup-form v-else @fail-event="failMessage">
             <span style="color: #88D8B0 !important;cursor:pointer" @click="switchModal">로그인</span>
           </signup-form>
         </div>
@@ -42,7 +39,7 @@
       data() {
           return {
             showLogin: true,
-            error: {}
+            fail: {}
           }
       },
       methods: {
@@ -53,11 +50,13 @@
             this.showLogin = !this.showLogin
             this.credentials = {}
           },
-          initShowLogin() {
+          initStatus() {
             this.showLogin = true
+            this.fail.occured = false
           },
-          errorMessage(error) {
-            this.error = error
+          failMessage(fail) {
+            this.fail = fail
+            console.log('모달에서 저장', this.fail)
           }
       },
   }
