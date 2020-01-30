@@ -51,6 +51,7 @@ export default {
         passwordCheck: '',
         nickname: ''
       },
+      errorMessage: {},
       warningColor: 'rgba(255, 0, 0, 0.100) !important'
     }
   },
@@ -75,11 +76,13 @@ export default {
             console.log('메세지', error.response.data.message)
             if (!error.response.data.success){
               if (error.response.data.message[0] === 'E') {  // Email Address already in use!
-                const error = {type:'이메일', content: '이미 가입되어있는 이메일입니다'}
+                this.errorMessage.type = '이메일'
+                this.errorMessage.content = '이미 가입되어있는 이메일입니다'
               } else if (error.response.data.message[0] === 'U') {  // Username is already taken!
-                const error = {type:'닉네임', content: '이미 사용중인 닉네임입니다'}
+                this.errorMessage.type = '닉네임'
+                this.errorMessage.content = '이미 사용중인 닉네임입니다'
               }
-              this.$emit('error', error)
+              this.$emit('error', this.errorMessage)
             }
           })
       } else {

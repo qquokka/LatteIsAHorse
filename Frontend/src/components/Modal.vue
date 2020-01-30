@@ -19,7 +19,7 @@
         </div>
         <div class="modal-body">
           <login-form v-if="showLogin" @login="login">
-            <span style="color: #88D8B0 !important;cursor:pointer" @click="switchModal" @error="error">회원가입</span>
+            <span style="color: #88D8B0 !important;cursor:pointer" @click="switchModal" @error="errorMessage">회원가입</span>
           </login-form>
           <signup-form v-else>
             <span style="color: #88D8B0 !important;cursor:pointer" @click="switchModal">로그인</span>
@@ -56,7 +56,7 @@
           initShowLogin() {
             this.showLogin = true
           },
-          error(error) {
+          errorMessage(error) {
             this.error = error
           }
       },
