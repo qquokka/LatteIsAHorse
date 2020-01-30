@@ -4,7 +4,12 @@ target/
 !**/src/main/**
 !**/src/test/**
 *.log
+<<<<<<< HEAD
 log/
+=======
+log/*
+
+>>>>>>> c0002c7e5a7062755e7b0d06ea23c725627e0c30
 ### STS ###
 .apt_generated
 .classpath

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.search">
+
+	<select id="searchInPosts" resultType="post">
+		SELECT * FROM POSTS WHERE
+		TITLE REGEXP (#{query}) 
+		OR CONTENT REGEXP(#{query}) 
+		ORDER BY UPDATED_AT
+	</select>
+
+	<select id="searchInCafe" resultType="cafe">
+		SELECT * FROM CAFE WHERE
+		CAFE_NAME REGEXP (#{query})
+		OR 
+		CAFE_ADDRESS REGEXP(#{query}) 
+		ORDER BY UPDATED_AT
+	</select>
+
+
+</mapper>

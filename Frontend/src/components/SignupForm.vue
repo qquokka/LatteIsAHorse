@@ -51,13 +51,18 @@ export default {
         passwordCheck: '',
         nickname: ''
       },
+      fail: {
+        occured: false
+      },
       warningColor: 'rgba(255, 0, 0, 0.100) !important'
     }
   },
   methods: {
     signup() {
+      this.fail = {}
+      this.$emit('fail-event', {})
       if (this.okay) {
-        console.log('회원가입 가능')
+        // console.log('회원가입 가능')
         const credentials = {
           'email': this.email,
           'password': this.pw.password,
@@ -65,19 +70,38 @@ export default {
         }
         axios.post(`${this.$store.state.constants.SERVER}/signup`, credentials)
           .then(response => {
-              console.log('회원가입 성공')
-              console.log(response)
-              console.log(response.data.success)
               console.log(response.data.message)
-              // 로그인 시켜주기
-            })
-          .catch(error => {
-            alert(error)
-            console.log('에러남', error.response)
-            
+              document.querySelector('#modalCloseButton').click()
+              const credentialsLogin = {
+                'usernameOrEmail': this.email,
+                'password': this.pw.password
+              }
+              fetch(response)
+              .then(axios.post(`${this.$store.state.constants.SERVER}/signin`, credentialsLogin))
+                .then(response => {
+                    const token = response.data.accessToken
+                    this.$session.start()
+                    this.$session.set('jwt', token)
+                    this.$store.dispatch('login', token)
+                })
           })
-      } else {
-        console.log('회원가입 실패')
+          .catch(error => {
+            // console.log(error.response)
+            // console.log('메세지', error.response.data.message)
+            if (!error.response.data.success){
+              this.pw.password = ''
+              this.pw.passwordCheck = ''
+              // console.log('에러메세지 저장')
+              this.fail.occured = true
+              if (error.response.data.message[0] === 'E') {  // Email Address already in use!
+                this.fail.content = '이미 가입되어있는 이메일입니다! 다른 이메일을 사용해주세요'
+              } else if (error.response.data.message[0] === 'U') {  // Username is already taken!
+                this.fail.content = '이미 사용중인 닉네임입니다! 다른 닉네임을 사용해주세요'
+              }
+              // console.log(this.fail)
+              this.$emit('fail-event', this.fail)
+            }
+          })
       }
     },
     showText(elem) {

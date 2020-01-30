@@ -14,8 +14,15 @@ export default {
     },
     data() {
         return {
-            imgUrl: "https://images.squarespace-cdn.com/content/v1/5b75b481b98a78811d9902c7/1541785543421-QMEFE4R2GI5PHN6SLC1B/ke17ZwdGBToddI8pDm48kFGZJ61ZoMWaIdmMaPzVMxF7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QHyNOqBUUEtDDsRWrJLTmo3_5ncHsS_KC884-Z46vJbs9LIIAHSWNIcWxyGW0QvPV35g8WSGumhqg_-ei30TL/_IMG9178-Modifica-Modifica-Modifica.jpg?format=1500w",
+            imgUrl: `https://picsum.photos/seed/${this.getRandomInt(1, 100)}/200/300?`,
         }
+    },
+    methods: {
+    getRandomInt(min, max) {
+        min = Math.ceil(min)
+        max = Math.floor(max)
+        return Math.floor(Math.random() * (max - min)) + min
+    }
     }
 }
 </script>

@@ -1,4 +1,5 @@
 <template>
+  
   <nav class="navbar navbar-expand-lg fixed-top" id="topnav">
   <router-link to="/" ><img src="../assets/img/navlogo2.png"  style="border-radius:3px" width="120"></router-link>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -6,15 +7,15 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav ml-auto">
-      <li v-if="!isAuthenticated" class="nav-item">
+      <li class="nav-item" v-if="!isLoggedIn">
         <p class="nav-link" data-toggle="modal" data-target="#staticBackdrop">
           <i class="fa fa-key"></i> 로그인
         </p>
       </li>
-      <li v-else class="nav-item">
-        <a class="nav-link" type="button" data-toggle="modal" data-target="#staticBackdrop">
+      <li class="nav-item" v-else>
+        <p class="nav-link" @click="logout()">
           <i class="fa fa-key"></i> 로그아웃
-        </a>
+        </p>
       </li>
       <li class="nav-item" >
         <router-link class="nav-link" to="/about"><i class="fa fa-user"></i> About Us</router-link>
@@ -38,10 +39,15 @@ export default {
   data () {
   return {
     scrolled: false,
-    isAuthenticated: false
+    isAuthenticated: this.$session.exists('jwt'),
   };
 },
 methods: {
+  logout() {
+    this.$session.destroy()
+    this.$store.dispatch('logout')
+    this.handleScroll ()
+  },
   handleScroll () {
     this.scrolled = window.scrollY > 0;
     const topnav = document.getElementById('topnav')
@@ -61,6 +67,12 @@ methods: {
         navitem[i].style.color = "white"
       }
     }
+  }
+},
+
+computed: {
+  isLoggedIn() {
+    return this.$store.getters.isLoggedIn;
   }
 },
 created () {

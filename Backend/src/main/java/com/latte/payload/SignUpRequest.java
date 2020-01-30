@@ -3,8 +3,8 @@ package com.latte.payload;
 import javax.validation.constraints.*;
 
 public class SignUpRequest {
-	@NotBlank
-	@Size(min = 4, max = 40)
+//	@NotBlank
+//	@Size(min = 4, max = 40)
 	private String name;
 
 	@NotBlank

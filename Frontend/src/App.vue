@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <modal @login="login"/>
+    <modal :loginFailed="loginFailed" @login="login"/>
     <!-- <div v-if="!isAuthentic
     ated">
       <router-link to="/">Home</router-link> |
@@ -16,7 +16,6 @@
 </template>
 <script>
 import axios from 'axios'
-import router from './router'
 // import LoginForm from '@/components/LoginForm.vue'
 import Modal from '@/components/Modal.vue'
 
@@ -28,33 +27,34 @@ export default {
   },
   data() {
     return {
-      isAuthenticated: this.$session.has('jwt'),
+      loginFailed: false
     }
   },
   methods: {
     logout() {
       this.$session.destroy()
       this.$store.dispatch('logout')
-      router.push('/login')
+      // console.log('로그아웃 성공')
     },
     login(credentials) {
       console.log(credentials)
-      axios.post('http://192.168.41.111:8197/latte', credentials)
+      axios.post(`${this.$store.state.constants.SERVER}/signin`, credentials)
         .then(response => {
-            console.log('로그인성공')
-            console.log(response.data.token)
-            const token = response.data.token
+            this.loginFailed = false
+            // console.log('로그인성공')
+            const token = response.data.accessToken
             this.$session.start()
             this.$session.set('jwt', token)
             this.$store.dispatch('login', token)
-            router.push('/')
-          }).catch(error =>
-            console.log(error)
+            this.$store.commit('setToken', token)
+            document.querySelector('#modalCloseButton').click()
+          }).catch(error =>{
+            if (error.response.data.status === 401) {
+              this.loginFailed = !this.loginFailed
+            }
+          }
           )
     }
-  },
-  updated() {
-    this.isAuthenticated = this.$session.has('jwt')
   },
   mounted () {
   window.addEventListener('scroll', this.onScroll)

@@ -34,7 +34,7 @@ import java.util.Collections;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/v1")
 public class AuthController {
 	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
@@ -77,11 +77,11 @@ public class AuthController {
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 			return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"), HttpStatus.BAD_REQUEST);
 		}
-
+		
 		// Creating user's account
 		User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
 				signUpRequest.getPassword());
-
+		
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
 		//Default User Role is "ROLE_USER"
