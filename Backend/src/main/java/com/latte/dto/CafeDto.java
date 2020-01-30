@@ -1,12 +1,9 @@
 package com.latte.dto;
 
-<<<<<<< HEAD
 import java.io.Serializable;
 
-public class CafeDto implements Serializable{
-=======
-public class CafeDto {
->>>>>>> 9e2de5fc7fbd7d6a7ae37861ddafebdb63d88c26
+public class CafeDto implements Serializable {
+
 	private int cafe_id;
 	private String cafe_name;
 	private String cafe_address;
@@ -15,7 +12,7 @@ public class CafeDto {
 	private double longitude;
 	private int like_count;
 	private String tag;
-<<<<<<< HEAD
+
 	private String mon_open;
 	private String mon_close;
 	private String tue_open;
@@ -34,22 +31,13 @@ public class CafeDto {
 
 	public CafeDto() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public CafeDto(int cafe_id, String cafe_name, String cafe_address, String cafe_phone, double latitude,
 			double longitude, int like_count, String tag, String mon_open, String mon_close, String tue_open,
 			String tue_close, String wed_open, String wed_close, String thu_open, String thu_close, String fri_open,
 			String fri_close, String sat_open, String sat_close, String sun_open, String sun_close, int closed) {
-=======
 
-	public CafeDto() {
-		super();
-	}
-
-	public CafeDto(int cafe_id, String cafe_name, String cafe_address, String cafe_phone, double latitude,
-			double longitude, int like_count, String tag) {
->>>>>>> 9e2de5fc7fbd7d6a7ae37861ddafebdb63d88c26
 		super();
 		this.cafe_id = cafe_id;
 		this.cafe_name = cafe_name;
@@ -59,7 +47,7 @@ public class CafeDto {
 		this.longitude = longitude;
 		this.like_count = like_count;
 		this.tag = tag;
-<<<<<<< HEAD
+
 		this.mon_open = mon_open;
 		this.mon_close = mon_close;
 		this.tue_open = tue_open;
@@ -75,36 +63,26 @@ public class CafeDto {
 		this.sun_open = sun_open;
 		this.sun_close = sun_close;
 		this.closed = closed;
-=======
->>>>>>> 9e2de5fc7fbd7d6a7ae37861ddafebdb63d88c26
+
 	}
 
 	@Override
 	public String toString() {
 		return "CafeDto [cafe_id=" + cafe_id + ", cafe_name=" + cafe_name + ", cafe_address=" + cafe_address
 				+ ", cafe_phone=" + cafe_phone + ", latitude=" + latitude + ", longitude=" + longitude + ", like_count="
-<<<<<<< HEAD
 				+ like_count + ", tag=" + tag + ", mon_open=" + mon_open + ", mon_close=" + mon_close + ", tue_open="
 				+ tue_open + ", tue_close=" + tue_close + ", wed_open=" + wed_open + ", wed_close=" + wed_close
 				+ ", thu_open=" + thu_open + ", thu_close=" + thu_close + ", fri_open=" + fri_open + ", fri_close="
 				+ fri_close + ", sat_open=" + sat_open + ", sat_close=" + sat_close + ", sun_open=" + sun_open
-				+ ", sun_close=" + sun_close + ", closed=" + closed + "]";
-=======
+				+ ", sun_close=" + sun_close + ", closed=" + closed + "]"
 				+ like_count + ", tag=" + tag + "]";
->>>>>>> 9e2de5fc7fbd7d6a7ae37861ddafebdb63d88c26
+
 	}
 
 	public int getCafe_id() {
 		return cafe_id;
 	}
 
-<<<<<<< HEAD
-=======
-	public void setCafe_id(int cafe_id) {
-		this.cafe_id = cafe_id;
-	}
-
->>>>>>> 9e2de5fc7fbd7d6a7ae37861ddafebdb63d88c26
 	public String getCafe_name() {
 		return cafe_name;
 	}
@@ -161,7 +139,6 @@ public class CafeDto {
 		this.tag = tag;
 	}
 
-<<<<<<< HEAD
 	public String getMon_open() {
 		return mon_open;
 	}
@@ -282,6 +259,3 @@ public class CafeDto {
 		this.closed = closed;
 	}
 }
-=======
-}
->>>>>>> 9e2de5fc7fbd7d6a7ae37861ddafebdb63d88c26
