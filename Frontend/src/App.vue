@@ -40,8 +40,7 @@ export default {
     },
     login(credentials) {
       console.log(credentials)
-      // axios.post(`${this.$store.state.constants.SERVER}/signin`, credentials)
-      axios.post('http://192.168.31.142:8080/v1/signin',credentials) 
+      axios.post(`${this.$store.state.constants.SERVER}/signin`, credentials)
         .then(response => {
           this.loginFailed = false
           console.log('로그인성공')
