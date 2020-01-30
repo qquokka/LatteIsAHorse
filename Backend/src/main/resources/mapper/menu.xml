@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.menu">
+
+	<select id="getMenuList" resultType="com.latte.dto.MenuDto">
+		SELECT
+		mid, product, price,
+		description, cafe_id, tag
+		from menu;
+	</select>
+
+	<select id="getMenuListById" parameterType="java.lang.Integer"
+		resultType="com.latte.dto.MenuDto">
+		SELECT
+		mid, product, price, description, tag
+		from menu where
+		cafe_id = #{cafe_id}
+	</select>
+	
+	<select id="getMenuById" parameterType="java.lang.Integer"
+		resultType="com.latte.dto.MenuDto">
+		SELECT
+		cafe_id, product, price, description, tag
+		from menu where
+		mid = #{mid}
+	</select>
+
+
+	<select id="getMenuByName" parameterType="java.lang.String"
+		resultType="com.latte.dto.MenuDto">
+		SELECT
+		mid, price, description, cafe_id, tag
+		from menu
+		where
+		product like
+		'%'+#{product}+'%';
+	</select>
+
+
+	<insert id="addMenu" parameterType="com.latte.dto.MenuDto">
+		INSERT INTO
+		(
+		product, price,
+		description, cafe_id, tag
+		) VALUES (
+		#{product},
+		#{price},
+		#{cafe_id},
+		#{tag}
+	</insert>
+
+	<update id="updateMenuById"
+		parameterType="com.latte.dto.MenuDto">
+		UPDATE menu SET
+		product = #{product},
+		price = #{price},
+		description =#{description},
+		cafe_id = #{cafe_id},
+		tag =#{tag},
+		like_count =#{like_count},
+		tag =#{tag},
+		WHERE
+		mid=#{mid}
+	</update>
+	<delete id="deleteMenuById" parameterType="java.lang.Integer">
+		DELETE FROM menu WHERE
+		mid=#{mid}
+
+	</delete>
+
+</mapper>
