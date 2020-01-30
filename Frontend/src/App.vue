@@ -42,8 +42,9 @@ export default {
       axios.post(`${this.$store.state.constants.SERVER}/signin`, credentials)
         .then(response => {
             console.log('로그인성공')
-            console.log(response.data.token)
-            const token = response.data.token
+            console.log(response.data)
+            console.log(response.data.accessToken)
+            const token = response.data.accessToken
             this.$session.start()
             this.$session.set('jwt', token)
             this.$store.dispatch('login', token)
