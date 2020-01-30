@@ -1,2 +1,3 @@
 /.metadata/
 /Backend/log/
+*.log
