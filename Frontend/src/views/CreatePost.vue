@@ -117,7 +117,12 @@
                                 this.submitPost(body)  
         }
 
-      }}}
+			}},
+		beforeCreate: function () {
+    if (!this.$session.exists('jwt')) {
+      this.$router.back()
+    }
+  }}
 </script>
 
 

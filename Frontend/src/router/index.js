@@ -8,6 +8,8 @@ import CreatePost from '../views/CreatePost.vue'
 
 Vue.use(VueRouter)
 
+
+
 const routes = [
   {
     path: '/',
@@ -32,7 +34,10 @@ const routes = [
   {
     path: '/posts/create',
     name: 'createpost',
-    component: CreatePost
+    component: CreatePost,
+    meta: { 
+      requiresAuth: true
+    }
   }
 ]
 

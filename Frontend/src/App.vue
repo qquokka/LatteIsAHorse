@@ -16,7 +16,6 @@
 </template>
 <script>
 import axios from 'axios'
-import router from './router'
 // import LoginForm from '@/components/LoginForm.vue'
 import Modal from '@/components/Modal.vue'
 
@@ -28,34 +27,29 @@ export default {
   },
   data() {
     return {
-      isAuthenticated: this.$session.has('jwt'),
     }
   },
   methods: {
     logout() {
       this.$session.destroy()
       this.$store.dispatch('logout')
-      router.push('/login')
+      console.log('로그아웃 성공')
     },
     login(credentials) {
       console.log(credentials)
       axios.post(`${this.$store.state.constants.SERVER}/signin`, credentials)
         .then(response => {
             console.log('로그인성공')
-            console.log(response.data)
-            console.log(response.data.accessToken)
             const token = response.data.accessToken
             this.$session.start()
             this.$session.set('jwt', token)
             this.$store.dispatch('login', token)
+            this.$store.commit('setToken', token)
             document.querySelector('#modalCloseButton').click()
           }).catch(error =>
             console.log(error.response)
           )
     }
-  },
-  updated() {
-    this.isAuthenticated = this.$session.has('jwt')
   },
   mounted () {
   window.addEventListener('scroll', this.onScroll)
