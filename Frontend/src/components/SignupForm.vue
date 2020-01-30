@@ -51,12 +51,16 @@ export default {
         passwordCheck: '',
         nickname: ''
       },
-      errorMessage: {},
+      fail: {
+        occured: false
+      },
       warningColor: 'rgba(255, 0, 0, 0.100) !important'
     }
   },
   methods: {
     signup() {
+      this.fail = {}
+      this.$emit('fail-event', {})
       if (this.okay) {
         console.log('회원가입 가능')
         const credentials = {
@@ -66,23 +70,28 @@ export default {
         }
         axios.post(`${this.$store.state.constants.SERVER}/signup`, credentials)
           .then(response => {
-              console.log('회원가입 성공')
-              console.log(response)
-              console.log(response.data.success)
-              console.log(response.data.message)
+              // console.log('회원가입 성공')
+              // console.log(response)
+              // console.log(response.data.success)
+              // console.log(response.data.message)
+              document.querySelector('#modalCloseButton').click()
               // 로그인 시켜주기
             })
           .catch(error => {
+            console.log(error.response)
             console.log('메세지', error.response.data.message)
             if (!error.response.data.success){
+              console.log('에러메세지 저장')
+              this.fail.occured = true
               if (error.response.data.message[0] === 'E') {  // Email Address already in use!
-                this.errorMessage.type = '이메일'
-                this.errorMessage.content = '이미 가입되어있는 이메일입니다'
+                this.fail.type = '이메일'
+                this.fail.content = '이미 가입되어있는 이메일입니다'
               } else if (error.response.data.message[0] === 'U') {  // Username is already taken!
-                this.errorMessage.type = '닉네임'
-                this.errorMessage.content = '이미 사용중인 닉네임입니다'
+                this.fail.type = '닉네임'
+                this.fail.content = '이미 사용중인 닉네임입니다'
               }
-              this.$emit('error', this.errorMessage)
+              console.log(this.fail)
+              this.$emit('fail-event', this.fail)
             }
           })
       } else {
