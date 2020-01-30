@@ -49,7 +49,7 @@ export default {
             this.$store.dispatch('login', token)
             router.push('/')
           }).catch(error =>
-            console.log(error)
+            console.log(error.response)
           )
     }
   },

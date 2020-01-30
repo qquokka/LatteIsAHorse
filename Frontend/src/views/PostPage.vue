@@ -3,7 +3,7 @@
     <img id="post-background" src="../assets/img/postlist.jpeg">
     <nav-bar style="position:fixed;left:0;width:100%;" />
     <hash-tags class="position-relative mt-5 py-5" />
-    <router-link to="posts/create/" class="position-relative"><button class="btn-danger btn">글쓰기</button></router-link>
+    <router-link v-if="isAuthenticated" to="posts/create/" class="position-relative"><button class="btn-danger btn">글쓰기</button></router-link>
     <post-list />
   </div>
 </template>
@@ -23,7 +23,7 @@ import HashTags from '@/components/HashTags.vue'
     },
     data() {
       return {
-
+        isAuthenticated: this.$session.has('jwt')
       }
     },
     computed: {
