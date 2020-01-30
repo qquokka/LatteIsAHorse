@@ -32,6 +32,11 @@
 		WHERE P.TITLE LIKE "%"#{title}"%" AND P.WRITER_ID = U.ID
 	</select>
 	
+	<select id="getPostListByCafeId" resultType="post">
+		SELECT * FROM POSTS P, CAFE C WHERE P.CAFE_ID = C.ID
+	</select>
+	
+	
 	<!-- 가장 마지막에 저장된 Post의 ID 반환 -->
 	<select id="getLastPostedId" resultType="java.lang.Long">
 		SELECT MAX(ID) FROM POSTS

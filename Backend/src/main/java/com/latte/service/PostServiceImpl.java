@@ -42,6 +42,12 @@ public class PostServiceImpl implements IPostService {
 	public Post getPostById(Long id) {
 		return postDao.getPostById(id);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Post> getPostListByCafeId(Integer cafe_id) {
+		return postDao.getPostListByCafeId(cafe_id);
+	}
 
 	@Override
 	@Transactional
@@ -114,5 +120,7 @@ public class PostServiceImpl implements IPostService {
 	public int deletePostComments(Long id) {
 		return postDao.deletePostComments(id);
 	}
+
+
 
 }

@@ -17,6 +17,8 @@ public interface IPostService {
 
 	// Read
 	List<Post> getPostByTitle(String title);
+	
+	List<Post> getPostListByCafeId(Integer cafe_id);
 
 	// Read
 	Post getPostById(Long id);
