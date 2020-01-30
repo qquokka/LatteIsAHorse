@@ -28,9 +28,9 @@ public class CafeDto implements Serializable {
 	private String sun_close;
 	private int closed;
 
-
 	public CafeDto() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public CafeDto(int cafe_id, String cafe_name, String cafe_address, String cafe_phone, double latitude,
