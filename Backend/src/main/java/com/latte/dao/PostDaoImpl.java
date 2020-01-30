@@ -21,8 +21,8 @@ public class PostDaoImpl {
 	private SqlSession sqlSession;
 
 	//---------------- Post 관련 ----------------
-	public List<Post> getPostList(PostRequest request) {
-		return sqlSession.selectList(ns + "getPostList", request);
+	public List<Post> getPostList() {
+		return sqlSession.selectList(ns + "getPostList");
 	}
 
 	public int addPost(PostAddRequest post) {

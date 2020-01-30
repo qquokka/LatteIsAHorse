@@ -2,8 +2,8 @@ package com.latte.model.post;
 
 import java.io.Serializable;
 import java.time.Instant;
-
 import com.latte.model.audit.DateAudit;
+
 
 public class Post implements Serializable {
 

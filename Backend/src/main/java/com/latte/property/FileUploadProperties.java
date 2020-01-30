@@ -35,7 +35,7 @@ public class FileUploadProperties {
  * @CongifurationProperties Annotation 에 prefix = "file" 로 선언 된 부분은
  * application.properties 에 선언한
  * 
- * file.upload-dir=/Users/pang/Documents/UPLOAD_FILES
+ * file.upload-dir=path
  * 
  * file 필드에 접근한다는 말이다.
  * 

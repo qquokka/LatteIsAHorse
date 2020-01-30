@@ -21,8 +21,8 @@ public class PostServiceImpl implements IPostService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Post> getPostList(PostRequest request) {
-		return postDao.getPostList(request);
+	public List<Post> getPostList() {
+		return postDao.getPostList();
 	}
 
 	@Override
