@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <modal @login="login"/>
+    <modal :loginFailed="loginFailed" @login="login"/>
     <!-- <div v-if="!isAuthentic
     ated">
       <router-link to="/">Home</router-link> |
@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       isAuthenticated: this.$session.has('jwt'),
+      loginFailed: false
     }
   },
   methods: {
@@ -39,19 +40,24 @@ export default {
     },
     login(credentials) {
       console.log(credentials)
-      axios.post(`${this.$store.state.constants.SERVER}/signin`, credentials)
+      // axios.post(`${this.$store.state.constants.SERVER}/signin`, credentials)
+      axios.post('http://192.168.31.142:8080/v1/signin',credentials) 
         .then(response => {
-            console.log('로그인성공')
-            console.log(response.data)
-            console.log(response.data.accessToken)
-            const token = response.data.accessToken
-            this.$session.start()
-            this.$session.set('jwt', token)
-            this.$store.dispatch('login', token)
-            document.querySelector('#modalCloseButton').click()
-          }).catch(error =>
-            console.log(error.response)
-          )
+          this.loginFailed = false
+          console.log('로그인성공')
+          console.log(response.data)
+          console.log(response.data.accessToken)
+          const token = response.data.accessToken
+          this.$session.start()
+          this.$session.set('jwt', token)
+          this.$store.dispatch('login', token)
+          document.querySelector('#modalCloseButton').click()
+          }).catch(error =>{
+            if (error.response.data.status === 401) {
+              console.log(error.response)
+              this.loginFailed = !this.loginFailed
+            }
+          })
     }
   },
   updated() {

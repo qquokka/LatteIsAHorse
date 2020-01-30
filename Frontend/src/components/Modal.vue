@@ -11,8 +11,8 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div v-if="fail.occured" class="alert alert-warning mb-0" role="alert" style="border-radius: 20px 20px !important;">
-          <h6 class="mb-0">{{ fail.content }}! 다른 {{ fail.type }}을 사용해주세요</h6>
+        <div v-if="fail.occured" id="authFailAlert" class="alert alert-warning mb-0" role="alert" style="border-radius: 20px 20px !important;">
+          <h6 class="mb-0">{{ fail.content }}</h6>
         </div>
         <div class="modal-body">
           <login-form v-if="showLogin" @login="login">
@@ -36,6 +36,12 @@
       components: {
         LoginForm, SignupForm
       },
+      props: {
+        loginFailed: {
+          type: Boolean,
+          default: false
+        }
+      },
       data() {
           return {
             showLogin: true,
@@ -48,7 +54,7 @@
           },
           switchModal() {
             this.showLogin = !this.showLogin
-            this.credentials = {}
+            this.fail = {}
           },
           initStatus() {
             this.showLogin = true
@@ -59,6 +65,16 @@
             console.log('모달에서 저장', this.fail)
           }
       },
+      watch: {
+        loginFailed: function() {
+          console.log('loginFailed', this.loginFailed)
+            this.fail = {
+              occured: true,
+              content: '이메일 또는 비밀번호를 잘못 입력하셨습니다'
+            
+          }
+        }
+      }
   }
 </script>
 
