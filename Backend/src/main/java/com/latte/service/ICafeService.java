@@ -5,14 +5,25 @@ import java.util.List;
 import com.latte.dto.CafeDto;
 
 public interface ICafeService {
-	// 모든 카페를 보여준다.
-	List<CafeDto> getAllCafeList();
+	// DB에 저장된 모든 Cafe를 반환
+	List<CafeDto> getCafeList();
 
-	// 카페이름으로 검색한다.
-	CafeDto getCafeBycafe_name(String cafe_name);
+	// Create
+	int addCafe(CafeDto cafe);
 
-	// 카페 영업시간으로 검색한다. Open Time, Close Time, Day
-	
-	//
+	// Read
+	CafeDto getCafeById(int cafe_id);
+
+	// Read
+	List<CafeDto> getCafeByName(String cafe_name);
+
+	// Read
+	List<CafeDto> getCafeByAddress(String cafe_address);
+
+	// Update
+	int updateCafeById(int cafe_id);
+
+	// Delete
+	int deleteCafeById(int cafe_id);
 
 }
