@@ -27,9 +27,9 @@ public class SwaggerConfig {
 	}
 
 	private ApiInfo apiInfo() {
-		return new ApiInfoBuilder().title("SSAFY API")
-				.description("Latte API Reference for Developers")
-				.termsOfServiceUrl("https://test.com")
+		return new ApiInfoBuilder().title("Latte is a horse API")
+				.description("Latte API Documents")
+				.termsOfServiceUrl("https://www.latteisahorse.com")
 				.license("Latte License")
 				.licenseUrl("admin@latte.com").version("1.0").build();
 	}
