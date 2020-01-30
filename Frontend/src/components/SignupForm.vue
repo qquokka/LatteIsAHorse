@@ -76,11 +76,25 @@ export default {
               console.log(response.data.message)
               document.querySelector('#modalCloseButton').click()
               // 로그인 시켜주기
-            })
+              const credentialsLogin = {
+                'usernameOrEmail': this.email,
+                'password': this.pw.password
+              }
+              console.log(credentialsLogin)
+              axios.post(`${this.$store.state.constants.SERVER}/signin`, credentialsLogin)
+                .then(response => {
+                    const token = response.data.accessToken
+                    this.$session.start()
+                    this.$session.set('jwt', token)
+                    this.$store.dispatch('login', token)
+                })
+          })
           .catch(error => {
             // console.log(error.response)
             // console.log('메세지', error.response.data.message)
             if (!error.response.data.success){
+              this.pw.password = ''
+              this.pw.passwordCheck = ''
               // console.log('에러메세지 저장')
               this.fail.occured = true
               if (error.response.data.message[0] === 'E') {  // Email Address already in use!
