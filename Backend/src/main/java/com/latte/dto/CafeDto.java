@@ -12,7 +12,6 @@ public class CafeDto implements Serializable {
 	private double longitude;
 	private int like_count;
 	private String tag;
-
 	private String mon_open;
 	private String mon_close;
 	private String tue_open;
@@ -28,6 +27,7 @@ public class CafeDto implements Serializable {
 	private String sun_open;
 	private String sun_close;
 	private int closed;
+
 
 	public CafeDto() {
 		super();
@@ -74,9 +74,8 @@ public class CafeDto implements Serializable {
 				+ tue_open + ", tue_close=" + tue_close + ", wed_open=" + wed_open + ", wed_close=" + wed_close
 				+ ", thu_open=" + thu_open + ", thu_close=" + thu_close + ", fri_open=" + fri_open + ", fri_close="
 				+ fri_close + ", sat_open=" + sat_open + ", sat_close=" + sat_close + ", sun_open=" + sun_open
-				+ ", sun_close=" + sun_close + ", closed=" + closed + "]"
 				+ like_count + ", tag=" + tag + "]";
-
+				+ ", sun_close=" + sun_close + ", closed=" + closed + "]";
 	}
 
 	public int getCafe_id() {

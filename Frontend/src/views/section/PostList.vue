@@ -3,9 +3,9 @@
   <div class="row">
     <div v-for="post in postData.slice(0, limits)" :key="post.id" class="post-list col-4 p-3">
       <div class="postbody">
-        <h3 class="border-bottom p-2">{{ post.title }}</h3><span><i class="fas fa-thumbs-up"> {{ getRandomInt(1, 5000) }}</i></span>
+        <h3 class="border-bottom p-2">{{ post.title }}</h3><span><i class="fas fa-thumbs-up"> {{ post.like_count }}</i></span>
         <p>by {{ post.writer_name }} at {{ post.created_at }} </p>
-        <img :src="post.thumbnail" width="100%">
+        <img :src="post.thumbnail" width="100%" height="300px">
         <p class="post-preview">{{ post.content }}</p>
       </div>
     </div>
@@ -25,12 +25,10 @@ export default {
     };
   },
   mounted() {
-    console.log(`${this.$store.state.constants.SERVER}/post`)
     axios
-      .post(`${this.$store.state.constants.SERVER}/post`,{})
+      .get(`${this.$store.state.constants.SERVER}/post`)
       .then(response => {
         this.postData = response.data;
-        console.log("post data loaded from `${this.$store.state.constants.SERVER}/post");
       })
       // .catch(error => {
       //   console.log("post data loaded from dummy");
