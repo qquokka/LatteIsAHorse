@@ -2,61 +2,99 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.post">
 
-	<select id="getAllPostList" resultType="com.latte.dto.PostDto">
-		SELECT
-		POST_ID,
-		POST_TITLE,
-		POST_CONTENT,
-		POST_WRITER,
-		POSTED_DATE
-		FROM post
-		ORDER BY
-		post_id
+	<select id="getPostList" resultType="com.latte.model.post.Post">
+		select p.id, p.created_at,
+		p.updated_at, p.like_count, p.thumbnail,
+		p.title, p.content, u.username as writer_name 
+		from posts p, users u
+		where p.writer_id = u.id
 	</select>
 
-	<select id="getPostByPostId" parameterType="java.lang.Integer"
-		resultType="com.latte.dto.PostDto">
-		SELECT
-		POST_ID,
-		POST_TITLE,
-		POST_CONTENT,
-		POST_WRITER,
-		POSTED_DATE
-		FROM post
-		WHERE POST_ID=#{postid}
+	<insert id="addPost" parameterType="com.latte.payload.PostAddRequest">
+		INSERT INTO POSTS (TITLE, CONTENT, THUMBNAIL, CREATED_AT, UPDATED_AT, WRITER_ID)
+		VALUES(#{title}, #{content}, #{thumbnail}, NOW(), NOW(), #{writer_id})
+	</insert>
+	<!-- <select id="getPostByPostId" parameterType="java.lang.Integer" resultType="com.latte.dto.PostDto"> 
+		</select> -->
+	
+	
+	<select id="getPostById" resultType="post">
+		select p.*, u.username as writer_name 
+		from posts p, users u where p.id = #{id} and p.writer_id = u.id
 	</select>
-
-	<select id="addPost" parameterType="com.latte.dto.PostDto"
-		resultType="java.lang.Integer">
-		INSERT INTO post
-		(POST_TITLE, POST_CONTENT ,
-		POST_WRITER ,
-		POSTED_DATE)
-		VALUES
-		(
-		#{post_title},
-		#{post_content},
-		#{post_writer},
-		#{posted_date}
-		)
+	
+	<select id="getPostByTitle" resultType="post">
+	select p.*, u.username as writer_name 
+		from posts p, users u where p.title like "%"#{title}"%" and p.writer_id = u.id
 	</select>
-
-	<select id="updatePostInfo"
-		parameterType="com.latte.dto.PostDto" resultType="java.lang.Integer">
-		UPDATE post
-		SET
-		POST_TITLE=#{post_title},
-		POST_CONTENT=#{post_content},
-		POSTED_DATE=#{posted_date}
-		WHERE
-		POST_ID=#{post_id}
+	
+	
+	<!-- 가장 마지막에 저장된 Post의 ID 반환 -->
+	<select id="getLastPostedId" resultType="java.lang.Long">
+		SELECT MAX(ID) FROM POSTS
 	</select>
-
-	<select id="deletePost" parameterType="java.lang.Integer"
-		resultType="java.lang.Integer">
-		DELETE
-		FROM post
-		WHERE POST_ID =#{postid}
+	
+	<update id="updatePostById">
+		update posts set 
+		title = #{title},
+		content = #{content},
+		thumbnail = #{thumbnail},
+		UPDATED_AT = now() 
+		where id = #{id}
+	</update>
+	
+	<delete id="deletePostById">
+		delete from posts where id = #{id}
+	</delete>
+	
+	<!-- Post Hashtag related queries -->
+	<select id="getPostHashTags" resultType="posthashtag">
+		select name from posts p, post_hashtag ph where p.id = ph.post_id
 	</select>
-
+	
+	<select id="getAllHashTags" resultType="posthashtag">
+		select distinct name from post_hashtag 
+	</select>
+	
+	<insert id="addPostHashtag">
+		insert into post_hashtag (name, post_id)
+		values (#{name}, #{post_id})
+	</insert>
+	
+	<update id="updatePostHashtag">
+		update post_hashtag set name = #{name} where id = #{id}
+	</update>
+	
+	<delete id="deletePostHashtag">
+		delete from post_hashtag where id = #{id}
+	</delete>
+	
+	<!-- Post Comments CRUD -->
+	
+	<select id="getPostComments" resultType="postComments">
+		select pc.*, u.username as writer_name 
+		from posts p, post_comments pc, users u 
+		where p.id = #{post_id} AND u.id = #{writer_id}
+	</select>
+	
+	<insert id="addPostComments">
+		insert into post_comments 
+		(created_at, updated_at, content, post_id, writer_id)
+		values 
+		(now(), now(), #{content}, #{post_id}, #{writer_id)
+	</insert>
+	
+	<update id="updatePostComments">
+		update post_comments set 
+		updated_at = now(),
+		content = #{content}
+		where id = #{id}
+	</update>
+	
+	<delete id="deletePostComments">
+		delete from post_comments where id = #{id}
+	</delete>
+	
+	
+	
 </mapper>

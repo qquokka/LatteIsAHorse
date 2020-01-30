@@ -17,8 +17,8 @@ public class User extends DateAudit {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank
-	@Size(max = 40)
+//	@NotBlank
+//	@Size(min = 2, max = 40)
 	private String name;
 
 	@NotBlank
@@ -34,7 +34,12 @@ public class User extends DateAudit {
 	@NotBlank
 	@Size(max = 100)
 	private String password;
-
+	
+	@Size(max = 200)
+	private String phone;
+	
+	
+	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();

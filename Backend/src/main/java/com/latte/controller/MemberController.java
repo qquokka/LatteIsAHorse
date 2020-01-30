@@ -1,104 +1,102 @@
-package com.latte.controller;
-
-import java.util.Date;
-
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.latte.dto.Member;
-import com.latte.service.IMemberService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
-@RestController
-@RequestMapping(value = "/v1")
-public class MemberController {
-	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
-
-	@Autowired
-	private IMemberService memberservice;
-
-	@ApiOperation(value = "DB에 저장된 모든 회원 정보를 반환한다.", response = List.class)
-	@RequestMapping(value = "/members", method = RequestMethod.GET)
-	public ResponseEntity<List<Member>> getAllMemberList() throws Exception {
-		logger.info("MemberController / getAllMemberList --------------------" + new Date());
-		List<Member> members = memberservice.getAllMemberList();
-
-		if (members.isEmpty() || members == null) {
-			return new ResponseEntity<List<Member>>(HttpStatus.NO_CONTENT);
-		}
-		
-		return new ResponseEntity<List<Member>>(members, HttpStatus.OK);
-	}
-
-	/*
-	 * // ID(Email)에 해당되는 회원정보 반환
-	 * 
-	 * @ApiOperation(value = "DB에 저장된 모든 회원 정보를 반환한다.", response = List.class)
-	 * 
-	 * @RequestMapping(value = "/getMemberById", method = RequestMethod.GET) Member
-	 * getMemberById(String email);
-	 * 
-	 * // 모든 회원수 반환
-	 * 
-	 * @ApiOperation(value = "DB에 저장된 모든 회원 정보를 반환한다.", response = List.class)
-	 * 
-	 * @RequestMapping(value = "/getAllMemberList", method = RequestMethod.GET) int
-	 * getTotalMemberCounts();
-	 * 
-	 * // 회원가입
-	 * 
-	 * @ApiOperation(value = "DB에 저장된 모든 회원 정보를 반환한다.", response = List.class)
-	 * 
-	 * @RequestMapping(value = "/getAllMemberList", method = RequestMethod.GET) int
-	 * singUpMember(Member member);
-	 * 
-	 * // 회원정보 수정
-	 * 
-	 * @ApiOperation(value = "DB에 저장된 모든 회원 정보를 반환한다.", response = List.class)
-	 * 
-	 * @RequestMapping(value = "/getAllMemberList", method = RequestMethod.GET) int
-	 * updateMemberInfo(Member member);
-	 * 
-	 * // 회원정보 삭제(mem_active 변경하기), DB에서 정보 삭제 하지 않음
-	 * 
-	 * @ApiOperation(value = "DB에 저장된 모든 회원 정보를 반환한다.", response = List.class)
-	 * 
-	 * @RequestMapping(value = "/getAllMemberList", method = RequestMethod.GET) int
-	 * deleteMember(String email);
-	 * 
-	 * // 아이디가 존재하는지 체크
-	 * 
-	 * @ApiOperation(value = "DB에 저장된 모든 회원 정보를 반환한다.", response = List.class)
-	 * 
-	 * @RequestMapping(value = "/getAllMemberList", method = RequestMethod.GET) int
-	 * isValidEmail(String email);
-	 * 
-	 * // 유효한 비밀번호인지 체크
-	 * 
-	 * @ApiOperation(value = "DB에 저장된 모든 회원 정보를 반환한다.", response = List.class)
-	 * 
-	 * @RequestMapping(value = "/getAllMemberList", method = RequestMethod.GET) int
-	 * isValidPassword(String pwd);
-	 */
-
+//package com.latte.controller;
+//
+//import java.util.Date;
+//
+//import java.util.List;
+//
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.context.ApplicationContext;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.stereotype.Controller;
+//import org.springframework.web.bind.annotation.CrossOrigin;
+//
+//import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RequestMethod;
+//import org.springframework.web.bind.annotation.RestController;
+//
+//import com.latte.dto.Member;
+//import com.latte.service.IMemberService;
+//
+//import io.swagger.annotations.Api;
+//import io.swagger.annotations.ApiOperation;
+//
+//@RestController
+//@RequestMapping(value = "/v1")
+//public class MemberController {
+//	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+//
+//	@Autowired
+//	private IMemberService memberservice;
+//
+//	@ApiOperation(value = "DB에 저장된 모든 회원 정보를 반환한다.", response = List.class)
+//	@RequestMapping(value = "/members", method = RequestMethod.GET)
+//	public ResponseEntity<List<Member>> getAllMemberList() throws Exception {
+//		logger.info("MemberController / getAllMemberList --------------------" + new Date());
+//		List<Member> members = memberservice.getAllMemberList();
+//
+//		if (members.isEmpty() || members == null) {
+//			return new ResponseEntity<List<Member>>(HttpStatus.NO_CONTENT);
+//		}
+//
+//		return new ResponseEntity<List<Member>>(members, HttpStatus.OK);
+//	}
+//
+//	// ID(Email)에 해당되는 회원정보 반환
+//
+//	@ApiOperation(value = "DB에 저장된 모든 회원 정보를 반환한다.", response = List.class)
+//
+//	@RequestMapping(value = "/getMemberById", method = RequestMethod.GET)
+//	Member getMemberById(String email);
+//
+//	// 모든 회원수 반환
+//
+//	@ApiOperation(value = "DB에 저장된 모든 회원 정보를 반환한다.", response = List.class)
+//
+//	@RequestMapping(value = "/getAllMemberList", method = RequestMethod.GET)
+//	int getTotalMemberCounts();
+//
+//	// 회원가입
+//
+//	@ApiOperation(value = "DB에 저장된 모든 회원 정보를 반환한다.", response = List.class)
+//
+//	@RequestMapping(value = "/getAllMemberList", method = RequestMethod.GET)
+//	int singUpMember(Member member);
+//
+//	// 회원정보 수정
+//
+//	@ApiOperation(value = "DB에 저장된 모든 회원 정보를 반환한다.", response = List.class)
+//
+//	@RequestMapping(value = "/getAllMemberList", method = RequestMethod.GET)
+//	int updateMemberInfo(Member member);
+//
+//	// 회원정보 삭제(mem_active 변경하기), DB에서 정보 삭제 하지 않음
+//
+//	@ApiOperation(value = "DB에 저장된 모든 회원 정보를 반환한다.", response = List.class)
+//
+//	@RequestMapping(value = "/getAllMemberList", method = RequestMethod.GET)
+//	int deleteMember(String email);
+//
+//	// 아이디가 존재하는지 체크
+//
+//	@ApiOperation(value = "DB에 저장된 모든 회원 정보를 반환한다.", response = List.class)
+//
+//	@RequestMapping(value = "/getAllMemberList", method = RequestMethod.GET)
+//	int isValidEmail(String email);
+//
+//	// 유효한 비밀번호인지 체크
+//
+//	@ApiOperation(value = "DB에 저장된 모든 회원 정보를 반환한다.", response = List.class)
+//
+//	@RequestMapping(value = "/getAllMemberList", method = RequestMethod.GET)
+//	int isValidPassword(String pwd);
+//
 //	@ApiOperation(value = "beans test", response = List.class)
 //	@RequestMapping(value = "/beans", method = RequestMethod.GET)
-//	public ResponseEntity<String[]> getBeans() throws Exception{
-//		String[] beans = applicationContext.getBeanDefinitionNames(); 
+//	public ResponseEntity<String[]> getBeans() throws Exception {
+//		String[] beans = applicationContext.getBeanDefinitionNames();
 //		return new ResponseEntity<String[]>(beans, HttpStatus.OK);
 //	}
 //
@@ -320,4 +318,4 @@ public class MemberController {
 //		}
 //		return new ResponseEntity<BoolResult>(nr, HttpStatus.OK);
 //	}
-}
+//}
