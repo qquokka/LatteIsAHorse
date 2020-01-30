@@ -1,16 +1,15 @@
 <template>
   <div id="app">
-      
-      <login-form   @login-event="login"/>
-      <!-- <div v-if="!isAuthentic
-      ated">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/login">Login</router-link>
-      </div> -->
-      <!-- <div v-else>
-        <router-link to="/">Home</router-link> |
-        <a href="#" @click.prevent="logout">Logout</a>
-      </div> -->
+    <modal @login="login"/>
+    <!-- <div v-if="!isAuthentic
+    ated">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/login">Login</router-link>
+    </div> -->
+    <!-- <div v-else>
+      <router-link to="/">Home</router-link> |
+      <a href="#" @click.prevent="logout">Logout</a>
+    </div> -->
     <!-- </div> -->
     <router-view />
   </div>
@@ -18,12 +17,14 @@
 <script>
 import axios from 'axios'
 import router from './router'
-import LoginForm from '@/components/LoginForm.vue'
+// import LoginForm from '@/components/LoginForm.vue'
+import Modal from '@/components/Modal.vue'
 
 export default {
   name: 'App',
   components: {
-    LoginForm,
+    // LoginForm,
+    Modal
   },
   data() {
     return {
@@ -47,8 +48,10 @@ export default {
             this.$session.set('jwt', token)
             this.$store.dispatch('login', token)
             router.push('/')
-          })
-    },
+          }).catch(error =>
+            console.log(error)
+          )
+    }
   },
   updated() {
     this.isAuthenticated = this.$session.has('jwt')

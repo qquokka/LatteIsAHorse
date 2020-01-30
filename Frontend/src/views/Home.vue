@@ -1,18 +1,21 @@
 <template>
-  <div class="container">
+  <div class="container-fluid p-0">
     <nav-bar style="position:fixed;left:0;width:100%" />
+    <h2 class="brand" style="margin-top: 8rem;">믿고 한번 가봐...</h2>
     <h1 id="slogan"></h1>
+
     <video id="background"  width="100%" muted loop>
       <source src="../assets/indexmovie.webm" type="video/webm" >
     </video>
-    <search-bar @search-event="searchNow" class="mx-auto my-5 pb-5"/>
-
-    <div id="main-raise" class="container shadow">
-      <h2>Recommendation List</h2>
+    <search-bar @search-event="searchNow" class="mx-auto"/>
+    <hash-tags class="position-relative mb-5 pb-5" />
+    <div id="main-raise" class="shadow">
+      <h2 class="article-header">당신에게 꼭 맞는 오늘의 카페</h2>
       <recom-list/>
-      <h2>Editor's Pick List</h2>
+      <h2 class="article-header">EDITOR's PICK</h2>
       <editor-pick-list/>
     </div>
+    <Footer />
   </div>
 </template>
 
@@ -23,6 +26,8 @@
   import NavBar from '@/components/NavBar.vue'
   import RecomList from '@/components/RecomList.vue'
   import EditorPickList from '@/components/EditorPickList.vue'
+  import HashTags from '@/components/HashTags.vue'
+  import Footer from '@/views/section/Footer.vue'
 
   export default {
     name: 'home',
@@ -30,14 +35,16 @@
 			SearchBar,
       RecomList,
       EditorPickList,
-      NavBar
+      NavBar,
+      HashTags,
+      Footer
     },
     data() {
       return {
         answers: [],
         username: '',
         i: 0,
-        slogan: '커피가 맛있으면 뭐해 손님이 없는걸...'
+        slogan: '이게 다 너 잘먹으라고 하는 소리야.'
       }
     },
     computed: {
@@ -99,17 +106,27 @@
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Noto+Serif+KR:600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:900&display=swap');
 body {
   height: fit-content;
 }
+
 #slogan {
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Noto Sans KR', sans-serif;
   position: relative;
   z-index: 5;
   color: whitesmoke;
-  padding-top: 8rem;
-  text-shadow: 2px 2px 3px violet;
+  text-shadow: 2px 2px 1px #3f3f3f;
+  user-select: none;
+}
+
+.brand {
+  font-family: 'Noto Sans KR', sans-serif;
+  position: relative;
+  z-index: 5;
+  color: whitesmoke;
+  text-shadow: 2px 2px 1px #3f3f3f;
+  user-select: none;
 }
 #app {
   background: whitesmoke;
@@ -121,13 +138,24 @@ body {
 }
 #main-raise {
   position: relative;
-  background: white;
+  border: 1px solid white;
+
+  margin: 0 auto;
+  background: rgba(255,255,255,0.95);
   border-radius: 15px 15px;
-  height: 2000px;
+  width: 85%;
+  min-width: 450px;
   padding: 2rem;
 }
 .list-container {
-  background-color: rgba(255, 255, 255, 0.74);
+  background-color: rgba(255, 255, 255, 0.95);
+}
+.article-header {
+  color: #3f3f3f;
+  text-align: left;
+  border-left: 15px solid pink;
+  padding-left: 2rem;
+  margin-top: 2rem;
 }
 #background {
     position: absolute !important;

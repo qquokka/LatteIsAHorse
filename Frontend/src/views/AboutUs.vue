@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
+  <div id="aboutus" :style="{'background-image': `url(${require('../assets/img/tower.jpg')})`}">
     <nav-bar style="position:fixed;left:0;width:100%;" />
-		<h1 class="display-1 mt-5">라떼는 말이야는</h1>
+		<h1 class="display-1 mt-5 text-white">저희는</h1>
 
   </div>
 </template>
@@ -11,7 +11,7 @@
   import NavBar from '@/components/NavBar.vue'
 
   export default {
-    name: 'home',
+    name: 'about',
     components: {
       NavBar
     },
@@ -33,5 +33,13 @@
 </script>
 
 <style>
-
+#aboutus {
+  position: absolute;
+  background-size: cover;
+  width: 100vw;
+  height: 5000px;
+}
+nav {
+  background: transparent;
+}
 </style>

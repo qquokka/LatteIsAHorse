@@ -70,7 +70,9 @@ export default {
     data() {
         return {
             markers: [
-                
+                    {
+                        markerPosition: (33.450701, 126.570667)
+                    }
                 ]
         }
         
