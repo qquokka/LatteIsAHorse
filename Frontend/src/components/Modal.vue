@@ -2,6 +2,12 @@
   <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong>{{ error.message }}</strong>다른 {{ error.type }}을 사용해주세요
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <div class="modal-header">
           <h4 class="modal-title" id="staticBackdropLabel">
             <strong v-if="showLogin">LOGIN</strong>
@@ -13,7 +19,7 @@
         </div>
         <div class="modal-body">
           <login-form v-if="showLogin" @login="login">
-            <span style="color: #88D8B0 !important;cursor:pointer" @click="switchModal">회원가입</span>
+            <span style="color: #88D8B0 !important;cursor:pointer" @click="switchModal" @error="error">회원가입</span>
           </login-form>
           <signup-form v-else>
             <span style="color: #88D8B0 !important;cursor:pointer" @click="switchModal">로그인</span>
@@ -36,11 +42,12 @@
       data() {
           return {
             showLogin: true,
+            error: {}
           }
       },
       methods: {
-          login() {
-            this.$emit('login', this.credentials)
+          login(credentials) {
+            this.$emit('login', credentials)
           },
           switchModal() {
             this.showLogin = !this.showLogin
@@ -48,6 +55,9 @@
           },
           initShowLogin() {
             this.showLogin = true
+          },
+          error(error) {
+            this.error = error
           }
       },
   }

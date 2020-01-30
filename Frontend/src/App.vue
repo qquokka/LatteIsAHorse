@@ -39,7 +39,7 @@ export default {
     },
     login(credentials) {
       console.log(credentials)
-      axios.post('http://192.168.41.111:8197/latte', credentials)
+      axios.post(`${this.$store.state.constants.SERVER}/signin`, credentials)
         .then(response => {
             console.log('로그인성공')
             console.log(response.data.token)

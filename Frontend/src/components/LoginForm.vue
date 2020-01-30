@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="login" class="p-3">
     <div class="form-group">
-      <input type="email" class="form-control" id="inputId" placeholder="ID (your_id@example.com)" v-model="credentials.username">
+      <input type="email" class="form-control" id="inputId" placeholder="ID (your_id@example.com)" v-model="credentials.usernameOrEmail">
     </div>
     <div class="form-group">
       <input type="password" class="form-control" id="inputPW" placeholder="PASSWORD" v-model="credentials.password">
