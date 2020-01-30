@@ -73,15 +73,15 @@ export default {
               // console.log('회원가입 성공')
               // console.log(response)
               // console.log(response.data.success)
-              // console.log(response.data.message)
+              console.log(response.data.message)
               document.querySelector('#modalCloseButton').click()
               // 로그인 시켜주기
             })
           .catch(error => {
-            console.log(error.response)
-            console.log('메세지', error.response.data.message)
+            // console.log(error.response)
+            // console.log('메세지', error.response.data.message)
             if (!error.response.data.success){
-              console.log('에러메세지 저장')
+              // console.log('에러메세지 저장')
               this.fail.occured = true
               if (error.response.data.message[0] === 'E') {  // Email Address already in use!
                 this.fail.type = '이메일'
@@ -90,7 +90,7 @@ export default {
                 this.fail.type = '닉네임'
                 this.fail.content = '이미 사용중인 닉네임입니다'
               }
-              console.log(this.fail)
+              // console.log(this.fail)
               this.$emit('fail-event', this.fail)
             }
           })

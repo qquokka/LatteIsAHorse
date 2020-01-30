@@ -48,6 +48,7 @@ export default {
             this.$session.set('jwt', token)
             this.$store.dispatch('login', token)
             router.push('/')
+            document.querySelector('#modalCloseButton').click()
           }).catch(error =>
             console.log(error.response)
           )
