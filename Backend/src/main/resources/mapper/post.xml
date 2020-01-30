@@ -3,29 +3,37 @@
 <mapper namespace="mapper.post">
 
 	<select id="getPostList" resultType="com.latte.model.post.Post">
-		select p.id, p.created_at,
-		p.updated_at, p.like_count, p.thumbnail,
-		p.title, p.content, u.username as writer_name 
-		from posts p, users u
-		where p.writer_id = u.id
+		SELECT 
+		P.ID, P.CREATED_AT, P.UPDATED_AT, P.LIKE_COUNT, P.THUMBNAIL, P.TITLE, P.CONTENT, 
+		U.USERNAME AS WRITER_NAME 
+		FROM POSTS P, USERS U
+		WHERE P.WRITER_ID = U.ID ORDER BY UPDATED_AT DESC
 	</select>
 
 	<insert id="addPost" parameterType="com.latte.payload.PostAddRequest">
-		INSERT INTO POSTS (TITLE, CONTENT, THUMBNAIL, CREATED_AT, UPDATED_AT, WRITER_ID)
-		VALUES(#{title}, #{content}, #{thumbnail}, NOW(), NOW(), #{writer_id})
+		INSERT INTO POSTS 
+		(TITLE, CONTENT, THUMBNAIL, CREATED_AT, UPDATED_AT, WRITER_ID)
+		VALUES
+		(#{title}, #{content}, #{thumbnail}, NOW(), NOW(), #{writer_id})
 	</insert>
 	<!-- <select id="getPostByPostId" parameterType="java.lang.Integer" resultType="com.latte.dto.PostDto"> 
 		</select> -->
 	
 	
 	<select id="getPostById" resultType="post">
-		select p.*, u.username as writer_name 
-		from posts p, users u where p.id = #{id} and p.writer_id = u.id
+		SELECT P.*, U.USERNAME AS WRITER_NAME 
+		FROM POSTS P, USERS U 
+		WHERE P.ID = #{id} AND P.WRITER_ID = U.ID
 	</select>
 	
 	<select id="getPostByTitle" resultType="post">
-	select p.*, u.username as writer_name 
-		from posts p, users u where p.title like "%"#{title}"%" and p.writer_id = u.id
+		SELECT P.*, U.USERNAME AS WRITER_NAME 
+		FROM POSTS P, USERS U 
+		WHERE P.TITLE LIKE "%"#{title}"%" AND P.WRITER_ID = U.ID
+	</select>
+	
+	<select id="getPostListByCafeId" resultType="post">
+		SELECT * FROM POSTS P, CAFE C WHERE P.CAFE_ID = C.ID
 	</select>
 	
 	
@@ -35,64 +43,68 @@
 	</select>
 	
 	<update id="updatePostById">
-		update posts set 
-		title = #{title},
-		content = #{content},
-		thumbnail = #{thumbnail},
-		UPDATED_AT = now() 
-		where id = #{id}
+		UPDATE POSTS SET 
+		TITLE = #{title},
+		CONTENT = #{content},
+		THUMBNAIL = #{thumbnail},
+		UPDATED_AT = NOW() 
+		WHERE ID = #{id}
 	</update>
 	
 	<delete id="deletePostById">
-		delete from posts where id = #{id}
+		DELETE FROM POSTS WHERE ID = #{id}
 	</delete>
 	
 	<!-- Post Hashtag related queries -->
 	<select id="getPostHashTags" resultType="posthashtag">
-		select name from posts p, post_hashtag ph where p.id = ph.post_id
+		SELECT NAME FROM POSTS P, POST_HASHTAG PH 
+		WHERE P.ID = PH.POST_ID
 	</select>
 	
 	<select id="getAllHashTags" resultType="posthashtag">
-		select distinct name from post_hashtag 
+		SELECT DISTINCT NAME FROM POST_HASHTAG 
 	</select>
 	
 	<insert id="addPostHashtag">
-		insert into post_hashtag (name, post_id)
-		values (#{name}, #{post_id})
+		INSERT INTO POST_HASHTAG 
+		(NAME, POST_ID)
+		VALUES 
+		(#{name}, #{post_id})
 	</insert>
 	
 	<update id="updatePostHashtag">
-		update post_hashtag set name = #{name} where id = #{id}
+		UPDATE POST_HASHTAG SET NAME = #{name} WHERE ID = #{id}
 	</update>
 	
 	<delete id="deletePostHashtag">
-		delete from post_hashtag where id = #{id}
+		DELETE FROM POST_HASHTAG WHERE ID = #{id}
 	</delete>
 	
 	<!-- Post Comments CRUD -->
 	
 	<select id="getPostComments" resultType="postComments">
-		select pc.*, u.username as writer_name 
-		from posts p, post_comments pc, users u 
-		where p.id = #{post_id} AND u.id = #{writer_id}
+		SELECT PC.*, U.USERNAME AS WRITER_NAME 
+		FROM POSTS P, POST_COMMENTS PC, USERS U 
+		WHERE 
+		P.ID = #{post_id} AND U.ID = #{writer_id}
 	</select>
 	
 	<insert id="addPostComments">
-		insert into post_comments 
-		(created_at, updated_at, content, post_id, writer_id)
-		values 
-		(now(), now(), #{content}, #{post_id}, #{writer_id)
+		INSERT INTO POST_COMMENTS 
+		(CREATED_AT, UPDATED_AT, CONTENT, POST_ID, WRITER_ID)
+		VALUES 
+		(NOW(), NOW(), #{content}, #{post_id}, #{writer_id)
 	</insert>
 	
 	<update id="updatePostComments">
-		update post_comments set 
-		updated_at = now(),
-		content = #{content}
-		where id = #{id}
+		UPDATE POST_COMMENTS SET 
+		UPDATED_AT = NOW(),
+		CONTENT = #{content}
+		WHERE ID = #{id}
 	</update>
 	
 	<delete id="deletePostComments">
-		delete from post_comments where id = #{id}
+		DELETE FROM POST_COMMENTS WHERE ID = #{id}
 	</delete>
 	
 	

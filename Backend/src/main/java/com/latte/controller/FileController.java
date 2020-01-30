@@ -37,12 +37,7 @@ public class FileController {
 	@Autowired
 	private FileUploadDownloadService fileService;
 
-//	@GetMapping("/file")
-//	public String fileControllerMain() {
-//		return "this is file controller";
-//	}
-	//Thumbnail
-
+	//Thumbnail Upload
 	@PostMapping("/uploadThumbnail") //파일 저장
 	public FileUploadResponse uploadThumbnail(@RequestParam("file") MultipartFile file) {
 		String fileName = fileService.storeFile(file, "thumbnail"); //파일 저장

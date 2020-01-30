@@ -1,5 +1,6 @@
 <template>
   <div class="container-fluid p-0">
+    
     <nav-bar style="position:fixed;left:0;width:100%" />
     <h2 class="brand" style="margin-top: 8rem;">믿고 한번 가봐...</h2>
     <h1 id="slogan"></h1>
@@ -8,10 +9,13 @@
       <source src="../assets/indexmovie.webm" type="video/webm" >
     </video>
     <search-bar @search-event="searchNow" class="mx-auto"/>
+
     <hash-tags class="position-relative mb-5 pb-5" />
-    <div id="main-raise" class="shadow">
+    <div class="main-raise">
       <h2 class="article-header">당신에게 꼭 맞는 오늘의 카페</h2>
       <recom-list/>
+    </div>
+    <div class="main-raise">
       <h2 class="article-header">EDITOR's PICK</h2>
       <editor-pick-list/>
     </div>
@@ -44,7 +48,8 @@
         answers: [],
         username: '',
         i: 0,
-        slogan: '이게 다 너 잘먹으라고 하는 소리야.'
+        slogan: '이게 다 너 잘먹으라고 하는 소리야.',
+        isAuthenticated: this.$store.state.token !== null,
       }
     },
     computed: {
@@ -55,25 +60,12 @@
     },
     methods: {
       searchNow(query) {
-        const datas = {
-          query: query,
-          user: this.user,
-
-        }
-        axios.post('http://127.0.0.1:8000/api/v1/todos/', datas, this.options)
+        axios.get(`${this.$store.state.constants.SERVER}/search/${query}`)
           .then(response => {
             console.log(response)
-            this.getAnswers()
           })
           .catch(error => {
-            console.log(error)
-          })
-      },
-      getAnswers() {
-        axios.get(`http://127.0.0.1:8000/api/v1/users/${this.user}`, this.options)
-          .then(response => {
-            console.log(response)
-            this.answers = response.data
+            console.log(error.response)
           })
       },
       isLogin() {
@@ -136,16 +128,16 @@ body {
   color: white;
   text-align: left;
 }
-#main-raise {
+.main-raise {
   position: relative;
   border: 1px solid white;
-
-  margin: 0 auto;
+  margin: 0 auto 3rem auto;
   background: rgba(255,255,255,0.95);
   border-radius: 15px 15px;
   width: 85%;
   min-width: 450px;
   padding: 2rem;
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 }
 .list-container {
   background-color: rgba(255, 255, 255, 0.95);

@@ -1,36 +1,28 @@
 <template>
-  <div>
-    <div v-if="error.occured" class="alert alert-warning alert-dismissible fade show" role="alert">
-      <strong>{{ error.message }}</strong>다른 {{ error.type }}을 사용해주세요
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="">
-          <span aria-hidden="true">&times;</span>
-        </button>
+  <form @submit.prevent="signup" class="p-3">
+    <div class="form-group">
+      <p v-show="showText('email')" class="text-left text-danger mb-1"><small>이메일을 'your_id@example.com' 형식으로 입력해주세요</small></p>
+      <input type="email" class="form-control" id="email" placeholder="ID (your_id@example.com)" v-model="email"
+      :style="{ 'background-color': bgColor.email }">
     </div>
-    <form @submit.prevent="signup" class="p-3">
-      <div class="form-group">
-        <p v-show="showText('email')" class="text-left text-danger mb-1"><small>이메일을 'your_id@example.com' 형식으로 입력해주세요</small></p>
-        <input type="email" class="form-control" id="email" placeholder="ID (your_id@example.com)" v-model="email"
-        :style="{ 'background-color': bgColor.email }">
-      </div>
-      <div class="form-group">
-        <p v-show="showText('nickname')" class="text-left text-danger mb-1"><small>닉네임을 3 ~ 15자로 입력해주세요</small></p>
-        <input type="text" class="form-control" id="nickname" placeholder="닉네임(3~15자리)을 입력해주세요" v-model="nickname"
-        :style="{ 'background-color': bgColor.nickname }">
-      </div>
-      <div class="form-group">
-        <p v-show="showText('password')" class="text-left text-danger mb-1"><small>비밀번호를 6 ~ 20자로 입력해주세요</small></p>
-        <input type="password" class="form-control" id="password" placeholder="비밀번호" v-model="pw.password"
-        :style="{ 'background-color': bgColor.password }">
-      </div>
-      <div class="form-group">
-        <p v-show="showText('passwordCheck')" class="text-left text-danger mb-1"><small>위에 입력한 비밀번호와 동일하게 입력해주세요</small></p>
-        <input type="password" class="form-control" id="passwordCheck" placeholder="비밀번호를 확인" v-model="pw.passwordCheck"
-        :style="{ 'background-color': bgColor.passwordCheck }">
-      </div>
-      <b><small>저희 회원이신가요? <slot></slot></small></b>
-      <button id="signupButton" type="submit" class="btn btn-block btn-outline-warning font-weight-bolder" disabled>회원가입</button>
-    </form>
-  </div>
+    <div class="form-group">
+      <p v-show="showText('nickname')" class="text-left text-danger mb-1"><small>닉네임을 3 ~ 15자로 입력해주세요</small></p>
+      <input type="text" class="form-control" id="nickname" placeholder="닉네임(3~15자리)을 입력해주세요" v-model="nickname"
+      :style="{ 'background-color': bgColor.nickname }">
+    </div>
+    <div class="form-group">
+      <p v-show="showText('password')" class="text-left text-danger mb-1"><small>비밀번호를 6 ~ 20자로 입력해주세요</small></p>
+      <input type="password" class="form-control" id="password" placeholder="비밀번호" v-model="pw.password"
+      :style="{ 'background-color': bgColor.password }">
+    </div>
+    <div class="form-group">
+      <p v-show="showText('passwordCheck')" class="text-left text-danger mb-1"><small>위에 입력한 비밀번호와 동일하게 입력해주세요</small></p>
+      <input type="password" class="form-control" id="passwordCheck" placeholder="비밀번호를 확인" v-model="pw.passwordCheck"
+      :style="{ 'background-color': bgColor.passwordCheck }">
+    </div>
+    <b><small>저희 회원이신가요? <slot></slot></small></b>
+    <button id="signupButton" type="submit" class="btn btn-block btn-outline-warning font-weight-bolder" disabled>회원가입</button>
+  </form>
 </template>
 <script>
 import axios from 'axios'
@@ -59,18 +51,18 @@ export default {
         passwordCheck: '',
         nickname: ''
       },
-      error: {
-        occured: false,
-        type: '',
-        message: ''
+      fail: {
+        occured: false
       },
       warningColor: 'rgba(255, 0, 0, 0.100) !important'
     }
   },
   methods: {
     signup() {
+      this.fail = {}
+      this.$emit('fail-event', {})
       if (this.okay) {
-        console.log('회원가입 가능')
+        // console.log('회원가입 가능')
         const credentials = {
           'email': this.email,
           'password': this.pw.password,
@@ -78,25 +70,38 @@ export default {
         }
         axios.post(`${this.$store.state.constants.SERVER}/signup`, credentials)
           .then(response => {
-              console.log('회원가입 성공')
-              console.log(response)
-              console.log(response.data.success)
               console.log(response.data.message)
-              // 로그인 시켜주기
-            })
-          .catch(error => {
-            console.log('메세지', error.response.data.message)
-            if (!error.response.data.success){
-              if (error.response.data.message[0] === 'E') {  // Email Address already in use!
-                this.error.message = {type:'이메일', content: '이미 가입되어있는 이메일입니다'}
-              } else if (error.response.data.message[0] === 'U') {  // Username is already taken!
-                this.error.message = {type:'닉네임', content: '이미 사용중인 닉네임입니다'}
+              document.querySelector('#modalCloseButton').click()
+              const credentialsLogin = {
+                'usernameOrEmail': this.email,
+                'password': this.pw.password
               }
-              this.error.occured = true
+              fetch(response)
+              .then(axios.post(`${this.$store.state.constants.SERVER}/signin`, credentialsLogin))
+                .then(response => {
+                    const token = response.data.accessToken
+                    this.$session.start()
+                    this.$session.set('jwt', token)
+                    this.$store.dispatch('login', token)
+                })
+          })
+          .catch(error => {
+            // console.log(error.response)
+            // console.log('메세지', error.response.data.message)
+            if (!error.response.data.success){
+              this.pw.password = ''
+              this.pw.passwordCheck = ''
+              // console.log('에러메세지 저장')
+              this.fail.occured = true
+              if (error.response.data.message[0] === 'E') {  // Email Address already in use!
+                this.fail.content = '이미 가입되어있는 이메일입니다! 다른 이메일을 사용해주세요'
+              } else if (error.response.data.message[0] === 'U') {  // Username is already taken!
+                this.fail.content = '이미 사용중인 닉네임입니다! 다른 닉네임을 사용해주세요'
+              }
+              // console.log(this.fail)
+              this.$emit('fail-event', this.fail)
             }
           })
-      } else {
-        console.log('회원가입 실패')
       }
     },
     showText(elem) {

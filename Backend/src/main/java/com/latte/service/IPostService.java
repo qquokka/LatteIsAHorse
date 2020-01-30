@@ -10,13 +10,15 @@ import com.latte.payload.PostRequest;
 
 public interface IPostService {
 	// DB에 저장된 모든 Post를 반환
-	List<Post> getPostList(PostRequest request);
+	List<Post> getPostList();
 
 	// Create
 	int addPost(PostAddRequest post);
 
 	// Read
 	List<Post> getPostByTitle(String title);
+	
+	List<Post> getPostListByCafeId(Integer cafe_id);
 
 	// Read
 	Post getPostById(Long id);

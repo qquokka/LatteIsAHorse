@@ -36,7 +36,7 @@ import io.swagger.annotations.ApiOperation;
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("/v1")
-@Api(value = "LATTE", description = "Post APIs")
+@Api(value = "Post APIs", description = "Post APIs")
 public class PostController {
 	private static final Logger logger = LoggerFactory.getLogger(PostController.class);
 
@@ -47,13 +47,13 @@ public class PostController {
 	private IPostService postservice;
 
 	@ApiOperation(value = "요청에 따른 Post 리스트 반환", response = List.class)
-	@PostMapping("/post")
+	@GetMapping("/post")
 	// @PreAuthorize("hasRole('USER') or hasRole('OWNER') or hasRole('ADMIN')")
 	// //API 사용권한 부여
-	public ResponseEntity<List<Post>> getPostList(@RequestBody PostRequest request) throws Exception {
+	public ResponseEntity<List<Post>> getPostList() throws Exception {
 		logger.info("PostController-------------Post List-------------" + new Date());
 
-		List<Post> posts = postservice.getPostList(request);
+		List<Post> posts = postservice.getPostList();
 
 		if (posts == null || posts.size() == 0) {
 			return new ResponseEntity<List<Post>>(posts, HttpStatus.NO_CONTENT);
@@ -62,7 +62,7 @@ public class PostController {
 	}
 
 	@ApiOperation(value = "post 등록", response = Map.class)
-	@PostMapping("/addPost")
+	@PostMapping("/post")
 //	@PreAuthorize("permitAll")
 	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
 	// //API 사용권한 부여
@@ -167,9 +167,6 @@ public class PostController {
 		response.put("state", "success");
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
-	
-	
-
 	
 	// ---------------------------------------------------
 	// check header from request and parse JWT Token

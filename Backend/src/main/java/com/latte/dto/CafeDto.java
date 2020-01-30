@@ -1,6 +1,9 @@
 package com.latte.dto;
 
-public class CafeDto {
+import java.io.Serializable;
+
+public class CafeDto implements Serializable {
+
 	private int cafe_id;
 	private String cafe_name;
 	private String cafe_address;
@@ -34,6 +37,7 @@ public class CafeDto {
 			double longitude, int like_count, String tag, String mon_open, String mon_close, String tue_open,
 			String tue_close, String wed_open, String wed_close, String thu_open, String thu_close, String fri_open,
 			String fri_close, String sat_open, String sat_close, String sun_open, String sun_close, int closed) {
+
 		super();
 		this.cafe_id = cafe_id;
 		this.cafe_name = cafe_name;
@@ -43,6 +47,7 @@ public class CafeDto {
 		this.longitude = longitude;
 		this.like_count = like_count;
 		this.tag = tag;
+
 		this.mon_open = mon_open;
 		this.mon_close = mon_close;
 		this.tue_open = tue_open;
@@ -58,6 +63,7 @@ public class CafeDto {
 		this.sun_open = sun_open;
 		this.sun_close = sun_close;
 		this.closed = closed;
+
 	}
 
 	@Override
@@ -68,6 +74,7 @@ public class CafeDto {
 				+ tue_open + ", tue_close=" + tue_close + ", wed_open=" + wed_open + ", wed_close=" + wed_close
 				+ ", thu_open=" + thu_open + ", thu_close=" + thu_close + ", fri_open=" + fri_open + ", fri_close="
 				+ fri_close + ", sat_open=" + sat_open + ", sat_close=" + sat_close + ", sun_open=" + sun_open
+				+ like_count + ", tag=" + tag + "]"
 				+ ", sun_close=" + sun_close + ", closed=" + closed + "]";
 	}
 

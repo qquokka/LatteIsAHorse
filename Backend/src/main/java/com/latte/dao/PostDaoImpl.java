@@ -10,7 +10,6 @@ import com.latte.model.post.Post;
 import com.latte.model.post.PostComments;
 import com.latte.model.post.PostHashtag;
 import com.latte.payload.PostAddRequest;
-import com.latte.payload.PostRequest;
 
 @Repository
 public class PostDaoImpl {
@@ -21,8 +20,8 @@ public class PostDaoImpl {
 	private SqlSession sqlSession;
 
 	//---------------- Post 관련 ----------------
-	public List<Post> getPostList(PostRequest request) {
-		return sqlSession.selectList(ns + "getPostList", request);
+	public List<Post> getPostList() {
+		return sqlSession.selectList(ns + "getPostList");
 	}
 
 	public int addPost(PostAddRequest post) {
@@ -31,6 +30,10 @@ public class PostDaoImpl {
 
 	public List<Post> getPostByTitle(String title) {
 		return sqlSession.selectList(ns + "getPostByTitle", title);
+	}
+	
+	public List<Post> getPostListByCafeId(Integer cafe_id) {
+		return sqlSession.selectList(ns + "getPostListByCafeId", cafe_id);
 	}
 
 	public Post getPostById(Long id) {
@@ -87,5 +90,7 @@ public class PostDaoImpl {
 	public int deletePostComments(Long id) {
 		return sqlSession.delete(ns + "deletePostComments", id);
 	}
+
+
 
 }
