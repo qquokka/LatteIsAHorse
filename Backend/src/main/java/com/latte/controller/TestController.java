@@ -14,7 +14,7 @@ import com.latte.property.FileUploadProperties;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/test")
+@RequestMapping("/v1")
 public class TestController {
 	@Autowired
 	FileUploadProperties prop;
