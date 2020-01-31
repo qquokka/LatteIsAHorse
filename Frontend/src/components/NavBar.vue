@@ -1,7 +1,7 @@
 <template>
   
   <nav class="navbar navbar-expand-lg fixed-top" id="topnav">
-  <router-link to="/" ><img src="../assets/img/navlogo2.png"  style="border-radius:3px" width="120"></router-link>
+  <router-link to="/" class="ml-2" ><img src="../assets/img/navlogo2.png"  style="border-radius:3px" width="120px"></router-link>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -88,7 +88,9 @@ destroyed () {
 nav {
   transition: 0.25s ease-in-out;
 }
-
+i {
+  color: inherit !important;
+}
 .nav-link {
   color: white;
   margin:auto;

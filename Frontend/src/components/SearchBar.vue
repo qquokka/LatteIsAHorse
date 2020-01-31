@@ -1,6 +1,6 @@
 <template>
 <form class="search-form input-group mb-3" @submit.prevent="searchNow">
-    <input v-model="query" id="title" type="text" class="form-control" placeholder=" 🔍지역명, 카페 이름 등" aria-describedby="button-addon2">
+    <input v-model="query" id="title" type="text" class="form-control" placeholder=" 지역명, 카페 이름 등🔍" aria-describedby="button-addon2" autofocus autocomplete="">
     <div class="input-group-append">
         <button  class="btn btn-info" type="button" id="button-addon2">검색</button>
     </div>
