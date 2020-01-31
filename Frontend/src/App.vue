@@ -67,6 +67,9 @@ export default {
 }
 </script>
 <style>
+html {
+  font-family: “Roboto”, sans-serif;
+}
 #app {
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;

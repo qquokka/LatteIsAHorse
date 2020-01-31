@@ -1,6 +1,6 @@
 <template>
 <div class="container-fluid p-0">
-    <div class="row p-3 m-0" :style="`height: ${avheight}px;background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);`">
+    <div class="row p-0 m-0" :style="`height: ${avheight}px;background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);`">
         <div class="d-none d-md-flex col-md-1 menucol-1 py-5" style="font-size:1vw">
             <div class="menu-icon">
             <router-link to="/"><i class="fa fa-home fa-4x "></i></router-link>
