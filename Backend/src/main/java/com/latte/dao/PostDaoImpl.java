@@ -91,6 +91,16 @@ public class PostDaoImpl {
 		return sqlSession.delete(ns + "deletePostComments", id);
 	}
 
+	//----------------jw add-----------------------------------------
+	
+	public List<PostComments> getAllPostComments() {
+		return sqlSession.selectList(ns+"getAllPostComments");
+	}
+
+	public List<PostComments> getPostCommentsByPostId(Long post_id) {
+		return sqlSession.selectList(ns+"getPostCommentsByPostId", post_id);
+	}
+
 
 
 }
