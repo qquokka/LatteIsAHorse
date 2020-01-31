@@ -38,7 +38,6 @@ public class User extends DateAudit {
 	@Size(max = 200)
 	private String phone;
 
-	@NotBlank
 	private Boolean active;
 
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -119,5 +118,4 @@ public class User extends DateAudit {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
-
 }
