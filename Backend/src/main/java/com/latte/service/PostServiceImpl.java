@@ -11,7 +11,6 @@ import com.latte.model.post.Post;
 import com.latte.model.post.PostComments;
 import com.latte.model.post.PostHashtag;
 import com.latte.payload.PostAddRequest;
-import com.latte.payload.PostRequest;
 
 @Service
 public class PostServiceImpl implements IPostService {
@@ -119,6 +118,17 @@ public class PostServiceImpl implements IPostService {
 	@Override
 	public int deletePostComments(Long id) {
 		return postDao.deletePostComments(id);
+	}
+
+	//----------------jw add---------------
+	@Override
+	public List<PostComments> getAllPostComments() {
+		return postDao.getAllPostComments();
+	}
+
+	@Override
+	public List<PostComments> getPostCommentsByPostId(Long post_id) {
+		return postDao.getPostCommentsByPostId(post_id);
 	}
 
 

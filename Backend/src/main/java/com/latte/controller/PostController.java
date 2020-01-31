@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.latte.model.post.Post;
 import com.latte.payload.PostAddRequest;
-import com.latte.payload.PostRequest;
 import com.latte.security.JwtTokenProvider;
 import com.latte.service.IPostService;
 

@@ -77,7 +77,7 @@ public class CafeController {
 		CafeDto cafeInfo = cafeservice.getCafeById(cafe_id);
 		List<MenuDto> menuList = menuservice.getMenuListById(cafe_id);
 		List<Post> postList = postservice.getPostListByCafeId(cafe_id);
-		
+//		List<PostComments> postcommentList = postservice.
 		Map<String, Object> response = new HashMap<>();
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}

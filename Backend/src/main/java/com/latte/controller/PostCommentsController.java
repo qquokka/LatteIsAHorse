@@ -44,10 +44,10 @@ public class PostCommentsController {
 
 	@Autowired
 	JwtTokenProvider tokenProvider;
-	
+
 	@Autowired
 	UserRepository userRepository;
-	
+
 	// -------------Post Hashtag APIs----------------------
 	@ApiOperation(value = "해당 post에 등록된 모든 comments 조회", response = List.class)
 	@GetMapping("/comments")
@@ -62,19 +62,17 @@ public class PostCommentsController {
 		return new ResponseEntity<List<PostComments>>(comments, HttpStatus.OK);
 	}
 
-
 	@ApiOperation(value = "post에 comment 등록", response = Map.class)
 	@PostMapping("/comments")
 //	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
-	public ResponseEntity<Map<String, Object>> addPostComments(@RequestBody PostComments comment, HttpServletRequest request) throws Exception {
+	public ResponseEntity<Map<String, Object>> addPostComments(@RequestBody PostComments comment,
+			HttpServletRequest request) throws Exception {
 		logger.info("PostCommentsController-------------Post Comment Add-------------" + new Date());
 
 		Map<String, Object> response = new HashMap<>();
-		
+
 		User user = userRepository.getOne(getLoggedInUserId(request));
-		
-		
-		
+
 		int result = postservice.addPostComments(comment);
 
 		if (result < 1) { // 등록 실패
@@ -85,7 +83,7 @@ public class PostCommentsController {
 		response.put("state", "success");
 		response.put("username", user.getUsername());
 		response.put("user_id", user.getId());
-		
+
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
@@ -133,10 +131,40 @@ public class PostCommentsController {
 		String bearerToken = request.getHeader("Authorization");
 		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
 			String jwt = bearerToken.substring(7, bearerToken.length());
-			if(StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+			if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
 				return tokenProvider.getUserIdFromJWT(jwt);
 			}
 		}
 		return 0L;
 	}
+
+	// --------------------- jw add ----------------------------------------------
+
+	@ApiOperation(value = "DB의 모든 comments 조회", response = List.class)
+	@GetMapping("/comments/all")
+	public ResponseEntity<List<PostComments>> getAllPostComments() throws Exception {
+		logger.info("PostCommentsController-------------Get All Post's Comments List-------------" + new Date());
+
+		List<PostComments> comments = postservice.getAllPostComments();
+
+		if (comments == null || comments.size() == 0) {
+			return new ResponseEntity(null, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<PostComments>>(comments, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "같은 Post_id 에 있는 comments 조회", response = List.class)
+	@GetMapping("/comments/{post_id}")
+	public ResponseEntity<List<PostComments>> getPostCommentsByPostId(@PathVariable("post_id") long post_id)
+			throws Exception {
+		logger.info("PostCommentsController-------------Get Post's Comments By Post_id-------------" + new Date());
+
+		List<PostComments> comments = postservice.getPostCommentsByPostId(post_id);
+
+		if (comments == null || comments.size() == 0) {
+			return new ResponseEntity(null, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<PostComments>>(comments, HttpStatus.OK);
+	}
+
 }
