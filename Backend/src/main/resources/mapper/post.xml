@@ -133,8 +133,9 @@
 
 	<!-- jw add -->
 	<select id="getAllPostComments" resultType="postComments">
-		SELECT * FROM
-		post_comments
+		SELECT PC.*, U.USERNAME
+		AS WRITER_NAME
+		FROM POST_COMMENTS PC, USERS U
 	</select>
 
 </mapper>

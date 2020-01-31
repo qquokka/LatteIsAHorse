@@ -1,13 +1,14 @@
 package com.latte.model.post;
 
 import java.io.Serializable;
+import java.time.Instant;
 
 public class PostComments implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String created_at;
-	private String updated_at;
+	private Instant created_at;
+	private Instant updated_at;
 	private Long id; // bigint(20) NOT NULL AUTO_INCREMENT,
 	private Long post_id; // bigint(20) not null, -- 댓글이 달린 게시물 id
 	private Long writer_id; // bigint(20) not null, -- 댓글이 작성자의 id
@@ -18,7 +19,7 @@ public class PostComments implements Serializable {
 		super();
 	}
 
-	public PostComments(String created_at, String updated_at, Long id, Long post_id, Long writer_id, String content,
+	public PostComments(Instant created_at, Instant updated_at, Long id, Long post_id, Long writer_id, String content,
 			String writer_name) {
 		super();
 		this.created_at = created_at;
@@ -47,19 +48,19 @@ public class PostComments implements Serializable {
 		this.writer_name = writer_name;
 	}
 
-	public String getCreated_at() {
+	public Instant getCreated_at() {
 		return created_at;
 	}
 
-	public void setCreated_at(String created_at) {
+	public void setCreated_at(Instant created_at) {
 		this.created_at = created_at;
 	}
 
-	public String getUpdated_at() {
+	public Instant getUpdated_at() {
 		return updated_at;
 	}
 
-	public void setUpdated_at(String updated_at) {
+	public void setUpdated_at(Instant updated_at) {
 		this.updated_at = updated_at;
 	}
 
