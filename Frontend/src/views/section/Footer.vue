@@ -1,6 +1,6 @@
 <template>
 <div id="footer" class="container-fluid ">
-    <div class="row align-items-center">
+    <div class="row align-items-center m-0">
         <div class="d-none d-md-flex col-md-5 justify-content-center">
             <p class="footer-brand">LATTE<span style="color:violet;">=</span>HORSE</p><small class="text-white my-auto ml-2">커피와 사람을 잇는 새로운 시대의 플랫폼, 라떼는 말이야</small>
         </div>
@@ -9,7 +9,7 @@
                 <router-link to="#" class="footer-right">이용 약관</router-link>
                 <router-link to="#" class="footer-right">개인 정보 취급 방침</router-link>
                 <router-link to="#" class="footer-right">가맹 문의</router-link>
-                <router-link to="about" class="p-3 text-muted">© 2020 Team HBH</router-link>
+                <router-link to="about" class="p-3 text-white-50">© 2020 Team HBH</router-link>
             </div>
         </div>
     </div>
@@ -25,7 +25,8 @@ export default {
 <style>
 #footer {
     background: slateblue;
-    height: fit-content;
+    height: 64px;
+    margin:0;
     align-items: center
 }
 .footer-brand {
@@ -40,7 +41,7 @@ export default {
     font-size: 1rem;
     color: whitesmoke;
     text-align: left;
-    padding: 1rem ;
+    padding: 1rem;
     text-decoration: none !important;
 }
 </style>

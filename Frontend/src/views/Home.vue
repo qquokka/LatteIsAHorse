@@ -8,7 +8,7 @@
     <video id="background"  width="100%" muted loop>
       <source src="../assets/indexmovie.webm" type="video/webm" >
     </video>
-    <search-bar @search-event="searchNow" class="mx-auto"/>
+    <search-bar @search-event="searchNow" class="mx-auto"  />
 
     <hash-tags class="position-relative mb-5 pb-5" />
     <div class="main-raise">

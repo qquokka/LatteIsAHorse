@@ -76,13 +76,13 @@ export default {
                 'usernameOrEmail': this.email,
                 'password': this.pw.password
               }
-              fetch(response)
-              .then(axios.post(`${this.$store.state.constants.SERVER}/signin`, credentialsLogin))
+              axios.post(`${this.$store.state.constants.SERVER}/signin`, credentialsLogin)
                 .then(response => {
                     const token = response.data.accessToken
                     this.$session.start()
                     this.$session.set('jwt', token)
                     this.$store.dispatch('login', token)
+                    this.$store.commit('setToken', token)
                 })
           })
           .catch(error => {
