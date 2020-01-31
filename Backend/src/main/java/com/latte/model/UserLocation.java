@@ -5,7 +5,8 @@ import java.io.Serializable;
 public class UserLocation implements Serializable {
 	private Double longitude;
 	private Double latitude;
-	private Integer ratio;
+	private Integer level;
+	private double meter;
 
 	public UserLocation() {
 		super();
@@ -17,11 +18,11 @@ public class UserLocation implements Serializable {
 		this.latitude = latitude;
 	}
 
-	public UserLocation(Double longitude, Double latitude, Integer ratio) {
+	public UserLocation(Double longitude, Double latitude, Integer level) {
 		super();
 		this.longitude = longitude;
 		this.latitude = latitude;
-		this.ratio = ratio;
+		this.level = level;
 	}
 
 	public Double getLongitude() {
@@ -40,12 +41,20 @@ public class UserLocation implements Serializable {
 		this.latitude = latitude;
 	}
 
-	public Integer getRatio() {
-		return ratio;
+	public Integer getLevel() {
+		return level;
 	}
 
-	public void setRatio(Integer ratio) {
-		this.ratio = ratio;
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+
+	public double getMeter() {
+		return meter;
+	}
+
+	public void setMeter(double meter) {
+		this.meter = meter;
 	}
 
 }

@@ -34,12 +34,13 @@ public class User extends DateAudit {
 	@NotBlank
 	@Size(max = 100)
 	private String password;
-	
+
 	@Size(max = 200)
 	private String phone;
-	
-	
-	
+
+	@NotBlank
+	private Boolean active;
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
@@ -102,4 +103,21 @@ public class User extends DateAudit {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
 }
