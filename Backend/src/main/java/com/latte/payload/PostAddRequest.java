@@ -7,6 +7,7 @@ public class PostAddRequest implements Serializable {
 	private String thumbnail;
 	private String content;
 	private Long writer_id;
+	private Integer cafe_id;
 
 	public PostAddRequest() {
 		super();
@@ -58,6 +59,14 @@ public class PostAddRequest implements Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public Integer getCafe_id() {
+		return cafe_id;
+	}
+
+	public void setCafe_id(Integer cafe_id) {
+		this.cafe_id = cafe_id;
 	}
 
 }
