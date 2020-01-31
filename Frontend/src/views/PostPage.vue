@@ -4,7 +4,7 @@
     <nav-bar style="position:fixed;left:0;width:100%;" />
     <hash-tags class="position-relative mt-5 py-5" />
     <router-link v-if="isAuthenticated" to="posts/create/" class="position-relative"><button class="btn-danger btn">글쓰기</button></router-link>
-    <post-list />
+    <post-list/>
   </div>
 </template>
 
