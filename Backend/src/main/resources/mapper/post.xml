@@ -101,13 +101,13 @@
 
 	<!-- Post Comments CRUD -->
 
-	<select id="getPostComments" resultType="postComments">
+	<select id="getPostCommentsByPostId" resultType="postComments">
 		SELECT PC.*, U.USERNAME
 		AS WRITER_NAME
 		FROM POSTS P, POST_COMMENTS PC, USERS U
 		WHERE
 		P.ID =
-		#{post_id} AND U.ID = #{writer_id}
+		#{post_id}
 	</select>
 
 	<insert id="addPostComments">
@@ -131,17 +131,9 @@
 		DELETE FROM POST_COMMENTS WHERE ID = #{id}
 	</delete>
 
-	<!-- jw add  -->
+	<!-- jw add -->
 	<select id="getAllPostComments" resultType="postComments">
-		SELECT * FROM
-		post_comments
-	</select>
-
-	<select id="getPostCommentsByPostId"
-		parameterType="java.lang.Long" resultType="postComments">
-		SELECT * FROM post_comments
-		WHERE post_id = #{post_id}
-
+		SELECT PC.* , U.username AS WRITER_NAME FROM POST_COMMENTS PC JOIN USERS U ON U.id=PC.writer_id
 	</select>
 
 </mapper>

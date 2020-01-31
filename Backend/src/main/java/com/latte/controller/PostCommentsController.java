@@ -50,11 +50,11 @@ public class PostCommentsController {
 
 	// -------------Post Hashtag APIs----------------------
 	@ApiOperation(value = "해당 post에 등록된 모든 comments 조회", response = List.class)
-	@GetMapping("/comments")
-	public ResponseEntity<List<PostComments>> getPostComments(@RequestBody PostComments comment) throws Exception {
+	@GetMapping("/comments/{post_id}")
+	public ResponseEntity<List<PostComments>> getPostCommentsByPostId(@PathVariable("post_id") Long post_id) throws Exception {
 		logger.info("PostCommentsController-------------Get Post's Comments-------------" + new Date());
 
-		List<PostComments> comments = postservice.getPostComments(comment);
+		List<PostComments> comments = postservice.getPostCommentsByPostId(post_id);
 
 		if (comments == null || comments.size() == 0) {
 			return new ResponseEntity(null, HttpStatus.NO_CONTENT);
@@ -141,25 +141,11 @@ public class PostCommentsController {
 	// --------------------- jw add ----------------------------------------------
 
 	@ApiOperation(value = "DB의 모든 comments 조회", response = List.class)
-	@GetMapping("/comments/all")
+	@GetMapping("/comments")
 	public ResponseEntity<List<PostComments>> getAllPostComments() throws Exception {
 		logger.info("PostCommentsController-------------Get All Post's Comments List-------------" + new Date());
 
 		List<PostComments> comments = postservice.getAllPostComments();
-
-		if (comments == null || comments.size() == 0) {
-			return new ResponseEntity(null, HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<List<PostComments>>(comments, HttpStatus.OK);
-	}
-
-	@ApiOperation(value = "같은 Post_id 에 있는 comments 조회", response = List.class)
-	@GetMapping("/comments/{post_id}")
-	public ResponseEntity<List<PostComments>> getPostCommentsByPostId(@PathVariable("post_id") long post_id)
-			throws Exception {
-		logger.info("PostCommentsController-------------Get Post's Comments By Post_id-------------" + new Date());
-
-		List<PostComments> comments = postservice.getPostCommentsByPostId(post_id);
 
 		if (comments == null || comments.size() == 0) {
 			return new ResponseEntity(null, HttpStatus.NO_CONTENT);
