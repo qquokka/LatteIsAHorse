@@ -11,7 +11,6 @@ import com.latte.model.post.Post;
 import com.latte.model.post.PostComments;
 import com.latte.model.post.PostHashtag;
 import com.latte.payload.PostAddRequest;
-import com.latte.payload.PostRequest;
 
 @Service
 public class PostServiceImpl implements IPostService {
@@ -42,7 +41,7 @@ public class PostServiceImpl implements IPostService {
 	public Post getPostById(Long id) {
 		return postDao.getPostById(id);
 	}
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<Post> getPostListByCafeId(Integer cafe_id) {
@@ -67,8 +66,8 @@ public class PostServiceImpl implements IPostService {
 		return postDao.getLastPostedId();
 	}
 
-	//---------------- Post hashtag 관련 ----------------
-	
+	// ---------------- Post hashtag 관련 ----------------
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<PostHashtag> getPostHashTags(Long post_id) {
@@ -98,12 +97,12 @@ public class PostServiceImpl implements IPostService {
 	public int deletePostHashtag(Long id) {
 		return postDao.deletePostHashtag(id);
 	}
-	
-	//---------------- Post Comments 관련 ----------------
-	
+
+	// ---------------- Post Comments 관련 ----------------
+
 	@Override
-	public List<PostComments> getPostComments(PostComments comment) {
-		return postDao.getPostComments(comment);
+	public List<PostComments> getPostCommentsByPostId(Long post_id) {
+		return postDao.getPostCommentsByPostId(post_id);
 	}
 
 	@Override
@@ -121,6 +120,10 @@ public class PostServiceImpl implements IPostService {
 		return postDao.deletePostComments(id);
 	}
 
-
+	// ----------------jw add---------------
+	@Override
+	public List<PostComments> getAllPostComments() {
+		return postDao.getAllPostComments();
+	}
 
 }

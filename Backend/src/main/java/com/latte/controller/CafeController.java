@@ -36,10 +36,10 @@ public class CafeController {
 
 	@Autowired
 	ICafeService cafeservice;
-	
+
 	@Autowired
 	IMenuService menuservice;
-	
+
 	@Autowired
 	IPostService postservice;
 
@@ -68,7 +68,6 @@ public class CafeController {
 	}
 
 	// Cafe info, menu, posts, comments return
-
 	@ApiOperation(value = "해당 cafe_id 에 대한 모든 정보 반환", response = Map.class)
 	@GetMapping("/cafe/detail/{cafe_id}")
 	public ResponseEntity<Map<String, Object>> getAllInfoByCafeId(@PathVariable("cafe_id") int cafe_id)
@@ -77,8 +76,18 @@ public class CafeController {
 		CafeDto cafeInfo = cafeservice.getCafeById(cafe_id);
 		List<MenuDto> menuList = menuservice.getMenuListById(cafe_id);
 		List<Post> postList = postservice.getPostListByCafeId(cafe_id);
-		
 		Map<String, Object> response = new HashMap<>();
+		if (cafeInfo != null) {
+			response.put("cafeinfo", cafeInfo);
+			if (menuList != null) {
+				response.put("menu", menuList);
+			}
+			if (postList != null) {
+				response.put("post", postList);
+			}
+		} else {
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 

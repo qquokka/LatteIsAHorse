@@ -6,7 +6,6 @@ import com.latte.model.post.Post;
 import com.latte.model.post.PostComments;
 import com.latte.model.post.PostHashtag;
 import com.latte.payload.PostAddRequest;
-import com.latte.payload.PostRequest;
 
 public interface IPostService {
 	// DB에 저장된 모든 Post를 반환
@@ -17,7 +16,7 @@ public interface IPostService {
 
 	// Read
 	List<Post> getPostByTitle(String title);
-	
+
 	List<Post> getPostListByCafeId(Integer cafe_id);
 
 	// Read
@@ -30,25 +29,31 @@ public interface IPostService {
 	int deletePostById(Long id);
 
 	Long getLastPostedId();
-	
-	// Post hashtag 관련 
+
+	// Post hashtag 관련
 	List<PostHashtag> getPostHashTags(Long post_id);
-	
+
 	List<PostHashtag> getAllHashTags();
-	
+
 	int addPostHashtag(PostHashtag hashTag);
-	
+
 	int updatePostHashtag(PostHashtag hashTag);
-	
+
 	int deletePostHashtag(Long id);
 
-	// Post Comments 관련 
-	List<PostComments> getPostComments(PostComments comment);
-	
+	// Post Comments 관련
+	List<PostComments> getPostCommentsByPostId(Long post_id);
+
 	int addPostComments(PostComments comment);
-	
+
 	int updatePostComments(PostComments comment);
-	
+
 	int deletePostComments(Long id);
 	
+	//----------------jw add------------------------
+	
+	List<PostComments> getAllPostComments();
+	
+	
+
 }

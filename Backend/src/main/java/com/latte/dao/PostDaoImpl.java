@@ -75,8 +75,8 @@ public class PostDaoImpl {
 
 	//---------------- Post Comments 관련 ----------------
 	
-	public List<PostComments> getPostComments(PostComments comment) {
-		return sqlSession.selectList(ns + "getPostComments", comment);
+	public List<PostComments> getPostCommentsByPostId(Long post_id) {
+		return sqlSession.selectList(ns + "getPostCommentsByPostId", post_id);
 	}
 
 	public int addPostComments(PostComments comment) {
@@ -91,6 +91,10 @@ public class PostDaoImpl {
 		return sqlSession.delete(ns + "deletePostComments", id);
 	}
 
-
+	//----------------jw add-----------------------------------------
+	
+	public List<PostComments> getAllPostComments() {
+		return sqlSession.selectList(ns+"getAllPostComments");
+	}
 
 }

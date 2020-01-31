@@ -1,6 +1,7 @@
 package com.latte.dto;
 
 import java.io.Serializable;
+import java.time.Instant;
 
 public class CafeDto implements Serializable {
 
@@ -12,32 +13,32 @@ public class CafeDto implements Serializable {
 	private double longitude;
 	private int like_count;
 	private String tag;
-	private String mon_open;
-	private String mon_close;
-	private String tue_open;
-	private String tue_close;
-	private String wed_open;
-	private String wed_close;
-	private String thu_open;
-	private String thu_close;
-	private String fri_open;
-	private String fri_close;
-	private String sat_open;
-	private String sat_close;
-	private String sun_open;
-	private String sun_close;
+	private Instant mon_open;
+	private Instant mon_close;
+	private Instant tue_open;
+	private Instant tue_close;
+	private Instant wed_open;
+	private Instant wed_close;
+	private Instant thu_open;
+	private Instant thu_close;
+	private Instant fri_open;
+	private Instant fri_close;
+	private Instant sat_open;
+	private Instant sat_close;
+	private Instant sun_open;
+	private Instant sun_close;
 	private int closed;
-
 
 	public CafeDto() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public CafeDto(int cafe_id, String cafe_name, String cafe_address, String cafe_phone, double latitude,
-			double longitude, int like_count, String tag, String mon_open, String mon_close, String tue_open,
-			String tue_close, String wed_open, String wed_close, String thu_open, String thu_close, String fri_open,
-			String fri_close, String sat_open, String sat_close, String sun_open, String sun_close, int closed) {
-
+			double longitude, int like_count, String tag, Instant mon_open, Instant mon_close, Instant tue_open,
+			Instant tue_close, Instant wed_open, Instant wed_close, Instant thu_open, Instant thu_close,
+			Instant fri_open, Instant fri_close, Instant sat_open, Instant sat_close, Instant sun_open,
+			Instant sun_close, int closed) {
 		super();
 		this.cafe_id = cafe_id;
 		this.cafe_name = cafe_name;
@@ -47,7 +48,6 @@ public class CafeDto implements Serializable {
 		this.longitude = longitude;
 		this.like_count = like_count;
 		this.tag = tag;
-
 		this.mon_open = mon_open;
 		this.mon_close = mon_close;
 		this.tue_open = tue_open;
@@ -63,23 +63,6 @@ public class CafeDto implements Serializable {
 		this.sun_open = sun_open;
 		this.sun_close = sun_close;
 		this.closed = closed;
-
-	}
-
-	@Override
-	public String toString() {
-		return "CafeDto [cafe_id=" + cafe_id + ", cafe_name=" + cafe_name + ", cafe_address=" + cafe_address
-				+ ", cafe_phone=" + cafe_phone + ", latitude=" + latitude + ", longitude=" + longitude + ", like_count="
-				+ like_count + ", tag=" + tag + ", mon_open=" + mon_open + ", mon_close=" + mon_close + ", tue_open="
-				+ tue_open + ", tue_close=" + tue_close + ", wed_open=" + wed_open + ", wed_close=" + wed_close
-				+ ", thu_open=" + thu_open + ", thu_close=" + thu_close + ", fri_open=" + fri_open + ", fri_close="
-				+ fri_close + ", sat_open=" + sat_open + ", sat_close=" + sat_close + ", sun_open=" + sun_open
-				+ like_count + ", tag=" + tag + "]"
-				+ ", sun_close=" + sun_close + ", closed=" + closed + "]";
-	}
-
-	public int getCafe_id() {
-		return cafe_id;
 	}
 
 	public String getCafe_name() {
@@ -138,115 +121,115 @@ public class CafeDto implements Serializable {
 		this.tag = tag;
 	}
 
-	public String getMon_open() {
+	public Instant getMon_open() {
 		return mon_open;
 	}
 
-	public void setMon_open(String mon_open) {
+	public void setMon_open(Instant mon_open) {
 		this.mon_open = mon_open;
 	}
 
-	public String getMon_close() {
+	public Instant getMon_close() {
 		return mon_close;
 	}
 
-	public void setMon_close(String mon_close) {
+	public void setMon_close(Instant mon_close) {
 		this.mon_close = mon_close;
 	}
 
-	public String getTue_open() {
+	public Instant getTue_open() {
 		return tue_open;
 	}
 
-	public void setTue_open(String tue_open) {
+	public void setTue_open(Instant tue_open) {
 		this.tue_open = tue_open;
 	}
 
-	public String getTue_close() {
+	public Instant getTue_close() {
 		return tue_close;
 	}
 
-	public void setTue_close(String tue_close) {
+	public void setTue_close(Instant tue_close) {
 		this.tue_close = tue_close;
 	}
 
-	public String getWed_open() {
+	public Instant getWed_open() {
 		return wed_open;
 	}
 
-	public void setWed_open(String wed_open) {
+	public void setWed_open(Instant wed_open) {
 		this.wed_open = wed_open;
 	}
 
-	public String getWed_close() {
+	public Instant getWed_close() {
 		return wed_close;
 	}
 
-	public void setWed_close(String wed_close) {
+	public void setWed_close(Instant wed_close) {
 		this.wed_close = wed_close;
 	}
 
-	public String getThu_open() {
+	public Instant getThu_open() {
 		return thu_open;
 	}
 
-	public void setThu_open(String thu_open) {
+	public void setThu_open(Instant thu_open) {
 		this.thu_open = thu_open;
 	}
 
-	public String getThu_close() {
+	public Instant getThu_close() {
 		return thu_close;
 	}
 
-	public void setThu_close(String thu_close) {
+	public void setThu_close(Instant thu_close) {
 		this.thu_close = thu_close;
 	}
 
-	public String getFri_open() {
+	public Instant getFri_open() {
 		return fri_open;
 	}
 
-	public void setFri_open(String fri_open) {
+	public void setFri_open(Instant fri_open) {
 		this.fri_open = fri_open;
 	}
 
-	public String getFri_close() {
+	public Instant getFri_close() {
 		return fri_close;
 	}
 
-	public void setFri_close(String fri_close) {
+	public void setFri_close(Instant fri_close) {
 		this.fri_close = fri_close;
 	}
 
-	public String getSat_open() {
+	public Instant getSat_open() {
 		return sat_open;
 	}
 
-	public void setSat_open(String sat_open) {
+	public void setSat_open(Instant sat_open) {
 		this.sat_open = sat_open;
 	}
 
-	public String getSat_close() {
+	public Instant getSat_close() {
 		return sat_close;
 	}
 
-	public void setSat_close(String sat_close) {
+	public void setSat_close(Instant sat_close) {
 		this.sat_close = sat_close;
 	}
 
-	public String getSun_open() {
+	public Instant getSun_open() {
 		return sun_open;
 	}
 
-	public void setSun_open(String sun_open) {
+	public void setSun_open(Instant sun_open) {
 		this.sun_open = sun_open;
 	}
 
-	public String getSun_close() {
+	public Instant getSun_close() {
 		return sun_close;
 	}
 
-	public void setSun_close(String sun_close) {
+	public void setSun_close(Instant sun_close) {
 		this.sun_close = sun_close;
 	}
 
@@ -257,4 +240,5 @@ public class CafeDto implements Serializable {
 	public void setClosed(int closed) {
 		this.closed = closed;
 	}
+
 }
