@@ -1,17 +1,22 @@
 <template>
 <div id="post-list-main" class="container-fluid" >
   <div class="row">
-    <div v-for="post in postData.slice(0, limits)" :key="post.id" class="post-list col-4 p-3">
-      <router-link :to="`post/${post.id}/`">
+    <div v-for="post in postData.slice(0, limits)" :key="post.id" class="post-list col-4 p-3 shadow">
+      <router-link :to="`post/${post.id}/`" style="text-decoration:none;color:#3f3f3f">
         <div class="postbody">
-          <h3 class="border-bottom p-2">{{ post.title }}</h3><span><i class="fas fa-thumbs-up"> {{ post.like_count }}</i></span>
-          <p>by {{ post.writer_name }} at {{ post.created_at }} </p>
-          <img :src="post.thumbnail" width="100%" height="300px">
-          <p class="post-preview">{{ post.content }}</p>
+          <img :src="post.thumbnail" width="100%" height="300px" style="border-radius:15px 15px 0 0">
+          <h3 class="p-2">{{ post.title }}</h3><span><i class="fas fa-thumbs-up"> {{ post.like_count }}</i></span>
+          <p class="mb-0"> {{ post.writer_name }} 님이 </p>
+          <p class=""> {{ post.created_at }} 에 쓴 글 </p>
+          
+          <!-- <p class="post-preview">{{ post.content }}</p> -->
         </div>
       </router-link>
     </div>
+    <button class="btn btn-light btn-block position-relative" @click="loadmore">더보기</button>
   </div>
+
+
 </div>
 </template>
 
