@@ -18,10 +18,10 @@
 		parameterType="com.latte.payload.PostAddRequest">
 		INSERT INTO POSTS
 		(TITLE, CONTENT, THUMBNAIL, CREATED_AT,
-		UPDATED_AT, WRITER_ID)
+		UPDATED_AT, WRITER_ID, CAFE_ID)
 		VALUES
 		(#{title}, #{content}, #{thumbnail},
-		NOW(), NOW(), #{writer_id})
+		NOW(), NOW(), #{writer_id}, #{cafe_id})
 	</insert>
 	<!-- <select id="getPostByPostId" parameterType="java.lang.Integer" resultType="com.latte.dto.PostDto"> 
 		</select> -->
