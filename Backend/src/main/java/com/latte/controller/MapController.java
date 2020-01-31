@@ -8,14 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.latte.model.post.Post;
-import com.latte.service.ICafeService;
-import com.latte.service.IMenuService;
-import com.latte.service.IPostService;
+import com.latte.dto.CafeDto;
+import com.latte.model.UserLocation;
+import com.latte.service.IMapService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,28 +25,50 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "Map APIs")
 public class MapController {
 	private static final Logger logger = LoggerFactory.getLogger(MapController.class);
-	
-	@Autowired
-	ICafeService cafeservice;
 
 	@Autowired
-	IMenuService menuservice;
+	IMapService mapService;
 
-	@Autowired
-	IPostService postservice;
-	
-	@ApiOperation(value = "요청에 따른 Post 리스트 반환", response = List.class)
-	@GetMapping("/map")
+	@ApiOperation(value = "사용자 현재 위치와 확대 수준에 따른 카페 리스트 반환", response = List.class)
+	@PostMapping("/map")
 	// @PreAuthorize("hasRole('USER') or hasRole('OWNER') or hasRole('ADMIN')")
-	// //API 사용권한 부여
-	public ResponseEntity<List<Post>> getPostList() throws Exception {
-		logger.info("PostController-------------Post List-------------" + new Date());
+	public ResponseEntity<List<CafeDto>> getCafesByUserLocation(@RequestBody UserLocation location) throws Exception {
+		logger.info("MapController-------------Get near cafe list by current user location-------------" + new Date());
 
-		List<Post> posts = postservice.getPostList();
+		//Converting level value to meter
+		location.setMeter(convertLeveltoMeter(location.getLevel()));
 
-		if (posts == null || posts.size() == 0) {
-			return new ResponseEntity<List<Post>>(posts, HttpStatus.NO_CONTENT);
+		List<CafeDto> cafes = mapService.getCafesByUserLocation(location);
+
+		if (cafes == null || cafes.size() == 0) {
+			return new ResponseEntity<List<CafeDto>>(cafes, HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
+		
+		return new ResponseEntity<List<CafeDto>>(cafes, HttpStatus.OK);
+	}
+
+	private double convertLeveltoMeter(Integer level) {
+		double meter = 0;
+		
+		switch (level.intValue()) {
+			case(1)	:meter= 0.02; break;
+			case(2)	:meter= 0.03; break;
+			case(3)	:meter= 0.05; break;
+			case(4)	:meter= 0.1 ; break;
+			case(5)	:meter= 0.25; break;
+			case(6)	:meter= 0.5; break;
+			case(7)	:meter= 1; break;
+			case(8)	:meter= 2; break;
+			case(9)	:meter= 4; break;
+			case(10):meter= 8;  break;
+			case(11):meter=	16;  break;
+			case(12):meter=	32;  break;
+			case(13):meter=	64;  break;
+			case(14):meter=	128;  break;
+		}
+		
+		return meter;
 	}
 }
+//이미지 지도의 확대 수준을 반환한다.
+//0부터 14까지의 정수이며, 지도가 확대되어 있을수록 작은 값을 반환한다.
