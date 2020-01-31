@@ -1,23 +1,34 @@
 package com.latte.model.post;
 
 import java.io.Serializable;
+import java.time.Instant;
 
-import com.latte.model.audit.DateAudit;
-
-public class PostComments extends DateAudit implements Serializable {
+public class PostComments implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private Instant created_at;
+	private Instant updated_at;
 	private Long id; // bigint(20) NOT NULL AUTO_INCREMENT,
 	private Long post_id; // bigint(20) not null, -- 댓글이 달린 게시물 id
 	private Long writer_id; // bigint(20) not null, -- 댓글이 작성자의 id
 	private String content; // text not null, -- 댓글 내용
-
-	private String writer_name;
+	private String writer_name; // username
 
 	public PostComments() {
 		super();
-		// TODO Auto-generated constructor stub
+	}
+
+	public PostComments(Instant created_at, Instant updated_at, Long id, Long post_id, Long writer_id, String content,
+			String writer_name) {
+		super();
+		this.created_at = created_at;
+		this.updated_at = updated_at;
+		this.id = id;
+		this.post_id = post_id;
+		this.writer_id = writer_id;
+		this.content = content;
+		this.writer_name = writer_name;
 	}
 
 	public PostComments(Long id, Long post_id, Long writer_id, String content) {
@@ -35,6 +46,22 @@ public class PostComments extends DateAudit implements Serializable {
 		this.writer_id = writer_id;
 		this.content = content;
 		this.writer_name = writer_name;
+	}
+
+	public Instant getCreated_at() {
+		return created_at;
+	}
+
+	public void setCreated_at(Instant created_at) {
+		this.created_at = created_at;
+	}
+
+	public Instant getUpdated_at() {
+		return updated_at;
+	}
+
+	public void setUpdated_at(Instant updated_at) {
+		this.updated_at = updated_at;
 	}
 
 	public String getWriter_name() {
