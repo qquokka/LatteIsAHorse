@@ -75,7 +75,7 @@ In `pom.xml`
 ```
 <!-- Spring DevTools, Run 상태에서 변경사항 발생시 자동 적용 및 프로젝트 재실행 자동 -->
 ```xml
-    <dependency>
+   		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
@@ -84,7 +84,7 @@ In `pom.xml`
 ```
 <!-- Mybatis : Java object <-> DB Relation mapping framework -->
 ```xml
-     <dependency>
+     		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>2.1.1</version>
