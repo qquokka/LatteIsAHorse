@@ -65,15 +65,16 @@ public class PostController {
 //	@PreAuthorize("permitAll")
 	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
 	// //API 사용권한 부여
-	public ResponseEntity<Map<String, Object>> addPost(@RequestBody PostAddRequest post, HttpServletRequest request) throws Exception {
+	public ResponseEntity<Map<String, Object>> addPost(@RequestBody PostAddRequest post, HttpServletRequest request)
+			throws Exception {
 		logger.info("PostController-------------Post add-------------" + new Date());
 
 		Long userId = getLoggedInUserId(request);
 		Long lastId = postservice.getLastPostedId();
 
 		Map<String, Object> response = new HashMap<>();
-		
-		if(userId != 0L) {
+
+		if (userId != 0L) {
 			post.setWriter_id(userId);
 		}
 		// 사진 있다면 사진 등록하는 로직 추가
@@ -108,7 +109,7 @@ public class PostController {
 
 	@ApiOperation(value = "post의 id로 조회", response = Post.class)
 	@GetMapping("/post/{id}")
-	//@JsonIgnoreProperties
+	// @JsonIgnoreProperties
 	public ResponseEntity<Post> getPostById(@PathVariable("id") Long id) throws Exception {
 		logger.info("PostController-------------Get Post by Id-------------" + new Date());
 
@@ -122,18 +123,17 @@ public class PostController {
 		return new ResponseEntity<Post>(post, HttpStatus.OK);
 	}
 
-	
 	@ApiOperation(value = "post 정보 업데이트", response = Map.class)
 	@PatchMapping("/post/{id}")
 	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
 	// 수정 필요
 	public ResponseEntity<Map<String, Object>> updatePostById(@PathVariable("id") Long id) throws Exception {
 		logger.info("PostController-------------Post Update-------------" + new Date());
-		
-		//사용자 아이디 조회해서 수정하려는 글이 로그인한 회원과 일치하는지 체크
-		
+
+		// 사용자 아이디 조회해서 수정하려는 글이 로그인한 회원과 일치하는지 체크
+
 		Map<String, Object> response = new HashMap<>();
-		
+
 		int result = postservice.updatePostById(id);
 
 		if (result < 1) { // 등록 실패
@@ -144,18 +144,18 @@ public class PostController {
 		response.put("state", "success");
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
-	
+
 	@ApiOperation(value = "post 삭제", response = Map.class)
 	@DeleteMapping("/post/{id}")
 	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
 	// //API 사용권한 부여
 	public ResponseEntity<Map<String, Object>> deletePostById(@PathVariable("id") Long id) throws Exception {
 		logger.info("PostController-------------Post Update-------------" + new Date());
-		
-		//사용자 아이디 조회해서 삭제하려는 글이 로그인한 회원과 일치하는지 체크
-		
+
+		// 사용자 아이디 조회해서 삭제하려는 글이 로그인한 회원과 일치하는지 체크
+
 		Map<String, Object> response = new HashMap<>();
-		
+
 		int result = postservice.updatePostById(id);
 
 		if (result < 1) { // 등록 실패
@@ -166,17 +166,18 @@ public class PostController {
 		response.put("state", "success");
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
-	
+
 	// ---------------------------------------------------
 	// check header from request and parse JWT Token
 	private Long getLoggedInUserId(HttpServletRequest request) {
 		String bearerToken = request.getHeader("Authorization");
 		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
 			String jwt = bearerToken.substring(7, bearerToken.length());
-			if(StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+			if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
 				return tokenProvider.getUserIdFromJWT(jwt);
 			}
 		}
 		return 0L;
 	}
+
 }

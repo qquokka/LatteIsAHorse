@@ -42,7 +42,7 @@ public interface IPostService {
 	int deletePostHashtag(Long id);
 
 	// Post Comments 관련
-	List<PostComments> getPostComments(PostComments comment);
+	List<PostComments> getPostCommentsByPostId(Long post_id);
 
 	int addPostComments(PostComments comment);
 
@@ -54,6 +54,6 @@ public interface IPostService {
 	
 	List<PostComments> getAllPostComments();
 	
-	List<PostComments> getPostCommentsByPostId(Long post_id);
+	
 
 }
