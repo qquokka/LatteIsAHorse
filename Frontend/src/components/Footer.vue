@@ -13,7 +13,6 @@
         <a class="nav-link" href="#"><i class="fa fa-user"></i> About Us</a>
       </li>
       <li class="nav-item">
-				
         <a class="nav-link" href="#"><i class="fa fa-map"></i> 내 주변 보기</a>
       </li>
     </ul>

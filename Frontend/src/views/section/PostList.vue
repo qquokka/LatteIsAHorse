@@ -2,12 +2,14 @@
 <div id="post-list-main" class="container-fluid" >
   <div class="row">
     <div v-for="post in postData.slice(0, limits)" :key="post.id" class="post-list col-4 p-3">
-      <div class="postbody">
-        <h3 class="border-bottom p-2">{{ post.title }}</h3><span><i class="fas fa-thumbs-up"> {{ post.like_count }}</i></span>
-        <p>by {{ post.writer_name }} at {{ post.created_at }} </p>
-        <img :src="post.thumbnail" width="100%" height="300px">
-        <p class="post-preview">{{ post.content }}</p>
-      </div>
+      <router-link :to="`post/${post.id}/`">
+        <div class="postbody">
+          <h3 class="border-bottom p-2">{{ post.title }}</h3><span><i class="fas fa-thumbs-up"> {{ post.like_count }}</i></span>
+          <p>by {{ post.writer_name }} at {{ post.created_at }} </p>
+          <img :src="post.thumbnail" width="100%" height="300px">
+          <p class="post-preview">{{ post.content }}</p>
+        </div>
+      </router-link>
     </div>
   </div>
 </div>
@@ -47,6 +49,11 @@ export default {
   background: rgba(255,255,255,0.95);  
   border-radius: 15px  
 }
+
+.postbody>h3:hover {
+  text-decoration: none;
+}
+
 .post-preview {
     overflow: hidden;  
     display: -webkit-box;  

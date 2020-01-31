@@ -5,10 +5,9 @@ import MapTest from '../views/MapTest.vue'
 import AboutUs from '../views/AboutUs.vue'
 import PostPage from '../views/PostPage.vue'
 import CreatePost from '../views/CreatePost.vue'
+import PostDetail from '../views/PostDetail.vue'
 
 Vue.use(VueRouter)
-
-
 
 const routes = [
   {
@@ -38,6 +37,12 @@ const routes = [
     meta: { 
       requiresAuth: true
     }
+  },
+  {
+    path: '/post/:postId',
+    name: 'post-detail',
+    component: PostDetail,
+    props: true
   }
 ]
 
