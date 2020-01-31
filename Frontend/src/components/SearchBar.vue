@@ -29,6 +29,9 @@ export default {
     border-radius: 20px 0 0 20px;
     font-size: 1.2rem;
 }
+::-webkit-input-placeholder{
+    color: black;
+}
 .btn-info {
     background-color: slateblue;
     color: #fff ;
@@ -41,7 +44,5 @@ export default {
     width: 60%;
     min-width: 450px;
 }
-input {
-    font-family: "Font Awesome 5 Free";
-}
+
 </style>

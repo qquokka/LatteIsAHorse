@@ -30,7 +30,6 @@
 
 <script>
 	import axios from 'axios'
-	import router from 'vue-router'
   import { mapGetters } from 'vuex' 
   import NavBar from '@/components/NavBar.vue'
   // import Footer from '@/views/section/Footer.vue'
@@ -66,12 +65,10 @@
     },
     methods: {
       submitPost(body) {
-          console.log(body)
-          console.log(this.$session.get('jwt'))
           axios.post(`${this.$store.state.constants.SERVER}/post`, body, {headers: {'Authorization': "Bearer " + this.$session.get('jwt')}})
           .then(response => {
             console.log(response)
-            router.push('/posts')
+            this.$router.push({ path: '/posts' })
           }) 
           .catch(error => {
               console.log(error.response)
@@ -109,13 +106,13 @@
             })
           }
         } else{
-          console.log('text-only')
-                                        let body = {
-                                    "title": this.title,
-                                    "content": html.innerHTML,
-                                    "thumbnail" : "T"
-                                    }
-                                this.submitPost(body)  
+            let body = {
+                "title": this.title,
+                "content": html.innerHTML,
+                "thumbnail" : "T",
+                "cafe_id" : 1,
+                }
+            this.submitPost(body)  
         }
 
 			}},

@@ -1,6 +1,6 @@
 <template>
 <div class="container-fluid p-0">
-    <div class="row p-0 m-0" :style="`height: ${avheight}px;background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);`">
+    <div class="row p-0 m-0" :style="`height: ${avheight}px;background-image: gray;`">
         <div class="d-none d-md-flex col-md-1 menucol-1 py-5" style="font-size:1vw">
             <div class="menu-icon">
             <router-link to="/"><i class="fa fa-home fa-4x "></i></router-link>
@@ -109,8 +109,8 @@ export default {
 .menucol-1 {
     display:flex;
     flex-direction:column;
-    justify-content: space-between;background-color: #CDDCDC;
-    background-image: linear-gradient(-225deg, #473B7B 0%, #3584A7 51%, #30D2BE 100%);
+    justify-content: space-between;
+    background-color: #2f2f2f;
     }
 .menu-icon > i {
     color: rgba(0,0,0,0) !important;
@@ -136,7 +136,7 @@ export default {
     transition: 0.2s
 }
 .menu-icon:hover {
-    background: whitesmoke;
+    background: rgba(255,255,255,0.7);
     box-shadow: 2px 2px 10px gray;
     border-radius: 10px;
 }

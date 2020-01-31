@@ -1,5 +1,4 @@
 <template>
-  
   <nav class="navbar navbar-expand-lg fixed-top" id="topnav">
   <router-link to="/" class="ml-2" ><img src="../assets/img/navlogo2.png"  style="border-radius:3px" width="120px"></router-link>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,6 +41,12 @@ export default {
     isAuthenticated: this.$session.exists('jwt'),
   };
 },
+props: {
+        iswhite: {
+          type: Boolean,
+          default: false
+        }
+},
 methods: {
   logout() {
     this.$session.destroy()
@@ -49,7 +54,11 @@ methods: {
     this.handleScroll ()
   },
   handleScroll () {
-    this.scrolled = window.scrollY > 0;
+    if (this.iswhite) {
+      this.scrolled = true
+    } else {
+      this.scrolled = window.scrollY > 0
+    }
     const topnav = document.getElementById('topnav')
     const navitem = document.querySelectorAll('.nav-link')
     if (this.scrolled) {

@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid p-0">
     
-    <nav-bar style="position:fixed;left:0;width:100%" />
+    <nav-bar style="position:fixed;left:0;width:100%" blackOrWhite="true" />
     <h2 class="brand" style="margin-top: 8rem;">믿고 한번 가봐...</h2>
     <h1 id="slogan"></h1>
 
@@ -99,9 +99,6 @@
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:900&display=swap');
-body {
-  height: fit-content;
-}
 
 #slogan {
   font-family: 'Noto Sans KR', sans-serif;
@@ -120,9 +117,7 @@ body {
   text-shadow: 2px 2px 1px #3f3f3f;
   user-select: none;
 }
-#app {
-  background: whitesmoke;
-}
+
 .banner-quote {
   padding-top: 50px;
   color: white;
