@@ -1,12 +1,29 @@
 package com.latte.service;
 
-public interface ICafeService{
-	// 모든 카페를 보여준다.
-	
-	// 카페이름으로 검색한다.
-	
-	// 카페 영업시간으로 검색한다. Open Time, Close Time, Day
-	
-	// 
-	
+import java.util.List;
+
+import com.latte.dto.CafeDto;
+
+public interface ICafeService {
+	// DB에 저장된 모든 Cafe를 반환
+	List<CafeDto> getCafeList();
+
+	// Create
+	int addCafe(CafeDto cafe);
+
+	// Read
+	CafeDto getCafeById(int cafe_id);
+
+	// Read
+	List<CafeDto> getCafeByName(String cafe_name);
+
+	// Read
+	List<CafeDto> getCafeByAddress(String cafe_address);
+
+	// Update
+	int updateCafeById(int cafe_id);
+
+	// Delete
+	int deleteCafeById(int cafe_id);
+
 }

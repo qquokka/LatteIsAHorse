@@ -34,7 +34,7 @@ import java.util.Collections;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/v1")
 public class AuthController {
 	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
@@ -70,6 +70,8 @@ public class AuthController {
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 		logger.info("AuthController / registerUser --------------------" + new Date());
 
+		
+		
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return new ResponseEntity(new ApiResponse(false, "Username is already taken!"), HttpStatus.BAD_REQUEST);
 		}
@@ -77,11 +79,16 @@ public class AuthController {
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 			return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"), HttpStatus.BAD_REQUEST);
 		}
-
+		
+		//회원가입한적은 있지만 회원탈퇴 처리된 경우
+		if(!userRepository.isOnActiveUser(signUpRequest.getUsername(), signUpRequest.getEmail())) {
+			return new ResponseEntity(new ApiResponse(false, "회원탈퇴 처리된 계정입니다."), HttpStatus.BAD_REQUEST);
+		}
+		
 		// Creating user's account
 		User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
 				signUpRequest.getPassword());
-
+		
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
 		//Default User Role is "ROLE_USER"

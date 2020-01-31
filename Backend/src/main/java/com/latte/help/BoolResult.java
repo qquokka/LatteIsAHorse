@@ -3,9 +3,6 @@ package com.latte.help;
 import java.io.Serializable;
 
 public class BoolResult implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4503069085081383302L;
 	private String name;
 	private boolean count = false;
