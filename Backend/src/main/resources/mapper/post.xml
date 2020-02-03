@@ -20,7 +20,8 @@
 		(TITLE, CONTENT, THUMBNAIL, CREATED_AT,
 		UPDATED_AT, WRITER_ID, CAFE_ID)
 		VALUES
-		(#{title}, #{content}, #{thumbnail},
+		(#{title}, #{content},
+		#{thumbnail},
 		NOW(), NOW(), #{writer_id}, #{cafe_id})
 	</insert>
 	<!-- <select id="getPostByPostId" parameterType="java.lang.Integer" resultType="com.latte.dto.PostDto"> 
@@ -72,13 +73,12 @@
 	</delete>
 
 	<!-- Post Hashtag related queries -->
-	<select id="getPostHashTags" resultType="posthashtag">
-		SELECT NAME FROM POSTS
-		P, POST_HASHTAG PH
-		WHERE P.ID = PH.POST_ID
+	<select id="getPostHashTags" parameterType="java.lang.Long"
+		resultType="posthashtag">
+		SELECT * FROM post_hashtag WHERE POST_ID = #{post_id}
 	</select>
 
-	<select id="getAllHashTags" resultType="posthashtag">
+	<select id="getAllHashTags" resultType="posthashtagname">
 		SELECT DISTINCT NAME FROM
 		POST_HASHTAG
 	</select>
@@ -102,12 +102,9 @@
 	<!-- Post Comments CRUD -->
 
 	<select id="getPostCommentsByPostId" resultType="postComments">
-		SELECT PC.*, U.USERNAME
-		AS WRITER_NAME
-		FROM POSTS P, POST_COMMENTS PC, USERS U
-		WHERE
-		P.ID =
-		#{post_id}
+		select PC.*,
+		U.username AS WRITER_NAME from post_comments PC JOIN USERS U ON
+		U.id=PC.writer_id where post_id =#{post_id}
 	</select>
 
 	<insert id="addPostComments">
@@ -116,7 +113,7 @@
 		CONTENT, POST_ID, WRITER_ID)
 		VALUES
 		(NOW(), NOW(), #{content},
-		#{post_id}, #{writer_id)
+		#{post_id}, #{writer_id})
 	</insert>
 
 	<update id="updatePostComments">
@@ -133,7 +130,9 @@
 
 	<!-- jw add -->
 	<select id="getAllPostComments" resultType="postComments">
-		SELECT PC.* , U.username AS WRITER_NAME FROM POST_COMMENTS PC JOIN USERS U ON U.id=PC.writer_id
+		SELECT PC.* ,
+		U.username AS WRITER_NAME FROM POST_COMMENTS PC JOIN USERS U ON
+		U.id=PC.writer_id
 	</select>
 
 </mapper>

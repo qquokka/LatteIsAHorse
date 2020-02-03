@@ -24,7 +24,7 @@ import SearchBar from '@/components/SearchBar.vue'
     },
     data() {
       return {
-        isAuthenticated: this.$session.exists('jwt'),
+        isAuthenticated: this.$session.exists('jwt')
       }
     },
     computed: {
@@ -32,8 +32,7 @@ import SearchBar from '@/components/SearchBar.vue'
     methods: {
     },
     mounted() {
-
-    }
+    },
   }
   
 </script>

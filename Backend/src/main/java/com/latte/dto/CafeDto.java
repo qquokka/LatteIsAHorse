@@ -5,12 +5,14 @@ import java.time.Instant;
 
 public class CafeDto implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private int cafe_id;
 	private String cafe_name;
 	private String cafe_address;
 	private String cafe_phone;
 	private double latitude;
 	private double longitude;
+	private String thumbnail; // varchar(500) default null, -- 썸네일
 	private int like_count;
 	private String tag;
 	private Instant mon_open;
@@ -35,10 +37,10 @@ public class CafeDto implements Serializable {
 	}
 
 	public CafeDto(int cafe_id, String cafe_name, String cafe_address, String cafe_phone, double latitude,
-			double longitude, int like_count, String tag, Instant mon_open, Instant mon_close, Instant tue_open,
-			Instant tue_close, Instant wed_open, Instant wed_close, Instant thu_open, Instant thu_close,
-			Instant fri_open, Instant fri_close, Instant sat_open, Instant sat_close, Instant sun_open,
-			Instant sun_close, int closed) {
+			double longitude, String thumbnail, int like_count, String tag, Instant mon_open, Instant mon_close,
+			Instant tue_open, Instant tue_close, Instant wed_open, Instant wed_close, Instant thu_open,
+			Instant thu_close, Instant fri_open, Instant fri_close, Instant sat_open, Instant sat_close,
+			Instant sun_open, Instant sun_close, int closed) {
 		super();
 		this.cafe_id = cafe_id;
 		this.cafe_name = cafe_name;
@@ -46,6 +48,7 @@ public class CafeDto implements Serializable {
 		this.cafe_phone = cafe_phone;
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.thumbnail = thumbnail;
 		this.like_count = like_count;
 		this.tag = tag;
 		this.mon_open = mon_open;
@@ -103,6 +106,14 @@ public class CafeDto implements Serializable {
 
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
+	}
+
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
 	}
 
 	public int getLike_count() {
@@ -239,6 +250,10 @@ public class CafeDto implements Serializable {
 
 	public void setClosed(int closed) {
 		this.closed = closed;
+	}
+
+	public int getCafe_id() {
+		return cafe_id;
 	}
 
 }

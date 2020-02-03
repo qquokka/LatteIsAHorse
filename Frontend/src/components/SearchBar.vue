@@ -1,5 +1,5 @@
 <template>
-<form class="search-form input-group mb-3" @submit.prevent="searchNow">
+<form class="search-form input-group mb-3" @submit.prevent="searchNow()">
     <input v-model="query" id="title" type="text" class="form-control morph-text" placeholder=" 지역명, 카페 이름 등🔍" aria-describedby="button-addon2" autofocus autocomplete="">
     <div class="input-group-append">
         <button  class="btn" type="submit" id="button-addon2">검색</button>
@@ -7,8 +7,9 @@
 </form>
 </template>
 
-<script>
 
+<script>
+import axios from 'axios'
 export default {
     name: 'SearchBar',
     data() {
@@ -17,9 +18,22 @@ export default {
         }
     },
     methods: {
-        searchNow() {
-            this.$router.push({ path: '/searched', query: { q: this.query } })
-        }
+       searchNow() {
+        axios.get(`${this.$store.state.constants.SERVER}/search/${this.query}`)
+          .then(response => {
+            //어딘가로 데이터 넘김
+            this.$router.push({ name: 'searchresult', 
+                                params: { 
+                                          cafes : response.data.cafes, 
+                                          posts : response.data.posts 
+                                        }
+                              })
+            console.log(response)
+          })
+          .catch(error => {
+            console.log(error.response)
+          })
+      }
     }
 }
 </script>

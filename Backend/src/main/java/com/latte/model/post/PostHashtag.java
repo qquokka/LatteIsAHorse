@@ -14,6 +14,11 @@ public class PostHashtag implements Serializable {
 		super();
 	}
 
+	public PostHashtag(String name) {
+		super();
+		this.name = name;
+	}
+
 	public PostHashtag(Long id, Long post_id, String name) {
 		super();
 		this.id = id;

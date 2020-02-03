@@ -3,6 +3,7 @@ package com.latte.payload;
 public class JwtAuthenticationResponse {
 	private String accessToken;
 	private String tokenType = "Bearer";
+	private String username;
 
 	public JwtAuthenticationResponse(String accessToken) {
 		this.accessToken = accessToken;
@@ -23,4 +24,13 @@ public class JwtAuthenticationResponse {
 	public void setTokenType(String tokenType) {
 		this.tokenType = tokenType;
 	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
 }

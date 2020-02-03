@@ -23,7 +23,7 @@ public interface IPostService {
 	Post getPostById(Long id);
 
 	// Update
-	int updatePostById(Long id);
+	int updatePost(Post post);
 
 	// Delete
 	int deletePostById(Long id);

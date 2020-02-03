@@ -54,7 +54,6 @@
       ])
     },
     methods: {
-
       isLogin() {
         this.$session.start()
         if (!this.$session.has('jwt')) {

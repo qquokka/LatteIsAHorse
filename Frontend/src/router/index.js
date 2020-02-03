@@ -27,6 +27,12 @@ const routes = [
     component: AboutUs
   },
   {
+    path: '/searchresult',
+    name: 'searchresult',
+    component: SearchResult,
+    props: true
+  },
+  {
     path: '/posts',
     name: 'posts',
     component: PostPage
@@ -36,6 +42,14 @@ const routes = [
     name: 'createpost',
     component: CreatePost,
     meta: { 
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/post/:postId/edit',
+    name: 'edit-post',
+    component: CreatePost,
+    meta: {
       requiresAuth: true
     }
   },
