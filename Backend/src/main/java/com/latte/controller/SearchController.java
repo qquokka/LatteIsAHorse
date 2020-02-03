@@ -38,7 +38,7 @@ public class SearchController {
 	@GetMapping("/search/{query}")
 	public ResponseEntity<Map<String, Object>> doSearch(@PathVariable("query") String query) throws Exception {
 		logger.info("SearchController-------------Do Search-------------" + new Date());
-//		query = query.replace(',', '|');
+		query = query.replace(',', '|');
 
 		List<Post> posts = searchService.searchInPosts(query);
 		List<CafeDto> cafes = searchService.searchInCafe(query);
