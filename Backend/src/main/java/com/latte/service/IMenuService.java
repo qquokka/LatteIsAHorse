@@ -21,7 +21,7 @@ public interface IMenuService {
 	List<MenuDto> getMenuByProduct(String product);
 
 	// Update
-	int updateMenuById(int mid);
+	int updateMenu(MenuDto menu);
 
 	// Delete
 	int deleteMenuById(int mid);

@@ -40,8 +40,8 @@ public class CafeDaoImpl {
 	}
 
 	// Update
-	public int updateCafeById(int cafe_id) {
-		return sqlSession.update(ns + "updateCafeById", cafe_id);
+	public int updateCafe(CafeDto cafedto) {
+		return sqlSession.update(ns + "updateCafe", cafedto);
 	}
 
 	// Delete

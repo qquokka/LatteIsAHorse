@@ -9,7 +9,12 @@ log/
 =======
 log/*
 
+<<<<<<< HEAD
+log/
+
+=======
 >>>>>>> c0002c7e5a7062755e7b0d06ea23c725627e0c30
+>>>>>>> 51234fc1b74a48238d29b2640ac2aa64925d2aa6
 ### STS ###
 .apt_generated
 .classpath

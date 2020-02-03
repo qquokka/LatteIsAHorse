@@ -64,13 +64,13 @@ public class PostController {
 	@PostMapping("/post")
 //	@PreAuthorize("permitAll")
 	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
-	// //API 사용권한 부여
 	public ResponseEntity<Map<String, Object>> addPost(@RequestBody PostAddRequest post, HttpServletRequest request)
 			throws Exception {
 		logger.info("PostController-------------Post add-------------" + new Date());
 
 		Long userId = getLoggedInUserId(request);
 		Long lastId = postservice.getLastPostedId();
+		
 
 		Map<String, Object> response = new HashMap<>();
 
@@ -80,12 +80,11 @@ public class PostController {
 		// 사진 있다면 사진 등록하는 로직 추가
 		// NumberResult response = new NumberResult();
 		int result = postservice.addPost(post);
-
+		
 		if (result < 1) { // 등록 실패
 			response.put("state", "fail");
 			return new ResponseEntity(null, HttpStatus.EXPECTATION_FAILED);
 		}
-
 		response.put("state", "success");
 		response.put("posted_id", lastId + 1);
 		response.put("userId", userId);
@@ -124,39 +123,34 @@ public class PostController {
 	}
 
 	@ApiOperation(value = "post 정보 업데이트", response = Map.class)
-	@PatchMapping("/post/{id}")
-	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
+	@PatchMapping("/post")
+//	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
 	// 수정 필요
-	public ResponseEntity<Map<String, Object>> updatePostById(@PathVariable("id") Long id) throws Exception {
+	public ResponseEntity<Map<String, Object>> updatePostById(@RequestBody Post post) throws Exception {
 		logger.info("PostController-------------Post Update-------------" + new Date());
-
 		// 사용자 아이디 조회해서 수정하려는 글이 로그인한 회원과 일치하는지 체크
-
 		Map<String, Object> response = new HashMap<>();
-
-		int result = postservice.updatePostById(id);
-
+		int result = postservice.updatePost(post);
 		if (result < 1) { // 등록 실패
 			response.put("state", "fail");
 			return new ResponseEntity(null, HttpStatus.EXPECTATION_FAILED);
 		}
-
 		response.put("state", "success");
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "post 삭제", response = Map.class)
 	@DeleteMapping("/post/{id}")
-	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
+//	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
 	// //API 사용권한 부여
 	public ResponseEntity<Map<String, Object>> deletePostById(@PathVariable("id") Long id) throws Exception {
-		logger.info("PostController-------------Post Update-------------" + new Date());
+		logger.info("PostController-------------Post Delete-------------" + new Date());
 
 		// 사용자 아이디 조회해서 삭제하려는 글이 로그인한 회원과 일치하는지 체크
 
 		Map<String, Object> response = new HashMap<>();
 
-		int result = postservice.updatePostById(id);
+		int result = postservice.deletePostById(id);
 
 		if (result < 1) { // 등록 실패
 			response.put("state", "fail");
