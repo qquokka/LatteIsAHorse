@@ -44,8 +44,8 @@ public class CafeServiceImpl implements ICafeService {
 	}
 
 	@Override
-	public int updateCafeById(int cafe_id) {
-		return cafeDao.updateCafeById(cafe_id);
+	public int updateCafe(CafeDto cafedto) {
+		return cafeDao.updateCafe(cafedto);
 	}
 
 	@Override

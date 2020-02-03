@@ -10,6 +10,7 @@
 		cafe_phone,
 		latitude,
 		longitude,
+		thumbnail,
 		like_count,
 		tag,
 		mon_open,
@@ -40,6 +41,7 @@
 		cafe_phone,
 		latitude,
 		longitude,
+		thumbnail,
 		like_count,
 		tag,
 		mon_open,
@@ -74,6 +76,7 @@
 		cafe_phone,
 		latitude,
 		longitude,
+		thumbnail,
 		like_count,
 		tag,
 		mon_open,
@@ -107,6 +110,7 @@
 		cafe_phone,
 		latitude,
 		longitude,
+		thumbnail,
 		like_count,
 		tag,
 		mon_open,
@@ -140,6 +144,7 @@
 		cafe_phone,
 		latitude,
 		longitude,
+		thumbnail,
 		like_count,
 		tag,
 		mon_open,
@@ -180,8 +185,7 @@
 		#{sun_close}
 	</insert>
 
-	<update id="updateCafeById"
-		parameterType="com.latte.dto.CafeDto">
+	<update id="updateCafe" parameterType="com.latte.dto.CafeDto">
 		UPDATE cafe SET
 		cafe_name = #{cafe_name},
 		cafe_address =
@@ -189,6 +193,7 @@
 		cafe_phone =#{cafe_phone},
 		latitude = #{latitude},
 		longitude =#{longitude},
+		thumbnail =#{thumbnail},
 		like_count =#{like_count},
 		tag =#{tag},
 		mon_open =#{mon_open},

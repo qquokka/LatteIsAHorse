@@ -40,8 +40,8 @@ public class PostDaoImpl {
 		return sqlSession.selectOne(ns + "getPostById", id);
 	}
 
-	public int updatePostById(Long id) {
-		return sqlSession.update(ns + "updatePostById", id);
+	public int updatePost(Post post) {
+		return sqlSession.update(ns + "updatePostById", post);
 	}
 
 	public int deletePostById(Long id) {
