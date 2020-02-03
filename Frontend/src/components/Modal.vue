@@ -2,8 +2,8 @@
   <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="staticBackdropLabel">
+        <div class="modal-header border-0">
+          <h4 class="" id="staticBackdropLabel">
             <strong v-if="showLogin">LOGIN</strong>
             <strong v-else>SIGN UP</strong>
           </h4>
@@ -11,7 +11,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div v-if="fail.occured" id="authFailAlert" class="alert alert-warning mb-0" role="alert" style="border-radius: 20px 20px !important;">
+        <div v-if="fail.occured" id="authFailAlert" class="alert alert-warning mb-0" role="alert">
           <h6 class="mb-0">{{ fail.content }}</h6>
         </div>
         <div class="modal-body">
@@ -90,13 +90,10 @@
   height: 100vh !important;
   display: flex;
 }
-.modal-header {
-  background: #88D8B0;
-  border-radius: 20px 20px;
-}
-.modal-body {
-  border-radius: 15px 15px !important;
 
+.modal-content {
+  border-radius: 21px;
+  background: none;
 }
 .btn-outline-warning {
   border: 1px solid #88D8B0 !important;

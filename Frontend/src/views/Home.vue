@@ -5,7 +5,7 @@
     </div>
     <nav-bar style="position:fixed;left:0;width:100%" blackOrWhite="true" />
     <h2 style="margin-top: 8rem;margin-bottom:2rem;position:relative">Find your ideal cafe</h2>
-    <search-bar @search-event="searchNow" class="mx-auto"  />
+    <search-bar class="mx-auto"  />
     <hash-tags class="position-relative mb-5 pb-5" />
     <div class="main-section" style="margin-top:15rem;">
       <h2 class="article-header">가까운 카페</h2>
@@ -20,7 +20,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import { mapGetters } from 'vuex' 
   import SearchBar from '@/components/SearchBar.vue'
   import NavBar from '@/components/NavBar.vue'
@@ -55,22 +54,6 @@
       ])
     },
     methods: {
-      searchNow(query) {
-        axios.get(`${this.$store.state.constants.SERVER}/search/${query}`)
-          .then(response => {
-            //어딘가로 데이터 넘김
-            this.$router.push({ name: 'searchresult', 
-                                params: { 
-                                          cafes : response.data.cafes, 
-                                          posts : response.data.posts 
-                                        }
-                              })
-            console.log(response)
-          })
-          .catch(error => {
-            console.log(error.response)
-          })
-      },
       isLogin() {
         this.$session.start()
         if (!this.$session.has('jwt')) {
@@ -80,21 +63,8 @@
           this.$store.dispatch('login', this.$session.get('jwt'))
         }
       },
-      typeWriter() {
-        if (this.i < this.slogan.length) {
-          document.getElementById("slogan").innerText += this.slogan.charAt(this.i);
-          this.i++;
-          setTimeout(this.typeWriter, 125);
-        }
-      },
-      playBackground() {
-        const vid = document.getElementById("background")
-        vid.play()
-      }
     },
     mounted() {
-      this.typeWriter()
-      this.playBackground()
     }
   }
   
