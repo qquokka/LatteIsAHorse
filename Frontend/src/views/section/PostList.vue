@@ -1,15 +1,14 @@
 <template>
 <div id="post-list-main" class="container-fluid" >
-  <div class="row">
-    <div v-for="post in postData.slice(0, limits)" :key="post.id" class="post-list col-4 p-3 shadow">
-      <router-link :to="`post/${post.id}/`" style="text-decoration:none;color:#3f3f3f">
-        <div class="postbody">
-          <img :src="post.thumbnail" width="100%" height="300px" style="border-radius:15px 15px 0 0">
-          <h3 class="p-2">{{ post.title }}</h3><span><i class="fas fa-thumbs-up"> {{ post.like_count }}</i></span>
-          <p class="mb-0"> {{ post.writer_name }} 님이 </p>
-          <p class=""> {{ post.created_at }} 에 쓴 글 </p>
-          
-          <!-- <p class="post-preview">{{ post.content }}</p> -->
+  <div class="row px-2">
+    <div v-for="post in postData.slice(0, limits)" :key="post.id" class="post-list col-4 p-3">
+      <router-link :to="`post/${post.id}/`" class="text-decoration-none">
+        <div class="postbody overflow-hidden">
+          <img :src="post.thumbnail" width="100%" height="300px">
+          <h3 class="p-2 posttitle">{{ post.title }}</h3>
+          <p class="" style="font-size:0.8rem"><i class="fas fa-thumbs-up"> {{ post.like_count }}</i></p>
+          <p class="mb-0"> {{ post.writer_name }}</p>
+          <p class="postcreate" style="top:1rem;left:3rem"> {{ post.created_at.slice(0,10) }} </p>
         </div>
       </router-link>
     </div>
@@ -21,14 +20,19 @@
 </template>
 
 <script>
-// import dummy from "!@/assets/dummy/post_dummy.json"
 import axios from 'axios'
 export default {
   data() {
     return {
       postData: [],
-      limits: 12,
     }  
+  },
+  props: {
+      limits: {
+          limits: Number,
+          required: true,
+          default: 12,
+      },
   },
   mounted() {
     axios
@@ -53,22 +57,49 @@ export default {
 
 
 <style>
-#post-list-main {
-}
-
-.postbody {
-  background: rgba(255,255,255,0.95);  
-  border-radius: 15px  
-}
-
-.postbody>h3:hover {
-  text-decoration: none;
-}
 
 .post-preview {
     overflow: hidden;  
     display: -webkit-box;  
     -webkit-line-clamp: 5;  
     -webkit-box-orient: vertical    
+}
+
+.postbody {
+  color: #2f2f2f;
+  border-radius: 50px;
+  background: linear-gradient(145deg, #dadada, #ffffff);
+  box-shadow:  41px 41px 82px #cecece, 
+              -41px -41px 82px #ffffff;
+  transition: 250ms;
+}
+.postbody:hover {
+  background: linear-gradient(145deg, #ffffff, #dadada);
+  box-shadow:  41px 41px 82px #cecece, 
+              -41px -41px 82px #ffffff;
+}
+.postbody:hover .posttitle {
+  color: white;
+  text-shadow: 1px 1px 1px #2f2f2f;
+  background: lavender;
+}
+
+.posttitle {
+  background: #f2f2f2;
+  box-shadow:  41px 41px 82px #cecece, 
+              -41px -41px 82px #ffffff;
+  border: 0px lavender;
+  transition-duration: 150ms
+}
+
+.postcreate {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  padding: 0.3rem;
+  background: linear-gradient(145deg, #dadada, #ffffff);
+  opacity: 0.7;
+  box-shadow:  41px 41px 82px #cecece, 
+              -41px -41px 82px #ffffff;
 }
 </style>

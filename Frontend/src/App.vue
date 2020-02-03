@@ -70,16 +70,26 @@ export default {
 };
 </script>
 <style>
+.router-link-active {
+    color: darkturquoise !important;
+}
 html {
   font-family: “Roboto”, sans-serif;
+  background-color: #ffffff;
+  overflow-x: hidden
 }
 #app {
+<<<<<<< HEAD
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+=======
+  font-family: 'Roboto', sans-serif;
+>>>>>>> afddf278d9e617871a5c39befb0170defea39ba5
   text-align: center;
   color: #2c3e50;
   min-height: 100vh;
+  background-color: #ffffff;
 }
 #nav {
   padding: 30px;
