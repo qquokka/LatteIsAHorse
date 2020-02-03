@@ -50,8 +50,8 @@ public class PostServiceImpl implements IPostService {
 
 	@Override
 	@Transactional
-	public int updatePostById(Long id) {
-		return postDao.updatePostById(id);
+	public int updatePost(Post post) {
+		return postDao.updatePost(post);
 	}
 
 	@Override

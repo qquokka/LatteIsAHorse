@@ -45,8 +45,8 @@ public class MenuServiceImpl implements IMenuService {
 	}
 
 	@Override
-	public int updateMenuById(int mid) {
-		return menuDao.updateMenuById(mid);
+	public int updateMenu(MenuDto menu) {
+		return menuDao.updateMenu(menu);
 	}
 
 	@Override

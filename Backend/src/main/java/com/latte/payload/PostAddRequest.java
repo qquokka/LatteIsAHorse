@@ -3,6 +3,8 @@ package com.latte.payload;
 import java.io.Serializable;
 
 public class PostAddRequest implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private String title;
 	private String thumbnail;
 	private String content;

@@ -14,7 +14,7 @@
 		CAFE_NAME REGEXP (#{query})
 		OR 
 		CAFE_ADDRESS REGEXP(#{query}) 
-		ORDER BY UPDATED_AT
+		ORDER BY like_count
 	</select>
 
 

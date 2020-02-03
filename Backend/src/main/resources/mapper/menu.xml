@@ -49,7 +49,7 @@
 		#{tag}
 	</insert>
 
-	<update id="updateMenuById"
+	<update id="updateMenu"
 		parameterType="com.latte.dto.MenuDto">
 		UPDATE menu SET
 		product = #{product},
