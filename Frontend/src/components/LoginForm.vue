@@ -2,18 +2,17 @@
 <div>
   <form @submit.prevent="login" class="px-3 pt-3">
     <div class="form-group">
-      <input type="email" class="form-control" id="inputId" placeholder="ID (your_id@example.com)" v-model="credentials.usernameOrEmail">
+      <input type="email" class="logininput" id="inputId" placeholder="ID (your_id@example.com)" v-model="credentials.usernameOrEmail">
     </div>
     <div class="form-group">
-      <input type="password" class="form-control" id="inputPW" placeholder="PASSWORD" v-model="credentials.password">
+      <input type="password" class="logininput" id="inputPW" placeholder="PASSWORD" v-model="credentials.password">
     </div>
     <b>
       <small>처음이시라면? <slot></slot></small>
     </b>
     <button type="submit" class="btn btn-block btn-outline-warning font-weight-bolder">로그인</button>
-    <hr>
   </form>
-  <div class="container px-2">
+  <div class="container px-2 d-none">
     <div class="row px-3">
       <div class="col-md-6 mx-0 my-1 px-1">
       <button id="kakaoLoginButton" class="btn btn-block btn-outline-danger font-weight-bolder"><i class="fas fa-comment"/> 카카오 로그인</button>
@@ -36,7 +35,6 @@ export default {
   },
   methods: {
     login() {
-      // console.log('emit-login in loginform')
       this.$emit('login', this.credentials)
       this.credentials = {}
     }
@@ -64,4 +62,15 @@ export default {
   background: rgba(255, 110, 105) !important;
   color: whitesmoke !important
 }
+.logininput {
+  border:0;
+  background: #ffffff;
+  box-shadow:  -41px 41px 82px #d9d9d9, 
+              41px -41px 82px #ffffff;
+  width: 100%;
+  height: 3rem;
+  margin: 0.2rem;
+  padding: 1rem;
+}
+
 </style>

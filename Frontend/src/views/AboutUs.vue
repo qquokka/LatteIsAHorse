@@ -1,8 +1,7 @@
 <template>
-  <div id="aboutus" :style="{'background-image': `url(${require('../assets/img/tower.jpg')})`}">
+  <div id="aboutus">
     <nav-bar style="position:fixed;left:0;width:100%;" />
-		<h1 class="display-1 mt-5 text-white">저희는</h1>
-
+    <div id="background-aboutus" />
   </div>
 </template>
 
@@ -38,6 +37,15 @@
   background-size: cover;
   width: 100vw;
   height: 5000px;
+}
+#background-aboutus {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 100vw;
+    height: 30rem;
+    background-color: lavenderblush
 }
 nav {
   background: transparent;

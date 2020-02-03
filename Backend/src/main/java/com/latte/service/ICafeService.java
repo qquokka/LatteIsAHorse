@@ -21,7 +21,7 @@ public interface ICafeService {
 	List<CafeDto> getCafeByAddress(String cafe_address);
 
 	// Update
-	int updateCafeById(int cafe_id);
+	int updateCafe(CafeDto cafedto);
 
 	// Delete
 	int deleteCafeById(int cafe_id);

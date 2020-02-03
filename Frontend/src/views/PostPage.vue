@@ -5,7 +5,7 @@
     <nav-bar />
     <search-bar class="mx-auto"  style="margin-top:9rem" />
     <router-link v-if="isAuthenticated" to="posts/create/" class="position-relative"><button class="btn-danger btn">글쓰기</button></router-link>
-    <post-list style="margin-top: 8rem;" />
+    <post-list style="margin-top: 8rem;" class="" />
   </div>
 </template>
 

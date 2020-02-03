@@ -1,7 +1,7 @@
 <template>
-<div id="post-list-main" class="container-fluid" >
+<div id="post-list-main" class="container-fluid">
   <div class="row px-2">
-    <div v-for="post in postData.slice(0, limits)" :key="post.id" class="post-list col-4 p-3">
+    <div v-for="post in postData.slice(0, limits)" :key="post.id" class="post-list col-12 col-sm-6 col-lg-4 p-3">
       <router-link :to="`post/${post.id}/`" class="text-decoration-none">
         <div class="postbody overflow-hidden">
           <img :src="post.thumbnail" width="100%" height="300px">
@@ -68,14 +68,10 @@ export default {
   color: #2f2f2f;
   border-radius: 50px;
   background: linear-gradient(145deg, #dadada, #ffffff);
-  box-shadow:  41px 41px 82px #cecece, 
-              -41px -41px 82px #ffffff;
-  transition: 250ms;
+  transition: 250ms ease-in-out;
 }
 .postbody:hover {
-  background: linear-gradient(145deg, #ffffff, #dadada);
-  box-shadow:  41px 41px 82px #cecece, 
-              -41px -41px 82px #ffffff;
+  border: 3px solid lavender
 }
 .postbody:hover .posttitle {
   color: white;
@@ -85,10 +81,8 @@ export default {
 
 .posttitle {
   background: #f2f2f2;
-  box-shadow:  41px 41px 82px #cecece, 
-              -41px -41px 82px #ffffff;
   border: 0px lavender;
-  transition-duration: 150ms
+  transition:ease-in-out;
 }
 
 .postcreate {
@@ -98,7 +92,5 @@ export default {
   padding: 0.3rem;
   background: linear-gradient(145deg, #dadada, #ffffff);
   opacity: 0.7;
-  box-shadow:  41px 41px 82px #cecece, 
-              -41px -41px 82px #ffffff;
 }
 </style>
