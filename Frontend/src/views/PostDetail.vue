@@ -6,6 +6,8 @@
 		<h5>{{post.created_at.slice(0,10) }}</h5>
 		<h1 class="border-bottom pb-4"><span class="text-muted small">written by</span> {{ post.writer_name }} </h1>
 		<p v-html="post.content"></p>
+		<button v-if="isWriter" @click="updatePost">수정</button>
+		<button v-if="isWriter" @click="deletePost">삭제</button>
 
 		<h4 class="mt-5 pt-5">Comments</h4>
 		<div class="container comments">
@@ -33,10 +35,11 @@ export default {
 			loading: false,
 			post: null,
 			comments: [],
-      error: null
+			error: null,
+			isWriter: false
 		}
 	},
-	method: {
+	methods: {
 		getPost () {
 			axios.get(`${this.$store.state.constants.SERVER}/post/${this.postId}`)
 					.then(response => {
@@ -49,6 +52,17 @@ export default {
 						this.comments = response.data
 					})
 		},
+		updatePost() {
+			console.log('수정 시작')
+			this.$router.push('/posts/create')
+		},
+		deletePost() {
+			axios.delete(`${this.$store.state.constants.SERVER}/post/${this.postId}`, {headers: {'Authorization': "Bearer " + this.$session.get('jwt')}})
+				.then(response => {
+					console.log(response)
+					this.$router.push('/posts')
+				})
+		}
 	},
 	created () {
 		axios.get(`${this.$store.state.constants.SERVER}/post/${this.postId}`)
@@ -56,7 +70,9 @@ export default {
 						console.log(response)
 						this.post = response.data
 						console.log(this.post)
-						
+						if (this.post.writer_name === this.$session.get('username')) {
+							this.isWriter = true
+						}
 					})
 	},
 	mounted() {
