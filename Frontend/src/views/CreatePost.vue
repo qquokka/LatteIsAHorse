@@ -98,7 +98,8 @@
                         let body = {
                             "title": this.title,
                             "content": html.innerHTML,
-                            "thumbnail" : tempres
+                            "thumbnail" : tempres,
+                            "cafe_id" : 1,
                             }
                         this.submitPost(body)  
             })

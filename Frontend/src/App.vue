@@ -57,11 +57,19 @@ export default {
     }
   },
   mounted () {
-  window.addEventListener('scroll', this.onScroll)
-},
+    window.addEventListener('scroll', this.onScroll)
+    if  (localStorage.getItem('vue-session-key')) {
+      let stored = JSON.parse(localStorage.getItem('vue-session-key'))
+      this.$store.dispatch('login', stored.jwt)
+      this.$store.commit('setToken', stored.jwt)
+    }
+    },
 }
 </script>
 <style>
+html {
+  font-family: “Roboto”, sans-serif;
+}
 #app {
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
