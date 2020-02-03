@@ -7,6 +7,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.json.JsonWriteFeature;
 import com.latte.model.audit.DateAudit;
 
 @Entity
@@ -31,6 +34,7 @@ public class User extends DateAudit {
 	@Email
 	private String email;
 
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@NotBlank
 	@Size(max = 100)
 	private String password;
