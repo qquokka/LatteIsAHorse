@@ -39,15 +39,17 @@ public class SearchController {
 	public ResponseEntity<Map<String, Object>> doSearch(@PathVariable("query") String query) throws Exception {
 		logger.info("SearchController-------------Do Search-------------" + new Date());
 //		query = query.replace(',', '|');
-		
+
 		List<Post> posts = searchService.searchInPosts(query);
 		List<CafeDto> cafes = searchService.searchInCafe(query);
-		
-		Map<String, Object> reponse = new HashMap<String, Object>();
-		
-		reponse.put("posts", posts);
-		reponse.put("cafes", cafes);		
 
-		return new ResponseEntity<Map<String,Object>>(reponse, HttpStatus.OK);
+		Map<String, Object> reponse = new HashMap<String, Object>();
+
+		if (!posts.isEmpty())
+			reponse.put("posts", posts);
+		if (!cafes.isEmpty())
+			reponse.put("cafes", cafes);
+
+		return new ResponseEntity<Map<String, Object>>(reponse, HttpStatus.OK);
 	}
 }
