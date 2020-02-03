@@ -6,7 +6,7 @@ import AboutUs from '../views/AboutUs.vue'
 import PostPage from '../views/PostPage.vue'
 import CreatePost from '../views/CreatePost.vue'
 import PostDetail from '../views/PostDetail.vue'
-import SerachResult from '../views/SearchResult.vue'
+import SearchResult from '../views/SearchResult.vue'
 
 Vue.use(VueRouter)
 
@@ -54,9 +54,9 @@ const routes = [
     props: true
   },
   {
-    path: '/searched*',
+    path: '/searched',
     name: 'search-result',
-    component: SerachResult,
+    component: SearchResult,
   }
 ]
 

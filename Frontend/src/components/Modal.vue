@@ -71,7 +71,6 @@
             this.fail = {
               occured: true,
               content: '이메일 또는 비밀번호를 잘못 입력하셨습니다'
-            
           }
         }
       }

@@ -39,7 +39,6 @@
 import NavBar from "@/components/NavBar.vue";
 import SearchBar from "@/components/SearchBar.vue";
 import axios from "axios";
-
 export default {
   name: "SearchResult",
   components: {
@@ -48,9 +47,9 @@ export default {
   },
   data() {
     return {
-			cafes: [],
-			posts: []
-		};
+      cafes: [],
+      posts: []
+    };
   },
   methods: {
     goToCafePage(cafe_id) {
@@ -62,21 +61,20 @@ export default {
         .catch(error => {
           console.log(error.response);
         });
-		},
+    },
     searchNow(query) {
       axios
         .get(`${this.$store.state.constants.SERVER}/search/${query}`)
         .then(response => {
-					this.cafes = response.data.cafes
-					this.posts = response.data.posts
-        })
+          this.cafes = response.data.cafes;
+          this.posts = response.data.posts;
+        });
     }
-	},
-	mounted() {
-		let queries = this.$route.query.q.split(' ')
-		this.searchNow(queries.join('|'))
-		console.log(queries)
-	}
+  },
+  mounted() {
+    let queries = this.$route.query.q.split(" ");
+    this.searchNow(queries.join("|"));
+  }
 };
 </script>
 
