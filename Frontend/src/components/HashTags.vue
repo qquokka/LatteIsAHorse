@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-    <div class="row justify-content-center text-white hash">
+    <div class="row justify-content-center text-dark hash">
         <a>#인스타맛집</a><a> #브런치</a><a> #24시간</a><a> #스터디</a><a> #조용한곳</a><a> #고급원두</a><a> #핸드드립 </a><a>#비건메뉴</a><a> #노키즈존</a>
     </div>
 </div>
