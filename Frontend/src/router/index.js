@@ -6,6 +6,7 @@ import AboutUs from '../views/AboutUs.vue'
 import PostPage from '../views/PostPage.vue'
 import CreatePost from '../views/CreatePost.vue'
 import PostDetail from '../views/PostDetail.vue'
+import SearchResult from '../views/SearchResult.vue'
 
 Vue.use(VueRouter)
 
@@ -26,6 +27,12 @@ const routes = [
     component: AboutUs
   },
   {
+    path: '/searchresult',
+    name: 'searchresult',
+    component: SearchResult,
+    props: true
+  },
+  {
     path: '/posts',
     name: 'posts',
     component: PostPage
@@ -35,6 +42,14 @@ const routes = [
     name: 'createpost',
     component: CreatePost,
     meta: { 
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/post/:postId/edit',
+    name: 'edit-post',
+    component: CreatePost,
+    meta: {
       requiresAuth: true
     }
   },

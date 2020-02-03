@@ -1,23 +1,19 @@
 <template>
   <div class="container-fluid p-0">
-    
-    <nav-bar style="position:fixed;left:0;width:100%" />
-    <h2 class="brand" style="margin-top: 8rem;">믿고 한번 가봐...</h2>
-    <h1 id="slogan"></h1>
+    <div id="background" >
 
-    <video id="background"  width="100%" muted loop>
-      <source src="../assets/indexmovie.webm" type="video/webm" >
-    </video>
+    </div>
+    <nav-bar style="position:fixed;left:0;width:100%" blackOrWhite="true" />
+    <h2 style="margin-top: 8rem;margin-bottom:2rem;position:relative">Find your ideal cafe</h2>
     <search-bar @search-event="searchNow" class="mx-auto"  />
-
     <hash-tags class="position-relative mb-5 pb-5" />
-    <div class="main-raise">
-      <h2 class="article-header">당신에게 꼭 맞는 오늘의 카페</h2>
+    <div class="main-section" style="margin-top:15rem;">
+      <h2 class="article-header">가까운 카페</h2>
       <recom-list/>
     </div>
-    <div class="main-raise">
+    <div class="main-section" >
       <h2 class="article-header">EDITOR's PICK</h2>
-      <editor-pick-list/>
+      <post-list limits="3" />
     </div>
     <Footer />
   </div>
@@ -29,7 +25,7 @@
   import SearchBar from '@/components/SearchBar.vue'
   import NavBar from '@/components/NavBar.vue'
   import RecomList from '@/components/RecomList.vue'
-  import EditorPickList from '@/components/EditorPickList.vue'
+  import PostList from '@/views/section/PostList.vue'
   import HashTags from '@/components/HashTags.vue'
   import Footer from '@/views/section/Footer.vue'
 
@@ -38,7 +34,7 @@
     components: {
 			SearchBar,
       RecomList,
-      EditorPickList,
+      PostList,
       NavBar,
       HashTags,
       Footer
@@ -62,6 +58,13 @@
       searchNow(query) {
         axios.get(`${this.$store.state.constants.SERVER}/search/${query}`)
           .then(response => {
+            //어딘가로 데이터 넘김
+            this.$router.push({ name: 'searchresult', 
+                                params: { 
+                                          cafes : response.data.cafes, 
+                                          posts : response.data.posts 
+                                        }
+                              })
             console.log(response)
           })
           .catch(error => {
@@ -99,18 +102,7 @@
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:900&display=swap');
-body {
-  height: fit-content;
-}
 
-#slogan {
-  font-family: 'Noto Sans KR', sans-serif;
-  position: relative;
-  z-index: 5;
-  color: whitesmoke;
-  text-shadow: 2px 2px 1px #3f3f3f;
-  user-select: none;
-}
 
 .brand {
   font-family: 'Noto Sans KR', sans-serif;
@@ -120,24 +112,18 @@ body {
   text-shadow: 2px 2px 1px #3f3f3f;
   user-select: none;
 }
-#app {
-  background: whitesmoke;
-}
+
 .banner-quote {
   padding-top: 50px;
   color: white;
   text-align: left;
 }
-.main-raise {
+.main-section {
   position: relative;
-  border: 1px solid white;
   margin: 0 auto 3rem auto;
-  background: rgba(255,255,255,0.95);
-  border-radius: 15px 15px;
   width: 85%;
   min-width: 450px;
-  padding: 2rem;
-  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  border-radius: 50px;
 }
 .list-container {
   background-color: rgba(255, 255, 255, 0.95);
@@ -145,15 +131,19 @@ body {
 .article-header {
   color: #3f3f3f;
   text-align: left;
-  border-left: 15px solid pink;
-  padding-left: 2rem;
   margin-top: 2rem;
+  border-radius: 20px;
+  text-shadow:  26px 26px 51px #d9d9d9, 
+              -26px -26px 51px #ffffff;
+  width: fit-content;
 }
 #background {
     position: absolute !important;
     top: 0;
     left: 0;
     z-index: 0;
-    filter: brightness(80%)
+    width: 100vw;
+    height: 30rem;
+    background-color: lavender
 }
 </style>

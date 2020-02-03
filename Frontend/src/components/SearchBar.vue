@@ -1,15 +1,16 @@
 <template>
-<form class="search-form input-group mb-3" @submit.prevent="searchNow">
-    <input v-model="query" id="title" type="text" class="form-control" placeholder=" 지역명, 카페 이름 등🔍" aria-describedby="button-addon2" autofocus autocomplete="">
+<form class="search-form input-group mb-3" @submit.prevent="searchNow()">
+    <input v-model="query" id="title" type="text" class="form-control morph-text" placeholder=" 지역명, 카페 이름 등🔍" aria-describedby="button-addon2" autofocus autocomplete="">
     <div class="input-group-append">
-        <button  class="btn btn-info" type="button" id="button-addon2">검색</button>
+        <button  class="btn" type="submit" id="button-addon2">검색</button>
     </div>
 </form>
 </template>
 
+
 <script>
 export default {
-    name: 'TodoForm',
+    name: 'SearchBar',
     data() {
         return {
             query: ''
@@ -29,19 +30,33 @@ export default {
     border-radius: 20px 0 0 20px;
     font-size: 1.2rem;
 }
-.btn-info {
-    background-color: slateblue;
-    color: #fff ;
-    width: 5rem;
-    font-size: 1.25rem;
-    border-radius: 0 20px 20px 0;
-    border: 0;
+
+.btn {
+    border-radius: 50px;
+		width: 5rem;
+    background: #E6E6FA;
+    box-shadow:  26px 26px 51px #c4c4d5, 
+                -26px -26px 51px #ffffff;
+		transition: 0.2s;
 }
+.btn:hover {
+	border-radius: 50px;
+	background: #E6E6FA;
+	box-shadow: inset 26px 26px 51px #c4c4d5, 
+							inset -26px -26px 51px #ffffff;
+	font-weight: 900
+}
+
 .search-form {
     width: 60%;
     min-width: 450px;
 }
-input {
-    font-family: "Font Awesome 5 Free";
+
+input[type=text] {
+	border-radius: 50px;
+	border: 0;
+	background: #ffffff;
+	box-shadow:  6px 16px 31px #d9d9d9, 
+							-6px -16px 31px #ffffff;
 }
 </style>

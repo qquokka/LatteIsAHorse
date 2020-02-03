@@ -1,7 +1,6 @@
 <template>
-  
   <nav class="navbar navbar-expand-lg fixed-top" id="topnav">
-  <router-link to="/" class="ml-2" ><img src="../assets/img/navlogo2.png"  style="border-radius:3px" width="120px"></router-link>
+  <router-link to="/" class="ml-2 row text-decoration-none" ><img src="../assets/logo_icon.png" style="margin: -30px" width="120px"><h4 class="my-auto ml-3" style="color:#3f3f3f">라떼는말이야</h4> </router-link>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -42,6 +41,12 @@ export default {
     isAuthenticated: this.$session.exists('jwt'),
   };
 },
+props: {
+        iswhite: {
+          type: Boolean,
+          default: false
+        }
+},
 methods: {
   logout() {
     this.$session.destroy()
@@ -49,23 +54,20 @@ methods: {
     this.handleScroll ()
   },
   handleScroll () {
-    this.scrolled = window.scrollY > 0;
+    if (this.iswhite) {
+      this.scrolled = true
+    } else {
+      this.scrolled = window.scrollY > 0
+    }
     const topnav = document.getElementById('topnav')
-    const navitem = document.querySelectorAll('.nav-link')
     if (this.scrolled) {
       topnav.style.background = "whitesmoke"
       topnav.style.boxShadow = "2px 2px 12px gray"
-      for (var i=0;i<navitem.length;i++){
-        navitem[i].style.color = "#2f2f2f"
-      }
     }
     else {
       topnav.style.background = "none"
       topnav.style.backgroundImage = "unset"
       topnav.style.boxShadow = "0px 0px 0px"
-      for (i=0;i<navitem.length;i++){
-        navitem[i].style.color = "white"
-      }
     }
   }
 },
@@ -92,7 +94,7 @@ i {
   color: inherit !important;
 }
 .nav-link {
-  color: white;
+  color: #2f2f2f;
   margin:auto;
   cursor:pointer;
   transition: 0.25s ease-in-out;
