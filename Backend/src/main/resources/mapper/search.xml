@@ -17,5 +17,4 @@
 		ORDER BY LIKE_COUNT limit 10
 	</select>
 
-
 </mapper>
