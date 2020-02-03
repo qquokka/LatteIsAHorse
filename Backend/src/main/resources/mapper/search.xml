@@ -14,11 +14,7 @@
 		CAFE_NAME REGEXP (#{query})
 		OR 
 		CAFE_ADDRESS REGEXP(#{query}) 
-<<<<<<< HEAD
 		ORDER BY LIKE_COUNT limit 10
-=======
-		ORDER BY like_count
->>>>>>> eed6893e47a074eef819903b43a8d9a7782a2faf
 	</select>
 
 
