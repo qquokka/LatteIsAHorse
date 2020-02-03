@@ -58,6 +58,13 @@
       searchNow(query) {
         axios.get(`${this.$store.state.constants.SERVER}/search/${query}`)
           .then(response => {
+            //어딘가로 데이터 넘김
+            this.$router.push({ name: 'searchresult', 
+                                params: { 
+                                          cafes : response.data.cafes, 
+                                          posts : response.data.posts 
+                                        }
+                              })
             console.log(response)
           })
           .catch(error => {

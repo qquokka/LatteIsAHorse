@@ -6,7 +6,7 @@
 		SELECT * FROM POSTS WHERE
 		TITLE REGEXP (#{query}) 
 		OR CONTENT REGEXP(#{query}) 
-		ORDER BY UPDATED_AT
+		ORDER BY UPDATED_AT limit 10
 	</select>
 
 	<select id="searchInCafe" resultType="cafe">
@@ -14,7 +14,7 @@
 		CAFE_NAME REGEXP (#{query})
 		OR 
 		CAFE_ADDRESS REGEXP(#{query}) 
-		ORDER BY UPDATED_AT
+		ORDER BY LIKE_COUNT limit 10
 	</select>
 
 
