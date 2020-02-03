@@ -9,6 +9,7 @@
 
 
 <script>
+import axios from 'axios'
 export default {
     name: 'SearchBar',
     data() {
@@ -17,9 +18,22 @@ export default {
         }
     },
     methods: {
-        searchNow() {
-            this.$emit('search-event', this.query)
-        }
+       searchNow() {
+        axios.get(`${this.$store.state.constants.SERVER}/search/${this.query}`)
+          .then(response => {
+            //어딘가로 데이터 넘김
+            this.$router.push({ name: 'searchresult', 
+                                params: { 
+                                          cafes : response.data.cafes, 
+                                          posts : response.data.posts 
+                                        }
+                              })
+            console.log(response)
+          })
+          .catch(error => {
+            console.log(error.response)
+          })
+      }
     }
 }
 </script>

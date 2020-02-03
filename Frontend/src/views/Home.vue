@@ -20,7 +20,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import { mapGetters } from 'vuex' 
   import SearchBar from '@/components/SearchBar.vue'
   import NavBar from '@/components/NavBar.vue'
@@ -55,22 +54,6 @@
       ])
     },
     methods: {
-      searchNow(query) {
-        axios.get(`${this.$store.state.constants.SERVER}/search/${query}`)
-          .then(response => {
-            //어딘가로 데이터 넘김
-            this.$router.push({ name: 'searchresult', 
-                                params: { 
-                                          cafes : response.data.cafes, 
-                                          posts : response.data.posts 
-                                        }
-                              })
-            console.log(response)
-          })
-          .catch(error => {
-            console.log(error.response)
-          })
-      },
       isLogin() {
         this.$session.start()
         if (!this.$session.has('jwt')) {
