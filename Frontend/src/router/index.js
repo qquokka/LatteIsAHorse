@@ -40,7 +40,7 @@ const routes = [
   },
   {
     path: '/post/:postId/edit',
-    name: 'edit-post',
+    name: 'edit-post', alias: '/post/:postId/edit',
     component: CreatePost,
     meta: {
       requiresAuth: true

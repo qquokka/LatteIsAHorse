@@ -12,8 +12,14 @@
 		<h4 class="mt-5 pt-5">Comments</h4>
 		<div class="container comments">
 			댓글 갯수: {{ comments.length }}
+			<li v-for="comment in comments" :key="comment.id">{{ comment.writer_name }} : {{ comment.content }} at {{ comment.created_at }}
+				<a v-if="comment.writer_name === $session.get('username')" @click.prevent="deleteComment(comment.id)">[X]</a>
+			</li>
 		</div>
-		
+		<form v-if="isLogined" @submit.prevent="addComment">
+			<input type="text" v-model="addCommentContent">
+			<button>등록</button>
+		</form>
 	</div>
   </div>
 </template>
@@ -33,10 +39,12 @@ export default {
 	data() {
 		return {
 			loading: false,
-			post: null,
+			post: {},
 			comments: [],
 			error: null,
-			isWriter: false
+			isWriter: false,
+			addCommentContent: null,
+			isLogined: false
 		}
 	},
 	methods: {
@@ -46,15 +54,9 @@ export default {
 						this.post = response.data
 					})
 		},
-		getComment () {
-			axios.get(`${this.$store.state.constants.SERVER}/comments/${this.postId}`)
-					.then(response => {
-						this.comments = response.data
-					})
-		},
 		updatePost() {
 			console.log('수정 시작')
-			this.$router.push('/posts/create')
+			this.$router.push(`/post/${this.postId}/edit`)
 		},
 		deletePost() {
 			axios.delete(`${this.$store.state.constants.SERVER}/post/${this.postId}`, {headers: {'Authorization': "Bearer " + this.$session.get('jwt')}})
@@ -62,30 +64,62 @@ export default {
 					console.log(response)
 					this.$router.push('/posts')
 				})
-		}
-	},
-	created () {
-		axios.get(`${this.$store.state.constants.SERVER}/post/${this.postId}`)
+		},
+		getComment () {
+			axios.get(`${this.$store.state.constants.SERVER}/comments/${this.postId}`)
+					.then(response => {
+						this.comments = response.data
+					})
+		},
+		addComment() {
+			if(this.addCommentContent === null || this.addCommentContent === ''){
+				alert('댓글 내용을 작성해주세요!')
+				return
+			}
+			let comment = {
+				content: this.addCommentContent,
+				post_id: this.postId
+			}
+			axios.post(`${this.$store.state.constants.SERVER}/comments`, comment, {headers: {'Authorization': "Bearer " + this.$session.get('jwt')}})
+				.then(response => {
+					console.log(response)
+					this.getComment()
+				})
+				.catch(error => {
+					console.log(error)
+				})
+		},
+		deleteComment(commentId) {
+			axios.delete(`${this.$store.state.constants.SERVER}/comments/${commentId}`, {headers: {'Authorization': "Bearer " + this.$session.get('jwt')}})
 					.then(response => {
 						console.log(response)
-						this.post = response.data
-						console.log(this.post)
-						if (this.post.writer_name === this.$session.get('username')) {
-							this.isWriter = true
-						}
+						this.getComment()
 					})
+					.catch(error => {
+						console.log(error)
+					})
+		}
 	},
 	mounted() {
 		setTimeout(() => {
 			window.scrollBy(0,1);
 		},120)
-	},
-	watch: {
-    // 라우트가 변경되면 메소드를 다시 호출됩니다.
-    $route: function() {
-			this.fetchData()
-		}
-  }
+		axios.get(`${this.$store.state.constants.SERVER}/post/${this.postId}`)
+					.then(response => {
+						this.post = response.data
+						console.log(this.post.title)
+						if (this.post.writer_name === this.$session.get('username')) {
+							this.isWriter = true
+						}
+					})
+		axios.get(`${this.$store.state.constants.SERVER}/comments/${this.postId}`)
+				.then(response => {
+					this.comments = response.data
+				})
+				.catch(error => {
+					console.log(error)
+				})
+		this.isLogined = this.$session.has('jwt')}
 }
 </script>
 

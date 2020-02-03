@@ -30,7 +30,6 @@ export default {
   props: {
       limits: {
           limits: Number,
-          required: true,
           default: 12,
       },
   },
