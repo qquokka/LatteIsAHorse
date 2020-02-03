@@ -3,8 +3,8 @@
         <div v-for="cafe in cafeData" :key="cafe.id" class="col-12 col-sm-6 col-lg-4 mx-0">
             <div class="newmorph my-2 mx-0" :style="{ backgroundImage: `url('${cafe.thumbnail}')` }">
                 <div class="card-body">
-                    <h5 class="">{{ cafe.cafe_name }}</h5>
-					<small>{{ cafe.cafe_address }}</small>
+                    <h4 class="cafe-name mx-auto">{{ cafe.cafe_name }}
+					<p class= "text-truncate" style="font-size: 0.6rem">{{ cafe.cafe_address }}</p></h4>
                 </div>
             </div>
         </div>
@@ -21,8 +21,8 @@ export default {
     },
     data() {
         return {
-						imgUrl: `https://picsum.photos/seed/${this.getRandomInt(1, 100)}/200/300?`,
-						cafeData: [],
+                imgUrl: `https://picsum.photos/seed/${this.getRandomInt(1, 100)}/200/300?`,
+                cafeData: [],
         }
     },
     methods: {
@@ -46,6 +46,14 @@ export default {
 </script>
 
 <style>
+.cafe-name {
+    background: rgba(255,255,255,0.7);
+    transition: 255ms ease-in-out;
+    padding: 1rem;
+	margin-top: 40% !important;
+    width:fit-content;
+    border-radius: 50px;
+}
 .newmorph {
 	overflow: hidden;
 	height: 0;
@@ -56,13 +64,15 @@ export default {
 	background: linear-gradient(145deg, #e6e6e6, #ffffff);
 	box-shadow:  26px 26px 51px #d9d9d9, 
 							-26px -26px 51px #ffffff;
+    transition: 125ms ease-in-out
 }
 
 .newmorph:hover {
 	cursor: pointer;
-	border-radius: 50px;
-	background: #ffffff;
-	box-shadow: inset 26px 26px 51px #d9d9d9, 
-							inset -26px -26px 51px #ffffff;
+}
+.newmorph:hover .cafe-name {
+	margin-top: 0% !important;
+    width: 100%;
+    border-radius: 0;
 }
 </style>

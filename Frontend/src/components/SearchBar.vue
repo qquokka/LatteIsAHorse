@@ -2,12 +2,13 @@
 <form class="search-form input-group mb-3" @submit.prevent="searchNow">
     <input v-model="query" id="title" type="text" class="form-control morph-text" placeholder=" 지역명, 카페 이름 등🔍" aria-describedby="button-addon2" autofocus autocomplete="">
     <div class="input-group-append">
-        <button  class="btn" type="button" id="button-addon2">검색</button>
+        <button  class="btn" type="submit" id="button-addon2">검색</button>
     </div>
 </form>
 </template>
 
 <script>
+
 export default {
     name: 'SearchBar',
     data() {
@@ -17,7 +18,7 @@ export default {
     },
     methods: {
         searchNow() {
-            this.$emit('search-event', this.query)
+            this.$router.push({ path: '/searched', query: { q: this.query } })
         }
     }
 }
@@ -58,4 +59,5 @@ input[type=text] {
 	box-shadow:  6px 16px 31px #d9d9d9, 
 							-6px -16px 31px #ffffff;
 }
+
 </style>
