@@ -183,6 +183,7 @@
 		#{sat_close},
 		#{sun_open},
 		#{sun_close}
+		)
 	</insert>
 
 	<update id="updateCafe" parameterType="com.latte.dto.CafeDto">
