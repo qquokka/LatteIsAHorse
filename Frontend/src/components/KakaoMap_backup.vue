@@ -10,12 +10,16 @@ import Map from '@/services/map/index'
 
 export default {
   props: {
-    elementId: null,
+    elementId: {
+      type: String,
+      required: true,
+    },
     markers: {
       type: Array,
       default () {
         return []
-      }
+      },
+      required: true,
     },
     width: {
       type: String,
@@ -47,18 +51,47 @@ export default {
     },
   },
   methods: {
-    async initMap () {
+    async initMap (markers) {
       if (!this.map) {
         const map = new Map()
         await map.mount(this.elementId, this.curLatitude, this.curLongitude)
 
-
+        map.addMarkerClusters([
+          {
+            key: 'cluster1',
+            color: '#222529',
+            zIndex: 0,
+            singleIconURL: 'ClusterIcon1',
+          },
+          {
+            key: 'cluster2',
+            color: '#209cee',
+            zIndex: 1,
+            singleIconURL: 'ClusterIcon2',
+          },
+        ])
 
         this.map = map
       } else {
         this.map.clearMarkers()
       }
 
+      this.map.addMarkers(
+        markers.map(
+          (marker) => {
+            const { name, type, location: { lat, lng } } = marker
+            return {
+              lat,
+              lng,
+              clusterKey: type,
+              title: name,
+              onClick: () => {
+                this.$emit('click-marker', marker)
+              },
+            }
+          }
+        )
+      )
 
     },
     setCenter (lat, lng) {
