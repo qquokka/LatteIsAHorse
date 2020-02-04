@@ -1,11 +1,12 @@
 <template>
-  <div :id="elementId" :style="{ width, height }">
+  <div :id="elementId" :style="{ width, height }" v-on:scroll="handleScroll('event')">
     <!-- daum kakao map -->
   </div>
 </template>
 
 <script>
 import Map from '@/services/map/index'
+import debounce from 'lodash/debounce'
 // ...
 
 export default {
@@ -36,6 +37,7 @@ export default {
   data () {
     return {
       map: null,
+      isUserScrolling: 0
     }
   },
   watch: {
@@ -48,6 +50,11 @@ export default {
     },
   },
   methods: {
+    handleScroll(event){
+      alert(event)
+      this.isUserScrolling = (window.scrollY > 0);
+      console.log('calling handleScroll');
+    },
     async initMap (markers) {
       if (!this.map) {
         const map = new Map()
@@ -94,5 +101,14 @@ export default {
       this.map && this.map.setCenter({ lat, lng, maxLevel: 10 })
     },
   },
+  created() {
+    this.handleDebouncedScroll = debounce(this.handleScroll, 100);
+    window.addEventListener('scroll', this.handleDebouncedScroll);
+  },
+  beforeDestroy() {
+    // I switched the example from `destroyed` to `beforeDestroy`
+    // to exercise your mind a bit. This lifecycle method works too.
+    window.removeEventListener('scroll', this.handleDebouncedScroll);
+  }
 }
 </script>
