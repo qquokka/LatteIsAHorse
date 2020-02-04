@@ -7,6 +7,7 @@ import PostPage from '../views/PostPage.vue'
 import CreatePost from '../views/CreatePost.vue'
 import PostDetail from '../views/PostDetail.vue'
 import SearchResult from '../views/SearchResult.vue'
+import CafePage from '../views/CafePage.vue'
 
 Vue.use(VueRouter)
 
@@ -57,6 +58,11 @@ const routes = [
     path: '/searched',
     name: 'search-result',
     component: SearchResult,
+  },
+  {
+    path: '/cafe',
+    name: 'cafePage',
+    component: CafePage
   }
 ]
 
