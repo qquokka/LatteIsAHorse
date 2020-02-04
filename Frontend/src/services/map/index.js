@@ -14,6 +14,7 @@ class Map {
     constructor() {
         this.map = null
         this.marker = null
+        this.cafes = null
         Map.initialize()
     }
 
@@ -45,21 +46,29 @@ class Map {
    
             //Add Zoom In/Out Event Listener
             Map.daum.maps.event.addListener(this.map, 'zoom_changed', function(){
-                console.log(this.getLevel())
-                console.log(axios)
+                console.log("lat : " + curLatitude)
+                console.log("lng : " + curLongitude)
+
                 axios.post("http://192.168.31.111:3000/v1/map/",{
                             'longitude': curLongitude,
                             'latitude': curLatitude,
                             'level': this.getLevel()
                     })
                     .then(res => {
-                        console.log(res.data)
+                        // let cafes = null
+                        if(typeof res.data !== String){
+                            console.log(typeof res.data === String)
+                            // cafes.forEach(cafe => {
+                            //     console.log(cafe.id)
+                            // })
+                        }
+                       
                     })
                     .catch(err => {
                         console.log(err)
                     });
             })
-   
+            
             this.map.setCopyrightPosition(Map.daum.maps.CopyrightPosition.BOTTOMRIGHT, true)
             this.map.clusters = {}
             this.map.markersWithoutCluster = []
