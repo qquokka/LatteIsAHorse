@@ -1,37 +1,38 @@
 <template>
   <form @submit.prevent="signup" class="p-3">
-    <div class="form-group">
-      <p v-show="showText('email')" class="text-left text-danger mb-1"><small>이메일을 'your_id@example.com' 형식으로 입력해주세요</small></p>
-      <input type="email" class="form-control" id="email" placeholder="ID (your_id@example.com)" v-model="email"
+    <div class="form-group-lg text-danger text-left">
+      <p v-show="showText('email')"><small>이메일을 'your_id@example.com' 형식으로 입력해주세요</small></p>
+      <input type="email" class="  logininput" id="email" placeholder="ID (id@example.com)" v-model="email"
       :style="{ 'background-color': bgColor.email }">
-    </div>
-    <div class="form-group">
-      <p v-show="showText('nickname')" class="text-left text-danger mb-1"><small>닉네임을 3 ~ 15자로 입력해주세요</small></p>
-      <input type="text" class="form-control" id="nickname" placeholder="닉네임(3~15자리)을 입력해주세요" v-model="nickname"
+      <p v-show="showText('nickname')"><small>닉네임을 3 ~ 15자로 입력해주세요</small></p>
+      <input type="text" class="  logininput" id="nickname" placeholder="닉네임(3~15자리)을 입력해주세요" v-model="nickname"
       :style="{ 'background-color': bgColor.nickname }">
-    </div>
-    <div class="form-group">
-      <p v-show="showText('password')" class="text-left text-danger mb-1"><small>비밀번호를 6 ~ 20자로 입력해주세요</small></p>
-      <input type="password" class="form-control" id="password" placeholder="비밀번호" v-model="pw.password"
+      <p v-show="showText('password')"><small>비밀번호를 6 ~ 20자로 입력해주세요</small></p>
+      <input type="password" class="  logininput" id="password" placeholder="비밀번호" v-model="pw.password"
       :style="{ 'background-color': bgColor.password }">
-    </div>
-    <div class="form-group">
-      <p v-show="showText('passwordCheck')" class="text-left text-danger mb-1"><small>위에 입력한 비밀번호와 동일하게 입력해주세요</small></p>
-      <input type="password" class="form-control" id="passwordCheck" placeholder="비밀번호를 확인" v-model="pw.passwordCheck"
+      <p v-show="showText('passwordCheck')"><small>위에 입력한 비밀번호와 동일하게 입력해주세요</small></p>
+      <input type="password" class="  logininput" id="passwordCheck" placeholder="비밀번호를 확인" v-model="pw.passwordCheck"
       :style="{ 'background-color': bgColor.passwordCheck }">
+      <div class="container text-right mb-3">
+        <label class="agree-label mt-3 ml-2" for="개인정보동의">라떼는말이야의 <router-link to="#">이용약관</router-link>과 <router-link to="#">개인정보처리방침</router-link>에 동의합니다.</label>
+        <input type="checkbox" v-model="agreementInfo" name="개인정보동의" id="">
+        <label class="agree-label mt-1 ml-2" for="위치정보동의">서비스를 위한<router-link to="#">위치정보제공</router-link>에 동의합니다.</label>
+        <input type="checkbox" v-model="agreementLoc" name="위치정보동의" id="">
+      </div>
     </div>
-    <b><small>저희 회원이신가요? <slot></slot></small></b>
-    <button id="signupButton" type="submit" class="btn btn-block btn-outline-warning font-weight-bolder" disabled>회원가입</button>
+    <b><p>기존에 가입하셨다면 <slot></slot></p></b>
+    <button id="signupButton" type="submit" class="loginbtn font-weight-bolder" disabled>회원가입</button>
   </form>
 </template>
 <script>
 import axios from 'axios'
-// import router from '../router'
 
 export default {
   name: 'SignupForm',
   data() {
     return {
+      agreementInfo: false,
+      agreementLoc: false,
       email: '',
       pw: {
         password: '',
@@ -191,5 +192,40 @@ export default {
 </script>
 
 <style>
+.signupform {
+  height: 3rem !important;
+}
+.agree-label {
+  color: #2f2f2f;
+  font-size: 0.8rem;
+}
+.text-danger > p {
+  text-align: center;
+  border-radius: 6px;
+  background: #ffffff;
+  box-shadow:  17px 17px 34px #d9d9d9, 
+              -17px -17px 34px #ffffff;
+}
+
+.logininput {
+  background: #ffffff;
+  width: 100%;
+  height: 3rem;
+  margin: 0.2rem;
+  padding: 1rem;
+  border:0;
+  box-shadow:  inset 5px 5px 9px #f1f1f1, 
+            inset -5px -5px 9px #ffffff;
+}
+
+.logininput:focus {
+    box-shadow:  5px 5px 9px #f1f1f1, 
+              -5px -5px 9px #ffffff; 
+    outline: none;
+    border-bottom: 3px solid #88D8B0
+}
+.logininput:focus ::placeholder {
+  color: rosybrown !important;
+}
 
 </style>

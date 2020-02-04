@@ -1,17 +1,7 @@
 <template>
   <div id="app">
     <modal :loginFailed="loginFailed" @login="login" />
-    <!-- <div v-if="!isAuthentic
-    ated">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/login">Login</router-link>
-    </div> -->
-    <!-- <div v-else>
-      <router-link to="/">Home</router-link> |
-      <a href="#" @click.prevent="logout">Logout</a>
-    </div> -->
-    <!-- </div> -->
-    <router-view />
+    <router-view :key="$route.fullPath" />
   </div>
 </template>
 <script>

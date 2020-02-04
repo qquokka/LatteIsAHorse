@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg sticky-top" id="topnav">
+  <nav class="navbar navbar-expand-lg sticky-top" @click="this.$router.push('/hangman/is/the/perfect/game/of/the/whole/human/history')" id="topnav">
   <router-link to="/" class="ml-2 row text-decoration-none" ><img src="../assets/logo_icon.png" style="margin: -30px" width="120px"><h4 class="my-auto ml-3" style="color:#3f3f3f">라떼는말이야</h4> </router-link>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="fa fa-bars fa-2x"></span>
@@ -20,7 +20,7 @@
         <router-link class="nav-link" to="/about"><i class="fa fa-user"></i> About Us</router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="/cafe"><i class="fa fa-coffee"></i> 카페 보기</router-link>
+        <router-link class="nav-link" to="/cafe/1"><i class="fa fa-coffee"></i> 카페 보기</router-link>
       </li>
       <li class="nav-item">
         <router-link class="nav-link" to="/posts"><i class="fa fa-newspaper"></i> 포스트 보기</router-link>
@@ -92,6 +92,7 @@ destroyed () {
 <style>
 nav {
   transition: 0.25s ease-in-out;
+  top: 0;
 }
 i {
   color: inherit !important;
@@ -101,10 +102,26 @@ i {
   margin:auto;
   cursor:pointer;
   transition: 0.25s ease-in-out;
+  position:relative
 }
-
+.nav-link:hover:after {
+  width: 100%;
+  left: 0;
+}
+.nav-link:after {
+  background: none repeat scroll 0 0 transparent;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 3px;
+  right: 0;
+  position: absolute;
+  background: #88D8B0;
+  transition: width 0.15s ease-in 0s, right 0.3s ease 0s;
+  width: 0;
+}
 .nav-link:hover, a:hover {
-	color:  #88D8B0 !important;
+	color:  #2f2f2f !important;
 }
 .fa-bars {
   color: gray

@@ -32,6 +32,10 @@ export default {
       required: false,
       default: '640px',
     },
+    level: {
+      type: Number,
+      required: false,
+    }
   },
   data () {
     return {
@@ -69,10 +73,12 @@ export default {
         ])
 
         this.map = map
+        
       } else {
         this.map.clearMarkers()
       }
-
+      const happymap = this.map
+      console.log(happymap.getLevel())
       this.map.addMarkers(
         markers.map(
           (marker) => {
@@ -93,6 +99,12 @@ export default {
     setCenter (lat, lng) {
       this.map && this.map.setCenter({ lat, lng, maxLevel: 10 })
     },
+    getLevel() {
+      console.log(this.map.level)
+    }
   },
+  mounted() {
+    this.getLevel()
+  }
 }
 </script>
