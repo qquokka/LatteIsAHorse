@@ -38,12 +38,6 @@ export default {
     loadmore() {
       this.limits += 6  
     },
-    // deletePost(postId) {
-    //   console.log('삭제시작')
-    //   axios.delete(`${this.$store.state.constants.SERVER}/post/${postId}`, {headers: {'Authorization': "Bearer " + this.$session.get('jwt')}})
-    //       .then(response => {
-    //         console.log(response)
-    //       })
   }
 }
 </script>
