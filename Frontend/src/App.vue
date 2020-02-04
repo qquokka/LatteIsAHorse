@@ -16,13 +16,11 @@
 </template>
 <script>
 import axios from "axios";
-// import LoginForm from '@/components/LoginForm.vue'
 import Modal from "@/components/Modal.vue";
 
 export default {
   name: "App",
   components: {
-    // LoginForm,
     Modal
   },
   data() {
@@ -34,7 +32,6 @@ export default {
     logout() {
       this.$session.destroy();
       this.$store.dispatch("logout");
-      // console.log('로그아웃 성공')
     },
     login(credentials) {
       console.log(credentials);
@@ -42,8 +39,6 @@ export default {
         .post(`${this.$store.state.constants.SERVER}/signin`, credentials)
         .then(response => {
           this.loginFailed = false;
-          // console.log('로그인성공')
-          console.log("로그인", response.data);
           const token = response.data.accessToken;
           this.$session.start();
           this.$session.set("jwt", token);
@@ -54,9 +49,10 @@ export default {
         })
         .catch(error => {
           if (error.response.data.status === 401) {
-            this.loginFailed = !this.loginFailed;
+            this.loginFailed = !this.loginFailed
+            alert(error.response.data)
           }
-        });
+        })
     }
   },
   mounted() {
@@ -67,46 +63,34 @@ export default {
       this.$store.commit("setToken", stored.jwt);
     }
   }
-};
+}
 </script>
 <style>
-.router-link-active {
-    color: darkturquoise !important;
-}
 html {
-  font-family: “Roboto”, sans-serif;
-  background-color: #ffffff;
-  overflow-x: hidden
+  overflow-x: hidden;
+  min-height: 100vh;
 }
 #app {
   font-family: 'Roboto', sans-serif;
   text-align: center;
   color: #2c3e50;
-  min-height: 100vh;
   background-color: #ffffff;
 }
 #nav {
   padding: 30px;
 }
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-#nav a.router-link-exact-active {
-  color: #42b983;
+
+.router-link-active {
+  color: #42b983 !important;
 }
 
-/* width */
 ::-webkit-scrollbar {
   width: 7px;
 }
-
-/* Track */
 ::-webkit-scrollbar-track {
   border-radius: 10px;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: violet;
   border-radius: 10px;

@@ -1,5 +1,5 @@
 <template>
-<div id="footer" class="container-fluid ">
+<div id="footer" class="container-fluid">
     <div class="row align-items-center m-0">
         <div class="d-none d-md-flex col-md-5 justify-content-center">
             <p class="footer-brand">LATTE<span style="color:violet;">=</span>HORSE</p><small class="text-muted my-auto ml-2">커피와 사람을 잇는 새로운 시대의 플랫폼, 라떼는 말이야</small>
@@ -25,9 +25,9 @@ export default {
 <style>
 #footer {
     background: lavender;
-    height: 64px;
-    margin:0;
-    align-items: center
+    align-items: center;
+    position: relative;
+    margin-top: auto !important;
 }
 .footer-brand {
     font-size: 2rem;

@@ -24,13 +24,19 @@ export default {
     return {
       query: ""
     };
-  },
+	},
+	props: {
+
+	},
   methods: {
 		goSearch() {
 			this.$router.push(`/searched?q=${this.query}`)
 		}
-  }
-};
+	},
+	mounted() {
+		this.query = this.$route.query.q.split(" ")
+	}
+}
 </script>
 
 <style scoped>

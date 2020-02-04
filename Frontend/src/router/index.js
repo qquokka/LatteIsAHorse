@@ -6,7 +6,8 @@ import AboutUs from '../views/AboutUs.vue'
 import PostPage from '../views/PostPage.vue'
 import CreatePost from '../views/CreatePost.vue'
 import PostDetail from '../views/PostDetail.vue'
-import SerachResult from '../views/SearchResult.vue'
+import SearchResult from '../views/SearchResult.vue'
+import CafePage from '../views/CafePage.vue'
 
 Vue.use(VueRouter)
 
@@ -41,7 +42,7 @@ const routes = [
   },
   {
     path: '/post/:postId/edit',
-    name: 'edit-post',
+    name: 'edit-post', alias: '/post/:postId/edit',
     component: CreatePost,
     meta: {
       requiresAuth: true
@@ -54,9 +55,14 @@ const routes = [
     props: true
   },
   {
-    path: '/searched*',
+    path: '/searched',
     name: 'search-result',
-    component: SerachResult,
+    component: SearchResult,
+  },
+  {
+    path: '/cafe',
+    name: 'cafePage',
+    component: CafePage
   }
 ]
 
