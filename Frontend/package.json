@@ -16,6 +16,7 @@
     "jquery": "^3.4.1",
     "jwt-decode": "^2.2.0",
     "load-script-once": "^2.0.1",
+    "moment": "^2.24.0",
     "popper.js": "^1.16.0",
     "rellax": "^1.12.0",
     "vue": "^2.6.10",

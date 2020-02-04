@@ -60,9 +60,10 @@ const routes = [
     component: SearchResult,
   },
   {
-    path: '/cafe',
+    path: '/cafe/:cafeId',
     name: 'cafePage',
-    component: CafePage
+    component: CafePage,
+    props: true
   }
 ]
 
