@@ -48,11 +48,9 @@ class Map {
                 console.log(this.getLevel())
                 console.log(axios)
                 axios.post("http://192.168.31.111:3000/v1/map/",{
-                        params:{
-                            longitude: curLongitude,
-                            latitude: curLatitude,
-                            level: 3
-                        }
+                            'longitude': curLongitude,
+                            'latitude': curLatitude,
+                            'level': this.getLevel()
                     })
                     .then(res => {
                         console.log(res.data)
