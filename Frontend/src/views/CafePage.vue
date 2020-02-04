@@ -44,8 +44,8 @@
 </template>
 
 <script>
-
 import axios from 'axios'
+import moment from 'moment'; moment.locale('kr');
 
 export default {
 	name: 'CafePage',
@@ -72,8 +72,6 @@ export default {
 						this.reviews.forEach(review => {
 							review.created_at = review.created_at.replace(/T|Z/g, " ")
 							review.updated_at = review.updated_at.replace(/T|Z/g, " ")
-
-
 						})
 					})
 					.catch(error => {
