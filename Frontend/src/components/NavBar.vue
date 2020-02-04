@@ -20,9 +20,6 @@
         <router-link class="nav-link" to="/about"><i class="fa fa-user"></i> About Us</router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="/cafe"><i class="fa fa-coffee"></i> 카페 보기</router-link>
-      </li>
-      <li class="nav-item">
         <router-link class="nav-link" to="/posts"><i class="fa fa-newspaper"></i> 포스트 보기</router-link>
       </li>
       <li class="nav-item">
@@ -92,6 +89,7 @@ destroyed () {
 <style>
 nav {
   transition: 0.25s ease-in-out;
+  top: 0;
 }
 i {
   color: inherit !important;
@@ -101,10 +99,26 @@ i {
   margin:auto;
   cursor:pointer;
   transition: 0.25s ease-in-out;
+  position:relative
 }
-
+.nav-link:hover:after {
+  width: 100%;
+  left: 0;
+}
+.nav-link:after {
+  background: none repeat scroll 0 0 transparent;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 3px;
+  right: 0;
+  position: absolute;
+  background: #88D8B0;
+  transition: width 0.15s ease-in 0s, right 0.3s ease 0s;
+  width: 0;
+}
 .nav-link:hover, a:hover {
-	color:  #88D8B0 !important;
+	color:  #2f2f2f !important;
 }
 .fa-bars {
   color: gray

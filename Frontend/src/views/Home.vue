@@ -3,9 +3,10 @@
     <div id="background" >
 
     </div>
-    <nav-bar style="position:fixed;left:0;width:100%" blackOrWhite="true" />
-    <h2 style="margin-top: 8rem;margin-bottom:2rem;position:relative">Find your ideal cafe</h2>
-    <search-bar class="mx-auto"  />
+    <nav-bar blackOrWhite="true" />
+    <h2 class="d-none d-md-block brand" style="margin-top: 8rem;margin-bottom:2rem;position:relative">Find your ideal cafe</h2>
+    <h3 class="d-block d-md-none" style="margin-top: 1rem;margin-bottom:2rem;position:relative">LATTE <span style="color:violet">=</span> HORSE</h3>
+    <search-bar class="mx-auto" />
     <hash-tags class="position-relative mb-5 pb-5" />
     <div class="main-section" style="margin-top:15rem;">
       <h2 class="article-header">가까운 카페</h2>
@@ -73,11 +74,16 @@
 <style>
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:900&display=swap');
 
-.banner-quote {
-  padding-top: 50px;
-  color: white;
-  text-align: left;
+.brand {
+  opacity: 1;
+  animation: fadein 1.5s;
 }
+
+@keyframes fadein {
+  0%   { opacity: 0;color:lavender }
+  100% { opacity: 1;color:#2f2f2f }
+}
+
 .main-section {
   position: relative;
   margin: 0 auto 3rem auto;

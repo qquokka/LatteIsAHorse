@@ -2,15 +2,15 @@
 <div>
   <form @submit.prevent="login" class="px-3 pt-3">
     <div class="form-group">
-      <input type="email" class="logininput" id="inputId" placeholder="ID (your_id@example.com)" v-model="credentials.usernameOrEmail">
+      <input type="email" class="logininput" id="inputId" placeholder="사용자이름" v-model="credentials.usernameOrEmail">
     </div>
     <div class="form-group">
-      <input type="password" class="logininput" id="inputPW" placeholder="PASSWORD" v-model="credentials.password">
+      <input type="password" class="logininput" id="inputPW" placeholder="비밀번호" v-model="credentials.password">
     </div>
-    <b>
-      <small>처음이시라면? <slot></slot></small>
-    </b>
-    <button type="submit" class="btn btn-block btn-outline-warning font-weight-bolder">로그인</button>
+    <label class="small mr-3" for="remeber">아이디 기억하기</label>
+    <input type="checkbox" name="remeber" v-model="rememberme" id="">
+    <p class="mt-3">처음이시라면? <slot></slot></p>
+    <button type="submit" class="loginbtn font-weight-bolder">로그인</button>
   </form>
   <div class="container px-2 d-none">
     <div class="row px-3">
@@ -30,14 +30,31 @@ export default {
   name: 'LoginForm',
   data() {
     return {
-      credentials: {}
+      credentials: {},
+      rememberme: false,
     }
   },
   methods: {
     login() {
       this.$emit('login', this.credentials)
       this.credentials = {}
+      if (this.rememberme) {
+        let iid = document.getElementById('inputId').value
+        localStorage.setItem('rid', iid)
+      } else {
+        localStorage.removeItem('rid')
+      }
+    },
+    ridCheck() {
+      let rememberedID = localStorage.getItem('rid')
+      if (rememberedID !== undefined) {
+        this.credentials.usernameOrEmail = rememberedID
+        this.rememberme = true
+      }
     }
+  },
+  mounted() {
+    this.ridCheck()
   }
 }
 </script>
@@ -63,14 +80,23 @@ export default {
   color: whitesmoke !important
 }
 .logininput {
-  border:0;
   background: #ffffff;
-  box-shadow:  -41px 41px 82px #d9d9d9, 
-              41px -41px 82px #ffffff;
   width: 100%;
   height: 3rem;
   margin: 0.2rem;
   padding: 1rem;
+  border:0;
+  box-shadow:  inset 5px 5px 9px #f1f1f1, 
+            inset -5px -5px 9px #ffffff;
 }
 
+.logininput:focus {
+    box-shadow:  5px 5px 9px #f1f1f1, 
+              -5px -5px 9px #ffffff; 
+    outline: none;
+    border-bottom: 3px solid #88D8B0
+}
+.logininput:focus ::placeholder {
+  color: rosybrown !important;
+}
 </style>

@@ -7,7 +7,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import VueSession from 'vue-session'
 import store from './store' // vuex
+import VueRellax from 'vue-rellax'
 
+Vue.use(VueRellax)
 Vue.config.productionTip = false
 Vue.use(VueSession,{persist: true})
 

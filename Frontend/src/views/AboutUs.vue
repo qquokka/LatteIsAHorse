@@ -1,7 +1,11 @@
 <template>
-  <div id="aboutus">
-    <nav-bar style="position:fixed;left:0;width:100%;" />
-    <div id="background-aboutus" />
+  <div class="position-relative" id="aboutus">
+    <nav-bar />
+    <div class="row w-100 p-0" id="background-aboutus">
+      <div v-rellax="{speed:-10,}" class="col-6 p-0" > SLOW AND SMOOTH</div>
+      <div class="col-6 p-0" style="background: black;" />
+    </div>
+    <h1 class="display1">HBH</h1>
   </div>
 </template>
 
@@ -44,7 +48,7 @@
     left: 0;
     z-index: 0;
     width: 100vw;
-    height: 30rem;
+    height: 100vh;
     background-color: lavenderblush
 }
 nav {
