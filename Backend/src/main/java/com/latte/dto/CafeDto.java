@@ -30,6 +30,7 @@ public class CafeDto implements Serializable {
 	private Instant sun_open;
 	private Instant sun_close;
 	private int closed;
+	private int cafe_owner_id;
 
 	public CafeDto() {
 		super();
@@ -40,7 +41,7 @@ public class CafeDto implements Serializable {
 			double longitude, String thumbnail, int like_count, String tag, Instant mon_open, Instant mon_close,
 			Instant tue_open, Instant tue_close, Instant wed_open, Instant wed_close, Instant thu_open,
 			Instant thu_close, Instant fri_open, Instant fri_close, Instant sat_open, Instant sat_close,
-			Instant sun_open, Instant sun_close, int closed) {
+			Instant sun_open, Instant sun_close, int closed, int cafe_owner_id) {
 		super();
 		this.cafe_id = cafe_id;
 		this.cafe_name = cafe_name;
@@ -66,6 +67,7 @@ public class CafeDto implements Serializable {
 		this.sun_open = sun_open;
 		this.sun_close = sun_close;
 		this.closed = closed;
+		this.cafe_owner_id = cafe_owner_id;
 	}
 
 	public String getCafe_name() {
@@ -254,6 +256,18 @@ public class CafeDto implements Serializable {
 
 	public int getCafe_id() {
 		return cafe_id;
+	}
+
+	public int getCafe_owner_id() {
+		return cafe_owner_id;
+	}
+
+	public void setCafe_owner_id(int cafe_owner_id) {
+		this.cafe_owner_id = cafe_owner_id;
+	}
+
+	public void setCafe_id(int cafe_id) {
+		this.cafe_id = cafe_id;
 	}
 
 }

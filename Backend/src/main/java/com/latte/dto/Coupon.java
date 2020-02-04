@@ -8,13 +8,13 @@ public class Coupon implements Serializable {
 	private Long id; // bigint(20) NOT NULL AUTO_INCREMENT,
 	private Long users_id;
 	private Long cafe_id;
-	private Integer count;
+	private int count;
 
 	public Coupon() {
 		super();
 	}
 
-	public Coupon(Long id, Long users_id, Long cafe_id, Integer count) {
+	public Coupon(Long id, Long users_id, Long cafe_id, int count) {
 		super();
 		this.id = id;
 		this.users_id = users_id;
@@ -42,11 +42,11 @@ public class Coupon implements Serializable {
 		this.cafe_id = cafe_id;
 	}
 
-	public Integer getCount() {
+	public int getCount() {
 		return count;
 	}
 
-	public void setCount(Integer count) {
+	public void setCount(int count) {
 		this.count = count;
 	}
 
