@@ -2,7 +2,7 @@
 <div id="footer" class="container-fluid">
     <div class="row align-items-center m-0">
         <div class="d-none d-md-flex col-md-5 justify-content-center">
-            <p class="footer-brand">LATTE<span style="color:violet;">=</span>HORSE</p><small class="text-muted my-auto ml-2">커피와 사람을 잇는 새로운 시대의 플랫폼, 라떼는 말이야</small>
+            <p class="footer-brand">LATTE<span style="color:violet;">=</span>HORSE</p><small class="text-muted my-auto ml-2">커피와 사람을 잇는 새로운 시대의 플랫폼, <span @click="$router.push('/hangman/is/the/perfect/game/of/the/whole/human/history')">라떼는</span> 말이야</small>
         </div>
         <div class="col offset-md-2">
             <div class="row justify-content-around py-1">

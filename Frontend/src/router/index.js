@@ -67,12 +67,9 @@ const routes = [
     props: true
   },
   {
-    path: '/hangman',
+    path: '/hangman/is/the/perfect/game/of/the/whole/human/history',
     name: 'hangman',
     component: HangMan,
-    // beforeEnter: function(to, from, next) {
-    //   pass
-    // }
   }
 ]
 
