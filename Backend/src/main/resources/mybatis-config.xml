@@ -4,13 +4,18 @@
 
 	<typeAliases>
 		<typeAlias type="com.latte.model.post.Post" alias="post" />
-		<typeAlias type="com.latte.payload.PostRequest"	alias="postRequest" />
-		<typeAlias type="com.latte.model.post.PostComments" alias="postComments" />
-		<typeAlias type="com.latte.model.post.PostHashtag" alias="posthashtag" />
-		<typeAlias type="com.latte.model.post.PostHashtagName" alias="posthashtagname" />
-		<typeAlias type="com.latte.model.post.PostPhotos" alias="postPhotos" />
+		<typeAlias type="com.latte.payload.PostRequest"
+			alias="postRequest" />
+		<typeAlias type="com.latte.model.post.PostComments"
+			alias="postComments" />
+		<typeAlias type="com.latte.model.post.PostHashtag"
+			alias="posthashtag" />
+		<typeAlias type="com.latte.model.post.PostHashtagName"
+			alias="posthashtagname" />
+		<typeAlias type="com.latte.model.post.PostPhotos"
+			alias="postPhotos" />
 		<typeAlias type="com.latte.dto.CafeDto" alias="cafe" />
-		<typeAlias type="com.latte.dto.Coupon" alias="coupon" />
+		<!-- <typeAlias type="com.latte.dto.Coupon" alias="coupon" /> -->
 	</typeAliases>
 
 </configuration>
