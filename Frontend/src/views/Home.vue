@@ -73,16 +73,6 @@
 <style>
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:900&display=swap');
 
-
-.brand {
-  font-family: 'Noto Sans KR', sans-serif;
-  position: relative;
-  z-index: 5;
-  color: whitesmoke;
-  text-shadow: 2px 2px 1px #3f3f3f;
-  user-select: none;
-}
-
 .banner-quote {
   padding-top: 50px;
   color: white;

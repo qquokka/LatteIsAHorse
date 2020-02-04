@@ -15,32 +15,25 @@
     <button class="btn btn-light btn-block position-relative" @click="loadmore">더보기</button>
   </div>
 
-
 </div>
 </template>
 
 <script>
-import axios from 'axios'
 export default {
   data() {
     return {
-      postData: [],
     }  
   },
   props: {
       limits: {
           limits: Number,
-          required: true,
           default: 12,
       },
+      postData: {
+        default: [{id:"null",title:"NO POST"}]
+      }
   },
-  mounted() {
-    axios
-      .get(`${this.$store.state.constants.SERVER}/post`)
-      .then(response => {
-        this.postData = response.data  
-      })
-  },
+
   methods: {
     loadmore() {
       this.limits += 6  

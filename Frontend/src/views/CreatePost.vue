@@ -2,7 +2,7 @@
   <div class="container-fluid p-5 postc">
     <nav-bar style="position:absolute;left:0;width:100%" />
     <div class="row justify-content-center">
-      <h1 class="text-white">글쓰기</h1>
+      <h1 class="text-white">{{ operation }}</h1>
     </div>
     <div class="input-group mb-2">
       <div class="input-group-prepend">
@@ -63,7 +63,7 @@ export default {
       editorHtml: "",
       editorVisible: true,
 			title: "",
-			prevUrl: ""
+			operation: ""
     };
   },
   computed: {
@@ -131,8 +131,15 @@ export default {
     if (!this.$session.exists("jwt")) {
       this.$router.back();
 		}
-		if (this.$router.currentRoute.path === 'posts/create') {
-			console.log('얍')
+		if (this.$router.currentRoute.path === 'posts/create') {  // 게시글 작성일 때
+			this.operation = "글쓰기"
+		} else {  // 게시글 수정일 때
+			const postId = this.$router.currentRoute.path.split('/')[2]
+			axios.get(`${this.$store.state.constants.SERVER}/post/${postId}`)
+					.then(response => {
+						console.log(response.data)
+					})
+			this.operation = "수정하기"
 		}
 	}
 };

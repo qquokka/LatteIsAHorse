@@ -3,23 +3,28 @@
 <mapper namespace="mapper.coupon">
 
 	<!-- DB 에 저장된 모든 쿠폰을 반환[관리자용] -->
-	<select id="getCouponList" parameterType="coupon">
-		SELECT id, users_id,
-		cafe_id, count
+
+	<select id="getCouponList" resultType="com.latte.dto.Coupon">
+		SELECT
+		id,
+		users_id,
+		cafe_id,
+		count
 		FROM coupon
 	</select>
 
 	<!-- 카페아이디로 등록된 쿠폰을 보여줍니다. -->
-	<select id="getCouponListByCafeId"
-		parameterType="java.lang.Long" resultType="coupon">
+	<select id="getCouponListByCafeId" parameterType="_long"
+		resultType="com.latte.dto.Coupon">
 		SELECT id, users_id,
 		cafe_id, count
-		FROM coupon WHERE =#{cafe_id}
+		FROM coupon WHERE
+		cafe_id=#{cafe_id}
 	</select>
 
 	<!-- Create -->
-	<insert id="addCoupon" parameterType="coupon">
-		INSERT INTO
+	<insert id="addCoupon" parameterType="com.latte.dto.Coupon">
+		INSERT INTO coupon
 		(users_id,
 		cafe_id)
 		VALUES(
@@ -29,61 +34,26 @@
 	</insert>
 
 	<!-- Read -->
-	<select id="getCouponByUserId" parameterType="java.lang.Long">
-		SELECT id,
-		users_id,
-		cafe_id, count
-		FROM coupon
-		WHERE =#{user_id}
+	<select id="getCouponByUserId" parameterType="_long"
+		resultType="com.latte.dto.Coupon">
+		select id, users_id, cafe_id, count from coupon where
+		users_id =#{users_id}
 	</select>
 
 	<!-- Update -->
-	<update id="updateCoupon" parameterMap="coupon">
+	<update id="updateCoupon" parameterType="com.latte.dto.Coupon">
 		UPDATE coupon SET
-		users_id,
-		cafe_id, count
-	</update>
-
-	<update id="updateCafe" parameterType="com.latte.dto.CafeDto">
-		UPDATE cafe SET
-		cafe_name =
-		#{cafe_name},
-		cafe_address =
-		#{cafe_address},
-		cafe_phone =#{cafe_phone},
-		latitude = #{latitude},
-		longitude =#{longitude},
-		thumbnail
-		=#{thumbnail},
-		like_count =#{like_count},
-		tag =#{tag},
-		mon_open
-		=#{mon_open},
-		mon_close =#{mon_close},
-		tue_open =#{tue_open},
-		tue_close
-		=#{tue_close},
-		wed_open =#{wed_open},
-		wed_close =#{wed_close},
-		thu_open
-		=#{thu_open},
-		thu_close =#{thu_close},
-		fri_open =#{fri_open},
-		fri_close
-		=#{fri_close},
-		sat_open =#{sat_open},
-		sat_close =#{sat_close},
-		sun_open
-		=#{sun_open},
-		sun_close =#{sun_close},
-		closed = #{closed}
+		count =
+		#{count}
 		WHERE
-		cafe_id=#{cafe_id}
+		users_id =#{users_id}
+		AND cafe_id =#{cafe_id}
 	</update>
-
-	<delete id="deleteCafeById" parameterType="java.lang.Integer">
-		DELETE FROM cafe WHERE
-		cafe_id=#{cafe_id}
+	
+	<!-- Delete -->
+	<delete id="deleteCouponByUserId" parameterType="_long">
+		DELETE FROM
+		coupon WHERE
+		id=#{id}
 	</delete>
-
 </mapper>

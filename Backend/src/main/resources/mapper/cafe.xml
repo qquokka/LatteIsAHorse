@@ -27,7 +27,8 @@
 		sat_close,
 		sun_open,
 		sun_close,
-		closed
+		closed,
+		cafe_owner_id
 		from
 		cafe;
 	</select>
@@ -58,7 +59,8 @@
 		sat_close,
 		sun_open,
 		sun_close,
-		closed
+		closed,
+		cafe_owner_id
 		from
 		cafe
 		WHERE
@@ -93,7 +95,8 @@
 		sat_close,
 		sun_open,
 		sun_close,
-		closed
+		closed,
+		cafe_owner_id
 		from
 		cafe
 		where
@@ -127,7 +130,8 @@
 		sat_close,
 		sun_open,
 		sun_close,
-		closed
+		closed,
+		cafe_owner_id
 		from
 		cafe
 		where
@@ -160,7 +164,8 @@
 		sat_open,
 		sat_close,
 		sun_open,
-		sun_close
+		sun_close,
+		cafe_owner_id
 		) VALUES (
 		#{cafe_name},
 		#{cafe_address},
@@ -182,7 +187,8 @@
 		#{sat_open},
 		#{sat_close},
 		#{sun_open},
-		#{sun_close}
+		#{sun_close},
+		#{cafe_owner_id}
 		)
 	</insert>
 
@@ -211,7 +217,8 @@
 		sat_close =#{sat_close},
 		sun_open =#{sun_open},
 		sun_close =#{sun_close},
-		closed = #{closed}
+		closed = #{closed},
+		cafe_owner_id=#{cafe_owner_id}
 		WHERE
 		cafe_id=#{cafe_id}
 	</update>
