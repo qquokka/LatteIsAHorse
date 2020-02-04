@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal fade modal2" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header border-0">
@@ -82,6 +82,12 @@
 #staticBackdrop {
   overflow: hidden;
 }
+#modalCloseButton {
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow:  5px 5px 9px #d9d9d9, 
+              -5px -5px 9px #ffffff;
+}
 .modal-dialog{
   align-items: center;
   position: relative;
@@ -102,4 +108,5 @@
   background: #88D8B0 !important;
   color: #1f1f1f !important
 }
+
 </style>

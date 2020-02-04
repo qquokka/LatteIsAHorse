@@ -1,30 +1,33 @@
 <template>
-  <div id="post-page-main">
+  <div class="container-fluid">
     <div id="background-post" />
-
     <nav-bar />
     <search-bar class="mx-auto"  style="margin-top:9rem" />
     <router-link v-if="isAuthenticated" to="posts/create/" class="position-relative"><button class="btn-danger btn">글쓰기</button></router-link>
-    <post-list style="margin-top: 8rem;" class="" />
+    <post-list style="margin-top: 8rem" postData="postData" />
+    <Footer />
   </div>
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 import NavBar from '@/components/NavBar.vue'
 import PostList from '@/views/section/PostList.vue'
 import SearchBar from '@/components/SearchBar.vue'
+import Footer from '@/views/section/Footer.vue'
 
   export default {
     name: 'posts',
     components: {
       NavBar,
       PostList,
-      SearchBar
+      SearchBar,
+      Footer
     },
     data() {
       return {
-        isAuthenticated: this.$session.exists('jwt')
+        isAuthenticated: this.$session.exists('jwt'),
+        postData: []
       }
     },
     computed: {
@@ -32,6 +35,11 @@ import SearchBar from '@/components/SearchBar.vue'
     methods: {
     },
     mounted() {
+      axios
+        .get(`${this.$store.state.constants.SERVER}/post`)
+        .then(response => {
+          this.postData = response.data  
+        })
     },
   }
   
