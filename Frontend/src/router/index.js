@@ -8,6 +8,7 @@ import CreatePost from '../views/CreatePost.vue'
 import PostDetail from '../views/PostDetail.vue'
 import SearchResult from '../views/SearchResult.vue'
 import CafePage from '../views/CafePage.vue'
+import HangMan from '../views/HangMan.vue'
 
 Vue.use(VueRouter)
 
@@ -64,6 +65,14 @@ const routes = [
     name: 'cafePage',
     component: CafePage,
     props: true
+  },
+  {
+    path: '/hangman',
+    name: 'hangman',
+    component: HangMan,
+    // beforeEnter: function(to, from, next) {
+    //   pass
+    // }
   }
 ]
 
