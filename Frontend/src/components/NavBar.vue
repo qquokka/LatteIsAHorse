@@ -1,8 +1,8 @@
 <template>
-  <nav class="navbar navbar-expand-lg fixed-top" id="topnav">
+  <nav class="navbar navbar-expand-lg sticky-top" id="topnav">
   <router-link to="/" class="ml-2 row text-decoration-none" ><img src="../assets/logo_icon.png" style="margin: -30px" width="120px"><h4 class="my-auto ml-3" style="color:#3f3f3f">라떼는말이야</h4> </router-link>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+    <span class="fa fa-bars fa-2x"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav ml-auto">
@@ -106,5 +106,7 @@ i {
 .nav-link:hover, a:hover {
 	color:  #88D8B0 !important;
 }
-
+.fa-bars {
+  color: gray
+}
 </style>
