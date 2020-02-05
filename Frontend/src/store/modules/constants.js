@@ -1,5 +1,5 @@
 const state = {
-    SERVER: "http://192.168.31.142:3000/v1"
+    SERVER: "http://192.168.31.111:3000/v1"
 }
 
 const mutations = {

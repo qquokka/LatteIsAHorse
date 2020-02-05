@@ -34,16 +34,17 @@ const routes = [
     component: PostPage
   },
   {
-    path: '/posts/create',
+    path: '/cafe/:cafeId/posts/create',
     name: 'createpost',
     component: CreatePost,
     meta: { 
       requiresAuth: true
-    }
+    },
+    props: true
   },
   {
     path: '/post/:postId/edit',
-    name: 'edit-post', alias: '/post/:postId/edit',
+    name: 'edit-post',
     component: CreatePost,
     meta: {
       requiresAuth: true

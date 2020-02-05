@@ -1,7 +1,11 @@
 <template>
 	<div class="container-fluid px-3">
 		<img :src="info.thumbnail" :alt="info.cafe_name">
-		<h1>{{ info.cafe_name }}</h1>
+		<h1>
+			{{ info.cafe_name }}
+			<span v-if="isOpen" class="badge badge-primary">영업중</span>
+			<span v-else class="badge badge-secondary">준비중</span>
+		</h1>
 		<hr>
 		<p>좋아요: {{ info.like_count }}</p>
 		<p>태그: {{ info.tag }}</p>
@@ -25,7 +29,10 @@
 			<div class="col-8"><p>{{ menu.description }}</p></div>
 		</div>
 		<hr>
-		<h2>리뷰</h2>
+		<h2>리뷰 ({{ reviews.length }}개)</h2>
+		<hr>
+		<h3><router-link :to="`/cafe/${cafeId}/posts/create`">리뷰 쓰기</router-link></h3>
+		<hr>
 		<div v-for="review in reviews" :key="review.id">
 			<router-link :to="`/post/${review.id}`">
 				<div class="card my-3">
@@ -34,7 +41,7 @@
 						<h5 class="card-title">{{ review.title }}</h5>
 					</div>
 					<ul class="list-group list-group-flush">
-						<li class="list-group-item"><p class="my-0">{{ review.created_at }} 작성 | {{ review.updated_at }} 수정</p></li>
+						<li class="list-group-item"><p class="my-0">{{ review.updated_at }} 작성</p></li>
 						<li class="list-group-item" v-html="review.content"></li>
 					</ul>
 				</div>
@@ -45,7 +52,7 @@
 
 <script>
 import axios from 'axios'
-import moment from 'moment'; moment.locale('kr');
+import moment from 'moment'
 
 export default {
 	name: 'CafePage',
@@ -57,7 +64,8 @@ export default {
 			info: {},
 			menus: [],
 			reviews: [],
-			isOpen: true
+			isOpen: false,
+			isLogined: false
 		}
 	},
 	methods: {
@@ -69,10 +77,36 @@ export default {
 						this.reviews = response.data.post
 						this.menus = response.data.menu
 						
+						// 리뷰 작성시간이 12시간 이내이면 '3시간 전' 이런 식으로 나오게 하고, 12시간 이전이면 날짜 시간 다 표시
+						let now = Date.now()
 						this.reviews.forEach(review => {
-							review.created_at = review.created_at.replace(/T|Z/g, " ")
-							review.updated_at = review.updated_at.replace(/T|Z/g, " ")
+							review.updated_at = review.updated_at.slice(0,19)
+							let date = new Date(review.updated_at)
+							if (now - Date.parse(date) <= 43200000) {
+								review.updated_at = moment(review.updated_at).locale('ko').fromNow()
+							} else {
+								review.updated_at = moment(review.updated_at).locale('ko').format('llll')
+							}
 						})
+
+						now = new Date(now)
+						let day = now.getDay()
+						// console.log(day, response.data.time[day][0], response.data.time[day][1])
+						let openTime = new Date(response.data.time[day][0].slice(0,19))
+						let closeTime = new Date(response.data.time[day][1].slice(0,19))
+						// console.log(openTime.getDate(), closeTime.getDate())
+						let nowTime = now.getHours() * 100 + now.getMinutes()
+
+						let closeHour = closeTime.getHours()
+						// 새벽 1시에 끝나면 25시에 끝난다고 생각
+						if (openTime.getDate() !== closeTime.getDate()) {
+							closeHour += 24
+						}
+						if (openTime.getHours() * 100 + openTime.getMinutes() <= nowTime && nowTime < closeHour * 100 + closeTime.getMinutes()) {
+							this.isOpen = true
+						} else {
+							this.isOpen = false
+						}
 					})
 					.catch(error => {
 						console.log(error.data)
@@ -81,6 +115,9 @@ export default {
 	},
 	created() {
 		this.getData()
+	},
+	mounted() {
+		this.isLogined = this.$session.has('jwt')
 	}
 }
 </script>
