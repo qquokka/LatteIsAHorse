@@ -3,7 +3,7 @@
 <mapper namespace="mapper.menu">
 
 	<select id="getMenuList" resultType="com.latte.dto.MenuDto">
-		SELECT
+		select
 		mid, product, price,
 		description, cafe_id, tag
 		from menu;
@@ -11,24 +11,25 @@
 
 	<select id="getMenuListById" parameterType="java.lang.Integer"
 		resultType="com.latte.dto.MenuDto">
-		SELECT
+		select
 		mid, product, price, description, tag
 		from menu where
 		cafe_id = #{cafe_id}
 	</select>
-	
+
 	<select id="getMenuById" parameterType="java.lang.Integer"
 		resultType="com.latte.dto.MenuDto">
-		SELECT
+		select
 		cafe_id, product, price, description, tag
-		from menu where
+		from menu
+		where
 		mid = #{mid}
 	</select>
 
 
 	<select id="getMenuByName" parameterType="java.lang.String"
 		resultType="com.latte.dto.MenuDto">
-		SELECT
+		select
 		mid, price, description, cafe_id, tag
 		from menu
 		where
@@ -38,34 +39,34 @@
 
 
 	<insert id="addMenu" parameterType="com.latte.dto.MenuDto">
-		INSERT INTO
+		insert into
 		(
 		product, price,
 		description, cafe_id, tag
-		) VALUES (
+		) values (
 		#{product},
 		#{price},
 		#{cafe_id},
 		#{tag}
 	</insert>
 
-	<update id="updateMenu"
-		parameterType="com.latte.dto.MenuDto">
-		UPDATE menu SET
-		product = #{product},
+	<update id="updateMenu" parameterType="com.latte.dto.MenuDto">
+		update menu set
+		product =
+		#{product},
 		price = #{price},
 		description =#{description},
-		cafe_id = #{cafe_id},
+		cafe_id =
+		#{cafe_id},
 		tag =#{tag},
 		like_count =#{like_count},
 		tag =#{tag},
-		WHERE
+		where
 		mid=#{mid}
 	</update>
 	<delete id="deleteMenuById" parameterType="java.lang.Integer">
-		DELETE FROM menu WHERE
+		delete from menu where
 		mid=#{mid}
-
 	</delete>
 
 </mapper>

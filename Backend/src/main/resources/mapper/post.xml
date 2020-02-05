@@ -3,136 +3,139 @@
 <mapper namespace="mapper.post">
 
 	<select id="getPostList" resultType="com.latte.model.post.Post">
-		SELECT
-		P.ID, P.CREATED_AT,
-		P.UPDATED_AT, P.LIKE_COUNT, P.THUMBNAIL, P.TITLE,
-		P.CONTENT,
-		U.USERNAME
-		AS WRITER_NAME
-		FROM POSTS P, USERS U
-		WHERE P.WRITER_ID = U.ID ORDER BY
-		UPDATED_AT DESC
+		select
+		p.id, p.created_at,
+		p.updated_at, p.like_count, p.thumbnail, p.title,
+		p.content,
+		u.username
+		as writer_name
+		from posts p, users u
+		where p.writer_id = u.id order by
+		updated_at desc
 	</select>
 
 	<insert id="addPost"
 		parameterType="com.latte.payload.PostAddRequest">
-		INSERT INTO POSTS
-		(TITLE, CONTENT, THUMBNAIL, CREATED_AT,
-		UPDATED_AT, WRITER_ID, CAFE_ID)
-		VALUES
+		insert into posts
+		(title, content, thumbnail, created_at,
+		updated_at, writer_id, cafe_id)
+		values
 		(#{title}, #{content},
 		#{thumbnail},
-		NOW(), NOW(), #{writer_id}, #{cafe_id})
+		now(), now(), #{writer_id}, #{cafe_id})
 	</insert>
 	<!-- <select id="getPostByPostId" parameterType="java.lang.Integer" resultType="com.latte.dto.PostDto"> 
 		</select> -->
 
 
 	<select id="getPostById" resultType="post">
-		SELECT P.*, U.USERNAME AS
-		WRITER_NAME
-		FROM POSTS P, USERS U
-		WHERE P.ID = #{id} AND P.WRITER_ID =
-		U.ID
+		select p.*, u.username as
+		writer_name
+		from posts p, users u
+		where p.id = #{id} and p.writer_id =
+		u.id
 	</select>
 
 	<select id="getPostByTitle" resultType="post">
-		SELECT P.*, U.USERNAME AS
-		WRITER_NAME
-		FROM POSTS P, USERS U
-		WHERE P.TITLE LIKE "%"#{title}"%" AND
-		P.WRITER_ID = U.ID
+		select p.*, u.username as
+		writer_name
+		from posts p, users u
+		where p.title like "%"#{title}"%" and
+		p.writer_id = u.id
 	</select>
 
 	<select id="getPostListByCafeId"
 		parameterType="java.lang.Integer" resultType="post">
-		select * from posts where
-		cafe_id = #{cafe_id}
+		select p.*,u.username as
+		writer_name from posts p, users u where
+		u.id =p.writer_id and cafe_id
+		=#{cafe_id}
+
 	</select>
 
 
 	<!-- 가장 마지막에 저장된 Post의 ID 반환 -->
 	<select id="getLastPostedId" resultType="java.lang.Long">
-		SELECT MAX(ID) FROM
-		POSTS
+		select max(id) from
+		posts
 	</select>
 
 	<update id="updatePostById">
-		UPDATE POSTS SET
-		TITLE = #{title},
-		CONTENT =
+		update posts set
+		title = #{title},
+		content =
 		#{content},
-		THUMBNAIL = #{thumbnail},
-		UPDATED_AT =
-		NOW()
-		WHERE ID = #{id}
+		thumbnail = #{thumbnail},
+		updated_at =
+		now()
+		where id = #{id}
 	</update>
 
 	<delete id="deletePostById">
-		DELETE FROM POSTS WHERE ID = #{id}
+		delete from posts where id = #{id}
 	</delete>
 
 	<!-- Post Hashtag related queries -->
 	<select id="getPostHashTags" parameterType="java.lang.Long"
 		resultType="posthashtag">
-		SELECT * FROM post_hashtag WHERE POST_ID = #{post_id}
+		select * from post_hashtag where post_id = #{post_id}
 	</select>
 
 	<select id="getAllHashTags" resultType="posthashtagname">
-		SELECT DISTINCT NAME FROM
-		POST_HASHTAG
+		select distinct name from
+		post_hashtag
 	</select>
 
 	<insert id="addPostHashtag">
-		INSERT INTO POST_HASHTAG
-		(NAME, POST_ID)
-		VALUES
+		insert into post_hashtag
+		(name, post_id)
+		values
 		(#{name}, #{post_id})
 	</insert>
 
 	<update id="updatePostHashtag">
-		UPDATE POST_HASHTAG SET NAME = #{name} WHERE ID =
+		update post_hashtag set name = #{name} where id =
 		#{id}
 	</update>
 
 	<delete id="deletePostHashtag">
-		DELETE FROM POST_HASHTAG WHERE ID = #{id}
+		delete from post_hashtag where id = #{id}
 	</delete>
 
 	<!-- Post Comments CRUD -->
 
 	<select id="getPostCommentsByPostId" resultType="postComments">
-		select PC.*,
-		U.username AS WRITER_NAME from post_comments PC JOIN USERS U ON
-		U.id=PC.writer_id where post_id =#{post_id}
+		select pc.*,
+		u.username as writer_name from post_comments pc join users u on
+		u.id=pc.writer_id where post_id =#{post_id}
 	</select>
 
 	<insert id="addPostComments">
-		INSERT INTO POST_COMMENTS
-		(CREATED_AT, UPDATED_AT,
-		CONTENT, POST_ID, WRITER_ID)
-		VALUES
-		(NOW(), NOW(), #{content},
+		insert into post_comments
+		(created_at, updated_at,
+		content, post_id, writer_id)
+		values
+		(now(), now(), #{content},
 		#{post_id}, #{writer_id})
 	</insert>
 
 	<update id="updatePostComments">
-		UPDATE POST_COMMENTS SET
-		UPDATED_AT = NOW(),
-		CONTENT =
+		update post_comments set
+		updated_at = now(),
+		content =
 		#{content}
-		WHERE ID = #{id}
+		where id = #{id}
 	</update>
 
 	<delete id="deletePostComments">
-		DELETE FROM POST_COMMENTS WHERE ID = #{id}
+		delete from post_comments where id = #{id}
 	</delete>
 
 	<!-- jw add -->
 	<select id="getAllPostComments" resultType="postComments">
-		SELECT PC.* ,
-		U.username AS WRITER_NAME FROM POST_COMMENTS PC JOIN USERS U ON
-		U.id=PC.writer_id
+		select pc.* ,
+		u.username as writer_name from post_comments pc join users u on
+		u.id=pc.writer_id
 	</select>
 
 </mapper>

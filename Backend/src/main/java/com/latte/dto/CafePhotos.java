@@ -9,14 +9,14 @@ public class CafePhotos implements Serializable {
 	private Long cafe_id; // bigint(20) not null, -- cafe의 id
 	private String path; // varchar(200) not null,
 	private String file_type; // varchar(45) not null, -- 사진 파일의 확장자
-	private Integer file_length;// int default 0, -- 사진 파일의 크기
+	private int file_length;// int default 0, -- 사진 파일의 크기
 
 	public CafePhotos() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public CafePhotos(Long id, Long cafe_id, String path, String file_type, Integer file_length) {
+	public CafePhotos(Long id, Long cafe_id, String path, String file_type, int file_length) {
 		super();
 		this.id = id;
 		this.cafe_id = cafe_id;
@@ -57,11 +57,11 @@ public class CafePhotos implements Serializable {
 		this.file_type = file_type;
 	}
 
-	public Integer getFile_length() {
+	public int getFile_length() {
 		return file_length;
 	}
 
-	public void setFile_length(Integer file_length) {
+	public void setFile_length(int file_length) {
 		this.file_length = file_length;
 	}
 
