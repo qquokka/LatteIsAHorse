@@ -5,7 +5,7 @@ import MapTest from '../views/MapTest.vue'
 import AboutUs from '../views/AboutUs.vue'
 import PostPage from '../views/PostPage.vue'
 import CreatePost from '../views/CreatePost.vue'
-import PostDetail from '../views/PostDetail.vue'
+import ReviewDetail from '../views/ReviewDetail.vue'
 import SearchResult from '../views/SearchResult.vue'
 import CafePage from '../views/CafePage.vue'
 import HangMan from '../views/HangMan.vue'
@@ -34,25 +34,26 @@ const routes = [
     component: PostPage
   },
   {
-    path: '/posts/create',
+    path: '/cafe/:cafeId/posts/create',
     name: 'createpost',
     component: CreatePost,
     meta: { 
       requiresAuth: true
-    }
+    },
+    props: true
   },
   {
     path: '/post/:postId/edit',
-    name: 'edit-post', alias: '/post/:postId/edit',
+    name: 'edit-post',
     component: CreatePost,
     meta: {
       requiresAuth: true
     }
   },
   {
-    path: '/post/:postId',
-    name: 'post-detail',
-    component: PostDetail,
+    path: '/cafe/:cafeId/review/:reviewId',
+    name: 'review-detail',
+    component: ReviewDetail,
     props: true
   },
   {
