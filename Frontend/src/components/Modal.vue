@@ -85,6 +85,9 @@
 #staticBackdrop {
   overflow: hidden;
 }
+.modal-backdrop {
+  opacity: 0.8 !important;
+}
 #modalCloseButton {
   display: flex;
   justify-content: center;
