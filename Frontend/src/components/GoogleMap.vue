@@ -78,8 +78,8 @@ export default {
     zoomChanged(){
       //  console.log(this.$refs.gmap.$mapObject.getZoom())
        axios.post("http://192.168.31.111:3000/v1/map/",{
-                            'longitude': this.center.lat,
-                            'latitude': this.center.lng,
+                            'longitude': this.center.lng,
+                            'latitude': this.center.lat,
                             'level': this.$refs.gmap.$mapObject.getZoom()
                     })
                     .then(res => {
@@ -87,6 +87,7 @@ export default {
                         // let cafePositions = []
                         // const imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"
                         if(res.data.constructor == Array){
+                            // this.markers = []
                             console.log(res.data)
                             this.addCafeMarkers(res.data)
                             // res.data.forEach(function(cafe){
@@ -99,6 +100,8 @@ export default {
                             //                 "latitude : " + cafe.latitude + '\n' +
                             //                 "longitude : " + cafe.longitude)
                             // })
+                        }else{
+                          this.markers = this.markers.splice(0, 1)
                         }
                     })
                     .catch(err => {
@@ -106,7 +109,9 @@ export default {
                     });
     },
     addCafeMarkers(cafes){
-        cafes.array.forEach(cafe => {
+        // console.log(cafes.constructor == Array)
+        this.markers = this.markers.splice(0, 1)
+        cafes.forEach((cafe) => {
            const marker = {
             lat: cafe.latitude,
             lng: cafe.longitude
