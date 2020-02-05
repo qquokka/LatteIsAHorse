@@ -46,17 +46,19 @@
 		<h3><router-link :to="`/cafe/${cafeId}/posts/create`" v-if="isLogined">리뷰 쓰기</router-link></h3>
 		<hr>
 		<div v-for="review in reviews" :key="review.id">
-			<div class="card my-3">
-				<img :src="review.thumbnail" class="card-img-top" :alt="review.title" style="width:300px;">
-				<div class="card-body">
-					<h5 class="card-title">{{ review.title }}</h5>
-					<p>작성자: {{ review.writer_name }} | {{ review.updated_at }} 작성</p>
-					<button v-if="review.writer_name === $session.get('username')" click="deleteReview(review.id)">삭제</button>
+			<router-link :to="`/cafe/${cafeId}/review/${review.id}/`">
+				<div class="card my-3">
+					<img :src="review.thumbnail" class="card-img-top" :alt="review.title" style="width:300px;">
+					<div class="card-body">
+						<h5 class="card-title">{{ review.title }}</h5>
+						<p>작성자: {{ review.writer_name }} | {{ review.updated_at }} 작성</p>
+						<button v-if="review.writer_name === $session.get('username')" click="deleteReview(review.id)">삭제</button>
+					</div>
+					<div class="card-body">
+						<p v-html="review.content" />
+					</div>
 				</div>
-				<div class="card-body">
-					<p v-html="review.content" />
-				</div>
-			</div>
+			</router-link>
 		</div>
 	</div>
 </template>
@@ -138,7 +140,7 @@ export default {
 		// 		})
 		// },
 		pushLike() {
-			
+
 		}
 	},
 	created() {
