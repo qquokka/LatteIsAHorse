@@ -27,7 +27,10 @@
 			<div class="col-8"><p>{{ menu.description }}</p></div>
 		</div>
 		<hr>
-		<h2>리뷰</h2>
+		<h2>리뷰 ({{ reviews.length }}개)</h2>
+		<hr>
+		<h3><router-link :to="`/cafe/${cafeId}/posts/create`">리뷰 쓰기</router-link></h3>
+		<hr>
 		<div v-for="review in reviews" :key="review.id">
 			<router-link :to="`/post/${review.id}`">
 				<div class="card my-3">
@@ -88,7 +91,7 @@ export default {
 						let openTime = new Date(response.data.time[day][0])
 						let closeTime = new Date(response.data.time[day][1])
 						// console.log(openTime.getDate(), closeTime.getDate())
-						let nowTime = now.getHours() * 100 + now.getMinutes()
+						let nowTime = (now.getHours() + 9) * 100 + now.getMinutes()
 
 						let closeHour = closeTime.getHours()
 						// 새벽 1시에 끝나면 25시에 끝난다고 생각

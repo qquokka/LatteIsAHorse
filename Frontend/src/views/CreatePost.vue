@@ -50,6 +50,9 @@ export default {
     editor: Editor
     // Footer
   },
+  props: [
+    'cafeId'
+  ],
   data() {
     return {
       editorText: "글을 좀 던져봐라?",
@@ -107,7 +110,7 @@ export default {
                     title: this.title,
                     content: html.innerHTML,
                     thumbnail: tempres,
-                    cafe_id: 1
+                    cafe_id: this.cafeId
                   };
                   this.submitPost(body);
                 })
@@ -121,7 +124,7 @@ export default {
           title: this.title,
           content: html.innerHTML,
           thumbnail: "T",
-          cafe_id: 1
+          cafe_id: this.cafeId
         };
         this.submitPost(body);
       }
