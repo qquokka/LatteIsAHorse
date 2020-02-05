@@ -76,10 +76,10 @@
         </div>
       </div>
 
-      <kakao-map
+      <google-map
         class="col-12 col-md-8 my-auto shadow pl-1"
         width="100%"
-        elementId="35989832"
+        :height='avheight'
       />
     </div>
     <!-- <Footer class="d-none d-sm-block" style="bottom:0 !important!" /> -->
@@ -87,14 +87,14 @@
 </template>
 
 <script>
-import KakaoMap from "@/components/KakaoMap.vue";
+import GoogleMap from "@/components/GoogleMap.vue";
 // import Footer from '@/views/section/Footer.vue'
 import NavBar from "@/components/NavBar.vue";
 
 export default {
-  name: "Kakao-map",
+  name: "map_test",
   components: {
-    KakaoMap,
+    GoogleMap,
     NavBar
   },
   data() {
