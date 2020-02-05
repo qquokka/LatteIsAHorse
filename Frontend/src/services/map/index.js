@@ -77,7 +77,9 @@ class Map {
         }
         return this
     }
-
+    getLevel() {
+        console.log(this.map.getLevel())
+    }
     addMarkerClusters(clusterSpecs = []) {
         clusterSpecs.forEach(({
             key,

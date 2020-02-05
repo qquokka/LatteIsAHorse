@@ -8,6 +8,7 @@ import CreatePost from '../views/CreatePost.vue'
 import PostDetail from '../views/PostDetail.vue'
 import SearchResult from '../views/SearchResult.vue'
 import CafePage from '../views/CafePage.vue'
+import HangMan from '../views/HangMan.vue'
 
 Vue.use(VueRouter)
 
@@ -60,9 +61,15 @@ const routes = [
     component: SearchResult,
   },
   {
-    path: '/cafe',
+    path: '/cafe/:cafeId',
     name: 'cafePage',
-    component: CafePage
+    component: CafePage,
+    props: true
+  },
+  {
+    path: '/hangman/is/the/perfect/game/of/the/whole/human/history',
+    name: 'hangman',
+    component: HangMan,
   }
 ]
 

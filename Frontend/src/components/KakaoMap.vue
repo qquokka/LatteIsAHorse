@@ -27,6 +27,10 @@ export default {
       required: false,
       default: '640px',
     },
+    level: {
+      type: Number,
+      required: false,
+    }
   },
   data () {
     return {
@@ -55,9 +59,11 @@ export default {
 
 
         this.map = map
+        
       } else {
         this.map.clearMarkers()
       }
+<<<<<<< HEAD
 
 
     },
@@ -85,6 +91,36 @@ export default {
       this.errorStr = err.message
     })
 
+=======
+      const happymap = this.map
+      console.log(happymap.getLevel())
+      this.map.addMarkers(
+        markers.map(
+          (marker) => {
+            const { name, type, location: { lat, lng } } = marker
+            return {
+              lat,
+              lng,
+              clusterKey: type,
+              title: name,
+              onClick: () => {
+                this.$emit('click-marker', marker)
+              },
+            }
+          }
+        )
+      )
+    },
+    setCenter (lat, lng) {
+      this.map && this.map.setCenter({ lat, lng, maxLevel: 10 })
+    },
+    getLevel() {
+      console.log(this.map.level)
+    }
+  },
+  mounted() {
+    this.getLevel()
+>>>>>>> b55562412104aa72952e30448291132ea37b5a30
   }
 }
 </script>

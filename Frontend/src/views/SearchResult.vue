@@ -2,8 +2,11 @@
   <div id="search-result">
     <nav-bar />
     <search-bar class="mx-auto" style="margin-top:9rem" />
-    <post-list postData="postData" />
-    
+    <div class="post-container">
+      <post-list postData="postData" />
+    </div>
+
+    <div class="cafe-container">
     <!-- Cafe List -->
     <div class="row px-2">
       <div v-for="cafe in cafes" :key="cafe.cafe_id" class="post-list col-4 p-3">
@@ -17,6 +20,8 @@
           </div>
         </router-link>
       </div>
+    </div>
+    
     </div>
   </div>
 </template>
