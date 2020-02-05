@@ -13,7 +13,7 @@
       </li>
       <li class="nav-item" v-else>
         <p class="nav-link" @click="logout()">
-          <i class="fa fa-key"></i> 로그아웃
+          <i class="fa fa-key"></i> {{ getUserName }}님 반갑습니다.
         </p>
       </li>
       <li class="nav-item" >
@@ -42,6 +42,7 @@ export default {
   return {
     scrolled: false,
     isAuthenticated: this.$session.exists('jwt'),
+    username: this.getUserName(),
   };
 },
 props: {
@@ -78,6 +79,9 @@ methods: {
 computed: {
   isLoggedIn() {
     return this.$store.getters.isLoggedIn;
+  },
+  getUserName() {
+    return JSON.parse(localStorage.getItem("vue-session-key")).username
   }
 },
 created () {
