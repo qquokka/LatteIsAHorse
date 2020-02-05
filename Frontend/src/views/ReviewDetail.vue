@@ -3,7 +3,7 @@
 	<NavBar :iswhite="true" />
 	<div class="container">
 		<h1 class="display-3 mx-5" style="padding-top:6rem;font-weight:700">{{ post.title }}</h1>
-		<h5>{{post.created_at.slice(0,10) }}</h5>
+		<h5>{{ post.created_at.slice(0,10) }}</h5>
 		<h1 class="border-bottom pb-4"><span class="text-muted small">written by</span> {{ post.writer_name }} </h1>
 		<p v-html="post.content"></p>
 		<button v-if="isWriter" @click="updatePost">수정</button>
@@ -29,19 +29,18 @@ import NavBar from '@/components/NavBar.vue'
 import axios from 'axios'
 
 export default {
-	name: 'PostDetail',
+	name: 'ReviewDetail',
 	components: {
 		NavBar
 	},
 	props: [
-		'postId'
+		'reviewId', 'cafeId'
 	],
 	data() {
 		return {
 			loading: false,
 			post: {},
 			comments: [],
-			error: null,
 			isWriter: false,
 			addCommentContent: null,
 			isLogined: false
@@ -49,7 +48,7 @@ export default {
 	},
 	methods: {
 		getPost () {
-			axios.get(`${this.$store.state.constants.SERVER}/post/${this.postId}`)
+			axios.get(`${this.$store.state.constants.SERVER}/post/${this.reviewId}`)
 					.then(response => {
 						this.post = response.data
 					})
@@ -59,14 +58,14 @@ export default {
 			this.$router.push(`/post/${this.postId}/edit`)
 		},
 		deletePost() {
-			axios.delete(`${this.$store.state.constants.SERVER}/post/${this.postId}`, {headers: {'Authorization': "Bearer " + this.$session.get('jwt')}})
+			axios.delete(`${this.$store.state.constants.SERVER}/post/${this.reviewId}`, {headers: {'Authorization': "Bearer " + this.$session.get('jwt')}})
 				.then(response => {
 					console.log(response)
 					this.$router.push('/posts')
 				})
 		},
 		getComment () {
-			axios.get(`${this.$store.state.constants.SERVER}/comments/${this.postId}`)
+			axios.get(`${this.$store.state.constants.SERVER}/comments/${this.reviewId}`)
 					.then(response => {
 						this.comments = response.data
 					})
@@ -104,7 +103,7 @@ export default {
 		setTimeout(() => {
 			window.scrollBy(0,1);
 		},120)
-		axios.get(`${this.$store.state.constants.SERVER}/post/${this.postId}`)
+		axios.get(`${this.$store.state.constants.SERVER}/post/${this.reviewId}`)
 					.then(response => {
 						this.post = response.data
 						console.log(this.post.title)
@@ -112,7 +111,7 @@ export default {
 							this.isWriter = true
 						}
 					})
-		axios.get(`${this.$store.state.constants.SERVER}/comments/${this.postId}`)
+		axios.get(`${this.$store.state.constants.SERVER}/comments/${this.reviewId}`)
 				.then(response => {
 					this.comments = response.data
 				})

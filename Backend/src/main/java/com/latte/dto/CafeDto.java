@@ -13,7 +13,6 @@ public class CafeDto implements Serializable {
 	private double latitude;
 	private double longitude;
 	private String thumbnail; // varchar(500) default null, -- 썸네일
-	private int like_count;
 	private String tag;
 	private Instant mon_open;
 	private Instant mon_close;
@@ -38,10 +37,10 @@ public class CafeDto implements Serializable {
 	}
 
 	public CafeDto(int cafe_id, String cafe_name, String cafe_address, String cafe_phone, double latitude,
-			double longitude, String thumbnail, int like_count, String tag, Instant mon_open, Instant mon_close,
-			Instant tue_open, Instant tue_close, Instant wed_open, Instant wed_close, Instant thu_open,
-			Instant thu_close, Instant fri_open, Instant fri_close, Instant sat_open, Instant sat_close,
-			Instant sun_open, Instant sun_close, int closed, int cafe_owner_id) {
+			double longitude, String thumbnail, String tag, Instant mon_open, Instant mon_close, Instant tue_open,
+			Instant tue_close, Instant wed_open, Instant wed_close, Instant thu_open, Instant thu_close,
+			Instant fri_open, Instant fri_close, Instant sat_open, Instant sat_close, Instant sun_open,
+			Instant sun_close, int closed, int cafe_owner_id) {
 		super();
 		this.cafe_id = cafe_id;
 		this.cafe_name = cafe_name;
@@ -50,7 +49,6 @@ public class CafeDto implements Serializable {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.thumbnail = thumbnail;
-		this.like_count = like_count;
 		this.tag = tag;
 		this.mon_open = mon_open;
 		this.mon_close = mon_close;
@@ -116,14 +114,6 @@ public class CafeDto implements Serializable {
 
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
-	}
-
-	public int getLike_count() {
-		return like_count;
-	}
-
-	public void setLike_count(int like_count) {
-		this.like_count = like_count;
 	}
 
 	public String getTag() {

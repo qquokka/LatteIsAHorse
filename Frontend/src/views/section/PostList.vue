@@ -2,9 +2,9 @@
 <div id="post-list-main" class="container-fluid">
   <div class="row px-2">
     <div v-for="post in postData.slice(0, limits)" :key="post.id" class="post-list col-12 col-sm-6 col-lg-4 p-3">
-      <router-link :to="`post/${post.id}/`" class="text-decoration-none">
+      <router-link :to="`/cafe/${post.cafe_id}/post/${post.id}/`" class="text-decoration-none">
         <div class="postbody overflow-hidden">
-          <img :src="post.thumbnail" width="100%" height="300px">
+          <img :src="post.thumbnail" width="100%" height="300px" @error="imgPlaceholder">
           <h3 class="p-2 posttitle">{{ post.title }}</h3>
           <p class="" style="font-size:0.8rem"><i class="fas fa-thumbs-up"> {{ post.like_count }}</i></p>
           <p class="mb-0"> {{ post.writer_name }}</p>
@@ -38,6 +38,9 @@ export default {
     loadmore() {
       this.limits += 6  
     },
+    imgPlaceholder(e) {
+      e.target.src = require("../../assets/noimage.png")
+    }
   }
 }
 </script>
@@ -59,7 +62,7 @@ export default {
   transition: 250ms ease-in-out;
 }
 .postbody:hover {
-  border: 3px solid lavender
+  box-shadow: 3px 3px 1px lavender;
 }
 .postbody:hover .posttitle {
   color: white;
