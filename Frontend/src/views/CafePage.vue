@@ -1,9 +1,11 @@
 <template>
 	<div class="container-fluid px-3">
 		<img :src="info.thumbnail" :alt="info.cafe_name">
-		<h1>{{ info.cafe_name }}</h1>
-		<button v-if="isOpen" class="btn btn-primary">영업중</button>
-		<button v-else class="btn btn-secondary">준비중</button>
+		<h1>
+			{{ info.cafe_name }}
+			<span v-if="isOpen" class="badge badge-primary">영업중</span>
+			<span v-else class="badge badge-secondary">준비중</span>
+		</h1>
 		<hr>
 		<p>좋아요: {{ info.like_count }}</p>
 		<p>태그: {{ info.tag }}</p>
@@ -62,7 +64,8 @@ export default {
 			info: {},
 			menus: [],
 			reviews: [],
-			isOpen: false
+			isOpen: false,
+			isLogined: false
 		}
 	},
 	methods: {
@@ -77,6 +80,7 @@ export default {
 						// 리뷰 작성시간이 12시간 이내이면 '3시간 전' 이런 식으로 나오게 하고, 12시간 이전이면 날짜 시간 다 표시
 						let now = Date.now()
 						this.reviews.forEach(review => {
+							review.updated_at = review.updated_at.slice(0,19)
 							let date = new Date(review.updated_at)
 							if (now - Date.parse(date) <= 43200000) {
 								review.updated_at = moment(review.updated_at).locale('ko').fromNow()
@@ -88,10 +92,10 @@ export default {
 						now = new Date(now)
 						let day = now.getDay()
 						// console.log(day, response.data.time[day][0], response.data.time[day][1])
-						let openTime = new Date(response.data.time[day][0])
-						let closeTime = new Date(response.data.time[day][1])
+						let openTime = new Date(response.data.time[day][0].slice(0,19))
+						let closeTime = new Date(response.data.time[day][1].slice(0,19))
 						// console.log(openTime.getDate(), closeTime.getDate())
-						let nowTime = (now.getHours() + 9) * 100 + now.getMinutes()
+						let nowTime = now.getHours() * 100 + now.getMinutes()
 
 						let closeHour = closeTime.getHours()
 						// 새벽 1시에 끝나면 25시에 끝난다고 생각
@@ -103,10 +107,6 @@ export default {
 						} else {
 							this.isOpen = false
 						}
-						
-						console.log(openTime.getHours() * 100 + openTime.getMinutes())
-						console.log(nowTime)
-						console.log(this.isOpen)
 					})
 					.catch(error => {
 						console.log(error.data)
@@ -115,6 +115,9 @@ export default {
 	},
 	created() {
 		this.getData()
+	},
+	mounted() {
+		this.isLogined = this.$session.has('jwt')
 	}
 }
 </script>

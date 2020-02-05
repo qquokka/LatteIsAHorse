@@ -41,7 +41,6 @@ export default {
 			loading: false,
 			post: {},
 			comments: [],
-			error: null,
 			isWriter: false,
 			addCommentContent: null,
 			isLogined: false
