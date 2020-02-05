@@ -69,7 +69,14 @@ html {
 #nav {
   padding: 30px;
 }
-
+a {
+  text-decoration: none !important;
+  color: #2f2f2f !important;
+}
+.router-link {
+  text-decoration: none !important;
+  color: #2f2f2f;
+}
 .router-link-active {
   color: #42b983 !important;
 }

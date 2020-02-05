@@ -1,6 +1,6 @@
 <template>
-  <div class="container-fluid p-5 postc">
-    <nav-bar style="position:absolute;left:0;width:100%" />
+  <div class="container-fluid bg-danger h-100">
+    <nav-bar />
     <div class="row justify-content-center">
       <h1 class="text-white">{{ operation }}</h1>
     </div>
@@ -10,7 +10,7 @@
       </div>
       <input
         type="text"
-        name=""
+        name
         id="titleField"
         v-model="title"
         aria-label="Title"
@@ -24,13 +24,12 @@
       :options="editorOptions"
       :html="editorHtml"
       :visible="editorVisible"
+      mode="wysiwyg"
       previewStyle="vertical"
       height="500px"
       class="text-left"
     />
-    <button class="btn btn-danger btn-lg" @click="getHtml">
-      확인
-    </button>
+    <button class="btn btn-danger btn-lg" @click="getHtml">확인</button>
 
     <!-- <Footer /> -->
   </div>
@@ -56,14 +55,34 @@ export default {
       editorOptions: {
         hideModeSwitch: true,
         usageStatistics: false,
-        useDefaultHTMLSanitizer: true,
+        useDefaultHTMLSanitizer: false,
         language: "ko_KR",
-        exts: ["scrollSync"]
+        exts: ["scrollSync"],
+        toolbarItems: [
+          "heading",
+          "bold",
+          "italic",
+          "strike",
+          "divider",
+          "hr",
+          "quote",
+          "divider",
+          "ul",
+          "ol",
+          "task",
+          "indent",
+          "outdent",
+          "divider",
+          "table",
+          "image",
+          "link",
+          "divider"
+        ]
       },
       editorHtml: "",
       editorVisible: true,
-			title: "",
-			operation: ""
+      title: "",
+      operation: ""
     };
   },
   computed: {
@@ -130,27 +149,25 @@ export default {
   beforeCreate: function() {
     if (!this.$session.exists("jwt")) {
       this.$router.back();
-		}
-		if (this.$router.currentRoute.path === 'posts/create') {  // 게시글 작성일 때
-			this.operation = "글쓰기"
-		} else {  // 게시글 수정일 때
-			const postId = this.$router.currentRoute.path.split('/')[2]
-			axios.get(`${this.$store.state.constants.SERVER}/post/${postId}`)
-					.then(response => {
-						console.log(response.data)
-					})
-			this.operation = "수정하기"
-		}
-	}
+    }
+    if (this.$router.currentRoute.path === "posts/create") {
+      // 게시글 작성일 때
+      this.operation = "글쓰기";
+    } else {
+      // 게시글 수정일 때
+      const postId = this.$router.currentRoute.path.split("/")[2];
+      axios
+        .get(`${this.$store.state.constants.SERVER}/post/${postId}`)
+        .then(response => {
+          console.log(response.data);
+        });
+      this.operation = "수정하기";
+    }
+  }
 };
 </script>
 
 <style>
-.postc {
-  background: url(../assets/img/createpostbg.jpg) no-repeat fixed;
-  background-size: cover;
-  height: 100vh;
-}
 #tuiEditor {
   border-radius: 20px;
 }
