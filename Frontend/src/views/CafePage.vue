@@ -7,7 +7,7 @@
 			<span v-else class="badge badge-secondary">준비중</span>
 		</h1>
 		<hr>
-		<p>좋아요: {{ info.like_count }}</p>
+		<p><button click="pushLike">좋아요</button>{{ info.like_count }}</p>
 		<p>태그: {{ info.tag }}</p>
 		<hr>
 		<h2>정보</h2>
@@ -17,6 +17,18 @@
 			<div class="col-2"><p>전화번호</p></div>
 			<div class="col-10"><p>{{ info.cafe_phone }}</p></div>
 		</div>
+		<h5>영업시간</h5>
+		<div class="row">
+			<div class="col-2"><p>요일</p></div>
+			<div class="col-5"><p>여는 시간</p></div>
+			<div class="col-5"><p>닫는 시간</p></div>
+		</div>
+		<div v-for="i in 7" :key="time[i - 1][2]" class="row" :class="{isToday: today === i - 1}">
+			<div class="col-2"><p>{{ time[i - 1][2] }}요일</p></div>
+			<div class="col-5"><p>{{ time[i - 1][0] }}</p></div>
+			<div class="col-5"><p>{{ time[i - 1][1] }}</p></div>
+		</div>
+		
 		<hr>
 		<h2>메뉴</h2>
 		<div class="row">
@@ -63,8 +75,10 @@ export default {
 			info: {},
 			menus: [],
 			reviews: [],
+			time: [],
 			isOpen: false,
-			isLogined: false
+			isLogined: false,
+			today: 0
 		}
 	},
 	methods: {
@@ -75,7 +89,8 @@ export default {
 						this.info = response.data.cafeinfo
 						this.reviews = response.data.post
 						this.menus = response.data.menu
-						
+						this.time = response.data.time
+
 						// 리뷰 작성시간이 12시간 이내이면 '3시간 전' 이런 식으로 나오게 하고, 12시간 이전이면 날짜 시간 다 표시
 						let now = Date.now()
 						this.reviews.forEach(review => {
@@ -89,13 +104,11 @@ export default {
 						})
 
 						now = new Date(now)
-						let day = now.getDay()
-						// console.log(day, response.data.time[day][0], response.data.time[day][1])
-						let openTime = new Date(response.data.time[day][0].slice(0,19))
-						let closeTime = new Date(response.data.time[day][1].slice(0,19))
-						// console.log(openTime.getDate(), closeTime.getDate())
+						this.today = now.getDay()
+						let openTime = new Date(response.data.time[this.today][0].slice(0,19))
+						let closeTime = new Date(response.data.time[this.today][1].slice(0,19))
 						let nowTime = now.getHours() * 100 + now.getMinutes()
-
+			
 						let closeHour = closeTime.getHours()
 						// 새벽 1시에 끝나면 25시에 끝난다고 생각
 						if (openTime.getDate() !== closeTime.getDate()) {
@@ -106,24 +119,27 @@ export default {
 						} else {
 							this.isOpen = false
 						}
+						let days = '일월화수목금토'
+						for (let i = 0; i < 7; i++) {
+							for (let j = 0; j < 2; j++) {
+								this.time[i][j] = this.time[i][j].slice(11, 16)
+							}
+							this.time[i].push(days[i])
+						}
 					})
 					.catch(error => {
 						console.log(error.data)
 					})
 		},
-		deleteReview(reviewId) {
-			axios.delete(`${this.$store.state.constants.SERVER}/post/${reviewId}`, {headers: {'Authorization': "Bearer " + this.$session.get('jwt')}})
-				.then(response => {
-					console.log(response)
-				})
-		},
-		getComment(reviewId) {
-			axios.get(`${this.$store.state.constants.SERVER}/comments/${reviewId}`)
-					.then(response => {
-						this.reviews.comments = response.data
-						console.log(this.reviews.comments)
-					})
-		},
+		// deleteReview(reviewId) {
+		// 	axios.delete(`${this.$store.state.constants.SERVER}/post/${reviewId}`, {headers: {'Authorization': "Bearer " + this.$session.get('jwt')}})
+		// 		.then(response => {
+		// 			console.log(response)
+		// 		})
+		// },
+		pushLike() {
+			
+		}
 	},
 	created() {
 		this.getData()
@@ -135,4 +151,7 @@ export default {
 </script>
 
 <style>
+.isToday {
+	background-color: rgba(255, 238, 0, 0.438);
+}
 </style>
