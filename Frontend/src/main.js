@@ -7,9 +7,16 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import VueSession from 'vue-session'
 import store from './store' // vuex
+import * as VueGoogleMaps from 'vue2-google-maps'
 
 Vue.config.productionTip = false
 Vue.use(VueSession,{persist: true})
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyCQYe6AWVGlHjJ--FzqH70T2lypvg0Qo00',
+    libraries: 'places,drawing,visualization'
+  }
+})
 
 new Vue({
   router,

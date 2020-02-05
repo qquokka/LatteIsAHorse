@@ -1,5 +1,6 @@
 package com.latte.controller;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -79,8 +80,20 @@ public class CafeController {
 		List<MenuDto> menuList = menuservice.getMenuListById(cafe_id);
 		List<Post> postList = postservice.getPostListByCafeId(cafe_id);
 		Map<String, Object> response = new HashMap<>();
+		
 		if (cafeInfo != null) {
 			response.put("cafeinfo", cafeInfo);
+			//Generate Cafe's Time Table
+			Instant[][] time = {
+					{cafeInfo.getSun_open(), cafeInfo.getSun_close()},
+					{cafeInfo.getMon_open(), cafeInfo.getMon_close()},
+					{cafeInfo.getThu_open(), cafeInfo.getTue_close()},
+					{cafeInfo.getWed_open(), cafeInfo.getWed_close()},
+					{cafeInfo.getThu_open(), cafeInfo.getTue_close()},
+					{cafeInfo.getFri_open(), cafeInfo.getFri_close()},
+					{cafeInfo.getSat_open(), cafeInfo.getSat_close()}
+			};
+			response.put("time", time);
 			if (menuList != null) {
 				response.put("menu", menuList);
 			}

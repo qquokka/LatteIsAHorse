@@ -36,8 +36,10 @@ public class MapController {
 		logger.info("MapController-------------Get near cafe list by current user location-------------" + new Date());
 
 		//Converting level value to meter
-		location.setMeter(convertLeveltoMeter(location.getLevel()));
-
+		location.setMeter(convertLeveltoKilioMeter(location.getLevel()));
+		logger.info("Level : " + location.getLevel());
+		logger.info("Latitude : " + location.getLatitude());
+		logger.info("Longitude : " + location.getLongitude());
 		List<CafeDto> cafes = mapService.getCafesByUserLocation(location);
 
 		if (cafes == null || cafes.size() == 0) {
@@ -47,24 +49,20 @@ public class MapController {
 		return new ResponseEntity<List<CafeDto>>(cafes, HttpStatus.OK);
 	}
 
-	private double convertLeveltoMeter(Integer level) {
+	private double convertLeveltoKilioMeter(Integer level) {
 		double meter = 0;
 		
 		switch (level.intValue()) {
-			case(1)	:meter= 0.02; break;
-			case(2)	:meter= 0.03; break;
-			case(3)	:meter= 0.05; break;
-			case(4)	:meter= 0.1 ; break;
-			case(5)	:meter= 0.25; break;
-			case(6)	:meter= 0.5; break;
-			case(7)	:meter= 1; break;
-			case(8)	:meter= 2; break;
-			case(9)	:meter= 4; break;
-			case(10):meter= 8;  break;
-			case(11):meter=	16;  break;
-			case(12):meter=	32;  break;
-			case(13):meter=	64;  break;
-			case(14):meter=	128;  break;
+			case(17) :meter= 0.05; break;
+			case(16) :meter= 0.1; break;
+			case(15) :meter= 0.2; break;
+			case(14) :meter= 0.5 ; break;
+			case(13) :meter= 1; break;
+			case(12) :meter= 2; break;
+			case(11) :meter= 2; break;
+			case(10) :meter= 5; break;
+			case(9)	 :meter= 10; break;
+			case(8)  :meter= 20;  break;
 		}
 		
 		return meter;
