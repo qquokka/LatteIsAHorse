@@ -2,7 +2,7 @@
 <div id="post-list-main" class="container-fluid">
   <div class="row px-2">
     <div v-for="post in postData.slice(0, limits)" :key="post.id" class="post-list col-12 col-sm-6 col-lg-4 p-3">
-      <router-link :to="`post/${post.id}/`" class="text-decoration-none">
+      <router-link :to="`/cafe/${post.cafe_id}/post/${post.id}/`" class="text-decoration-none">
         <div class="postbody overflow-hidden">
           <img :src="post.thumbnail" width="100%" height="300px" @error="imgPlaceholder">
           <h3 class="p-2 posttitle">{{ post.title }}</h3>
