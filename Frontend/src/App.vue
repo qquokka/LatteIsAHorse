@@ -56,10 +56,13 @@ export default {
 }
 </script>
 <style>
+<<<<<<< HEAD
 html {
   overflow-x: hidden;
   min-height: 100vh;
 }
+=======
+>>>>>>> f313ebb77130435cddb6aba1c69247f3518a23ed
 #app {
   font-family: 'Roboto', sans-serif;
   text-align: center;

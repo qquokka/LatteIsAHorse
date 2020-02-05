@@ -113,7 +113,7 @@
 		CONTENT, POST_ID, WRITER_ID)
 		VALUES
 		(NOW(), NOW(), #{content},
-		#{post_id}, #{writer_id})
+		#{post_id}, #{writer_id)
 	</insert>
 
 	<update id="updatePostComments">
