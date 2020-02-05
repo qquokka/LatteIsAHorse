@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid p-0">
     <div id="background-post" />
     <nav-bar />
     <search-bar class="mx-auto"  style="margin-top:9rem" />

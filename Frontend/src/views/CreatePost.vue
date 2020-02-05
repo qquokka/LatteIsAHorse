@@ -49,9 +49,7 @@ export default {
     editor: Editor
     // Footer
   },
-  props: [
-    'cafeId'
-  ],
+  props: ["cafeId"],
   data() {
     return {
       editorText: "글을 좀 던져봐라?",
@@ -98,15 +96,16 @@ export default {
           headers: { Authorization: "Bearer " + this.$session.get("jwt") }
         })
         .then(response => {
+          this.$router.back()
           console.log(response);
-          this.$router.back();
         })
         .catch(error => {
           console.log(error.response);
         });
     },
     getHtml() {
-      let html = document.querySelector(".tui-editor-contents");
+      let html = document.querySelector(".te-ww-container").firstElementChild
+        .firstElementChild.firstElementChild;
       let imgList = html.getElementsByTagName("img");
       if (imgList.length) {
         for (let i = 0; i < imgList.length; i++) {

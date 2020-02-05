@@ -5,14 +5,13 @@
     <h2
       class="d-none d-md-block brand"
       style="margin-top: 8rem;margin-bottom:2rem;position:relative"
-    >Find your ideal cafe</h2>
+    >Find your ideal cafe <i class="fas fa-mug-hot"></i></h2>
     <h3 class="d-block d-md-none" style="margin-top: 1rem;margin-bottom:2rem;position:relative">
       LATTE
       <span style="color:violet">=</span> HORSE
     </h3>
     <search-bar class="mx-auto" />
     <hash-tags class="position-relative mb-5 pb-5" />
-    <h4 class="bold">대전 인기 검색 지역</h4>
     <popular-list />
 
     <div class="main-section" style="margin-top:8rem;">

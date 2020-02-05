@@ -62,7 +62,7 @@ export default {
   transition: 250ms ease-in-out;
 }
 .postbody:hover {
-  border: 3px solid lavender
+  box-shadow: 3px 3px 1px lavender;
 }
 .postbody:hover .posttitle {
   color: white;
