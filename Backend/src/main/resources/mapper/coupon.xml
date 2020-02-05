@@ -5,29 +5,29 @@
 	<!-- DB 에 저장된 모든 쿠폰을 반환[관리자용] -->
 
 	<select id="getCouponList" resultType="com.latte.dto.Coupon">
-		SELECT
+		select
 		id,
 		users_id,
 		cafe_id,
 		count
-		FROM coupon
+		from coupon
 	</select>
 
 	<!-- 카페아이디로 등록된 쿠폰을 보여줍니다. -->
 	<select id="getCouponListByCafeId" parameterType="_long"
 		resultType="com.latte.dto.Coupon">
-		SELECT id, users_id,
+		select id, users_id,
 		cafe_id, count
-		FROM coupon WHERE
+		from coupon where
 		cafe_id=#{cafe_id}
 	</select>
 
 	<!-- Create -->
 	<insert id="addCoupon" parameterType="com.latte.dto.Coupon">
-		INSERT INTO coupon
+		insert into coupon
 		(users_id,
 		cafe_id)
-		VALUES(
+		values(
 		#{users_id},
 		#{cafe_id}
 		)
@@ -42,18 +42,18 @@
 
 	<!-- Update -->
 	<update id="updateCoupon" parameterType="com.latte.dto.Coupon">
-		UPDATE coupon SET
+		update coupon set
 		count =
 		#{count}
-		WHERE
+		where
 		users_id =#{users_id}
-		AND cafe_id =#{cafe_id}
+		and cafe_id =#{cafe_id}
 	</update>
 	
 	<!-- Delete -->
 	<delete id="deleteCouponByUserId" parameterType="_long">
-		DELETE FROM
-		coupon WHERE
+		delete from
+		coupon where
 		id=#{id}
 	</delete>
 </mapper>
