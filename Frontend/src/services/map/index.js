@@ -1,15 +1,24 @@
 import loadScriptOnce from 'load-script-once'
+import axios from 'axios'
+// clusterer: 마커를 클러스터링 할 수 있는 클러스터러 라이브러리 입니다.
+// services: 장소 검색 과 주소-좌표 변환 을 할 수 있는 services 라이브러리 입니다.
+// drawing: 지도 위에 마커와 그래픽스 객체를 쉽게 그릴 수 있게 그리기 모드를 지원하는 drawing 라이브러리 입니다.
 
+//발급받은 App key
 const {VUE_APP_KAKAO_REST_API_KEY} = process.env
+//Kakao Map API js get
 const DAUM_KAKAO_MAP_LIB_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${VUE_APP_KAKAO_REST_API_KEY}&libraries=drawing,clusterer,services&autoload=false`
+
 
 class Map {
     constructor() {
         this.map = null
+        this.marker = null
+        this.cafes = null
         Map.initialize()
     }
 
-    async mount(elementId) {
+    async mount(elementId, curLatitude, curLongitude) {
         await Map.initialize()
 
         // re-use map
@@ -21,15 +30,49 @@ class Map {
 
             // create map
         } else {
+            //지도 생성
             this.map = new Map.daum.maps.Map(
                 document.getElementById(elementId), {
-                    center: new Map.daum.maps.LatLng(36.3555426, 127.298756),
+                    center: new Map.daum.maps.LatLng(curLatitude, curLongitude),
                     level: 3,
+                    mapTypeId : Map.daum.maps.MapTypeId.ROADMAP // 지도종류
                 },
             )
+
+            this.marker = new Map.daum.maps.Marker({
+                position: new Map.daum.maps.LatLng(curLatitude, curLongitude), // 마커의 좌표
+                map: this.map // 마커를 표시할 지도 객체
+            })
+   
+            //Add Zoom In/Out Event Listener
+            Map.daum.maps.event.addListener(this.map, 'zoom_changed', function(){
+                console.log("lat : " + curLatitude)
+                console.log("lng : " + curLongitude)
+
+                axios.post("http://192.168.31.111:3000/v1/map/",{
+                            'longitude': curLongitude,
+                            'latitude': curLatitude,
+                            'level': this.getLevel()
+                    })
+                    .then(res => {
+                        // let cafes = null
+                        if(typeof res.data !== String){
+                            console.log(typeof res.data === String)
+                            // cafes.forEach(cafe => {
+                            //     console.log(cafe.id)
+                            // })
+                        }
+                       
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    });
+            })
+            
             this.map.setCopyrightPosition(Map.daum.maps.CopyrightPosition.BOTTOMRIGHT, true)
             this.map.clusters = {}
             this.map.markersWithoutCluster = []
+            
             Map.cachedMaps[elementId] = this.map
         }
         return this
@@ -105,7 +148,7 @@ class Map {
         })
         return this
     }
-
+ 
     addMarkers(markerSpecs = []) {
         const markerSpecsWithoutClusterKey = []
         const markerSpecsByClusterKey = markerSpecs.reduce((result, spec) => {
@@ -190,6 +233,11 @@ class Map {
         this.map.panTo(
             new Map.daum.maps.LatLng(lat, lng)
         )
+    }
+
+    getLevel(){
+        console.log("현재 지도 확대 레벨 : " + this.map.getLevel())
+        return this.map.getLevel()
     }
 }
 
