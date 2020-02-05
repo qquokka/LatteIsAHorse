@@ -10,12 +10,16 @@ import Map from '@/services/map/index'
 
 export default {
   props: {
-    elementId: null,
+    elementId: {
+      type: String,
+      required: true,
+    },
     markers: {
       type: Array,
       default () {
         return []
-      }
+      },
+      required: true,
     },
     width: {
       type: String,
@@ -27,10 +31,6 @@ export default {
       required: false,
       default: '640px',
     },
-    level: {
-      type: Number,
-      required: false,
-    }
   },
   data () {
     return {
@@ -51,20 +51,47 @@ export default {
     },
   },
   methods: {
-    async initMap () {
+    async initMap (markers) {
       if (!this.map) {
         const map = new Map()
         await map.mount(this.elementId, this.curLatitude, this.curLongitude)
 
-
+        map.addMarkerClusters([
+          {
+            key: 'cluster1',
+            color: '#222529',
+            zIndex: 0,
+            singleIconURL: 'ClusterIcon1',
+          },
+          {
+            key: 'cluster2',
+            color: '#209cee',
+            zIndex: 1,
+            singleIconURL: 'ClusterIcon2',
+          },
+        ])
 
         this.map = map
-        
       } else {
         this.map.clearMarkers()
       }
-<<<<<<< HEAD
 
+      this.map.addMarkers(
+        markers.map(
+          (marker) => {
+            const { name, type, location: { lat, lng } } = marker
+            return {
+              lat,
+              lng,
+              clusterKey: type,
+              title: name,
+              onClick: () => {
+                this.$emit('click-marker', marker)
+              },
+            }
+          }
+        )
+      )
 
     },
     setCenter (lat, lng) {
@@ -91,36 +118,6 @@ export default {
       this.errorStr = err.message
     })
 
-=======
-      const happymap = this.map
-      console.log(happymap.getLevel())
-      this.map.addMarkers(
-        markers.map(
-          (marker) => {
-            const { name, type, location: { lat, lng } } = marker
-            return {
-              lat,
-              lng,
-              clusterKey: type,
-              title: name,
-              onClick: () => {
-                this.$emit('click-marker', marker)
-              },
-            }
-          }
-        )
-      )
-    },
-    setCenter (lat, lng) {
-      this.map && this.map.setCenter({ lat, lng, maxLevel: 10 })
-    },
-    getLevel() {
-      console.log(this.map.level)
-    }
-  },
-  mounted() {
-    this.getLevel()
->>>>>>> b55562412104aa72952e30448291132ea37b5a30
   }
 }
 </script>

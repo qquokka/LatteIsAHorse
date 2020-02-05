@@ -12,7 +12,7 @@
 			- RADIANS(#{longitude}))
 			+ SIN(RADIANS(#{latitude})) * SIN(RADIANS(latitude)))) AS distance
 			FROM
-			cafe where distance <= #{meter}
+			cafe having distance <= #{meter}
 		]]>
 	</select>
 </mapper>

@@ -80,7 +80,6 @@
         class="col-12 col-md-8 my-auto shadow pl-1"
         width="100%"
         elementId="35989832"
-        :markers="markers"
       />
     </div>
     <!-- <Footer class="d-none d-sm-block" style="bottom:0 !important!" /> -->
@@ -100,18 +99,13 @@ export default {
   },
   data() {
     return {
-      markers: [
-        {
-          markerPosition: (33.450701, 126.570667)
-        }
-      ],
       avheight: 0
     };
   },
   computed: {},
   methods: {},
   mounted() {
-    this.avheight = window.innerHeight - 76;
+    this.avheight = window.innerHeight - 76
   }
 };
 </script>
