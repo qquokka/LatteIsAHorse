@@ -80,7 +80,7 @@ export default {
         })
         .then(response => {
           console.log(response);
-          this.$router.push({ path: "/posts" });
+          this.$router.back();
         })
         .catch(error => {
           console.log(error.response);

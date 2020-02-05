@@ -31,21 +31,20 @@
 		<hr>
 		<h2>리뷰 ({{ reviews.length }}개)</h2>
 		<hr>
-		<h3><router-link :to="`/cafe/${cafeId}/posts/create`">리뷰 쓰기</router-link></h3>
+		<h3><router-link :to="`/cafe/${cafeId}/posts/create`" v-if="isLogined">리뷰 쓰기</router-link></h3>
 		<hr>
 		<div v-for="review in reviews" :key="review.id">
-			<router-link :to="`/post/${review.id}`">
-				<div class="card my-3">
-					<img class="card-img-top" :src="review.thumbnail" :alt="review.title">
-					<div class="card-body">
-						<h5 class="card-title">{{ review.title }}</h5>
-					</div>
-					<ul class="list-group list-group-flush">
-						<li class="list-group-item"><p class="my-0">{{ review.updated_at }} 작성</p></li>
-						<li class="list-group-item" v-html="review.content"></li>
-					</ul>
+			<div class="card my-3">
+				<img :src="review.thumbnail" class="card-img-top" :alt="review.title" style="width:300px;">
+				<div class="card-body">
+					<h5 class="card-title">{{ review.title }}</h5>
+					<p>작성자: {{ review.writer_name }} | {{ review.updated_at }} 작성</p>
+					<button v-if="review.writer_name === $session.get('username')" click="deleteReview(review.id)">삭제</button>
 				</div>
-			</router-link>
+				<div class="card-body">
+					<p v-html="review.content" />
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -111,7 +110,20 @@ export default {
 					.catch(error => {
 						console.log(error.data)
 					})
-		}
+		},
+		deleteReview(reviewId) {
+			axios.delete(`${this.$store.state.constants.SERVER}/post/${reviewId}`, {headers: {'Authorization': "Bearer " + this.$session.get('jwt')}})
+				.then(response => {
+					console.log(response)
+				})
+		},
+		getComment(reviewId) {
+			axios.get(`${this.$store.state.constants.SERVER}/comments/${reviewId}`)
+					.then(response => {
+						this.reviews.comments = response.data
+						console.log(this.reviews.comments)
+					})
+		},
 	},
 	created() {
 		this.getData()
