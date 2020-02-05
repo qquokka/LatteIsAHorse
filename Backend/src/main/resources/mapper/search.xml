@@ -3,18 +3,18 @@
 <mapper namespace="mapper.search">
 
 	<select id="searchInPosts" resultType="post">
-		SELECT * FROM POSTS WHERE
-		TITLE REGEXP (#{query}) 
-		OR CONTENT REGEXP(#{query}) 
-		ORDER BY UPDATED_AT limit 10
+		select * from posts where
+		title regexp (#{query}) 
+		or content regexp(#{query}) 
+		order by updated_at limit 10
 	</select>
 
 	<select id="searchInCafe" resultType="cafe">
-		SELECT * FROM CAFE WHERE
-		CAFE_NAME REGEXP (#{query})
-		OR 
-		CAFE_ADDRESS REGEXP(#{query}) 
-		ORDER BY LIKE_COUNT limit 10
+		select * from cafe where
+		cafe_name regexp (#{query})
+		or 
+		cafe_address regexp(#{query}) 
+		order by like_count limit 10
 	</select>
 
 </mapper>

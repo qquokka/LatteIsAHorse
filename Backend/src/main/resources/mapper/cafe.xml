@@ -3,7 +3,7 @@
 <mapper namespace="mapper.cafe">
 
 	<select id="getCafeList" resultType="com.latte.dto.CafeDto">
-		SELECT
+		select
 		cafe_id,
 		cafe_name,
 		cafe_address,
@@ -11,7 +11,6 @@
 		latitude,
 		longitude,
 		thumbnail,
-		like_count,
 		tag,
 		mon_open,
 		mon_close,
@@ -35,7 +34,7 @@
 
 	<select id="getCafeById" parameterType="java.lang.Integer"
 		resultType="com.latte.dto.CafeDto">
-		SELECT
+		select
 		cafe_id,
 		cafe_name,
 		cafe_address,
@@ -43,7 +42,6 @@
 		latitude,
 		longitude,
 		thumbnail,
-		like_count,
 		tag,
 		mon_open,
 		mon_close,
@@ -63,7 +61,7 @@
 		cafe_owner_id
 		from
 		cafe
-		WHERE
+		where
 		cafe_id =
 		#{cafe_id};
 	</select>
@@ -71,7 +69,7 @@
 
 	<select id="getCafeByName" parameterType="java.lang.String"
 		resultType="com.latte.dto.CafeDto">
-		SELECT
+		select
 		cafe_id,
 		cafe_name,
 		cafe_address,
@@ -79,7 +77,6 @@
 		latitude,
 		longitude,
 		thumbnail,
-		like_count,
 		tag,
 		mon_open,
 		mon_close,
@@ -106,7 +103,7 @@
 
 	<select id="getCafeByAddress" parameterType="java.lang.String"
 		resultType="com.latte.dto.CafeDto">
-		SELECT
+		select
 		cafe_id,
 		cafe_name,
 		cafe_address,
@@ -114,7 +111,6 @@
 		latitude,
 		longitude,
 		thumbnail,
-		like_count,
 		tag,
 		mon_open,
 		mon_close,
@@ -141,7 +137,7 @@
 
 
 	<insert id="addCafe" parameterType="com.latte.dto.CafeDto">
-		INSERT INTO
+		insert into
 		(
 		cafe_name,
 		cafe_address,
@@ -149,7 +145,6 @@
 		latitude,
 		longitude,
 		thumbnail,
-		like_count,
 		tag,
 		mon_open,
 		mon_close,
@@ -166,13 +161,12 @@
 		sun_open,
 		sun_close,
 		cafe_owner_id
-		) VALUES (
+		) values (
 		#{cafe_name},
 		#{cafe_address},
 		#{cafe_phone},
 		#{latitude},
 		#{longitude},
-		#{like_count},
 		#{tag},
 		#{mon_open},
 		#{mon_close},
@@ -193,7 +187,7 @@
 	</insert>
 
 	<update id="updateCafe" parameterType="com.latte.dto.CafeDto">
-		UPDATE cafe SET
+		update cafe set
 		cafe_name = #{cafe_name},
 		cafe_address =
 		#{cafe_address},
@@ -201,7 +195,6 @@
 		latitude = #{latitude},
 		longitude =#{longitude},
 		thumbnail =#{thumbnail},
-		like_count =#{like_count},
 		tag =#{tag},
 		mon_open =#{mon_open},
 		mon_close =#{mon_close},
@@ -219,12 +212,12 @@
 		sun_close =#{sun_close},
 		closed = #{closed},
 		cafe_owner_id=#{cafe_owner_id}
-		WHERE
+		where
 		cafe_id=#{cafe_id}
 	</update>
 	
 	<delete id="deleteCafeById" parameterType="java.lang.Integer">
-		DELETE FROM cafe WHERE
+		delete from cafe where
 		cafe_id=#{cafe_id}
 	</delete>
 
