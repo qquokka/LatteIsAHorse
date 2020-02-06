@@ -2,12 +2,12 @@
   <div id="postDetail">
 	<NavBar :iswhite="true" />
 	<div class="container">
-		<h1 class="display-3 mx-5" style="padding-top:6rem;font-weight:700">{{ review.title }}</h1>
-		<h5>{{ review.created_at }}</h5>
-		<h1 class="border-bottom pb-4"><span class="text-muted small">written by</span> {{ review.writer_name }} </h1>
-		<p v-html="review.content"></p>
-		<button v-if="isWriter" @click="updateReview">수정</button>
-		<button v-if="isWriter" @click="deleteReview">삭제</button>
+		<h1 class="display-3 mx-5" style="padding-top:6rem;font-weight:700">{{ post.title }}</h1>
+		<h5>{{ post.created_at.slice(0,10) }}</h5>
+		<h1 class="border-bottom pb-4"><span class="text-muted small">written by</span> {{ post.writer_name }} </h1>
+		<p v-html="post.content"></p>
+		<button v-if="isWriter" @click="updatePost">수정</button>
+		<button v-if="isWriter" @click="deletePost">삭제</button>
 
 		<h4 class="mt-5 pt-5">Comments</h4>
 		<div class="container comments">
@@ -27,7 +27,6 @@
 <script>
 import NavBar from '@/components/NavBar.vue'
 import axios from 'axios'
-import moment from "moment"
 
 export default {
 	name: 'ReviewDetail',
@@ -40,7 +39,7 @@ export default {
 	data() {
 		return {
 			loading: false,
-			review: {},
+			post: {},
 			comments: [],
 			isWriter: false,
 			addCommentContent: null,
@@ -48,36 +47,21 @@ export default {
 		}
 	},
 	methods: {
-		getReview () {
+		getPost () {
 			axios.get(`${this.$store.state.constants.SERVER}/post/${this.reviewId}`)
 					.then(response => {
-						this.review = response.data
-						let now = Date.now()
-
-						let dateCreatedAt = new Date(this.review.created_at.slice(0, 19))
-						if (now - Date.parse(dateCreatedAt) <= 43200000) {
-							this.review.created_at = moment(this.review.created_at).locale("ko").fromNow()
-						} else {
-              this.review.created_at = moment(this.review.created_at).locale("ko").format("llll")
-						}
-
-						let dateUpdatedAt = new Date(this.review.updated_at.slice(0, 19))
-						if (now - Date.parse(dateUpdatedAt) <= 43200000) {
-							this.review.updated_at = moment(this.review.updated_at).locale("ko").fromNow()
-						} else {
-              this.review.updated_at = moment(this.review.updated_at).locale("ko").format("llll")
-						}
+						this.post = response.data
 					})
 		},
-		updateReview() {
+		updatePost() {
 			console.log('수정 시작')
 			this.$router.push(`/post/${this.postId}/edit`)
 		},
-		deleteReview() {
+		deletePost() {
 			axios.delete(`${this.$store.state.constants.SERVER}/post/${this.reviewId}`, {headers: {'Authorization': "Bearer " + this.$session.get('jwt')}})
 				.then(response => {
 					console.log(response)
-					this.$router.back()
+					this.$router.push('/posts')
 				})
 		},
 		getComment () {
@@ -93,7 +77,7 @@ export default {
 			}
 			let comment = {
 				content: this.addCommentContent,
-				post_id: this.reviewId
+				post_id: this.postId
 			}
 			axios.post(`${this.$store.state.constants.SERVER}/comments`, comment, {headers: {'Authorization': "Bearer " + this.$session.get('jwt')}})
 				.then(response => {
@@ -113,16 +97,7 @@ export default {
 					.catch(error => {
 						console.log(error)
 					})
-		},
-		// displayTime(time) {
-		// 	let now = Date.now()
-		// 	let dateCreatedAt = new Date(time.slice(0, 19))
-		// 	if (now - Date.parse(dateCreatedAt) <= 43200000) {
-		// 		this.review.created_at = moment(this.review.created_at).locale("ko").fromNow()
-		// 	} else {
-		// 		this.review.created_at = moment(this.review.created_at).locale("ko").format("llll")
-		// 	}
-		// }
+		}
 	},
 	mounted() {
 		setTimeout(() => {
@@ -130,8 +105,9 @@ export default {
 		},120)
 		axios.get(`${this.$store.state.constants.SERVER}/post/${this.reviewId}`)
 					.then(response => {
-						this.review = response.data
-						if (this.review.writer_name === this.$session.get('username')) {
+						this.post = response.data
+						console.log(this.post.title)
+						if (this.post.writer_name === this.$session.get('username')) {
 							this.isWriter = true
 						}
 					})

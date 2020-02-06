@@ -9,7 +9,6 @@ import ReviewDetail from '../views/ReviewDetail.vue'
 import SearchResult from '../views/SearchResult.vue'
 import CafePage from '../views/CafePage.vue'
 import HangMan from '../views/HangMan.vue'
-import Admin from '../views/Admin.vue'
 
 Vue.use(VueRouter)
 
@@ -30,11 +29,6 @@ const routes = [
     component: AboutUs
   },
   {
-    path: '/admin',
-    name: 'admin',
-    component: Admin
-  },
-  {
     path: '/posts',
     name: 'posts',
     component: PostPage
@@ -48,14 +42,14 @@ const routes = [
     },
     props: true
   },
-  // {
-  //   path: '/post/:postId/edit',
-  //   name: 'edit-post',
-  //   component: CreatePost,
-  //   meta: {
-  //     requiresAuth: true
-  //   }
-  // },
+  {
+    path: '/post/:postId/edit',
+    name: 'edit-post',
+    component: CreatePost,
+    meta: {
+      requiresAuth: true
+    }
+  },
   {
     path: '/cafe/:cafeId/review/:reviewId',
     name: 'review-detail',
