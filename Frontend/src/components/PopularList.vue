@@ -55,7 +55,7 @@
 
 
       <router-link to="/searched?q=덕명동" class="cube">
-        <div class="flippety" style="background: url('https://lh3.googleusercontent.com/proxy/UAcEXnDvsYq_VrPxbb1iohEq-2_tvRpBdCH8kkLhdJ-CRCsNaBSRP61RtI9kWMK6A47yYfvM1RBx4wSR5d7ydoBxWy_CmgKIZptLfbIrU8xYMATK_yWVSlskxmf2C51kFOfS7AP66OK-yaYafNxxfZbt4_VciNaJmxt69pptdpUu99DzBXvgSGEnUPZOJDW5dMawhpA')">
+        <div class="flippety" style="background: url('https://lh3.googleusercontent.com/proxy/_mHEBpyV5Fa9QteN1E8sBniyr48ya_5xy6PGy7KmoOBmIU0A0cK4Dz71BozNuiF5eQStErNk-m9nDq_WQwzgAcwWe0UW0kMRcYuk8raiNY1halNl0NbMZ9QUh85At1ljOD_iZoz4TrARxqBITdBFHVBhyBdfIIbVe1Q0oplV793-trRgkjQJCFqO_yvx4ZmcLKCfmxw')">
           <p class="glow">덕명동</p> 
         </div>
         <div class="flop">

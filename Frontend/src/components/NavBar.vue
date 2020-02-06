@@ -42,7 +42,6 @@ export default {
   return {
     scrolled: false,
     isAuthenticated: this.$session.exists('jwt'),
-    username: this.getUserName(),
   };
 },
 props: {
