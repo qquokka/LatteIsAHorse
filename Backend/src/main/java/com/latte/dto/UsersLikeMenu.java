@@ -1,4 +1,4 @@
-package com.latte.dto;
+		package com.latte.dto;
 
 import java.io.Serializable;
 
@@ -13,14 +13,18 @@ public class UsersLikeMenu implements Serializable {
 
 	public UsersLikeMenu() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public UsersLikeMenu(int id, int like_count, Long users_id, int menu_id) {
-		super();
 		this.id = id;
 		this.like_count = like_count;
 		this.users_id = users_id;
+		this.menu_id = menu_id;
+	}
+	
+
+	public UsersLikeMenu(int like_count, int menu_id) {
+		this.like_count = like_count;
 		this.menu_id = menu_id;
 	}
 
