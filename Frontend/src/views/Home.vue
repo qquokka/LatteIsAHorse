@@ -21,7 +21,7 @@
     </div>
     <div class="main-section">
       <h2 class="article-header">EDITOR's PICK</h2>
-      <post-list limits="3" :postData="postData" />
+      <review-list limits="3" :reviewData="reviewData" />
     </div>
     <Footer />
   </div>
@@ -32,7 +32,7 @@ import { mapGetters } from "vuex";
 import SearchBar from "@/components/SearchBar.vue";
 import NavBar from "@/components/NavBar.vue";
 import CafeList from "@/components/CafeList.vue";
-import PostList from "@/views/section/PostList.vue";
+import ReviewList from "@/views/section/ReviewList.vue";
 import PopularList from "@/components/PopularList.vue"
 import HashTags from "@/components/HashTags.vue";
 import Footer from "@/views/section/Footer.vue";
@@ -43,7 +43,7 @@ export default {
   components: {
     SearchBar,
     CafeList,
-    PostList,
+    ReviewList,
     NavBar,
     HashTags,
     PopularList,
@@ -56,7 +56,7 @@ export default {
       i: 0,
       isAuthenticated: this.$store.state.token !== null,
       cafeData: [],
-      postData: [],
+      reviewData: [],
     };
   },
   computed: {
@@ -83,7 +83,7 @@ export default {
       });
 
     axios.get(`${this.$store.state.constants.SERVER}/post`).then(response => {
-      this.postData = response.data;
+      this.reviewData = response.data;
     });
   }
 };

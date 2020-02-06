@@ -4,7 +4,7 @@
     <nav-bar />
     <search-bar class="mx-auto"  style="margin-top:9rem" />
     <router-link v-if="isAuthenticated" to="posts/create/" class="position-relative"><button class="btn-danger btn">글쓰기</button></router-link>
-    <post-list style="margin-top: 8rem" :postData="postData" />
+    <review-list style="margin-top: 8rem" :postData="postData" />
     <Footer />
   </div>
 </template>
@@ -12,7 +12,7 @@
 <script>
 import axios from 'axios'
 import NavBar from '@/components/NavBar.vue'
-import PostList from '@/views/section/PostList.vue'
+import ReviewList from '@/views/section/ReviewList.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import Footer from '@/views/section/Footer.vue'
 
@@ -20,7 +20,7 @@ import Footer from '@/views/section/Footer.vue'
     name: 'posts',
     components: {
       NavBar,
-      PostList,
+      ReviewList,
       SearchBar,
       Footer
     },
