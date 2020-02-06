@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.userslikecafe">
+
+	<!-- user가 좋아요를 누른 모든 카페 반환 -->
+	<select id="getUsersLikeCafeList" resultType="com.latte.dto.UsersLikeCafeDto">
+		select
+		id,
+		users_id,
+		cafe_id,
+		like_count
+		from userslikecafe
+	</select>
+
+	<!-- 카페의 전체 좋아요 수를 반환 -->
+	<select id="getUsersLikeCafeByCafeId" parameterType="_long"
+		resultType="com.latte.dto.UsersLikeCafeDto">
+		select id, users_id,
+		cafe_id, like_count
+		from userslikecafe where
+		cafe_id=#{cafe_id}
+	</select>
+
+	<!-- 좋아요 누름 -->
+	<insert id="addUsersLikeCafe" parameterType="com.latte.dto.UsersLikeCafeDto">
+		insert into userslikecafe
+		(users_id,
+		cafe_id)
+		values(
+		#{users_id},
+		#{cafe_id}
+		)
+	</insert>
+
+	<!-- 좋아요 취소 -->
+	<delete id="deleteUsersLikeCafe" parameterType="_long">
+		delete from
+		userslikecafe where
+		id=#{id}
+	</delete>
+</mapper>
