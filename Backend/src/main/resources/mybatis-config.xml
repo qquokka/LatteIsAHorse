@@ -16,7 +16,7 @@
 			alias="postPhotos" />
 		<typeAlias type="com.latte.dto.CafeDto" alias="cafe" />
 		<!-- <typeAlias type="com.latte.dto.Coupon" alias="coupon" /> -->
-		<typeAlias type="com.latte.dto.UsersLikeMenu" alias="ulm"/>
+		<!-- <typeAlias type="com.latte.dto.UsersLikeMenu" alias="ulm"/> -->
 	</typeAliases>
 
 </configuration>

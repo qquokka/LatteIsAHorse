@@ -2,7 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.like">
 
-	<select id="getUsersLikeMenuList" resultType="ulm">
+	<select id="getUsersLikeMenuList" resultType="com.latte.dto.UsersLikeMenu">
 		select * from userslikemenu
 	</select>
+	
+	<select id="getUsersLikeMenuCountBymenuId" parameterType="java.lang.Integer" resultType="com.latte.dto.ULM">
+	select m.mid menu_id, count(ulm.like_count) like_count from menu m join userslikemenu ulm on m.mid=ulm.menu_id and m.mid = #{mid} group by menu_id
+	</select>
+	
+	<select id="getUsersLikeMenuByCafeIdNUserId" parameterType="com.latte.dto.ULMCUID" resultType="com.latte.dto.ULM">
+	select m.mid menu_id, count(ulm.like_count) like_count from menu m join userslikemenu ulm on m.mid=ulm.menu_id AND m.cafe_id = #{cafe_id} and ulm.users_id =#{users_id} group by menu_id
+	</select>
+	
+	
 </mapper>

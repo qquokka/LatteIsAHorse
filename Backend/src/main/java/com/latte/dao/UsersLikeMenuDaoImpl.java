@@ -6,13 +6,15 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.latte.dto.ULM;
+import com.latte.dto.ULMCUID;
 import com.latte.dto.UsersLikeMenu;
 
 @Repository
 public class UsersLikeMenuDaoImpl {
 
 	String ns = "mapper.like.";
-	
+
 	@Autowired
 	SqlSession sqlSession;
 
@@ -22,13 +24,13 @@ public class UsersLikeMenuDaoImpl {
 	}
 
 	// user_id 로 좋아하는 메뉴를 리스트로 반환
-	public List<UsersLikeMenu> getUsersLikeMenuListByUserId(Long user_id) {
-		return sqlSession.selectList(ns + "getUsersLikeMenuListByUserId", user_id);
+	public ULM getUsersLikeMenuCountBymenuId(int mid) {
+		return sqlSession.selectOne(ns + "getUsersLikeMenuCountBymenuId", mid);
 	}
 
 	// READ
-	public UsersLikeMenu getUsersLikeMenuByUserIdNMenuId(UsersLikeMenu userslikemenu) {
-		return sqlSession.selectOne(ns + "getUsersLikeMenuByUserIdNMenuId", userslikemenu);
+	public List<ULMCUID>getUsersLikeMenuByCafeIdNUserId(ULMCUID ulmcuid) {
+		return sqlSession.selectList(ns + "getUsersLikeMenuByCafeIdNUserId", ulmcuid);
 	}
 
 	// Create
@@ -45,4 +47,5 @@ public class UsersLikeMenuDaoImpl {
 	public int deleteLikeByUserIdNMenuId(UsersLikeMenu userslikemenu) {
 		return sqlSession.delete(ns + "deleteLikeByUserIdNMenuId", userslikemenu);
 	}
+
 }
