@@ -72,8 +72,7 @@ export default {
     }
   },
   beforeMount() {
-    axios
-      .get(`${this.$store.state.constants.SERVER}/cafe`)
+    axios.get(`${this.$store.state.constants.SERVER}/cafe`)
       .then(response => {
         this.cafeData = response.data.slice(0, 6);
       })
@@ -83,6 +82,7 @@ export default {
 
     axios.get(`${this.$store.state.constants.SERVER}/post`).then(response => {
       this.reviewData = response.data;
+      console.log(this.reviewData)
     });
   }
 };
