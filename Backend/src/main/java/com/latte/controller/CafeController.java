@@ -93,15 +93,17 @@ public class CafeController {
 		List<Post> postList = postservice.getPostListByCafeId(cafe_id);
 
 		ULMCUID ulmcuid = new ULMCUID();
+		
 		ulmcuid.setCafe_id(cafe_id);
+		
 		Long users_id = getLoggedInUserId2(request);// 왜안대나여....
 //		Long users_id = 8L;
+		
 		if (users_id != 0L) {
 			ulmcuid.setUsers_id(users_id);
 		}
 
 		List<ULMCUID> ulmlist = ulmservice.getUsersLikeMenuByCafeIdNUserId(ulmcuid);
-		
 		
 		Map<String, Object> response = new HashMap<>();
 
