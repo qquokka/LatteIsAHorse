@@ -1,6 +1,6 @@
 <template>
   <div class="w-100 justify-content-center" >
-    <h3 style="font-weight:100;"> <i class="fas fa-search-location"></i> 동네별 카페 바로찾기</h3>
+    <h3 style="font-weight:100;"><fa icon="search-location" />  동네별 카페 바로찾기</h3>
     <div class="popular row justify-content-center mx-auto">
       
       
@@ -69,6 +69,10 @@
 </template>
 
 <script>
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faSearchLocation } from '@fortawesome/free-solid-svg-icons'
+library.add(faSearchLocation)
+
 export default {};
 </script>
 

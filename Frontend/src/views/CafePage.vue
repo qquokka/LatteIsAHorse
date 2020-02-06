@@ -1,60 +1,111 @@
 <template>
   <div class="container-fluid p-0">
-		<nav-bar />
-    <div class="row px-5 pt-5 border-0">
-      <img
-        :src="cafe.thumbnail"
-        width="100%"
-        height="350"
-        @error="imgPlaceholder"
-        :alt="cafe.cafe_name"
-				class="col-5"
-      />
-			<div class="col">
-				<h1 class="col">{{ cafe.cafe_name }}</h1>
-			</div>
+    <div v-if="selectedImage" id="imgView">
+      <img :src="selectedImage" @click.stop="selectedImage = null" />
     </div>
+    <nav-bar />
+    <div class="row pt-5 px-lg-3 border-0">
+      <single-cafe-map :cafe="cafe" :isOpen="isOpen" class="col-12 col-lg-5" width="100%" />
 
-    <h1>
-      {{ cafe.cafe_name }}
-      <span v-if="isOpen" class="badge badge-primary">영업중</span>
-      <span v-else class="badge badge-secondary">준비중</span>
-    </h1>
-    <hr />
-    <p>
+      <div class="col">
+        <div class="d-flex align-items-center">
+          <h1 class="cafe-name-detail">{{ cafe.cafe_name }}</h1>
+          <p v-if="isOpen" class="openbdg ml-2" style="font-size: 1rem;">영업중</p>
+          <p v-else style="font-size: 1rem;" class="closebdg">준비중</p>
+        </div>
+        <div class="row my-1 justify-content-sm-around">
+          <h6 class="text-left">
+            <fa style="color:gold;margin-right:0.5rem" icon="crown" />대표자명:
+            <span class="text-muted">미등록</span>
+          </h6>
+
+          <h6 class="text-left">
+            <fa style="color:turquoise;margin-right:0.5rem" icon="phone-square" />전화번호:
+            <span class="text-muted">{{ cafe.cafe_phone }}</span>
+          </h6>
+
+          <h6 class="text-left">
+            <fa style="color:crimson;margin-right:0.5rem" icon="shopping-basket" />인기메뉴:
+            <span class="text-muted">구현 예정</span>
+          </h6>
+        </div>
+
+        <div class="row justify-content-center">
+          <h3 class="mr-5">
+            <fa class="mr-2 bouncer" style="color: royalblue" icon="heartbeat" />
+            <ICountUp
+              style="font-family:monospaced"
+              :delay="delay"
+              :endVal="2958293"
+              :options="options"
+              @ready="onReady"
+            />
+            <span style="font-size:1rem;margin-left:0.5rem">LIKED</span>
+          </h3>
+
+          <h3 class="ml-5">
+            <fa class="mr-2" style="color: orange" icon="envelope-open-text" />
+            <ICountUp
+              style="font-family:monospaced"
+              :delay="delay"
+              :endVal="reviews.length"
+              :options="options"
+              @ready="onReady"
+            />
+            <span style="font-size:1rem;margin-left:0.5rem">REVIEWED</span>
+          </h3>
+        </div>
+
+        <div class="row justify-content-around p-3">
+          <div
+            class="col-3 cafe-preview"
+            @click="zoom(cafe.thumbnail)"
+            :style="`background:url('${cafe.thumbnail}')`"
+          />
+          <div
+            v-if="reviews[0]"
+            class="col-3 cafe-preview"
+            @click="zoom(reviews[0].thumbnail)"
+            :style="`background:url('${reviews[0].thumbnail}')`"
+          />
+          <div
+            v-if="reviews[1]"
+            class="col-3 cafe-preview"
+            @click="zoom(reviews[1].thumbnail)"
+            :style="`background:url('${reviews[1].thumbnail}')`"
+          />
+          <div
+            v-if="reviews[2]"
+            class="col-3 cafe-preview"
+            @click="zoom(reviews[2].thumbnail)"
+            :style="`background:url('${reviews[2].thumbnail}')`"
+          />
+        </div>
+
+        <div class="row">
+          <div v-for="i in 6" :key="i" class="col" :id="i">
+						<p>{{ time[i][2] }}</p>
+						<p>{{ time[i][0] }}</p>
+						<p>{{ time[i][1] }}</p>
+					</div>
+          <div class="col" :id="0">
+						<p>{{ time[0][2] }}</p>
+						<p>{{ time[0][0] }}</p>
+						<p>{{ time[0][1] }}</p>
+						</div>
+        </div>
+      </div>
+    </div>
+    <!-- <p>
       <button click="pushLike">좋아요</button>
       {{ cafe.like_count }}
-    </p>
-    <p>태그: {{ cafe.tag }}</p>
-    <hr />
-    <h2>정보</h2>
-    <div class="row">
-      <div class="col-2">
-        <p>주소</p>
-      </div>
-      <div class="col-10">
-        <p>{{ cafe.cafe_address }}</p>
-      </div>
-      <div class="col-2">
-        <p>전화번호</p>
-      </div>
-      <div class="col-10">
-        <p>{{ cafe.cafe_phone }}</p>
-      </div>
-    </div>
-    <h5>영업시간</h5>
-    <div class="row">
-      <div class="col-2">
-        <p>요일</p>
-      </div>
-      <div class="col-5">
-        <p>여는 시간</p>
-      </div>
-      <div class="col-5">
-        <p>닫는 시간</p>
-      </div>
-    </div>
-    <div v-for="i in time.length" :key="time[i - 1][2]" class="row" :class="{isToday: today === i - 1}">
+    </p>-->
+    <div
+      v-for="i in time.length"
+      :key="time[i - 1][2]"
+      class="row"
+      :class="{isToday: today === i - 1}"
+    >
       <div class="col-2">
         <p>{{ time[i - 1][2] }}요일</p>
       </div>
@@ -76,7 +127,7 @@
         <p>가격</p>
       </div>
     </div>
-    <div v-for="menu in menus" :key="menu.id" class="row">
+    <div v-for="menu in menus" :key="menu.id"  class="row">
       <div class="col-2">
         <p>{{ menu.product }}</p>
       </div>
@@ -122,14 +173,33 @@
 
 <script>
 import axios from "axios";
+import ICountUp from "vue-countup-v2";
 import moment from "moment";
-import NavBar from "@/components/NavBar.vue"
+import NavBar from "@/components/NavBar.vue";
+import SingleCafeMap from "@/components/SingleCafeMap.vue";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faCrown,
+  faPhoneSquare,
+  faShoppingBasket,
+  faHeartbeat,
+  faEnvelopeOpenText
+} from "@fortawesome/free-solid-svg-icons";
+library.add(
+  faCrown,
+  faPhoneSquare,
+  faShoppingBasket,
+  faHeartbeat,
+  faEnvelopeOpenText
+);
 
 export default {
-	name: "CafePage",
-	components: {
-		NavBar,
-	},
+  name: "CafePage",
+  components: {
+    NavBar,
+    SingleCafeMap,
+    ICountUp
+  },
   props: ["cafeId"],
   data() {
     return {
@@ -139,12 +209,25 @@ export default {
       time: [[]],
       isOpen: false,
       isLogined: false,
-      today: 0
+      today: 0,
+      selectedImage: null,
+      delay: 400,
+      options: {
+        useEasing: true,
+        useGrouping: true,
+        separator: ",",
+        decimal: ".",
+        prefix: "",
+        suffix: ""
+      }
     };
   },
   methods: {
     imgPlaceholder(e) {
       e.target.src = require("../assets/noimage.png");
+    },
+    zoom(url) {
+      this.selectedImage = url;
     },
     getData() {
       axios
@@ -220,13 +303,62 @@ export default {
     this.getData();
   },
   mounted() {
-    this.isLogined = this.$session.has("jwt");
-  }
+		this.isLogined = this.$session.has("jwt");
+		let todayCal = document.getElementById(today)
+		todayCal.style.background = "gold !important"
+	},
 };
 </script>
 
 <style>
-.isToday {
-  background-color: rgba(255, 238, 0, 0.438);
+#imgView {
+  position: fixed;
+  display: flex;
+  z-index: 2000;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+  animation: fadein 250ms;
+}
+#imgView > img {
+  width: 60vw;
+}
+.cafe-preview {
+  height: 280px;
+  background-size: cover !important;
+  cursor: all-scroll;
+  transition: 150ms;
+  box-shadow: 0 0 3px gray;
+}
+
+.cafe-preview:hover {
+  z-index: 99;
+  transform: scale(1.2);
+}
+
+.cafe-name-detail {
+  text-align: left;
+  border-left: 15px solid lavender;
+  padding-left: 1rem;
+}
+.bouncer {
+  animation: bounce ease infinite 3s;
+}
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-8px);
+  }
+  60% {
+    transform: translateY(-3px);
+  }
 }
 </style>
