@@ -83,8 +83,11 @@
       <div class="col-2">
         <p>{{ menu.price }}</p>
       </div>
-      <div class="col-8">
+      <div class="col-7">
         <p>{{ menu.description }}</p>
+      </div>
+      <div class="col-1">
+        <p>{{ menu.like_count }}</p>
       </div>
     </div>
     <hr />
@@ -148,7 +151,7 @@ export default {
     },
     getData() {
       axios
-        .get(`${this.$store.state.constants.SERVER}/cafe/detail/${this.cafeId}`)
+        .get(`${this.$store.state.constants.SERVER}/cafe/detail/${this.cafeId}`, )
         .then(response => {
           console.log("카페 데이터 ");
           console.log(response.data);
@@ -214,7 +217,8 @@ export default {
     // 			console.log(response)
     // 		})
     // },
-    pushLike() {}
+    pushLike() {
+    }
   },
   beforeMount() {
     this.getData();
