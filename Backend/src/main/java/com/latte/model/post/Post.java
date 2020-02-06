@@ -18,6 +18,7 @@ public class Post implements Serializable {
 	private Instant updated_at;
 
 	private String writer_name;
+	private int cafe_id; //get post 에서 cafe_id를 주기위함.
 
 	public Post() {
 		super();
@@ -65,6 +66,29 @@ public class Post implements Serializable {
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 		this.writer_name = writer_name;
+	}
+
+	public Post(Long id, Integer like_count, String thumbnail, String title, String content, Long writer_id,
+			Instant created_at, Instant updated_at, String writer_name, int cafe_id) {
+		super();
+		this.id = id;
+		this.like_count = like_count;
+		this.thumbnail = thumbnail;
+		this.title = title;
+		this.content = content;
+		this.writer_id = writer_id;
+		this.created_at = created_at;
+		this.updated_at = updated_at;
+		this.writer_name = writer_name;
+		this.cafe_id = cafe_id;
+	}
+
+	public int getCafe_id() {
+		return cafe_id;
+	}
+
+	public void setCafe_id(int cafe_id) {
+		this.cafe_id = cafe_id;
 	}
 
 	public String getWriter_name() {

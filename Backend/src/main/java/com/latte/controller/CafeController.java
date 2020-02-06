@@ -113,7 +113,7 @@ public class CafeController {
 		// 사용자 아이디 조회해서 수정하려는 카페가 로그인한 회원과 일치하는지 체크 구현안함.
 		Map<String, Object> response = new HashMap<>();
 		int result = cafeservice.updateCafe(cafedto);
-
+ 
 		if (result < 1) { // 등록 실패
 			response.put("state", "fail");
 			return new ResponseEntity(null, HttpStatus.EXPECTATION_FAILED);

@@ -119,7 +119,7 @@ public class AuthController {
 	
 	@GetMapping("/users")
 	@ApiOperation(value = "모든 회원 정보 가져오기")
-	@PreAuthorize("hasAnyRole({'ADMIN'})")
+//	@PreAuthorize("hasAnyRole({'ADMIN'})")
 	public ResponseEntity<List<User>> getUserList(){
 		
 		List<User> users = userRepository.findAll();

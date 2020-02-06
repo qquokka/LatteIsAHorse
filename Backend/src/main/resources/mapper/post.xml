@@ -8,7 +8,8 @@
 		p.updated_at, p.like_count, p.thumbnail, p.title,
 		p.content,
 		u.username
-		as writer_name
+		as writer_name,
+		p.cafe_id
 		from posts p, users u
 		where p.writer_id = u.id order by
 		updated_at desc
