@@ -1,8 +1,11 @@
 <template>
   <div>
-    <gmap-map ref="gmap" :center="center" :zoom="zoom_level"
-              @zoom_changed="zoomChanged" 
-              :options="{
+    <gmap-map
+      ref="gmap"
+      :center="center"
+      :zoom="zoom_level"
+      @zoom_changed="zoomChanged"
+      :options="{
                           zoomControl: false, //zoom 컨트롤바 생성
                           mapTypeControl: false,
                           scaleControl: true,
@@ -14,14 +17,15 @@
                           minZoom: 7, //최소 줌 레벨
                           maxZoom: 17 //최대 줌 레벨
                         }"
-                style="width:100%;  height: 640px;">
-      <gmap-marker 
-          :key="index" 
-          v-for="(m, index) in markers" 
-          :position="m.position"
-          :clickable="true" 
-          @click="center=m.position">
-      </gmap-marker>
+      style="width:100%;  height: 640px;"
+    >
+      <gmap-marker
+        :key="index"
+        v-for="(m, index) in markers"
+        :position="m.position"
+        :clickable="true"
+        @click="center=m.position"
+      ></gmap-marker>
     </gmap-map>
     <!-- <br>
     <div>
@@ -32,12 +36,12 @@
       </label>
       <br/>
 
-    </div> -->
+    </div>-->
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   name: "GoogleMap",
@@ -65,59 +69,59 @@ export default {
     };
   },
   watch: {
-    zoom_level: {
-      
-    },
+    zoom_level: {}
   },
   mounted() {
-    this.geolocate()
+    this.geolocate();
   },
+
 
   methods: {
     //Zoom In/Out 할 때 사용되는 callback func
-    zoomChanged(){
+    zoomChanged() {
       //  console.log(this.$refs.gmap.$mapObject.getZoom())
-       axios.post("http://192.168.31.111:3000/v1/map/",{
-                            'longitude': this.center.lng,
-                            'latitude': this.center.lat,
-                            'level': this.$refs.gmap.$mapObject.getZoom()
-                    })
-                    .then(res => {
-                        //받아온 카페 리스트의 개수가 1개 이상일 때
-                        // let cafePositions = []
-                        // const imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"
-                        if(res.data.constructor == Array){
-                            // this.markers = []
-                            console.log(res.data)
-                            this.addCafeMarkers(res.data)
-                            // res.data.forEach(function(cafe){
-                            //     cafePositions.push({
-                            //         title: cafe.cafe_name,
-                            //         latlng: new Map.daum.maps.LatLng(cafe.latitude, cafe.longitude)
-                            //     })
-                            //     console.log(cafe.cafe_id)
-                            //     console.log(cafe.cafe_name + '\n' +
-                            //                 "latitude : " + cafe.latitude + '\n' +
-                            //                 "longitude : " + cafe.longitude)
-                            // })
-                        }else{
-                          this.markers = this.markers.splice(0, 1)
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    });
-    },
-    addCafeMarkers(cafes){
-        // console.log(cafes.constructor == Array)
-        this.markers = this.markers.splice(0, 1)
-        cafes.forEach((cafe) => {
-           const marker = {
-            lat: cafe.latitude,
-            lng: cafe.longitude
-          }
-          this.markers.push({ position: marker })
+      axios
+        .post(`${this.$store.state.constants.SERVER}/map/`, {
+          longitude: this.center.lng,
+          latitude: this.center.lat,
+          level: this.$refs.gmap.$mapObject.getZoom()
         })
+        .then(res => {
+          //받아온 카페 리스트의 개수가 1개 이상일 때
+          // let cafePositions = []
+          // const imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"
+          if (res.data.constructor == Array) {
+            // this.markers = []
+            console.log(res.data);
+            this.addCafeMarkers(res.data);
+            // res.data.forEach(function(cafe){
+            //     cafePositions.push({
+            //         title: cafe.cafe_name,
+            //         latlng: new Map.daum.maps.LatLng(cafe.latitude, cafe.longitude)
+            //     })
+            //     console.log(cafe.cafe_id)
+            //     console.log(cafe.cafe_name + '\n' +
+            //                 "latitude : " + cafe.latitude + '\n' +
+            //                 "longitude : " + cafe.longitude)
+            // })
+          } else {
+            this.markers = this.markers.splice(0, 1);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    addCafeMarkers(cafes) {
+      // console.log(cafes.constructor == Array)
+      this.markers = this.markers.splice(0, 1);
+      cafes.forEach(cafe => {
+        const marker = {
+          lat: cafe.latitude,
+          lng: cafe.longitude
+        };
+        this.markers.push({ position: marker });
+      });
     },
     // receives a place object via the autocomplete component
     setPlace(place) {
@@ -142,15 +146,14 @@ export default {
         const marker = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
-        }
-        this.markers.push({position: marker})
+        };
+        this.markers.push({ position: marker });
         //Set Map center position by user's current location
         this.center = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
-        }
-        
-      })
+        };
+      });
     }
   }
 };

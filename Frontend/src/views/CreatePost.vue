@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid bg-danger h-100">
+  <div class="container bg-danger h-100">
     <nav-bar />
     <div class="row justify-content-center">
       <h1 class="text-white">{{ operation }}</h1>
