@@ -18,14 +18,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.latte.dto.CafeDto;
 import com.latte.dto.MenuDto;
-import com.latte.dto.ULMCUID;
+import com.latte.dto.UsersLikeMenu;
 import com.latte.model.post.Post;
 import com.latte.security.JwtTokenProvider;
 import com.latte.service.ICafeService;
@@ -93,19 +92,17 @@ public class CafeController {
 		List<MenuDto> menuList = menuservice.getMenuListById(cafe_id);
 		List<Post> postList = postservice.getPostListByCafeId(cafe_id);
 
-		ULMCUID ulmcuid = new ULMCUID();
+		UsersLikeMenu userslikemenu = new UsersLikeMenu();
 		
-		ulmcuid.setCafe_id(cafe_id);
+		userslikemenu.setCafe_id(cafe_id);
 		
-		Long users_id = getLoggedInUserId2(request);// 왜안대나여....
-//		Long users_id = 8L;
+		Long users_id = getLoggedInUserId2(request);
 		
 		if (users_id != 0L) {
-			ulmcuid.setUsers_id(users_id);
+			userslikemenu.setUsers_id(users_id);
 		}
 
-		List<ULMCUID> ulmlist = ulmservice.getUsersLikeMenuByCafeIdNUserId(ulmcuid);
-		
+		List<UsersLikeMenu> ulmlist = ulmservice.getUsersLikeMenuByCafeIdNUserId(userslikemenu);
 		Map<String, Object> response = new HashMap<>();
 
 		if (cafeInfo != null) {
