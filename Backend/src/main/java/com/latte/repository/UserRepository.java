@@ -25,6 +25,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	Boolean existsByEmail(String email);
 
+	@Modifying
+	@Query(value = "UPDATE User u SET u.phone = :phone WHERE u.id = :id",nativeQuery = false )
+	Integer updateUserPhone(@Param("phone") String phone, @Param("id") Long id);
+	//withdrawal 
 }
 
 /*JPA는 메소드의 이름만으로 원하는 쿼리를 실행하는 방법을 제공합니다. 이때 쿼리는 select에만 해당합니다.
