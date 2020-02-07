@@ -1,19 +1,12 @@
 package com.latte.controller;
 
-import com.latte.exception.AppException;
-import com.latte.model.Role;
-import com.latte.model.RoleName;
-import com.latte.model.User;
-import com.latte.payload.ApiResponse;
-import com.latte.payload.JwtAuthenticationResponse;
-import com.latte.payload.LoginRequest;
-import com.latte.payload.SignUpRequest;
-import com.latte.payload.UserInfoUpdateRequest;
-import com.latte.repository.RoleRepository;
-import com.latte.repository.UserRepository;
-import com.latte.security.JwtTokenProvider;
+import java.net.URI;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
-import io.swagger.annotations.ApiOperation;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,21 +22,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import com.latte.exception.AppException;
+import com.latte.model.Role;
+import com.latte.model.RoleName;
+import com.latte.model.User;
+import com.latte.payload.ApiResponse;
+import com.latte.payload.JwtAuthenticationResponse;
+import com.latte.payload.LoginRequest;
+import com.latte.payload.SignUpRequest;
+import com.latte.payload.UserInfoUpdateRequest;
+import com.latte.repository.RoleRepository;
+import com.latte.repository.UserRepository;
+import com.latte.security.JwtTokenProvider;
+
+import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
@@ -128,6 +126,7 @@ public class AuthController {
 	@GetMapping("/users")
 	@ApiOperation(value = "모든 회원 정보 가져오기")
 	@PreAuthorize("hasRole('ADMIN')")
+
 	public ResponseEntity<List<User>> getUserList(){
 		
 		List<User> users = userRepository.findAll();

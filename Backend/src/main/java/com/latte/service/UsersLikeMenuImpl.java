@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.latte.dao.UsersLikeMenuDaoImpl;
-import com.latte.dto.ULMCUID;
 import com.latte.dto.UsersLikeMenu;
 
 @Service
@@ -24,8 +23,8 @@ public class UsersLikeMenuImpl implements IUsersLikeMenuService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<ULMCUID> getUsersLikeMenuByCafeIdNUserId(ULMCUID ulmcuid) {
-		return userslikemenuDao.getUsersLikeMenuByCafeIdNUserId(ulmcuid);
+	public List<UsersLikeMenu> getUsersLikeMenuByCafeIdNUserId(UsersLikeMenu userslikemenu) {
+		return userslikemenuDao.getUsersLikeMenuByCafeIdNUserId(userslikemenu);
 	}
 
 	@Override
@@ -34,28 +33,16 @@ public class UsersLikeMenuImpl implements IUsersLikeMenuService {
 		return userslikemenuDao.getUsersLikeMenuCountBymenuId(mid);
 	}
 
-//	@Override
-//	@Transactional
-//	public UsersLikeMenu getUsersLikeMenuByUserIdNMenuId(UsersLikeMenu userslikemenu) {
-//		return userslikemenuDao.getUsersLikeMenuByUserIdNMenuId(userslikemenu);
-//	}
-//
-//	@Override
-//	@Transactional
-//	public int addUsersLikeMenu(UsersLikeMenu userslikemenu) {
-//		return userslikemenuDao.addUsersLikeMenu(userslikemenu);
-//	}
-//
-//	@Override
-//	@Transactional
-//	public int updateUsersLikeMenu(UsersLikeMenu userslikemenu) {
-//		return userslikemenuDao.updateUsersLikeMenu(userslikemenu);
-//	}
-//
-//	@Override
-//	@Transactional
-//	public int deleteLikeByUserIdNMenuId(UsersLikeMenu userslikemenu) {
-//		return userslikemenuDao.deleteLikeByUserIdNMenuId(userslikemenu);
-//	}
+	@Override
+	@Transactional
+	public int addUsersLikeMenu(UsersLikeMenu userslikemenu) {
+		return userslikemenuDao.addUsersLikeMenu(userslikemenu);
+	}
+
+	@Override
+	@Transactional
+	public int deleteUsersLikeMenuByUserIdNMenuId(UsersLikeMenu userslikemenu) {
+		return userslikemenuDao.deleteLikeByUserIdNMenuId(userslikemenu);
+	}
 
 }

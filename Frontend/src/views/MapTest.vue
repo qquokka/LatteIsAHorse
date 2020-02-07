@@ -5,23 +5,23 @@
       <div class="d-none d-md-flex col-md-1 menucol-1 py-5" style="font-size:1vw">
         <div class="menu-icon">
           <router-link to="/">
-            <i class="fa fa-home fa-4x"></i>
+            <fa icon="home" size="3x" />
           </router-link>
           <p class="menu-tex">돌아가기</p>
         </div>
 
         <div class="menu-icon">
-          <i class="fa fa-search fa-4x"></i>
+          <fa icon="search-location" size="3x" />
           <p class="menu-tex">검색</p>
         </div>
 
         <div class="menu-icon">
-          <i class="fas fa-filter fa-4x"></i>
+          <fa icon="filter" size="3x" />
           <p class="menu-tex">필터적용</p>
         </div>
 
         <div class="menu-icon">
-          <i class="fa fa-map-marked-alt fa-4x"></i>
+          <fa icon="map-marked-alt" size="3x" />
           <p class="menu-tex">내 위치</p>
         </div>
       </div>
@@ -33,33 +33,33 @@
           <p>대표자: 김태우</p>
           <p class="small">영업시간: 10 A.M. ~ 12 P.M.</p>
         </div>
-        <div class="container">
+        <div class="container px-5">
           <div class="row align-content-center">
             <div
               class="frame col-4"
-              :style="`background: url('https://picsum.photos/seed/${Math.floor(Math.random() * 10)}/200')`"
+              :style="`background: url('https://picsum.photos/seed/${Math.floor(Math.random() * 100)}/200')`"
             ></div>
             <div
               class="frame col-4"
-              :style="`background: url('https://picsum.photos/seed/${Math.floor(Math.random() * 10)}/200')`"
+              :style="`background: url('https://picsum.photos/seed/${Math.floor(Math.random() * 100)}/200')`"
             ></div>
             <div
               class="frame col-4"
-              :style="`background: url('https://picsum.photos/seed/${Math.floor(Math.random() * 10)}/200')`"
+              :style="`background: url('https://picsum.photos/seed/${Math.floor(Math.random() * 100)}/200')`"
             ></div>
           </div>
           <div class="row">
             <div
               class="frame col-4"
-              :style="`background: url('https://picsum.photos/seed/${Math.floor(Math.random() * 10)}/200')`"
+              :style="`background: url('https://picsum.photos/seed/${Math.floor(Math.random() * 100)}/200')`"
             ></div>
             <div
               class="frame col-4"
-              :style="`background: url('https://picsum.photos/seed/${Math.floor(Math.random() * 10)}/200')`"
+              :style="`background: url('https://picsum.photos/seed/${Math.floor(Math.random() * 100)}/200')`"
             ></div>
             <div
               class="frame col-4"
-              :style="`background: url('https://picsum.photos/seed/${Math.floor(Math.random() * 10)}/200')`"
+              :style="`background: url('https://picsum.photos/seed/${Math.floor(Math.random() * 100)}/200')`"
             ></div>
           </div>
           <a href>#스터디</a>
@@ -90,6 +90,10 @@
 import GoogleMap from "@/components/GoogleMap.vue";
 // import Footer from '@/views/section/Footer.vue'
 import NavBar from "@/components/NavBar.vue";
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faHome, faSearchLocation, faFilter, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faHome, faSearchLocation, faFilter, faMapMarkedAlt )
 
 export default {
   name: "map_test",
@@ -126,9 +130,6 @@ export default {
 .info-header {
   padding: 1rem;
 	border-radius: 21px;
-	background: linear-gradient(145deg, #dadada, #ffffff);
-	box-shadow:  41px 41px 82px #cecece, 
-							-41px -41px 82px #ffffff;
 }
 .menu-icon > i {
   color: transparent !important;
@@ -144,7 +145,6 @@ export default {
   transition: 0.2s;
   border-radius: 21px;
   background: #f2f2f2;
-  box-shadow: 9px 9px 18px #cecece, -9px -9px 18px #ffffff;
 }
 .menu-icon:hover {
   border-radius: 21px;
@@ -160,13 +160,10 @@ export default {
 .frame {
   height: 120px;
   overflow: hidden;
-  box-shadow: 1px 1px 10px black;
-  padding: 5px !important;
   background-size: 100%;
 }
 .infocol {
-  background: #f2f2f2;
-  box-shadow: inset 15px 15px 42px #f2f2f2, inset -15px -15px 42px #ffffff;
-	margin-bottom: 5px
+  background: lavender;
+	margin-bottom: 5px;
 }
 </style>

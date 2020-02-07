@@ -3,7 +3,7 @@
     <nav-bar />
     <search-bar class="mx-auto" style="margin-top:9rem" />
     <div class="post-container">
-      <post-list postData="postData" />
+      <review-list reviewData="reviewData" />
     </div>
 
     <div class="cafe-container">
@@ -16,7 +16,7 @@
 import NavBar from "@/components/NavBar.vue"
 import SearchBar from "@/components/SearchBar.vue"
 import axios from "axios"
-import PostList from "@/views/section/PostList.vue"
+import ReviewList from "@/views/section/ReviewList.vue"
 import CafeList from "@/components/CafeList.vue"
 
 export default {
@@ -24,13 +24,13 @@ export default {
   components: {
     NavBar,
     SearchBar,
-    PostList,
+    ReviewList,
     CafeList
   },
   data() {
     return {
 			cafeData: [],
-			postData: []
+			reviewData: []
 		};
   },
   methods: {
@@ -49,7 +49,7 @@ export default {
         .get(`${this.$store.state.constants.SERVER}/search/${query}`)
         .then(response => {
 					this.cafeData = response.data.cafes
-					this.postData = response.data.posts
+					this.reviewData = response.data.posts
         })
     }
 	},

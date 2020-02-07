@@ -23,7 +23,7 @@ public class UsersLikeCafeServiceImpl implements IUsersLikeCafeService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<UsersLikeCafeDto> getUsersLikeCafeByCafeId(int cafe_id) {
+	public UsersLikeCafeDto getUsersLikeCafeByCafeId(int cafe_id) {
 		return userslikecafeDao.getUsersLikeCafeByCafeId(cafe_id);
 	}
 
