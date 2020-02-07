@@ -7,6 +7,7 @@
 		select * from userslikemenu
 	</select>
 
+	<!-- 메뉴 고유 id 에 대한 카운트 값을 돌려줌. 고로 업데이트시 리스폰스 해줄 예정 -->
 	<select id="getUsersLikeMenuCountBymenuId"
 		parameterType="java.lang.Integer"
 		resultType="com.latte.dto.UsersLikeMenu">
@@ -17,9 +18,10 @@
 		menu_id
 	</select>
 
+	<!-- cafecontroller에서만 사용!!!!!! detail에사용되며 완벽작동함. 에러시 로그인 세션이 풀린거 체크!... -->
 	<select id="getUsersLikeMenuByCafeIdNUserId"
-		parameterType="com.latte.dto.ULMCUID"
-		resultType="com.latte.dto.ULMCUID">
+		parameterType="com.latte.dto.UsersLikeMenu"
+		resultType="com.latte.dto.UsersLikeMenu">
 		select m.mid menu_id, count(ulm.like_count) like_count from
 		menu m join
 		userslikemenu ulm on m.mid=ulm.menu_id AND m.cafe_id =
@@ -27,6 +29,19 @@
 		ulm.users_id =#{users_id} group by menu_id
 	</select>
 
+	<insert id="addUsersLikeMenu"
+		parameterType="com.latte.dto.UsersLikeMenu">
+		insert into userslikemenu
+		(users_id, menu_id) values
+		(#{users_id},#{menu_id})
+	</insert>
+
+	<delete id="deleteLikeByUserIdNMenuId"
+		parameterType="com.latte.dto.UsersLikeMenu">
+		delete from userslikemenu where
+		users_id=#{users_id} and
+		menu_id=#{menu_id}
+	</delete>
 
 	<!-- DB의 모든 UserLikeCafe 리스트 반환 -->
 	<select id="getUsersLikeCafeList"

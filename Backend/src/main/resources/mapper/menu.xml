@@ -16,7 +16,7 @@
 		select
 		m.mid, m.product, m.price, m.description, m.tag ,
 		count(ulm.like_count) like_count
-		from menu m join userslikemenu ulm on
+		from menu m left outer join userslikemenu ulm on
 		m.mid=ulm.menu_id and
 		m.cafe_id = #{cafe_id} group by menu_id;
 
@@ -52,7 +52,7 @@
 		#{product},
 		#{price},
 		#{cafe_id},
-		#{tag}
+		#{tag})
 	</insert>
 
 	<update id="updateMenu" parameterType="com.latte.dto.MenuDto">
