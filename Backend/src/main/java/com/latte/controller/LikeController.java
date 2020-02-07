@@ -1,16 +1,13 @@
 package com.latte.controller;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -82,9 +79,8 @@ public class LikeController {
 		userslikemenu.setMenu_id(mid);
 
 		Long userId = getLoggedInUserId(request);
-
 		if (userId != 0L) {
-			userslikemenu.setUsers_id(userId);
+		userslikemenu.setUsers_id(userId);
 		}
 
 		int result = ulmservice.addUsersLikeMenu(userslikemenu);
@@ -106,7 +102,6 @@ public class LikeController {
 
 		UsersLikeMenu userslikemenu = new UsersLikeMenu();
 		userslikemenu.setMenu_id(mid);
-
 		Long userId = getLoggedInUserId(request);
 		if (userId != 0L) {
 			userslikemenu.setUsers_id(userId);
