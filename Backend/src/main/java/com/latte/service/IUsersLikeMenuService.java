@@ -2,7 +2,6 @@ package com.latte.service;
 
 import java.util.List;
 
-import com.latte.dto.ULM;
 import com.latte.dto.ULMCUID;
 import com.latte.dto.UsersLikeMenu;
 
@@ -11,7 +10,7 @@ public interface IUsersLikeMenuService {
 	List<UsersLikeMenu> getUsersLikeMenuList();
 
 	// mid 로 메뉴의 좋아요 카운트를 반환
-	ULM getUsersLikeMenuCountBymenuId(int mid);
+	UsersLikeMenu getUsersLikeMenuCountBymenuId(int mid);
 
 //	// READ
 	List<ULMCUID> getUsersLikeMenuByCafeIdNUserId(ULMCUID ulmcuid);

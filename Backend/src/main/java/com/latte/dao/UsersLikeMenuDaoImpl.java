@@ -6,7 +6,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.latte.dto.ULM;
 import com.latte.dto.ULMCUID;
 import com.latte.dto.UsersLikeMenu;
 
@@ -24,7 +23,7 @@ public class UsersLikeMenuDaoImpl {
 	}
 
 	// user_id 로 좋아하는 메뉴를 리스트로 반환
-	public ULM getUsersLikeMenuCountBymenuId(int mid) {
+	public UsersLikeMenu getUsersLikeMenuCountBymenuId(int mid) {
 		return sqlSession.selectOne(ns + "getUsersLikeMenuCountBymenuId", mid);
 	}
 
