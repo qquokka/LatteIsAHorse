@@ -8,10 +8,14 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.27",
+    "@fortawesome/free-solid-svg-icons": "^5.12.1",
+    "@fortawesome/vue-fontawesome": "^0.1.9",
     "@toast-ui/vue-editor": "^1.1.1",
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
     "core-js": "^3.3.2",
+    "countup.js": "^2.0.4",
     "expose-loader": "^0.7.5",
     "jquery": "^3.4.1",
     "jwt-decode": "^2.2.0",
@@ -19,6 +23,7 @@
     "moment": "^2.24.0",
     "popper.js": "^1.16.0",
     "vue": "^2.6.10",
+    "vue-countup-v2": "^4.0.0",
     "vue-games": "^0.2.2",
     "vue-parallaxy": "^1.1.1",
     "vue-router": "^3.1.5",

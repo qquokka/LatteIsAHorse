@@ -2,31 +2,31 @@
   <nav class="navbar navbar-expand-lg sticky-top" @click="this.$router.push('/hangman/is/the/perfect/game/of/the/whole/human/history')" id="topnav">
   <router-link to="/" class="ml-2 row text-decoration-none" ><img src="../assets/logo_icon.png" style="margin: -30px" width="120px"><h4 class="my-auto ml-3" style="color:#3f3f3f">라떼는말이야</h4> </router-link>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="fa fa-bars fa-2x"></span>
+    <fa icon="bars" size="2x" />
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item" v-if="!isLoggedIn">
         <p class="nav-link" data-toggle="modal" data-target="#staticBackdrop">
-          <i class="fa fa-key"></i> 로그인
+          <fa icon="key" /> 로그인
         </p>
       </li>
       <li class="nav-item" v-else>
         <p class="nav-link" @click="logout()">
-          <i class="fa fa-key"></i> {{ getUserName }}님 반갑습니다.
+          <fa icon="key" /> {{ getUserName() }}님 반갑습니다.
         </p>
       </li>
       <li class="nav-item" >
-        <router-link class="nav-link" to="/about"><i class="fa fa-user"></i> About Us</router-link>
+        <router-link class="nav-link" to="/about"><fa icon="user" /> About Us</router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="/cafe/1"><i class="fa fa-coffee"></i> 카페 보기</router-link>
+        <router-link class="nav-link" to="/cafe/1"><fa icon="coffee" /> 카페 보기</router-link>
+      </li>
+      <li class="nav-item d-none">
+        <router-link class="nav-link" to="/posts"><fa icon="newspaper" /> 포스트 보기</router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="/posts"><i class="fa fa-newspaper"></i> 포스트 보기</router-link>
-      </li>
-      <li class="nav-item">
-        <router-link class="nav-link" to="/map"><i class="fa fa-map"></i> 내 주변 보기</router-link>
+        <router-link class="nav-link" to="/map"><fa icon="map" /> 내 주변 보기</router-link>
       </li>
     </ul>
   </div>
@@ -36,13 +36,17 @@
 </template>
 
 <script>
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faBars, faKey, faUser, faCoffee, faMap, faNewspaper } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faBars, faKey, faUser, faCoffee, faMap, faNewspaper )
+
 export default {
   
   data () {
   return {
     scrolled: false,
     isAuthenticated: this.$session.exists('jwt'),
-    username: this.getUserName(),
   };
 },
 props: {
@@ -73,10 +77,7 @@ methods: {
       topnav.style.backgroundImage = "unset"
       topnav.style.boxShadow = "0px 0px 0px"
     }
-  }
-},
-
-computed: {
+  },
   isLoggedIn() {
     return this.$store.getters.isLoggedIn;
   },

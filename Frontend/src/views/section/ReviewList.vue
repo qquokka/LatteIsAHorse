@@ -1,25 +1,25 @@
 <template>
 <div id="post-list-main" class="container-fluid">
   <div class="row px-2">
-    <div v-for="post in postData.slice(0, limits)" :key="post.id" class="post-list col-12 col-sm-6 col-lg-4 p-3">
-      <router-link :to="`/cafe/${post.cafe_id}/post/${post.id}/`" class="text-decoration-none">
+    <div v-for="review in reviewData.slice(0, limits)" :key="review.id" class="post-list col-12 col-sm-6 col-lg-4 p-3">
+      <router-link :to="`/cafe/${review.cafe_id}/review/${review.id}/`" class="text-decoration-none">
         <div class="postbody overflow-hidden">
-          <img :src="post.thumbnail" width="100%" height="300px" @error="imgPlaceholder">
-          <h3 class="p-2 posttitle">{{ post.title }}</h3>
-          <p class="" style="font-size:0.8rem"><i class="fas fa-thumbs-up"> {{ post.like_count }}</i></p>
-          <p class="mb-0"> {{ post.writer_name }}</p>
-          <p class="postcreate" style="top:1rem;left:3rem"> {{ post.created_at.slice(0,10) }} </p>
+          <img :src="review.thumbnail" width="100%" height="300px" @error="imgPlaceholder">
+          <h3 class="p-2 posttitle">{{ review.title }}</h3>
+          <p class="" style="font-size:0.8rem"><i class="fas fa-thumbs-up"> {{ review.like_count }}</i></p>
+          <p class="mb-0"> {{ review.writer_name }}</p>
+          <p class="postcreate" style="top:2rem;left:3rem;border-radius:15px"> {{ review.created_at.slice(0,10) }} </p>
         </div>
       </router-link>
     </div>
     <button class="btn btn-light btn-block position-relative" @click="loadmore">더보기</button>
   </div>
-
 </div>
 </template>
 
 <script>
 export default {
+  name: 'ReviewList',
   data() {
     return {
     }  
@@ -29,8 +29,8 @@ export default {
           limits: Number,
           default: 12,
       },
-      postData: {
-        default: [{id:"null",title:"NO POST"}]
+      reviewData: {
+        default: [{id:"null",title:"NO Review"}]
       }
   },
 

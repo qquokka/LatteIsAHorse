@@ -34,7 +34,9 @@ export default {
 		}
 	},
 	mounted() {
-		this.query = this.$route.query.q.split(" ")
+    if (this.$router.query) {
+      this.query = this.$route.query.q.split(" ")
+    }
 	}
 }
 </script>
