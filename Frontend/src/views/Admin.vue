@@ -1,6 +1,7 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid p-0">
 		<nav-bar blackOrWhite="true" />
+		
 		<h1>사용자 관리 페이지</h1>
 		<div>
 			<h2>사용자</h2>
