@@ -3,7 +3,7 @@
 <mapper namespace="mapper.userslikecafe">
 
 	<!-- user가 좋아요를 누른 모든 카페 반환 -->
-	<select id="getUsersLikeCafeList" resultType="com.latte.dto.UsersLikeCafeDto">
+	<select id="getUsersLikeCafeList" resultType="userslikecafe">
 		select
 		id,
 		users_id,
@@ -14,7 +14,7 @@
 
 	<!-- 카페의 전체 좋아요 수를 반환 -->
 	<select id="getUsersLikeCafeByCafeId" parameterType="_long"
-		resultType="com.latte.dto.UsersLikeCafeDto">
+		resultType="userslikecafe">
 		select id, users_id,
 		cafe_id, like_count
 		from userslikecafe where
@@ -22,7 +22,7 @@
 	</select>
 
 	<!-- 좋아요 누름 -->
-	<insert id="addUsersLikeCafe" parameterType="com.latte.dto.UsersLikeCafeDto">
+	<insert id="addUsersLikeCafe" parameterType="userslikecafe">
 		insert into userslikecafe
 		(users_id,
 		cafe_id)

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.post">
 
-	<select id="getPostList" resultType="com.latte.model.post.Post">
+	<select id="getPostList" resultType="post">
 		select
 		p.id, p.created_at,
 		p.updated_at, p.like_count, p.thumbnail, p.title,

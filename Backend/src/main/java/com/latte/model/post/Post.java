@@ -3,7 +3,6 @@ package com.latte.model.post;
 import java.io.Serializable;
 import java.time.Instant;
 
-
 public class Post implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -18,7 +17,7 @@ public class Post implements Serializable {
 	private Instant updated_at;
 
 	private String writer_name;
-	private int cafe_id; //get post 에서 cafe_id를 주기위함.
+	private int cafe_id; // get post 에서 cafe_id를 주기위함.
 
 	public Post() {
 		super();

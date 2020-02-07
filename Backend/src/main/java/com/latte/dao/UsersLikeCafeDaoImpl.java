@@ -34,5 +34,5 @@ public class UsersLikeCafeDaoImpl {
 	public int deleteUsersLikeCafe(Long users_id) {
 		return sqlSession.delete(ns + "deleteUsersLikeCafe", users_id);
 	}
-	
+
 }
