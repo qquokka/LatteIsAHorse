@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.latte.dto.ULM;
 import com.latte.dto.UsersLikeMenu;
 import com.latte.service.IUsersLikeMenuService;
 
@@ -48,15 +47,15 @@ public class LikeController {
 		return new ResponseEntity<List<UsersLikeMenu>>(ULMList, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "mid 로 메뉴의 좋아요 카운트를 반환", response = ULM.class)
+	@ApiOperation(value = "mid 로 메뉴의 좋아요 카운트를 반환", response = UsersLikeMenu.class)
 	@GetMapping("/userslikemenu/{mid}")
-	public ResponseEntity<ULM> getUsersLikeMenuCountBymenuId(@PathVariable("mid") int mid) throws Exception {
+	public ResponseEntity<UsersLikeMenu> getUsersLikeMenuCountBymenuId(@PathVariable("mid") int mid) throws Exception {
 		logger.info("LikeController------------getUsersLikeMenuCountBymenuId-------------" + new Date());
-		ULM ulm = ulmservice.getUsersLikeMenuCountBymenuId(mid);
+		UsersLikeMenu ulm = ulmservice.getUsersLikeMenuCountBymenuId(mid);
 
 		if (ulm == null) {
-			return new ResponseEntity<ULM>(ulm, HttpStatus.NO_CONTENT);
+			return new ResponseEntity<UsersLikeMenu>(ulm, HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<ULM>(ulm, HttpStatus.OK);
+		return new ResponseEntity<UsersLikeMenu>(ulm, HttpStatus.OK);
 	}
 }

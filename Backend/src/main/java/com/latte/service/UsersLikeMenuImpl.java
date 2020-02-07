@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.latte.dao.UsersLikeMenuDaoImpl;
-import com.latte.dto.ULM;
 import com.latte.dto.ULMCUID;
 import com.latte.dto.UsersLikeMenu;
 
@@ -31,7 +30,7 @@ public class UsersLikeMenuImpl implements IUsersLikeMenuService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public ULM getUsersLikeMenuCountBymenuId(int mid) {
+	public UsersLikeMenu getUsersLikeMenuCountBymenuId(int mid) {
 		return userslikemenuDao.getUsersLikeMenuCountBymenuId(mid);
 	}
 

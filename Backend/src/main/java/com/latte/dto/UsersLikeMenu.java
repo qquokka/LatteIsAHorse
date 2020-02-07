@@ -2,6 +2,10 @@
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+//@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UsersLikeMenu implements Serializable {
 
 	private static final long serialVersionUID = 1L;
