@@ -1,19 +1,26 @@
 <template>
-  <div class="container-fluid bg-danger" style="height:100vh;padding:8rem;">
-    <div class="input-group mb-2">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1">Title</span>
-      </div>
+  <div class="container-fluid" style="height:100vh;padding:4rem 8rem 8rem 8rem;background:lavender">
+      <router-link :to="`/cafe/${cafeId}/`"><fa icon="undo" class="float-right" size="3x" /></router-link> 
+    <h1 class="my-3"> <fa icon="pen-nib" style="color: beige;" /> REVIEW ABOUT <b> {{ cafe.cafe_name }} </b> </h1>
+
+    <div class="row px-3 justify-content-lg-between">
+    <div class="input-group mb-2 w-100 col-6 row align-items-center">
       <input
         type="text"
         name
         id="titleField"
         v-model="title"
-        aria-label="Title"
-        aria-describedby="basic-addon1"
+        aria-label="제목"
+        style="background:white"
+        class="col"
+        placeholder="TITLE"
       />
     </div>
-
+    <div class="col bg-white mb-2 mx-2 row align-items-center justify-content-center">
+      <fa class="mr-3 text-muted" icon="user-circle" size="3x"/>
+      <h3>Written by @{{ getUserName() }}</h3>
+    </div>
+</div>
     <editor
       id="tuiEditor"
       :value="editorHtml"
@@ -34,18 +41,25 @@
 <script>
 import axios from "axios";
 import { mapGetters } from "vuex";
-// import Footer from '@/views/section/Footer.vue'
 import "codemirror/lib/codemirror.css";
 import Editor from "@toast-ui/vue-editor/src/Editor.vue";
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faPenNib, faUndo } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faPenNib, faUndo)
 export default {
   name: "create",
   components: {
     editor: Editor
-    // Footer
   },
-  props: ["cafeId"],
+  props: {
+    cafeId: {
+      type: Number
+    },      
+  },
   data() {
     return {
+      cafe: {},
       editorText: "글을 좀 던져봐라?",
       editorOptions: {
         hideModeSwitch: true,
@@ -97,6 +111,9 @@ export default {
           console.log(error.response);
         });
     },
+      getUserName() {
+    return JSON.parse(localStorage.getItem("vue-session-key")).username
+  },
     getHtml() {
       let html = document.querySelector(".te-ww-container").firstElementChild
         .firstElementChild.firstElementChild;
@@ -144,6 +161,7 @@ export default {
   },
   beforeCreate: function() {
     if (!this.$session.exists("jwt")) {
+      alert('NEED LOGIN')
       this.$router.back();
     }
     if (this.$router.currentRoute.path === "posts/create") {
@@ -159,6 +177,12 @@ export default {
         });
       this.operation = "수정하기";
     }
+  },
+  mounted() {
+    axios.get(`${this.$store.state.constants.SERVER}/cafe/${this.cafeId}`)
+    .then(response => {
+      this.cafe = response.data
+    })
   }
 };
 </script>
@@ -168,15 +192,12 @@ export default {
   border-radius: 20px;
 }
 #titleField {
-  border-radius: 0 15px 15px 0;
   border: 0;
   text-align: center;
-  font-weight: 900;
   color: #2f2f2f;
   font-family: "Roboto";
-  border-left: 0;
+  font-size: 2rem;
   background: whitesmoke;
-  width: 35%;
 }
 /**
 * @fileoverview style for editor ui
@@ -421,7 +442,6 @@ export default {
   height: 31px;
   background-color: #fff;
   border: 0;
-  border-radius: 15px 15px;
   overflow: hidden;
 }
 
