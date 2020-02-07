@@ -2,6 +2,9 @@ package com.latte.dto;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class UsersLikeCafeDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -15,21 +18,18 @@ public class UsersLikeCafeDto implements Serializable {
 	}
 
 	public UsersLikeCafeDto(int id, Long users_id, int cafe_id, int like_count) {
-		super();
 		this.id = id;
 		this.users_id = users_id;
 		this.cafe_id = cafe_id;
 		this.like_count = like_count;
 	}
 
-	@Override
-	public String toString() {
-		return "UsersLikeCafeDto [id=" + id + ", users_id=" + users_id + ", cafe_id=" + cafe_id + ", like_count="
-				+ like_count + "]";
-	}
-
 	public int getId() {
 		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Long getUsers_id() {

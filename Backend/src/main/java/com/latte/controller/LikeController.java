@@ -26,6 +26,9 @@ import com.latte.dto.UsersLikeMenu;
 import com.latte.security.JwtTokenProvider;
 import com.latte.service.IUsersLikeMenuService;
 
+import com.latte.dto.UsersLikeCafeDto;
+import com.latte.service.IUsersLikeCafeService;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -41,10 +44,11 @@ public class LikeController {
 	IUsersLikeMenuService ulmservice;
 
 	@Autowired
-	JwtTokenProvider tokenProvider;
+	IUsersLikeCafeService userslikecafeservice;
 
 //	@Autowired
-//	IUsersLikeCafeService userlikecafeservice;
+//	
+	JwtTokenProvider tokenProvider;
 
 	@ApiOperation(value = "DB의 모든 UsersLikeMenu 리스트 반환", response = List.class)
 	@GetMapping("/userslikemenu")
@@ -63,14 +67,15 @@ public class LikeController {
 	@GetMapping("/userslikemenu/{mid}")
 	public ResponseEntity<UsersLikeMenu> getUsersLikeMenuCountBymenuId(@PathVariable("mid") int mid) throws Exception {
 		logger.info("LikeController------------getUsersLikeMenuCountBymenuId-------------" + new Date());
-		UsersLikeMenu ulm = ulmservice.getUsersLikeMenuCountBymenuId(mid);
 
+		UsersLikeMenu ulm = ulmservice.getUsersLikeMenuCountBymenuId(mid);
 		if (ulm == null) {
 			return new ResponseEntity<UsersLikeMenu>(ulm, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<UsersLikeMenu>(ulm, HttpStatus.OK);
 	}
 
+	
 	@ApiOperation(value = " Menu_id로 좋아요 삽입(User_id 자동 삽입)", response = UsersLikeMenu.class)
 	@PostMapping("/userslikemenu/{mid}")
 //	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
@@ -135,4 +140,29 @@ public class LikeController {
 		return 0L;
 	}
 
+  
+	@ApiOperation(value = "DB의 모든 UserLikeCafe 리스트 반환", response = List.class)
+	@GetMapping("/userslikecafe")
+	public ResponseEntity<List<UsersLikeCafeDto>> getUsersLikeCafeList() throws Exception {
+		logger.info("LikeController-------------getUsersLikeCafeList-------------" + new Date());
+
+		List<UsersLikeCafeDto> userslikecafelist = userslikecafeservice.getUsersLikeCafeList();
+		if (userslikecafelist == null || userslikecafelist.size() == 0) {
+			return new ResponseEntity<List<UsersLikeCafeDto>>(userslikecafelist, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<UsersLikeCafeDto>>(userslikecafelist, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "카페의 좋아요 수를 반환", response = UsersLikeCafeDto.class)
+	@GetMapping("/userslikecafe/{cafe_id}")
+	public ResponseEntity<UsersLikeCafeDto> getUsersLikeCafeByCafeId(@PathVariable("cafe_id") int cafe_id) throws Exception {
+		logger.info("LikeController------------getUsersLikeCafeByCafeId-------------" + new Date());
+
+		UsersLikeCafeDto userslikecafe = userslikecafeservice.getUsersLikeCafeByCafeId(cafe_id);
+		if (userslikecafe == null) {
+			return new ResponseEntity<UsersLikeCafeDto>(userslikecafe, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<UsersLikeCafeDto>(userslikecafe, HttpStatus.OK);
+	}
+  
 }
