@@ -24,7 +24,7 @@
 		resultType="userslikemenu">
 		select m.mid menu_id, count(ulm.like_count) like_count from
 		menu m join
-		userslikemenu ulm on m.mid=ulm.menu_id AND m.cafe_id =
+		userslikemenu ulm on m.mid=ulm.menu_id and m.cafe_id =
 		#{cafe_id} and
 		ulm.users_id =#{users_id} group by menu_id
 	</select>
