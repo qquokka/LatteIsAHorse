@@ -87,7 +87,11 @@
         <p>{{ menu.description }}</p>
       </div>
       <div class="col-1">
-        <p>{{ menu.like_count }}</p>
+        <button @click="pushLikeMenu(menu.mid, !menu.userLiked)" v-if="isLogined">
+          <span v-show="menu.userLiked">♥</span>
+          <span v-show="!menu.userLiked">♡</span>
+        </button>
+        {{ menu.like_count }}
       </div>
     </div>
     <hr />
@@ -140,6 +144,7 @@ export default {
       menus: [],
       reviews: [],
       time: [[]],
+      likeMenu: [],
       isOpen: false,
       isLogined: false,
       today: 0
@@ -150,8 +155,11 @@ export default {
       e.target.src = require("../assets/noimage.png");
     },
     getData() {
+      const config = {
+        headers: { 'Authorization': "Bearer " + this.$session.get('jwt') }
+      }
       axios
-        .get(`${this.$store.state.constants.SERVER}/cafe/detail/${this.cafeId}`, )
+        .get(`${this.$store.state.constants.SERVER}/cafe/detail/${this.cafeId}`, config)
         .then(response => {
           console.log("카페 데이터 ");
           console.log(response.data);
@@ -159,6 +167,7 @@ export default {
           this.reviews = response.data.post;
           this.menus = response.data.menu;
           this.time = response.data.time;
+          this.likeMenu = response.data.like;
 
           // 리뷰 작성시간이 12시간 이내이면 '3시간 전' 이런 식으로 나오게 하고, 12시간 이전이면 날짜 시간 다 표시
           let now = Date.now();
@@ -176,6 +185,7 @@ export default {
             }
           });
 
+          // 현재 운영중인지 표시
           now = new Date(now);
           this.today = now.getDay();
           let openTime = new Date(
@@ -206,10 +216,25 @@ export default {
             }
             this.time[i].push(days[i]);
           }
+
+          // 메뉴별로 좋아요 표시되어 있으면 menus 배열에 userLiked(Boolean)랑 likeCount(Num) 넣어주기
+          response.data.like.forEach(elem => {
+            for (let i = 0; i < this.menus.length; i++) {
+              if (this.menus[i].mid === elem.menu_id) {
+                this.menus[i].userLiked = true
+                this.menus[i].likeCount = elem.like_count
+                break
+                }
+            }
+          })
         })
         .catch(error => {
           console.log(error.data);
         });
+
+        // reponse.data.like.forEach(elem => {
+        //   menuselem.menuId
+        // })
     },
     // deleteReview(reviewId) {
     // 	axios.delete(`${this.$store.state.constants.SERVER}/post/${reviewId}`, {headers: {'Authorization': "Bearer " + this.$session.get('jwt')}})
@@ -217,7 +242,26 @@ export default {
     // 			console.log(response)
     // 		})
     // },
-    pushLike() {
+    pushLikeMenu(menuId, ifUserLikesMenu) {  // 좋아요 버튼을 누르는 경우엔 true, 취소할 경우엔 false
+      const config = {
+        headers: { 'Authorization': "Bearer " + this.$session.get('jwt') }
+      }
+      console.log(config, menuId)
+      if (ifUserLikesMenu) {
+        // 좋아요 누를 때
+        console.log('좋아요')
+
+        // axios.get(`${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`, config)
+        //   .then(response => {
+        //     console.log(response.data)
+        //   })
+      } else {
+        // 좋아요 취소할 때
+        console.log('싫어요');
+        
+        // axios.get()
+      }
+      
     }
   },
   beforeMount() {
