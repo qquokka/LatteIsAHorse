@@ -10,19 +10,19 @@ import com.latte.dto.UsersLikeCafeDto;
 
 @Repository
 public class UsersLikeCafeDaoImpl {
-	private final String ns = "mapper.userslikecafe.";
+	private String ns = "mapper.like.";
 
 	@Autowired
 	private SqlSession sqlSession;
 
-	// user가 좋아요를 누른 모든 카페 반환
+	// DB의 모든 UserLikeCafe 리스트 반환
 	public List<UsersLikeCafeDto> getUsersLikeCafeList() {
 		return sqlSession.selectList(ns + "getUsersLikeCafeList");
 	}
 
-	// 카페의 전체 좋아요 수를 반환
-	public List<UsersLikeCafeDto> getUsersLikeCafeByCafeId(int cafe_id) {
-		return sqlSession.selectList(ns + "getUsersLikeCafeByCafeId", cafe_id);
+	// 카페의 좋아요 수를 반환
+	public UsersLikeCafeDto getUsersLikeCafeByCafeId(int cafe_id) {
+		return sqlSession.selectOne(ns + "getUsersLikeCafeByCafeId", cafe_id);
 	}
 
 	// 좋아요 누름
