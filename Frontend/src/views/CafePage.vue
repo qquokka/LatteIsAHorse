@@ -107,8 +107,8 @@
       </div>
     </div>
     <div class="container mt-5 px-5">
-      <h4>
-        <fa icon="mug-hot" style="color:violet" />MENU
+      <h4 class="my-5">
+        <fa icon="mug-hot" style="color:violet" /> MENU
       </h4>
       <hr />
       <div v-for="menu in menus" :key="menu.id" class="row">
@@ -117,11 +117,8 @@
         </div>
         <div class="col-1">
           <p v-if="menu.like_count">
-            <fa icon="thumbs-up" style="color: skyblue" @click="pushLikeMenu(menu.mid, !menu.userLiked)" v-if="isLogined"/>
+            <fa icon="thumbs-up" :style="menu.userLiked?{color: 'skyblue'}:{color:'gray'}" style="cursor:pointer" @click="menu.userLiked?pushLikeMenu(menu.mid, menu.userLiked):pushLikeMenu(menu.mid, !menu.userLiked)"/>
             {{ menu.like_count }}
-          </p>
-          <p v-else>
-            <fa icon="thumbs-up" style="color: skyblue" />0
           </p>
         </div>
         <div class="col-6">
@@ -138,6 +135,9 @@
     </div>
 
     <hr />
+      <h4 class="my-5">
+        <fa icon="envelope-open-text" style="color:orange" /> REVIEW
+      </h4>
     <div class="container border my-3 "  v-for="review in reviews.slice().reverse()" :key="review.id">
       <router-link   :to="`/cafe/${cafeId}/review/${review.id}/`">
         <div class="justify-content-center px-5">
@@ -152,7 +152,7 @@
           <h5> <fa icon="user-circle" /> {{ review.writer_name }} <span>{{ review.updated_at.slice(0,13) }}</span>  </h5>
         </div>
         <div class="row mt-2 px-5 justify-content-center">
-          <img :src="review.thumbnail" class="col-12 col-lg-6" @error="imgPlaceholder">
+          <img :src="review.thumbnail" class="col-12 col-lg-8" @error="imgPlaceholder">
         </div>
         <div class="row justify-content-center p-5 mx-5">
           <span class="mx-5 p-5" v-html="review.content"></span>
@@ -321,10 +321,13 @@ export default {
     // },
     pushLikeMenu(menuId, ifUserLikesMenu) {
       // 좋아요 버튼을 누르는 경우엔 true, 취소할 경우엔 false
+      if (!this.isLogined){
+        alert('plz login')
+        return
+      }
       const config = {
         headers: { Authorization: "Bearer " + this.$session.get("jwt") }
       };
-      console.log(config, menuId);
       if (ifUserLikesMenu) {
         // 좋아요 누를 때
         console.log("좋아요");
@@ -340,8 +343,13 @@ export default {
               }
             }
           })
+          .catch(e => {
+            console.log(e.response.data)
+          })
       } else {
         // 좋아요 취소할 때
+        console.log('안좋아요');
+        
         axios.delete(`${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`, config)
           .then(response => {
             console.log(response)
@@ -353,6 +361,9 @@ export default {
               }
             }
           })
+          .catch(e => {
+            console.log(e.response.data)
+          })
       }
     }
   },
@@ -360,12 +371,12 @@ export default {
     this.getData();
   },
   mounted() {
+    window.scrollTo(0,0)
     this.isLogined = this.$session.has("jwt");
     setTimeout(() => {
       let week = ["0", "1", "2", "3", "4", "5", "6"];
       let dayofweek = week[new Date().getDay()];
       let todayCal = document.getElementById(dayofweek);
-      console.log(todayCal);
       todayCal.style.backgroundColor = "lavender";
     }, 250);
   }

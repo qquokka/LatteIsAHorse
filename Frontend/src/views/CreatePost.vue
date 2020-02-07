@@ -1,9 +1,5 @@
 <template>
-  <div class="container bg-danger h-100">
-    <nav-bar />
-    <div class="row justify-content-center">
-      <h1 class="text-white">{{ operation }}</h1>
-    </div>
+  <div class="container-fluid bg-danger" style="height:100vh;padding:8rem;">
     <div class="input-group mb-2">
       <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">Title</span>
@@ -29,7 +25,7 @@
       height="500px"
       class="text-left"
     />
-    <button class="btn btn-danger btn-lg" @click="getHtml">확인</button>
+    <button class="btn btn-light btn-block btn-lg" @click="getHtml">확인</button>
 
     <!-- <Footer /> -->
   </div>
@@ -38,14 +34,12 @@
 <script>
 import axios from "axios";
 import { mapGetters } from "vuex";
-import NavBar from "@/components/NavBar.vue";
 // import Footer from '@/views/section/Footer.vue'
 import "codemirror/lib/codemirror.css";
 import Editor from "@toast-ui/vue-editor/src/Editor.vue";
 export default {
   name: "create",
   components: {
-    NavBar,
     editor: Editor
     // Footer
   },
