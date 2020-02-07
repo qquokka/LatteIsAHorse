@@ -2,6 +2,9 @@ package com.latte.dto;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class Coupon implements Serializable {
 
 	private static final long serialVersionUID = 1L;

@@ -15,7 +15,7 @@ public class SearchServiceImpl implements ISearchService {
 
 	@Autowired
 	SearchDaoImpl searchDao;
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<Post> searchInPosts(String query) {

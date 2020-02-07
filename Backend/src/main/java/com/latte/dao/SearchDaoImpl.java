@@ -23,6 +23,5 @@ public class SearchDaoImpl {
 	public List<CafeDto> searchInCafe(String query) {
 		return sqlSession.selectList(ns + "searchInCafe", query);
 	}
-	
-	
+
 }

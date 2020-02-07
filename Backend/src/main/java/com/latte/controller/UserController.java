@@ -2,11 +2,8 @@ package com.latte.controller;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.latte.dao.UserDaoImpl;
-import com.latte.dto.CafeDto;
 import com.latte.exception.AppException;
 import com.latte.model.Role;
 import com.latte.model.RoleName;
@@ -30,7 +23,6 @@ import com.latte.payload.UserInfoUpdateRequest;
 import com.latte.payload.UserRoleUpdateRequest;
 import com.latte.repository.RoleRepository;
 import com.latte.service.IUserService;
-
 import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
@@ -38,19 +30,20 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/v1")
 public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-	
+
 	@Autowired
 	RoleRepository roleRepository;
-	
+
 	@Autowired
 	IUserService userService;
-	
+
 	@ApiOperation(value = "회원 정보 수정(전화번호, 이름")
 	@PatchMapping("/userinfo")
-	public ResponseEntity<Map<String, Object>> updateUserInfo(@Valid @RequestBody UserInfoUpdateRequest request) throws Exception {
+	public ResponseEntity<Map<String, Object>> updateUserInfo(@Valid @RequestBody UserInfoUpdateRequest request)
+			throws Exception {
 		logger.info("UserController-------------updateUserInfo-------------" + new Date());
 		Map<String, Object> response = new HashMap<>();
-		
+
 		int result = userService.updateUserInfo(request);
 
 		if (result < 1) { // 등록 실패
@@ -60,29 +53,33 @@ public class UserController {
 		response.put("state", "success");
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
-	
-	
+
 	@ApiOperation(value = "회원 정보 수정(전화번호, 이름")
 	@PatchMapping("/userrole")
-	public ResponseEntity<Map<String, Object>> updateUserRole(@Valid @RequestBody UserRoleUpdateRequest request) throws Exception {
+	public ResponseEntity<Map<String, Object>> updateUserRole(@Valid @RequestBody UserRoleUpdateRequest request)
+			throws Exception {
 		logger.info("UserController-------------updateUserRole-------------" + new Date());
 		Map<String, Object> response = new HashMap<>();
-		
+
 		String role = request.getRole().toUpperCase();
 		Role userRole = null;
-		
-		if(role.equals("ADMIN")) {
-			userRole = roleRepository.findByName(RoleName.ROLE_ADMIN).orElseThrow(() -> new AppException("User Role not set."));
-		}else if(role.equals("OWNER")) {
-			userRole = roleRepository.findByName(RoleName.ROLE_OWNER).orElseThrow(() -> new AppException("User Role not set."));
-		}else if(role.equals("EDITOR")) {
-			userRole = roleRepository.findByName(RoleName.ROLE_EDITOR).orElseThrow(() -> new AppException("User Role not set."));
-		}else {
-			userRole = roleRepository.findByName(RoleName.ROLE_USER).orElseThrow(() -> new AppException("User Role not set."));
+
+		if (role.equals("ADMIN")) {
+			userRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+					.orElseThrow(() -> new AppException("User Role not set."));
+		} else if (role.equals("OWNER")) {
+			userRole = roleRepository.findByName(RoleName.ROLE_OWNER)
+					.orElseThrow(() -> new AppException("User Role not set."));
+		} else if (role.equals("EDITOR")) {
+			userRole = roleRepository.findByName(RoleName.ROLE_EDITOR)
+					.orElseThrow(() -> new AppException("User Role not set."));
+		} else {
+			userRole = roleRepository.findByName(RoleName.ROLE_USER)
+					.orElseThrow(() -> new AppException("User Role not set."));
 		}
-		
+
 		request.setRole_id(userRole.getId());
-		
+
 		int result = userService.updateUserRole(request);
 
 		if (result < 1) { // 등록 실패
@@ -92,13 +89,13 @@ public class UserController {
 		response.put("state", "success");
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
-	
+
 	@ApiOperation(value = "회원 정보 수정(전화번호, 이름")
 	@DeleteMapping("/withdrawal/{id}")
 	public ResponseEntity<Map<String, Object>> withdrawalUserAccount(@PathVariable("id") Long id) throws Exception {
 		logger.info("UserController-------------withdrawalUserAccount-------------" + new Date());
 		Map<String, Object> response = new HashMap<>();
-		
+
 		int result = userService.withdrawalUserAccount(id);
 
 		if (result < 1) { // 등록 실패

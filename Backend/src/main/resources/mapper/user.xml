@@ -3,15 +3,15 @@
 <mapper namespace="mapper.user">
 
 	<update id="updateUserInfo" parameterType="com.latte.payload.UserInfoUpdateRequest">
-		UPDATE USERS SET NAME = #{name}, PHONE = #{phone} WHERE ID = #{id}
+		update users set name = #{name}, phone = #{phone} where id = #{id}
 	</update>
 
 	<update id="withdrawalUserAccount" parameterType="java.lang.Long">
-		UPDATE USERS SET ACTIVE = FALSE WHERE ID = #{id}
+		update users set active = false where id = #{id}
 	</update>
 
 	<update id="updateUserRole" parameterType="com.latte.payload.UserRoleUpdateRequest">
-		UPDATE USER_ROLES SET ROLE_ID = #{role_id} WHERE USER_ID = #{id}
+		update user_roles set role_id = #{role_id} where user_id = #{id}
 	</update>
 
 </mapper>

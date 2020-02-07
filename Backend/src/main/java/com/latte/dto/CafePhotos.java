@@ -2,6 +2,8 @@ package com.latte.dto;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class CafePhotos implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -13,7 +15,6 @@ public class CafePhotos implements Serializable {
 
 	public CafePhotos() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public CafePhotos(Long id, Long cafe_id, String path, String file_type, int file_length) {
