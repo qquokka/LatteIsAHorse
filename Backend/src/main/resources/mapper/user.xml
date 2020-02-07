@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.user">
+
+	<update id="updateUserInfo" parameterType="com.latte.payload.UserInfoUpdateRequest">
+		UPDATE USERS SET NAME = #{name}, PHONE = #{phone} WHERE ID = #{id}
+	</update>
+
+	<update id="withdrawalUserAccount" parameterType="java.lang.Long">
+		UPDATE USERS SET ACTIVE = FALSE WHERE ID = #{id}
+	</update>
+
+	<update id="updateUserRole" parameterType="com.latte.payload.UserRoleUpdateRequest">
+		UPDATE USER_ROLES SET ROLE_ID = #{role_id} WHERE USER_ID = #{id}
+	</update>
+
+</mapper>

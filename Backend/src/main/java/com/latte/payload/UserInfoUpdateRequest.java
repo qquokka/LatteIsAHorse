@@ -1,11 +1,19 @@
 package com.latte.payload;
 
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/*
+As stated in problem, to solve this error you MUST use correct annotations. 
+In above problem, @NotBlank annotation must be applied on any String field only.
+To validate long type field, use annotation @NotNull.
+*/
 public class UserInfoUpdateRequest {
 
-	@NotBlank
+	@NotNull
 	private Long id;
 
 	@NotBlank
@@ -14,12 +22,6 @@ public class UserInfoUpdateRequest {
 	@NotBlank
 	@Size(max = 200)
 	private String phone;
-
-	@NotBlank
-	private String role;
-
-	@NotBlank
-	private Boolean active;
 
 	public Long getId() {
 		return id;
@@ -43,22 +45,6 @@ public class UserInfoUpdateRequest {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
 	}
 
 }
