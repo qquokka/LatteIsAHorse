@@ -32,8 +32,6 @@
 									<button class="btn btn-outline-secondary" type="button">변경</button>
 								</div>
 							</div>
-
-
 						</td>
 						<td>
 							<button @click="toggleUserActive(user.id)" type="button" :v-model="user.active"
