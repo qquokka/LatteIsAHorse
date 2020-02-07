@@ -13,7 +13,7 @@
       </li>
       <li class="nav-item" v-else>
         <p class="nav-link" @click="logout()">
-          <fa icon="key" /> {{ getUserName }}님 반갑습니다.
+          <fa icon="key" /> {{ getUserName() }}님 반갑습니다.
         </p>
       </li>
       <li class="nav-item" >
@@ -77,10 +77,7 @@ methods: {
       topnav.style.backgroundImage = "unset"
       topnav.style.boxShadow = "0px 0px 0px"
     }
-  }
-},
-
-computed: {
+  },
   isLoggedIn() {
     return this.$store.getters.isLoggedIn;
   },
