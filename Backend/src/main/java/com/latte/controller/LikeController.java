@@ -19,12 +19,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.latte.dto.UsersLikeCafeDto;
 import com.latte.dto.UsersLikeMenu;
 import com.latte.security.JwtTokenProvider;
-import com.latte.service.IUsersLikeMenuService;
-
-import com.latte.dto.UsersLikeCafeDto;
 import com.latte.service.IUsersLikeCafeService;
+import com.latte.service.IUsersLikeMenuService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,14 +37,12 @@ public class LikeController {
 	private static final Logger logger = LoggerFactory.getLogger(LikeController.class);
 
 	@Autowired
+	JwtTokenProvider tokenProvider;
+	@Autowired
 	IUsersLikeMenuService ulmservice;
 
 	@Autowired
 	IUsersLikeCafeService userslikecafeservice;
-
-//	@Autowired
-//	
-	JwtTokenProvider tokenProvider;
 
 	@ApiOperation(value = "DB의 모든 UsersLikeMenu 리스트 반환", response = List.class)
 	@GetMapping("/userslikemenu")
@@ -72,7 +69,6 @@ public class LikeController {
 		return new ResponseEntity<UsersLikeMenu>(ulm, HttpStatus.OK);
 	}
 
-	
 	@ApiOperation(value = " Menu_id로 좋아요 삽입(User_id 자동 삽입)", response = UsersLikeMenu.class)
 	@PostMapping("/userslikemenu/{mid}")
 //	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
@@ -85,7 +81,7 @@ public class LikeController {
 
 		Long userId = getLoggedInUserId(request);
 		if (userId != 0L) {
-		userslikemenu.setUsers_id(userId);
+			userslikemenu.setUsers_id(userId);
 		}
 
 		int result = ulmservice.addUsersLikeMenu(userslikemenu);
@@ -135,7 +131,6 @@ public class LikeController {
 		return 0L;
 	}
 
-  
 	@ApiOperation(value = "DB의 모든 UserLikeCafe 리스트 반환", response = List.class)
 	@GetMapping("/userslikecafe")
 	public ResponseEntity<List<UsersLikeCafeDto>> getUsersLikeCafeList() throws Exception {
@@ -150,7 +145,8 @@ public class LikeController {
 
 	@ApiOperation(value = "카페의 좋아요 수를 반환", response = UsersLikeCafeDto.class)
 	@GetMapping("/userslikecafe/{cafe_id}")
-	public ResponseEntity<UsersLikeCafeDto> getUsersLikeCafeByCafeId(@PathVariable("cafe_id") int cafe_id) throws Exception {
+	public ResponseEntity<UsersLikeCafeDto> getUsersLikeCafeByCafeId(@PathVariable("cafe_id") int cafe_id)
+			throws Exception {
 		logger.info("LikeController------------getUsersLikeCafeByCafeId-------------" + new Date());
 
 		UsersLikeCafeDto userslikecafe = userslikecafeservice.getUsersLikeCafeByCafeId(cafe_id);
@@ -159,5 +155,5 @@ public class LikeController {
 		}
 		return new ResponseEntity<UsersLikeCafeDto>(userslikecafe, HttpStatus.OK);
 	}
-  
+
 }
