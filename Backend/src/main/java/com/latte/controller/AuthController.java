@@ -80,6 +80,8 @@ public class AuthController {
 		
 		User user = userRepository.findByUsernameOrEmail(loginRequest.getUsernameOrEmail(), loginRequest.getUsernameOrEmail()).get();
 		
+		
+		
 		JwtAuthenticationResponse response = new JwtAuthenticationResponse(jwt);
 		response.setUsername(user.getUsername());
 		
@@ -123,7 +125,8 @@ public class AuthController {
 	
 	@GetMapping("/users")
 	@ApiOperation(value = "모든 회원 정보 가져오기")
-//	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
+
 	public ResponseEntity<List<User>> getUserList(){
 		
 		List<User> users = userRepository.findAll();
@@ -134,48 +137,61 @@ public class AuthController {
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 	
-	//회원 정보 수정(이름, 전화번호, 탈퇴처리)
-	@ApiOperation(value = "회원 정보 수정하기")
-	@PatchMapping("/user")
-	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> updateUserInfo(@Valid @RequestBody UserInfoUpdateRequest request){
-//		Integer result = userRepository.updateUserPhone(phone, id);
-		Optional<User> user = userRepository.findById(request.getId());
-		
-		ApiResponse response = new ApiResponse();
-
-		user.ifPresent(selectUser -> {
-			User newUser = null;
-			if(!request.getActive().booleanValue()) {
-				selectUser.setActive(false);
-				response.setMessage("회원 탈퇴 처리 완료");
-				newUser = userRepository.save(selectUser);
-			}else {
-				Role userRole = null;
-				
-				String role = request.getRole().toUpperCase();
-				
-				if(role.equals("ADMIN")) {
-					userRole = roleRepository.findByName(RoleName.ROLE_ADMIN).orElseThrow(() -> new AppException("User Role not set."));
-				}else if(role.equals("OWNER")) {
-					userRole = roleRepository.findByName(RoleName.ROLE_OWNER).orElseThrow(() -> new AppException("User Role not set."));
-				}else if(role.equals("EDITOR")) {
-					userRole = roleRepository.findByName(RoleName.ROLE_EDITOR).orElseThrow(() -> new AppException("User Role not set."));
-				}else {
-					userRole = roleRepository.findByName(RoleName.ROLE_USER).orElseThrow(() -> new AppException("User Role not set."));
-				}
-				
-				selectUser.setName(request.getName());
-				selectUser.setPhone(request.getPhone());
-				selectUser.setRoles(Collections.singleton(userRole));
-				newUser = userRepository.save(selectUser);
-				response.setMessage("회원 정보 수정 완료");
-			}
-		});
-		
-		response.setSuccess(true);
-		return new ResponseEntity(response, HttpStatus.OK);
-	}
+//	//회원 정보 수정(이름, 전화번호, 탈퇴처리)
+//	@ApiOperation(value = "회원 정보 수정하기")
+//	@PatchMapping("/user")
+//	@PreAuthorize("hasRole('ADMIN')")
+//	public ResponseEntity<?> updateUserInfo(@Valid @RequestBody UserInfoUpdateRequest request){
+////		Integer result = userRepository.updateUserPhone(phone, id);
+//		User user = userRepository.findById(request.getId()).get();
+//		
+//		logger.info((request.getActive() ? "ture" : "false") + "\n" +
+//					request.getName() + "\n" +
+//					request.getPhone() + "\n" +
+//					request.getRole() + "\n" +
+//					request.getId());
+//		
+////		logger.info(user.get().toString());
+//		
+//		ApiResponse response = new ApiResponse();
+//
+////		user.ifPresent(selectUser -> {
+//			User newUser = null;
+//			
+//			if(!request.getActive().booleanValue()) { //탈퇴 처리
+////				selectUser.setActive(false);
+////				response.setMessage("회원 탈퇴 처리 완료");
+////				newUser = userRepository.save(selectUser);
+//			}else {	//회원 정보 수정
+//				Role userRole = null;
+//				
+//				String role = request.getRole().toUpperCase();
+//				
+//				if(role.equals("ADMIN")) {
+//					userRole = roleRepository.findByName(RoleName.ROLE_ADMIN).orElseThrow(() -> new AppException("User Role not set."));
+//				}else if(role.equals("OWNER")) {
+//					userRole = roleRepository.findByName(RoleName.ROLE_OWNER).orElseThrow(() -> new AppException("User Role not set."));
+//				}else if(role.equals("EDITOR")) {
+//					userRole = roleRepository.findByName(RoleName.ROLE_EDITOR).orElseThrow(() -> new AppException("User Role not set."));
+//				}else {
+//					userRole = roleRepository.findByName(RoleName.ROLE_USER).orElseThrow(() -> new AppException("User Role not set."));
+//				}
+//				
+//				logger.info(userRole.toString());
+//				
+//				user.setRoles(Collections.singleton(userRole));
+//				newUser = userRepository.save(user);
+//
+////				selectUser.setName(request.getName());
+////				selectUser.setPhone(request.getPhone());
+////				logger.info("ㅇㄻㄻㄴㅇㄹㄻㅇㄹㄴ\n\n\n\nasdfafdsff" + selectUser.getRoles());
+////				logger.info("ㅇㄻㄻㄴㅇㄹㄻㅇㄹㄴ\n\n\n\nasdfafdsff" + selectUser.getRoles());
+//				response.setMessage("회원 정보 수정 완료");
+//			}
+////		});
+//		response.setSuccess(true);
+//		return new ResponseEntity(response, HttpStatus.OK);
+//	}
 	
 	//권한 변경
 //	@PostMapping("/logout")
