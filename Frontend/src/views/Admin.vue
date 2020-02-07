@@ -24,13 +24,16 @@
 						<td><p>{{ user.name }}</p></td>
 						<td><p>{{ user.phone }}</p></td>
 						<td>
-							<!-- 클릭했을 때 changeRole 함수가 실행이 안 됨 -->
-							<p>{{ user.roles[0].id }}</p>
-							<select v-model="user.roles[0].id">
-								<option v-for="role in roles" @click.prevent="changeRole(user.id, role.id)" :value="role.id" :key="role.id">
-									{{ role.name }}
-								</option>
-							</select>
+							<div class="input-group">
+								<select v-model="user.roles[0].id" class="custom-select" id="userRole" aria-label="user role select with button addon">
+									<option v-for="role in roles" :value="role.id" :key="role.id">{{ role.name }}</option>
+								</select>
+								<div class="input-group-append">
+									<button class="btn btn-outline-secondary" type="button">변경</button>
+								</div>
+							</div>
+
+
 						</td>
 						<td>
 							<button @click="toggleUserActive(user.id)" type="button" :v-model="user.active"
@@ -68,9 +71,9 @@ export default {
 		return {
 			users: [],
 			roles: [
-				{ id: 4, name: '일반 회원' },
+				{ id: 4, name: '일반회원' },
 				{ id: 7, name: '에디터' },
-				{ id: 6, name: '사장' },
+				{ id: 6, name: '사장님' },
 				{ id: 5, name: '관리자' }
 			]
 		}
@@ -92,10 +95,22 @@ export default {
 			console.log(userSelected.roles[0])
 			userSelected.roles[0] = this.roles.filter(role => role.id === roleId)[0]
 			console.log(userSelected.roles[0])
+
+
+			for (let i = 0; i < this.users.length; i++) {
+				if (this.users[i].id === userId) {
+					this.users[i].id.active = !this.users[i].id.active
+					break
+				}
+			}
 		},
 		toggleUserActive(userId) {
-			let userSelected = this.users.filter(user => user.id === userId)[0]
-			userSelected.active = !userSelected.active
+			for (let i = 0; i < this.users.length; i++) {
+				if (this.users[i].id === userId) {
+					this.users[i].id.active = !this.users[i].id.active
+					break
+				}
+			}
 		}
 	},
 	mounted() {
