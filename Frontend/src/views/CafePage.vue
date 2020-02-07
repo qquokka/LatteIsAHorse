@@ -1,8 +1,11 @@
 <template>
   <div class="container-fluid p-0">
+    <!-- global component -->
     <div v-if="selectedImage" id="imgView">
       <img :src="selectedImage" @click.stop="selectedImage = null" />
     </div>
+    <router-link id="reviewWriteBtn" :to="`/cafe/${cafeId}/posts/create`" v-if="isLogined">리뷰 쓰러가기</router-link>
+    <!-- global end-->
     <nav-bar />
     <div class="row pt-5 px-lg-3 border-0">
       <single-cafe-map :cafe="cafe" :isOpen="isOpen" class="col-12 col-lg-5 shadow" width="100%" />
@@ -113,9 +116,12 @@
           <p>{{ menu.product }}</p>
         </div>
         <div class="col-1">
-          <p>
+          <p v-if="menu.like_count">
             <fa icon="thumbs-up" style="color: skyblue" />
             {{ menu.like_count }}
+          </p>
+          <p v-else>
+            <fa icon="thumbs-up" style="color: skyblue" />0
           </p>
         </div>
         <div class="col-6">
@@ -130,37 +136,26 @@
         </div>
       </div>
     </div>
-    <hr>
-    <div class="dropdown">
-      <button class="btn btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        리뷰 쓰기
-      </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <create-post class="dropdown-item" />
-      </div>
-    </div>
-      <router-link :to="`/cafe/${cafeId}/posts/create`" v-if="isLogined">리뷰 쓰기</router-link>
+
     <hr />
-    <div v-for="review in reviews" :key="review.id">
-      <router-link :to="`/cafe/${cafeId}/review/${review.id}/`">
-        <div class="card my-3">
-          <img
-            :src="review.thumbnail"
-            class="card-img-top"
-            :alt="review.title"
-            style="width:300px;"
-          />
-          <div class="card-body">
-            <h5 class="card-title">{{ review.title }}</h5>
-            <p>작성자: {{ review.writer_name }} | {{ review.updated_at }} 작성</p>
+    <div class="container border my-3 "  v-for="review in reviews.slice().reverse()" :key="review.id">
+      <router-link   :to="`/cafe/${cafeId}/review/${review.id}/`">
+        <div class="justify-content-center px-5">
+          <h1 class="pt-5">
+            {{ review.title }}
             <button
               v-if="review.writer_name === $session.get('username')"
-              click="deleteReview(review.id)"
+              @click="deleteReview(review.id)"
+              class="btn btn-light"
             >삭제</button>
-          </div>
-          <div class="card-body">
-            <p v-html="review.content" />
-          </div>
+          </h1>
+          <h5> <fa icon="user-circle" /> {{ review.writer_name }} <span>{{ review.updated_at.slice(0,13) }}</span>  </h5>
+        </div>
+        <div class="row mt-2 px-5 justify-content-center">
+          <img :src="review.thumbnail" class="col-12 col-lg-6" @error="imgPlaceholder">
+        </div>
+        <div class="row justify-content-center p-5 mx-5">
+          <span class="mx-5 p-5" v-html="review.content"></span>
         </div>
       </router-link>
     </div>
@@ -173,7 +168,6 @@ import ICountUp from "vue-countup-v2";
 import moment from "moment";
 import NavBar from "@/components/NavBar.vue";
 import SingleCafeMap from "@/components/SingleCafeMap.vue";
-import CreatePost from "@/views/CreatePost.vue"
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faCrown,
@@ -184,7 +178,8 @@ import {
   faCalendar,
   faMugHot,
   faMoneyBill,
-  faThumbsUp
+  faThumbsUp,
+  faUserCircle
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
   faCrown,
@@ -195,7 +190,8 @@ library.add(
   faCalendar,
   faMugHot,
   faMoneyBill,
-  faThumbsUp
+  faThumbsUp,
+  faUserCircle
 );
 
 export default {
@@ -203,8 +199,7 @@ export default {
   components: {
     NavBar,
     SingleCafeMap,
-    ICountUp,
-    CreatePost
+    ICountUp
   },
   props: ["cafeId"],
   data() {
@@ -238,14 +233,13 @@ export default {
     },
     getData() {
       const config = {
-        headers: { 'Authorization': "Bearer " + this.$session.get('jwt') }
-      }
+        headers: { Authorization: "Bearer " + this.$session.get("jwt") }
+      };
       axios
-<<<<<<< HEAD
-        .get(`${this.$store.state.constants.SERVER}/cafe/detail/${this.cafeId}`)
-=======
-        .get(`${this.$store.state.constants.SERVER}/cafe/detail/${this.cafeId}`, config)
->>>>>>> 0236d6ae7db54212d11b35cfc60f54d573e6e252
+        .get(
+          `${this.$store.state.constants.SERVER}/cafe/detail/${this.cafeId}`,
+          config
+        )
         .then(response => {
           console.log("카페 데이터 ");
           console.log(response.data);
@@ -307,20 +301,20 @@ export default {
           response.data.like.forEach(elem => {
             for (let i = 0; i < this.menus.length; i++) {
               if (this.menus[i].mid === elem.menu_id) {
-                this.menus[i].userLiked = true
-                this.menus[i].likeCount = elem.like_count
-                break
-                }
+                this.menus[i].userLiked = true;
+                this.menus[i].likeCount = elem.like_count;
+                break;
+              }
             }
-          })
+          });
         })
         .catch(error => {
           console.log(error.data);
         });
 
-        // reponse.data.like.forEach(elem => {
-        //   menuselem.menuId
-        // })
+      // reponse.data.like.forEach(elem => {
+      //   menuselem.menuId
+      // })
     },
     // deleteReview(reviewId) {
     // 	axios.delete(`${this.$store.state.constants.SERVER}/post/${reviewId}`, {headers: {'Authorization': "Bearer " + this.$session.get('jwt')}})
@@ -328,17 +322,15 @@ export default {
     // 			console.log(response)
     // 		})
     // },
-<<<<<<< HEAD
-    pushLike() {}
-=======
-    pushLikeMenu(menuId, ifUserLikesMenu) {  // 좋아요 버튼을 누르는 경우엔 true, 취소할 경우엔 false
+    pushLikeMenu(menuId, ifUserLikesMenu) {
+      // 좋아요 버튼을 누르는 경우엔 true, 취소할 경우엔 false
       const config = {
-        headers: { 'Authorization': "Bearer " + this.$session.get('jwt') }
-      }
-      console.log(config, menuId)
+        headers: { Authorization: "Bearer " + this.$session.get("jwt") }
+      };
+      console.log(config, menuId);
       if (ifUserLikesMenu) {
         // 좋아요 누를 때
-        console.log('좋아요')
+        console.log("좋아요");
 
         // axios.get(`${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`, config)
         //   .then(response => {
@@ -346,29 +338,42 @@ export default {
         //   })
       } else {
         // 좋아요 취소할 때
-        console.log('싫어요');
-        
+        console.log("싫어요");
+
         // axios.get()
       }
-      
     }
->>>>>>> 0236d6ae7db54212d11b35cfc60f54d573e6e252
   },
   beforeMount() {
     this.getData();
   },
   mounted() {
     this.isLogined = this.$session.has("jwt");
-    let week = ['0','1','2','3','4','5','6'];
-    let dayofweek = week[new Date().getDay()]
-    let todayCal = document.getElementById(dayofweek);
-    console.log(todayCal);
-    todayCal.style.background = "gold !important";
+    setTimeout(() => {
+      let week = ["0", "1", "2", "3", "4", "5", "6"];
+      let dayofweek = week[new Date().getDay()];
+      let todayCal = document.getElementById(dayofweek);
+      console.log(todayCal);
+      todayCal.style.backgroundColor = "lavender";
+    }, 250);
   }
 };
 </script>
 
 <style>
+#reviewWriteBtn {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  color: black;
+  background: gold;
+  padding: 0.5rem 0.2rem;
+  border-radius: 15px;
+  z-index: 9999;
+}
+#reviewWriteBtn:hover {
+  animation: bounce 1s infinite;
+}
 #imgView {
   position: fixed;
   display: flex;
@@ -423,5 +428,28 @@ export default {
   60% {
     transform: translateY(-3px);
   }
+}
+.bg-image {
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.bg-content {
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0, 0.4); 
+  color: white;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 80%;
+  padding: 20px;
+  text-align: center;
 }
 </style>

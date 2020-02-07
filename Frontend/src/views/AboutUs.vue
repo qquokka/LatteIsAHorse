@@ -3,16 +3,16 @@
   <div class="position-relative" id="aboutus">
     <nav-bar />
   <div style="background-color: lavender; height: 100vh;">
-      <h1 style="margin-top: 0; padding-top: 20px;">Scroll down ⬇</h1>
+      <h1 style="margin-top: 0; padding-top: 20px;"> 작성 예정 ⬇</h1>
       </div>
       <div style="position: relative; z-index: 9999; background-color: #fff;">
-        <h1 style="margin:0;">Parallax Effect</h1>
+        <h1 style="margin:0;">작성예정</h1>
         <parallax>
           <img src="@/assets/img/aboutus1.jpg">
         </parallax>
       </div>
       <div style="background-color: #fff; height: 100vh;"></div>
-      <h1>Parallax fixed position </h1>
+      <h1>작성 예정</h1>
 
       <div style="position: relative;">
         <parallax :fixed="true">

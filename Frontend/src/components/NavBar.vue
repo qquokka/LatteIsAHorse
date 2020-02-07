@@ -22,7 +22,7 @@
       <li class="nav-item">
         <router-link class="nav-link" to="/cafe/1"><fa icon="coffee" /> 카페 보기</router-link>
       </li>
-      <li class="nav-item">
+      <li class="nav-item d-none">
         <router-link class="nav-link" to="/posts"><fa icon="newspaper" /> 포스트 보기</router-link>
       </li>
       <li class="nav-item">
