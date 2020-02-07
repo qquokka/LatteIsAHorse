@@ -11,10 +11,15 @@
 
 	<select id="getMenuListById" parameterType="java.lang.Integer"
 		resultType="com.latte.dto.MenuDto">
+		<!-- select mid, product, price, description, tag from menu where cafe_id 
+			= #{cafe_id} -->
 		select
-		mid, product, price, description, tag
-		from menu where
-		cafe_id = #{cafe_id}
+		m.mid, m.product, m.price, m.description, m.tag ,
+		count(ulm.like_count) like_count
+		from menu m left outer join userslikemenu ulm on
+		m.mid=ulm.menu_id and
+		m.cafe_id = #{cafe_id} group by menu_id;
+
 	</select>
 
 	<select id="getMenuById" parameterType="java.lang.Integer"
@@ -47,7 +52,7 @@
 		#{product},
 		#{price},
 		#{cafe_id},
-		#{tag}
+		#{tag})
 	</insert>
 
 	<update id="updateMenu" parameterType="com.latte.dto.MenuDto">

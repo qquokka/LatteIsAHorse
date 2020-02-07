@@ -70,7 +70,7 @@ public class PostCommentsController {
 
 	@ApiOperation(value = "post에 comment 등록", response = Map.class)
 	@PostMapping("/comments")
-	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
+//	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
 	public ResponseEntity<Map<String, Object>> addPostComments(@RequestBody PostComments comment,
 			HttpServletRequest request) throws Exception {
 		logger.info("PostCommentsController-------------Post Comment Add-------------" + new Date());

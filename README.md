@@ -7,10 +7,13 @@
 
 본 프로젝트의 Git을 클론하고 싶으시면 아래와 같이 명령어를 수행하십시오.
 ```bash
-$ git clone https://lab.ssafy.com/webmobile1-sub2/s02p12b106.git
+$ git clone https://lab.ssafy.com/webmobile1-sub2/s02p13b106.git
 ```
 
+
+
 ## Front End
+
 - Vue.js
 - Bootstrap
 - TOAST UI
@@ -22,6 +25,7 @@ $ git clone https://lab.ssafy.com/webmobile1-sub2/s02p12b106.git
 
 ## Back End
 본 프로젝트의 Back End는 Spring boot 프로젝트 기반으로 구성되어 있습니다.
+
 본 프로젝트에서 사용한 Dependency는 아래와 같습니다.
 
 - Spring Boot
@@ -45,6 +49,7 @@ Database 관련 라이브러리
 
 In `pom.xml`
 <!-- Spring Boot Web -->
+
 ```xml
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -84,7 +89,7 @@ In `pom.xml`
 ```
 <!-- Mybatis : Java object <-> DB Relation mapping framework -->
 ```xml
-     		<dependency>
+     	<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>2.1.1</version>
@@ -138,6 +143,10 @@ In `pom.xml`
 ```
 
 
+
 ### Swagger
+
 현재까지 구현된 본 프로젝트의 모든 REST API는 아래의 주소에서 확인 및 테스트 가능합니다.
 http://192.168.31.111:8080/swagger-ui.html
+
+....
