@@ -5,13 +5,13 @@
     </div>
     <nav-bar />
     <div class="row pt-5 px-lg-3 border-0">
-      <single-cafe-map :cafe="cafe" :isOpen="isOpen" class="col-12 col-lg-5" width="100%" />
+      <single-cafe-map :cafe="cafe" :isOpen="isOpen" class="col-12 col-lg-5 shadow" width="100%" />
 
       <div class="col">
         <div class="d-flex align-items-center">
           <h1 class="cafe-name-detail">{{ cafe.cafe_name }}</h1>
           <p v-if="isOpen" class="openbdg ml-2" style="font-size: 1rem;">영업중</p>
-          <p v-else style="font-size: 1rem;" class="closebdg">준비중</p>
+          <p v-else style="font-size: 1rem;" class="closebdg ml-2">준비중</p>
         </div>
         <div class="row my-1 justify-content-sm-around">
           <h6 class="text-left">
@@ -38,7 +38,6 @@
               :delay="delay"
               :endVal="2958293"
               :options="options"
-              @ready="onReady"
             />
             <span style="font-size:1rem;margin-left:0.5rem">LIKED</span>
           </h3>
@@ -50,7 +49,6 @@
               :delay="delay"
               :endVal="reviews.length"
               :options="options"
-              @ready="onReady"
             />
             <span style="font-size:1rem;margin-left:0.5rem">REVIEWED</span>
           </h3>
@@ -82,68 +80,66 @@
           />
         </div>
 
-        <div class="row">
-          <div v-for="i in 6" :key="i" class="col" :id="i">
-						<p>{{ time[i][2] }}</p>
-						<p>{{ time[i][0] }}</p>
-						<p>{{ time[i][1] }}</p>
-					</div>
+        <div class="row px-3">
+          <div class="col border-right">
+            <p class="border-bottom weekday">
+              <fa icon="calendar" />
+            </p>
+            <p>open</p>
+            <p>close</p>
+          </div>
+          <div v-for="i in time.length - 1" :key="i" class="col" :id="i">
+            <p class="weekday">{{ time[i][2] }}</p>
+            <p>{{ time[i][0] }}</p>
+            <p>{{ time[i][1] }}</p>
+          </div>
           <div class="col" :id="0">
-						<p>{{ time[0][2] }}</p>
-						<p>{{ time[0][0] }}</p>
-						<p>{{ time[0][1] }}</p>
-						</div>
+            <p
+              style="color:crimson;font-size:1.2rem;font-weight:800;border-bottom: 1px solid crimson;"
+            >{{ time[0][2] }}</p>
+            <p>{{ time[0][0] }}</p>
+            <p>{{ time[0][1] }}</p>
+          </div>
         </div>
       </div>
     </div>
-    <!-- <p>
-      <button click="pushLike">좋아요</button>
-      {{ cafe.like_count }}
-    </p>-->
-    <div
-      v-for="i in time.length"
-      :key="time[i - 1][2]"
-      class="row"
-      :class="{isToday: today === i - 1}"
-    >
-      <div class="col-2">
-        <p>{{ time[i - 1][2] }}요일</p>
-      </div>
-      <div class="col-5">
-        <p>{{ time[i - 1][0] }}</p>
-      </div>
-      <div class="col-5">
-        <p>{{ time[i - 1][1] }}</p>
-      </div>
-    </div>
+    <div class="container mt-5 px-5">
+      <h4>
+        <fa icon="mug-hot" style="color:violet" />MENU
+      </h4>
+      <hr />
+      <div v-for="menu in menus" :key="menu.id" class="row">
+        <div class="col-3 row justify-content-between">
+          <p>{{ menu.product }}</p>
+        </div>
+        <div class="col-1">
+          <p>
+            <fa icon="thumbs-up" style="color: skyblue" />
+            {{ menu.like_count }}
+          </p>
+        </div>
+        <div class="col-6">
+          <p class="text-muted">메뉴에 관한 설명이 들어갈 자리</p>
+        </div>
 
-    <hr />
-    <h2>메뉴</h2>
-    <div class="row">
-      <div class="col-2">
-        <p>메뉴</p>
-      </div>
-      <div class="col-2">
-        <p>가격</p>
+        <div class="col-2">
+          <p>
+            {{ menu.price }}
+            <fa icon="money-bill" style="color:green" />
+          </p>
+        </div>
       </div>
     </div>
-    <div v-for="menu in menus" :key="menu.id"  class="row">
-      <div class="col-2">
-        <p>{{ menu.product }}</p>
-      </div>
-      <div class="col-2">
-        <p>{{ menu.price }}</p>
-      </div>
-      <div class="col-8">
-        <p>{{ menu.description }}</p>
+    <hr>
+    <div class="dropdown">
+      <button class="btn btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        리뷰 쓰기
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <create-post class="dropdown-item" />
       </div>
     </div>
-    <hr />
-    <h2>리뷰 ({{ reviews.length }}개)</h2>
-    <hr />
-    <h3>
       <router-link :to="`/cafe/${cafeId}/posts/create`" v-if="isLogined">리뷰 쓰기</router-link>
-    </h3>
     <hr />
     <div v-for="review in reviews" :key="review.id">
       <router-link :to="`/cafe/${cafeId}/review/${review.id}/`">
@@ -177,20 +173,29 @@ import ICountUp from "vue-countup-v2";
 import moment from "moment";
 import NavBar from "@/components/NavBar.vue";
 import SingleCafeMap from "@/components/SingleCafeMap.vue";
+import CreatePost from "@/views/CreatePost.vue"
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faCrown,
   faPhoneSquare,
   faShoppingBasket,
   faHeartbeat,
-  faEnvelopeOpenText
+  faEnvelopeOpenText,
+  faCalendar,
+  faMugHot,
+  faMoneyBill,
+  faThumbsUp
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
   faCrown,
   faPhoneSquare,
   faShoppingBasket,
   faHeartbeat,
-  faEnvelopeOpenText
+  faEnvelopeOpenText,
+  faCalendar,
+  faMugHot,
+  faMoneyBill,
+  faThumbsUp
 );
 
 export default {
@@ -198,7 +203,8 @@ export default {
   components: {
     NavBar,
     SingleCafeMap,
-    ICountUp
+    ICountUp,
+    CreatePost
   },
   props: ["cafeId"],
   data() {
@@ -303,10 +309,13 @@ export default {
     this.getData();
   },
   mounted() {
-		this.isLogined = this.$session.has("jwt");
-		let todayCal = document.getElementById(today)
-		todayCal.style.background = "gold !important"
-	},
+    this.isLogined = this.$session.has("jwt");
+    let week = ['0','1','2','3','4','5','6'];
+    let dayofweek = week[new Date().getDay()]
+    let todayCal = document.getElementById(dayofweek);
+    console.log(todayCal);
+    todayCal.style.background = "gold !important";
+  }
 };
 </script>
 
@@ -345,6 +354,11 @@ export default {
 }
 .bouncer {
   animation: bounce ease infinite 3s;
+}
+.weekday {
+  font-weight: 650;
+  font-size: 1.2rem;
+  border-bottom: 1px solid lightgray;
 }
 @keyframes bounce {
   0%,

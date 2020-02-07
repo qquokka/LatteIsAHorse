@@ -69,6 +69,7 @@ export default {
           'password': this.pw.password,
           'username': this.nickname
         }
+        console.log(credentials)
         axios.post(`${this.$store.state.constants.SERVER}/signup`, credentials)
           .then(response => {
               console.log(response.data.message)
