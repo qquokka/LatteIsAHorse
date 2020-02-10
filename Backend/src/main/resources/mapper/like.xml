@@ -2,6 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.like">
 
+	<!-- DB의 모든 UserLikeCafe 리스트 반환 -->
+	<select id="getUsersLikeCafeList"
+		resultType="userslikecafe">
+		select id, users_id, cafe_id, like_count
+		from userslikecafe
+	</select>
+
+	<!-- 카페의 좋아요 수를 반환 -->
+	<select id="getUsersLikeCafeByCafeId" parameterType="java.lang.Integer"
+		resultType="userslikecafe">
+		select cafe_id, count(like_count) like_count
+		from userslikecafe
+		where cafe_id=#{cafe_id}
+	</select>
+
+	<!-- 카페의 좋아요를 누름  -->
+	<insert id="addUsersLikeCafe"
+		parameterType="userslikecafe">
+		insert into userslikecafe
+		(users_id, cafe_id) values
+		(#{users_id}, #{cafe_id})
+	</insert>
+
+	<!-- 카페의 좋아요를 취소 -->
+	<delete id="deleteUsersLikeCafe"
+		parameterType="userslikecafe">
+		delete from userslikecafe where
+		users_id=#{users_id} and
+		cafe_id=#{cafe_id}
+	</delete>
+
+
 	<select id="getUsersLikeMenuList"
 		resultType="userslikemenu">
 		select * from userslikemenu
@@ -39,38 +71,6 @@
 	<delete id="deleteLikeByUserIdNMenuId"
 		parameterType="userslikemenu">
 		delete from userslikemenu where
-		users_id=#{users_id} and
-		menu_id=#{menu_id}
-	</delete>
-
-
-	<!-- DB의 모든 UserLikeCafe 리스트 반환 -->
-	<select id="getUsersLikeCafeList"
-		resultType="userslikecafe">
-		select id, users_id, cafe_id, like_count
-		from userslikecafe
-	</select>
-
-	<!-- 카페의 좋아요 수를 반환 -->
-	<select id="getUsersLikeCafeByCafeId" parameterType="java.lang.Integer"
-		resultType="userslikecafe">
-		select cafe_id, count(like_count) like_count
-		from userslikecafe
-		where cafe_id=#{cafe_id}
-	</select>
-
-	<!-- 카페의 좋아요를 누름  -->
-	<insert id="addUsersLikeCafe"
-		parameterType="com.latte.dto.UsersLikeCafeDto">
-		insert into userslikecafe
-		(users_id, cafe_id) values
-		(#{users_id}, #{cafe_id})
-	</insert>
-
-	<!-- 카페의 좋아요를 취소 -->
-	<delete id="deleteUsersLikeCafe"
-		parameterType="com.latte.dto.UsersLikeCafeDto">
-		delete from userslikecafe where
 		users_id=#{users_id} and
 		menu_id=#{menu_id}
 	</delete>
