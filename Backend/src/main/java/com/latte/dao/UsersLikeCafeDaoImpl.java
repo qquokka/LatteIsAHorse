@@ -26,13 +26,13 @@ public class UsersLikeCafeDaoImpl {
 	}
 
 	// 좋아요 누름
-	public int addUsersLikeCafe(UsersLikeCafeDto users_id) {
-		return sqlSession.insert(ns + "addUsersLikeCafe", users_id);
+	public int addUsersLikeCafe(UsersLikeCafeDto userslikecafe) {
+		return sqlSession.insert(ns + "addUsersLikeCafe", userslikecafe);
 	}
 
 	// 좋아요 취소
-	public int deleteUsersLikeCafe(Long users_id) {
-		return sqlSession.delete(ns + "deleteUsersLikeCafe", users_id);
+	public int deleteUsersLikeCafe(UsersLikeCafeDto userslikecafe) {
+		return sqlSession.delete(ns + "deleteUsersLikeCafe", userslikecafe);
 	}
 	
 }
