@@ -15,11 +15,13 @@
 		<typeAlias type="com.latte.model.post.PostPhotos"
 			alias="postPhotos" />
 		<typeAlias type="com.latte.dto.CafeDto" alias="cafe" />
-		<!-- <typeAlias type="com.latte.dto.Coupon" alias="coupon" /> -->
 		<typeAlias type="com.latte.dto.UsersLikeMenu"
 			alias="userslikemenu" />
 		<typeAlias type="com.latte.dto.UsersLikeCafeDto"
 			alias="userslikecafe" />
+		<typeAlias type="com.latte.dto.UsersLikePost"
+			alias="userslikepost" />
+		<!-- <typeAlias type="com.latte.dto.Coupon" alias="coupon" /> -->
 	</typeAliases>
 
 </configuration>

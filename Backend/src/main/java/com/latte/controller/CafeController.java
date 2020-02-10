@@ -38,7 +38,6 @@ import io.swagger.annotations.ApiOperation;
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("/v1")
-
 @Api(value = "Cafe APIs", description = "Cafe APIs")
 public class CafeController {
 	private static final Logger logger = LoggerFactory.getLogger(CafeController.class);
