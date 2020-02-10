@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.latte.property.FileUploadProperties;
 
+import io.swagger.annotations.Api;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/v1")
+@Api(value = "Test APIs",description = "Test APIs")
 public class TestController {
 	@Autowired
 	FileUploadProperties prop;
