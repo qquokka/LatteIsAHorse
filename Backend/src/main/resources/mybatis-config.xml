@@ -21,7 +21,8 @@
 			alias="userslikecafe" />
 		<typeAlias type="com.latte.dto.UsersLikePost"
 			alias="userslikepost" />
-		<!-- <typeAlias type="com.latte.dto.Coupon" alias="coupon" /> -->
+		<typeAlias type="com.latte.dto.Coupon" alias="coupon" />
+		<typeAlias type="com.latte.dto.QRCode" alias="qrcode" />
 	</typeAliases>
 
 </configuration>
