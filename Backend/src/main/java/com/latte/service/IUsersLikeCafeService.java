@@ -12,9 +12,9 @@ public interface IUsersLikeCafeService {
 	UsersLikeCafeDto getUsersLikeCafeByCafeId(int cafe_id);
 
 	// 좋아요 누름
-	int addUsersLikeCafe(UsersLikeCafeDto users_id);
+	int addUsersLikeCafe(UsersLikeCafeDto userslikecafe);
 
 	// 좋아요 취소
-	int deleteUsersLikeCafe(Long users_id);
+	int deleteUsersLikeCafe(UsersLikeCafeDto userslikecafe);
 
 }

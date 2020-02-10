@@ -28,13 +28,13 @@ public class UsersLikeCafeServiceImpl implements IUsersLikeCafeService {
 	}
 
 	@Override
-	public int addUsersLikeCafe(UsersLikeCafeDto users_id) {
-		return userslikecafeDao.addUsersLikeCafe(users_id);
+	public int addUsersLikeCafe(UsersLikeCafeDto userslikecafe) {
+		return userslikecafeDao.addUsersLikeCafe(userslikecafe);
 	}
 
 	@Override
-	public int deleteUsersLikeCafe(Long users_id) {
-		return userslikecafeDao.deleteUsersLikeCafe(users_id);
+	public int deleteUsersLikeCafe(UsersLikeCafeDto userslikecafe) {
+		return userslikecafeDao.deleteUsersLikeCafe(userslikecafe);
 	}
 
 }

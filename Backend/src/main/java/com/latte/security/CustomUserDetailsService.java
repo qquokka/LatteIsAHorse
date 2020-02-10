@@ -11,29 +11,26 @@ import com.latte.model.User;
 import com.latte.repository.UserRepository;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService{
+public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-		//Let people login with either username or email
-		User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
-				.orElseThrow(() ->
-					new UsernameNotFoundException("User not found with username or email : " + usernameOrEmail));
-		
+		// Let people login with either username or email
+		User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail).orElseThrow(
+				() -> new UsernameNotFoundException("User not found with username or email : " + usernameOrEmail));
+
 		return UserPrincipal.create(user);
 	}
-	
-	
-	//This method is used by JWTAuthenticationFilter
+
+	// This method is used by JWTAuthenticationFilter
 	@Transactional
 	public UserDetails loadUserById(Long id) {
-		User user = userRepository.findById(id).orElseThrow(
-				() -> new UsernameNotFoundException("User not found with id : " + id)
-		);
-		
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + id));
+
 		return UserPrincipal.create(user);
 	}
 

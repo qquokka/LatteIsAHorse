@@ -3,6 +3,7 @@ package com.latte.model;
 import java.io.Serializable;
 
 public class UserLocation implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private Double longitude;
 	private Double latitude;
 	private Integer level;

@@ -18,7 +18,7 @@ import com.latte.property.FileUploadProperties;
 public class TestController {
 	@Autowired
 	FileUploadProperties prop;
-	
+
 	@GetMapping("/all")
 	public String allAccess() {
 		return "Public Content.";
@@ -41,7 +41,7 @@ public class TestController {
 	public String adminAccess() {
 		return "Admin Board.";
 	}
-	
+
 	@GetMapping("/path")
 	public String filePath() {
 		Path fileLocation = Paths.get(prop.getUploadDir()).toAbsolutePath().normalize();

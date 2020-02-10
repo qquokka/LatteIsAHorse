@@ -19,6 +19,5 @@ public class MapDaoImpl {
 	public List<CafeDto> getCafesByUserLocation(UserLocation location) {
 		return sqlSession.selectList(ns + "getCafesByUserLocation", location);
 	}
-	
-	
+
 }

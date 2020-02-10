@@ -13,7 +13,7 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	UserDaoImpl userDao;
-	
+
 	@Override
 	@Transactional
 	public int updateUserInfo(UserInfoUpdateRequest request) {
@@ -30,5 +30,5 @@ public class UserServiceImpl implements IUserService {
 	public int updateUserRole(UserRoleUpdateRequest request) {
 		return userDao.updateUserRole(request);
 	}
-	
+
 }

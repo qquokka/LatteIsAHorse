@@ -14,7 +14,7 @@ public class UserDaoImpl {
 
 	@Autowired
 	private SqlSession sqlSession;
-	
+
 	public int updateUserInfo(UserInfoUpdateRequest request) {
 		return sqlSession.update(ns + "updateUserInfo", request);
 	}

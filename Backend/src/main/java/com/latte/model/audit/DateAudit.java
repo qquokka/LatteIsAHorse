@@ -3,7 +3,9 @@ package com.latte.model.audit;
 import java.io.Serializable;
 import java.time.Instant;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EntityListeners;
+import javax.persistence.MappedSuperclass;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -13,11 +15,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(
-		value = {"createdAt", "updatedAt"},
-		allowGetters = true
-)
+@JsonIgnoreProperties(value = { "createdAt", "updatedAt" }, allowGetters = true)
 public class DateAudit implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@CreatedDate
 	@Column(nullable = false, updatable = false)
