@@ -62,14 +62,6 @@ export default {
     ...mapGetters(["options", "user"])
   },
   methods: {
-    isLogin() {
-      this.$session.start();
-      if (!this.$session.has("jwt")) {
-        this.$router.push("/login");
-      } else {
-        this.$store.dispatch("login", this.$session.get("jwt"));
-      }
-    }
   },
   beforeMount() {
     axios.get(`${this.$store.state.constants.SERVER}/cafe`)
