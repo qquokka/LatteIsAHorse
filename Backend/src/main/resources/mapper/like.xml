@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.like">
 
+
+	<select id="getUsersLikeMenuList" resultType="userslikemenu">
+		select * from
+		userslikemenu
+
 	<!-- DB의 모든 UserLikeCafe 리스트 반환 -->
 	<select id="getUsersLikeCafeList"
 		resultType="userslikecafe">
@@ -37,14 +42,13 @@
 	<select id="getUsersLikeMenuList"
 		resultType="userslikemenu">
 		select * from userslikemenu
-
 	</select>
 
 	<!-- 메뉴 고유 id 에 대한 카운트 값을 돌려줌. 고로 업데이트시 리스폰스 해줄 예정 -->
 	<select id="getUsersLikeMenuCountBymenuId"
-		parameterType="java.lang.Integer"
-		resultType="userslikemenu">
-		select m.mid menu_id, count(ulm.like_count) like_count from
+		parameterType="java.lang.Integer" resultType="userslikemenu">
+		select m.mid menu_id,
+		count(ulm.like_count) like_count from
 		menu m join
 		userslikemenu ulm on
 		m.mid=ulm.menu_id and m.mid = #{mid}
@@ -78,6 +82,7 @@
 		users_id=#{users_id} and
 		menu_id=#{menu_id}
 	</delete>
+
 
 
 	<!-- 해당 Post에 눌린 모든 좋아요 리스트 반환 -->
