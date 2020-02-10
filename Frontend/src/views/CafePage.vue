@@ -7,16 +7,16 @@
     <router-link id="reviewWriteBtn" :to="`/cafe/${cafeId}/posts/create`" v-if="isLogined">리뷰 쓰러가기</router-link>
     <!-- global end-->
     <nav-bar />
-    <div class="row pt-5 px-lg-3 border-0">
-      <single-cafe-map :cafe="cafe" :isOpen="isOpen" class="col-12 col-lg-5 shadow" width="100%" />
+    <div class="row mt-0 mt-lg-5 mx-lg-3 border-0">
+      <single-cafe-map :cafe="cafe" :isOpen="isOpen" class="col-12 col-lg-5 shadow w-100  " />
 
       <div class="col">
-        <div class="d-flex align-items-center">
+        <div class="align-items-center d-none d-lg-flex">
           <h1 class="cafe-name-detail">{{ cafe.cafe_name }}</h1>
           <p v-if="isOpen" class="openbdg ml-2" style="font-size: 1rem;">영업중</p>
           <p v-else style="font-size: 1rem;" class="closebdg ml-2">준비중</p>
         </div>
-        <div class="row my-1 justify-content-sm-around">
+        <div class="row mt-3 mt-lg-1 justify-content-between">
           <h6 class="text-left">
             <fa style="color:gold;margin-right:0.5rem" icon="crown" />대표자명:
             <span class="text-muted">미등록</span>
@@ -33,19 +33,19 @@
           </h6>
         </div>
 
-        <div class="row justify-content-center">
-          <h3 class="mr-5">
+        <div class="row justify-content-start pl-lg-5">
+          <h3 class="px-2 mr-lg-5">
             <fa class="mr-2 bouncer" style="color: royalblue" icon="heartbeat" />
             <ICountUp
               style="font-family:monospaced"
               :delay="delay"
-              :endVal="2958293"
+              :endVal="29593"
               :options="options"
             />
-            <span style="font-size:1rem;margin-left:0.5rem">LIKED</span>
+            <span style="font-size:1rem">LIKED</span>
           </h3>
 
-          <h3 class="ml-5">
+          <h3 class="ml-lg-5">
             <fa class="mr-2" style="color: orange" icon="envelope-open-text" />
             <ICountUp
               style="font-family:monospaced"
@@ -154,8 +154,8 @@
         <div class="row mt-2 px-5 justify-content-center">
           <img :src="review.thumbnail" class="col-12 col-lg-8" @error="imgPlaceholder">
         </div>
-        <div class="row justify-content-center p-5 mx-5">
-          <span class="mx-5 p-5" v-html="review.content"></span>
+        <div class="row justify-content-center">
+          <span class="col-12 col-lg-6 my-5" v-html="review.content"></span>
         </div>
       </router-link>
     </div>
