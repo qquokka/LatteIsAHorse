@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.qrcode">
+
+	<insert id="addQRCode" parameterType="qrcode">
+	  insert into qrcode (cafe_id, time_stamp, code)
+	  values (#{cafe_id}, now(), #{code})
+	</insert>
+	
+	<delete id="deleteQRCode" parameterType="qrcode">
+		delete from qrcode 
+		where cafe_id = #{cafe_id} and code = #{code} 
+	</delete>
+	
+	
+</mapper>

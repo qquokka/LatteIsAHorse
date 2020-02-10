@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/v1")
-@Api(value = "Map APIs")
+@Api(value = "Map APIs", description = "Map APIs")
 public class MapController {
 	private static final Logger logger = LoggerFactory.getLogger(MapController.class);
 
@@ -35,7 +35,7 @@ public class MapController {
 	public ResponseEntity<List<CafeDto>> getCafesByUserLocation(@RequestBody UserLocation location) throws Exception {
 		logger.info("MapController-------------Get near cafe list by current user location-------------" + new Date());
 
-		//Converting level value to meter
+		// Converting level value to meter
 		location.setMeter(convertLeveltoKilioMeter(location.getLevel()));
 		logger.info("Level : " + location.getLevel());
 		logger.info("Latitude : " + location.getLatitude());
@@ -45,26 +45,46 @@ public class MapController {
 		if (cafes == null || cafes.size() == 0) {
 			return new ResponseEntity<List<CafeDto>>(cafes, HttpStatus.NO_CONTENT);
 		}
-		
+
 		return new ResponseEntity<List<CafeDto>>(cafes, HttpStatus.OK);
 	}
 
 	private double convertLeveltoKilioMeter(Integer level) {
 		double meter = 0;
-		
+
 		switch (level.intValue()) {
-			case(17) :meter= 0.05; break;
-			case(16) :meter= 0.1; break;
-			case(15) :meter= 0.2; break;
-			case(14) :meter= 0.5 ; break;
-			case(13) :meter= 1; break;
-			case(12) :meter= 2; break;
-			case(11) :meter= 2; break;
-			case(10) :meter= 5; break;
-			case(9)	 :meter= 10; break;
-			case(8)  :meter= 20;  break;
+		case (17):
+			meter = 0.05;
+			break;
+		case (16):
+			meter = 0.1;
+			break;
+		case (15):
+			meter = 0.2;
+			break;
+		case (14):
+			meter = 0.5;
+			break;
+		case (13):
+			meter = 1;
+			break;
+		case (12):
+			meter = 2;
+			break;
+		case (11):
+			meter = 2;
+			break;
+		case (10):
+			meter = 5;
+			break;
+		case (9):
+			meter = 10;
+			break;
+		case (8):
+			meter = 20;
+			break;
 		}
-		
+
 		return meter;
 	}
 }

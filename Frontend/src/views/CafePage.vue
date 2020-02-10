@@ -117,7 +117,7 @@
         </div>
         <div class="col-1">
           <p v-if="menu.like_count">
-            <fa icon="thumbs-up" :style="menu.userLiked?{color: 'skyblue'}:{color:'gray'}" style="cursor:pointer" @click="menu.userLiked?pushLikeMenu(menu.mid, menu.userLiked):pushLikeMenu(menu.mid, !menu.userLiked)"/>
+            <fa icon="thumbs-up" :style="menu.userLiked?{color: 'skyblue'}:{color:'gray'}" style="cursor:pointer" @click="menu.userLiked?pushLikeMenu(menu.mid, !menu.userLiked):pushLikeMenu(menu.mid, !menu.userLiked)"/>
             {{ menu.like_count }}
           </p>
         </div>
@@ -332,7 +332,7 @@ export default {
         // 좋아요 누를 때
         console.log("좋아요");
 
-        axios.post(`${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`, config)
+        axios.post(`${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`, {}, config)
           .then(response => {
             console.log(response.data)
             for (let i = 0; i < this.menus.length; i++) {

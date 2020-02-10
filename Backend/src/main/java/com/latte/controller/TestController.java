@@ -12,13 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.latte.property.FileUploadProperties;
 
+import io.swagger.annotations.Api;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/v1")
+@Api(value = "Test APIs",description = "Test APIs")
 public class TestController {
 	@Autowired
 	FileUploadProperties prop;
-	
+
 	@GetMapping("/all")
 	public String allAccess() {
 		return "Public Content.";
@@ -41,7 +44,7 @@ public class TestController {
 	public String adminAccess() {
 		return "Admin Board.";
 	}
-	
+
 	@GetMapping("/path")
 	public String filePath() {
 		Path fileLocation = Paths.get(prop.getUploadDir()).toAbsolutePath().normalize();

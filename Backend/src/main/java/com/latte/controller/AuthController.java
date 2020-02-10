@@ -1,18 +1,11 @@
 package com.latte.controller;
 
-import com.latte.exception.AppException;
-import com.latte.model.Role;
-import com.latte.model.RoleName;
-import com.latte.model.User;
-import com.latte.payload.ApiResponse;
-import com.latte.payload.JwtAuthenticationResponse;
-import com.latte.payload.LoginRequest;
-import com.latte.payload.SignUpRequest;
-import com.latte.repository.RoleRepository;
-import com.latte.repository.UserRepository;
-import com.latte.security.JwtTokenProvider;
+import java.net.URI;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
-import io.swagger.annotations.ApiOperation;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,15 +26,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import com.latte.exception.AppException;
+import com.latte.model.Role;
+import com.latte.model.RoleName;
+import com.latte.model.User;
+import com.latte.payload.ApiResponse;
+import com.latte.payload.JwtAuthenticationResponse;
+import com.latte.payload.LoginRequest;
+import com.latte.payload.SignUpRequest;
+import com.latte.repository.RoleRepository;
+import com.latte.repository.UserRepository;
+import com.latte.security.JwtTokenProvider;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("/v1")
+@Api(value = "Auth APIs", description = "Auth APIs")
 public class AuthController {
 	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
@@ -75,6 +78,8 @@ public class AuthController {
 		String jwt = tokenProvider.generateToken(authentication);
 		
 		User user = userRepository.findByUsernameOrEmail(loginRequest.getUsernameOrEmail(), loginRequest.getUsernameOrEmail()).get();
+		
+		
 		
 		JwtAuthenticationResponse response = new JwtAuthenticationResponse(jwt);
 		response.setUsername(user.getUsername());
@@ -119,7 +124,8 @@ public class AuthController {
 	
 	@GetMapping("/users")
 	@ApiOperation(value = "모든 회원 정보 가져오기")
-	@PreAuthorize("hasAnyRole({'ADMIN'})")
+	@PreAuthorize("hasRole('ADMIN')")
+
 	public ResponseEntity<List<User>> getUserList(){
 		
 		List<User> users = userRepository.findAll();
@@ -129,6 +135,64 @@ public class AuthController {
 		
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
+	
+//	//회원 정보 수정(이름, 전화번호, 탈퇴처리)
+//	@ApiOperation(value = "회원 정보 수정하기")
+//	@PatchMapping("/user")
+//	@PreAuthorize("hasRole('ADMIN')")
+//	public ResponseEntity<?> updateUserInfo(@Valid @RequestBody UserInfoUpdateRequest request){
+////		Integer result = userRepository.updateUserPhone(phone, id);
+//		User user = userRepository.findById(request.getId()).get();
+//		
+//		logger.info((request.getActive() ? "ture" : "false") + "\n" +
+//					request.getName() + "\n" +
+//					request.getPhone() + "\n" +
+//					request.getRole() + "\n" +
+//					request.getId());
+//		
+////		logger.info(user.get().toString());
+//		
+//		ApiResponse response = new ApiResponse();
+//
+////		user.ifPresent(selectUser -> {
+//			User newUser = null;
+//			
+//			if(!request.getActive().booleanValue()) { //탈퇴 처리
+////				selectUser.setActive(false);
+////				response.setMessage("회원 탈퇴 처리 완료");
+////				newUser = userRepository.save(selectUser);
+//			}else {	//회원 정보 수정
+//				Role userRole = null;
+//				
+//				String role = request.getRole().toUpperCase();
+//				
+//				if(role.equals("ADMIN")) {
+//					userRole = roleRepository.findByName(RoleName.ROLE_ADMIN).orElseThrow(() -> new AppException("User Role not set."));
+//				}else if(role.equals("OWNER")) {
+//					userRole = roleRepository.findByName(RoleName.ROLE_OWNER).orElseThrow(() -> new AppException("User Role not set."));
+//				}else if(role.equals("EDITOR")) {
+//					userRole = roleRepository.findByName(RoleName.ROLE_EDITOR).orElseThrow(() -> new AppException("User Role not set."));
+//				}else {
+//					userRole = roleRepository.findByName(RoleName.ROLE_USER).orElseThrow(() -> new AppException("User Role not set."));
+//				}
+//				
+//				logger.info(userRole.toString());
+//				
+//				user.setRoles(Collections.singleton(userRole));
+//				newUser = userRepository.save(user);
+//
+////				selectUser.setName(request.getName());
+////				selectUser.setPhone(request.getPhone());
+////				logger.info("ㅇㄻㄻㄴㅇㄹㄻㅇㄹㄴ\n\n\n\nasdfafdsff" + selectUser.getRoles());
+////				logger.info("ㅇㄻㄻㄴㅇㄹㄻㅇㄹㄴ\n\n\n\nasdfafdsff" + selectUser.getRoles());
+//				response.setMessage("회원 정보 수정 완료");
+//			}
+////		});
+//		response.setSuccess(true);
+//		return new ResponseEntity(response, HttpStatus.OK);
+//	}
+	
+	//권한 변경
 //	@PostMapping("/logout")
 //	public Resp
 }

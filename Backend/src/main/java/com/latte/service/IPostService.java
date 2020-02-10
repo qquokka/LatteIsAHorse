@@ -49,11 +49,9 @@ public interface IPostService {
 	int updatePostComments(PostComments comment);
 
 	int deletePostComments(Long id);
-	
-	//----------------jw add------------------------
-	
+
+	// ----------------jw add------------------------
+
 	List<PostComments> getAllPostComments();
-	
-	
 
 }

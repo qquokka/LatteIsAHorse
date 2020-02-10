@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("/v1")
-@Api(value = "Search APIs")
+@Api(value = "Search APIs", description = "Search APIs")
 public class SearchController {
 	// post title, 주소, 가장 가까운,최신순, 좋아요순, 카페 이름
 	private static final Logger logger = LoggerFactory.getLogger(SearchController.class);

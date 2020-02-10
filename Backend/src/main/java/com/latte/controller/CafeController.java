@@ -6,11 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -21,10 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.latte.dto.CafeDto;
 import com.latte.dto.MenuDto;
+import com.latte.dto.UsersLikeMenu;
 import com.latte.model.post.Post;
+import com.latte.security.JwtTokenProvider;
 import com.latte.service.ICafeService;
 import com.latte.service.IMenuService;
 import com.latte.service.IPostService;
+import com.latte.service.IUsersLikeMenuService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,8 +38,7 @@ import io.swagger.annotations.ApiOperation;
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("/v1")
-
-@Api(value = "LATTE", description = "Cafe APIs")
+@Api(value = "Cafe APIs", description = "Cafe APIs")
 public class CafeController {
 	private static final Logger logger = LoggerFactory.getLogger(CafeController.class);
 
@@ -45,6 +50,12 @@ public class CafeController {
 
 	@Autowired
 	IPostService postservice;
+
+	@Autowired
+	IUsersLikeMenuService ulmservice;
+
+	@Autowired
+	JwtTokenProvider tokenProvider;
 
 	@ApiOperation(value = "DB의 모든 Cafe 리스트 반환", response = List.class)
 	@GetMapping("/cafe")
@@ -73,32 +84,45 @@ public class CafeController {
 	// Cafe info, menu, posts, comments return
 	@ApiOperation(value = "해당 cafe_id 에 대한 모든 정보 반환", response = Map.class)
 	@GetMapping("/cafe/detail/{cafe_id}")
-	public ResponseEntity<Map<String, Object>> getAllInfoByCafeId(@PathVariable("cafe_id") int cafe_id)
-			throws Exception {
+	public ResponseEntity<Map<String, Object>> getAllInfoByCafeId(@PathVariable("cafe_id") int cafe_id,
+			HttpServletRequest request) throws Exception {
 		logger.info("CafeController------------getAllInfoByCafeId-------------" + new Date());
 		CafeDto cafeInfo = cafeservice.getCafeById(cafe_id);
 		List<MenuDto> menuList = menuservice.getMenuListById(cafe_id);
 		List<Post> postList = postservice.getPostListByCafeId(cafe_id);
+
+		UsersLikeMenu userslikemenu = new UsersLikeMenu();
+
+		userslikemenu.setCafe_id(cafe_id);
+
+		Long users_id = getLoggedInUserId2(request);
+
+		if (users_id != 0L) {
+			userslikemenu.setUsers_id(users_id);
+		}
+
+		List<UsersLikeMenu> ulmlist = ulmservice.getUsersLikeMenuByCafeIdNUserId(userslikemenu);
 		Map<String, Object> response = new HashMap<>();
-		
+
 		if (cafeInfo != null) {
 			response.put("cafeinfo", cafeInfo);
-			//Generate Cafe's Time Table
-			Instant[][] time = {
-					{cafeInfo.getSun_open(), cafeInfo.getSun_close()},
-					{cafeInfo.getMon_open(), cafeInfo.getMon_close()},
-					{cafeInfo.getThu_open(), cafeInfo.getTue_close()},
-					{cafeInfo.getWed_open(), cafeInfo.getWed_close()},
-					{cafeInfo.getThu_open(), cafeInfo.getTue_close()},
-					{cafeInfo.getFri_open(), cafeInfo.getFri_close()},
-					{cafeInfo.getSat_open(), cafeInfo.getSat_close()}
-			};
+			// Generate Cafe's Time Table
+			Instant[][] time = { { cafeInfo.getSun_open(), cafeInfo.getSun_close() },
+					{ cafeInfo.getMon_open(), cafeInfo.getMon_close() },
+					{ cafeInfo.getThu_open(), cafeInfo.getTue_close() },
+					{ cafeInfo.getWed_open(), cafeInfo.getWed_close() },
+					{ cafeInfo.getThu_open(), cafeInfo.getTue_close() },
+					{ cafeInfo.getFri_open(), cafeInfo.getFri_close() },
+					{ cafeInfo.getSat_open(), cafeInfo.getSat_close() } };
 			response.put("time", time);
 			if (menuList != null) {
 				response.put("menu", menuList);
 			}
 			if (postList != null) {
 				response.put("post", postList);
+			}
+			if (ulmlist != null) {
+				response.put("like", ulmlist);
 			}
 		} else {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
@@ -120,5 +144,18 @@ public class CafeController {
 		}
 		response.put("state", "success");
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+
+	// ---------------------------------------------------
+	// check header from request and parse JWT Token
+	private Long getLoggedInUserId2(HttpServletRequest request) {
+		String bearerToken = request.getHeader("Authorization");
+		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+			String jwt = bearerToken.substring(7, bearerToken.length());
+			if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+				return tokenProvider.getUserIdFromJWT(jwt);
+			}
+		}
+		return 0L;
 	}
 }
