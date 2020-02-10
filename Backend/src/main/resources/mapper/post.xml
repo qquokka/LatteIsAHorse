@@ -11,7 +11,8 @@
 		as writer_name,
 		p.cafe_id
 		from posts p, users u
-		where p.writer_id = u.id order by
+		where p.writer_id = u.id
+		order by
 		updated_at desc
 	</select>
 
