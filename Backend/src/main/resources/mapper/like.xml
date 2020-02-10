@@ -37,6 +37,7 @@
 	<select id="getUsersLikeMenuList"
 		resultType="userslikemenu">
 		select * from userslikemenu
+
 	</select>
 
 	<!-- 메뉴 고유 id 에 대한 카운트 값을 돌려줌. 고로 업데이트시 리스폰스 해줄 예정 -->
@@ -45,25 +46,28 @@
 		resultType="userslikemenu">
 		select m.mid menu_id, count(ulm.like_count) like_count from
 		menu m join
-		userslikemenu ulm on m.mid=ulm.menu_id and m.mid = #{mid}
+		userslikemenu ulm on
+		m.mid=ulm.menu_id and m.mid = #{mid}
 		group by
 		menu_id
 	</select>
 
 	<!-- cafecontroller에서만 사용!!!!!! detail에사용되며 완벽작동함. 에러시 로그인 세션이 풀린거 체크!... -->
 	<select id="getUsersLikeMenuByCafeIdNUserId"
-		parameterType="userslikemenu"
-		resultType="userslikemenu">
-		select m.mid menu_id, count(ulm.like_count) like_count from
+		parameterType="userslikemenu" resultType="userslikemenu">
+		select m.mid menu_id,
+		count(ulm.like_count) like_count from
 		menu m join
-		userslikemenu ulm on m.mid=ulm.menu_id and m.cafe_id =
+		userslikemenu ulm on
+		m.mid=ulm.menu_id and m.cafe_id =
 		#{cafe_id} and
-		ulm.users_id =#{users_id} group by menu_id
+		ulm.users_id
+		=#{users_id} group by menu_id
 	</select>
 
-	<insert id="addUsersLikeMenu"
-		parameterType="userslikemenu">
-		insert into userslikemenu
+	<insert id="addUsersLikeMenu" parameterType="userslikemenu">
+		insert into
+		userslikemenu
 		(users_id, menu_id) values
 		(#{users_id},#{menu_id})
 	</insert>
@@ -73,6 +77,40 @@
 		delete from userslikemenu where
 		users_id=#{users_id} and
 		menu_id=#{menu_id}
+	</delete>
+
+
+	<!-- 해당 Post에 눌린 모든 좋아요 리스트 반환 -->
+	<select id="getUsersLikePostList" resultType="userslikepost">
+		select * from
+		userslikepost
+	</select>
+
+	<!-- 해당 Post의 전체 좋아요 수를 반환 -->
+	<select id="getNumberOfUsersLikedPost" parameterType="_long">
+		select
+		count(*)
+		from userslikepost where
+		post_id = #{post_id}
+	</select>
+
+	<!-- 좋아요 누름 -->
+	<insert id="userLikedPost" parameterType="userslikepost">
+		insert into
+		userslikepost
+		(user_id,
+		post_id)
+		values(
+		#{user_id},
+		#{post_id}
+		)
+	</insert>
+
+	<!-- 좋아요 취소 -->
+	<delete id="userDislikedPost" parameterType="userslikepost">
+		delete from
+		userslikepost where
+		user_id=#{user_id} and post_id=#{post_id}
 	</delete>
 
 </mapper>

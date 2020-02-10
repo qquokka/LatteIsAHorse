@@ -105,4 +105,7 @@ public class UserController {
 		response.put("state", "success");
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
+	
+	//닉네임(unique), 패스워드, 비밀번호 찾기 기능(이메일로 임시주소 발급?)
+	
 }
