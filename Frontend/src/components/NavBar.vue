@@ -6,7 +6,7 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item" v-if="!isLoggedIn">
+      <li class="nav-item" v-if="!isLoggedIn()">
         <p class="nav-link" data-toggle="modal" data-target="#staticBackdrop">
           <fa icon="key" /> 로그인
         </p>

@@ -48,14 +48,14 @@ const routes = [
     },
     props: true
   },
-  // {
-  //   path: '/post/:postId/edit',
-  //   name: 'edit-post',
-  //   component: CreatePost,
-  //   meta: {
-  //     requiresAuth: true
-  //   }
-  // },
+  {
+    path: '/post/:postId',
+    name: 'edit-review',
+    component: CreatePost,
+    meta: {
+      requiresAuth: true
+    }
+  },
   {
     path: '/cafe/:cafeId/review/:reviewId',
     name: 'review-detail',
