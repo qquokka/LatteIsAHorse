@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.latte.dto.MenuDto;
 import com.latte.dto.UsersLikeMenu;
 
 @Repository
@@ -27,7 +28,7 @@ public class UsersLikeMenuDaoImpl {
 	}
 
 	// READ
-	public List<UsersLikeMenu> getUsersLikeMenuByCafeIdNUserId(UsersLikeMenu userslikemenu) {
+	public List<MenuDto> getUsersLikeMenuByCafeIdNUserId(UsersLikeMenu userslikemenu) {
 		return sqlSession.selectList(ns + "getUsersLikeMenuByCafeIdNUserId", userslikemenu);
 	}
 
