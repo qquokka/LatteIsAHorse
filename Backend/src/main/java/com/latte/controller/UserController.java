@@ -3,7 +3,9 @@ package com.latte.controller;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.latte.exception.AppException;
 import com.latte.model.Role;
 import com.latte.model.RoleName;
@@ -30,7 +33,7 @@ import io.swagger.annotations.ApiOperation;
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("/v1")
-@Api(value = "Users APIs",description = "Users APIs")
+@Api(value = "Users APIs", description = "Users APIs")
 public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -108,7 +111,7 @@ public class UserController {
 		response.put("state", "success");
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
-	
-	//닉네임(unique), 패스워드, 비밀번호 찾기 기능(이메일로 임시주소 발급?)
-	
+
+	// 닉네임(unique), 패스워드, 비밀번호 찾기 기능(이메일로 임시주소 발급?)
+
 }

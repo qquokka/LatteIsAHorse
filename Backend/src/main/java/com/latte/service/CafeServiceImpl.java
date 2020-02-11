@@ -54,4 +54,9 @@ public class CafeServiceImpl implements ICafeService {
 		return cafeDao.deleteCafeById(cafe_id);
 	}
 
+	@Override
+	public List<CafeDto> getMyCafeList(Long user_id) {
+		return cafeDao.getMyCafeList(user_id);
+	}
+
 }

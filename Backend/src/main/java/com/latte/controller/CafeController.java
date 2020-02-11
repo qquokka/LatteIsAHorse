@@ -108,7 +108,7 @@ public class CafeController {
 
 		List<MenuDto> menuList = ulmservice.getUsersLikeMenuByCafeIdNUserId(userslikemenu);
 		Map<String, Object> response = new HashMap<>();
-		
+
 		if (cafeInfo != null) {
 			User owner = userRepository.findById(cafeInfo.getCafe_owner_id()).get();
 			// Generate Cafe's Time Table
@@ -119,7 +119,7 @@ public class CafeController {
 					{ cafeInfo.getThu_open(), cafeInfo.getTue_close() },
 					{ cafeInfo.getFri_open(), cafeInfo.getFri_close() },
 					{ cafeInfo.getSat_open(), cafeInfo.getSat_close() } };
-			//response.put("time", time);
+			// response.put("time", time);
 			cafeInfo.setTime(time);
 			response.put("cafeinfo", cafeInfo);
 			if (menuList != null) {
@@ -153,6 +153,34 @@ public class CafeController {
 		response.put("state", "success");
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
+
+	// --------------------------------------------------------------
+	// --------------------------------------------------------------
+	// --------------------------------------------------------------
+
+//	@ApiOperation(value = "내가 좋아하는  Cafe의 리스트 반환", response = List.class)
+//	@GetMapping("/mycafe/{user_id}")
+//	public ResponseEntity<List<CafeDto>> getMyCafeList() throws Exception {
+//		logger.info("CafeController-------------getCafeList-------------" + new Date());
+//
+//		List<CafeDto> cafes = cafeservice.getCafeList();
+//		if (cafes == null || cafes.size() == 0) {
+//			return new ResponseEntity<List<CafeDto>>(cafes, HttpStatus.NO_CONTENT);
+//		}
+//		return new ResponseEntity<List<CafeDto>>(cafes, HttpStatus.OK);
+//	}
+//
+//	@ApiOperation(value = "해당 cafe_id 에 대한 기본 정보 반환", response = CafeDto.class)
+//	@GetMapping("/cafe/{cafe_id}")
+//	public ResponseEntity<CafeDto> getCafeById(@PathVariable("cafe_id") int cafe_id) throws Exception {
+//		logger.info("CafeController------------getCafeById-------------" + new Date());
+//		CafeDto cafe = cafeservice.getCafeById(cafe_id);
+//		if (cafe == null) {
+//			return new ResponseEntity<CafeDto>(cafe, HttpStatus.NO_CONTENT);
+//		}
+//
+//		return new ResponseEntity<CafeDto>(cafe, HttpStatus.OK);
+//	}
 
 	// ---------------------------------------------------
 	// check header from request and parse JWT Token
