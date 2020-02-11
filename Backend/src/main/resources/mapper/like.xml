@@ -89,7 +89,7 @@
 	</select>
 
 	<!-- 해당 Post의 전체 좋아요 수를 반환 -->
-	<select id="getNumberOfUsersLikedPost" parameterType="_long">
+	<select id="getNumberOfUsersLikedPost" parameterType="java.lang.Long" resultType="java.lang.Integer">
 		select
 		count(*)
 		from userslikepost where

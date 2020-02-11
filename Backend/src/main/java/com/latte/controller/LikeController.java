@@ -279,10 +279,10 @@ public class LikeController {
 //	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
 	public ResponseEntity<Map<String, Object>> getNumberOfUsersLikedPost(@PathVariable("post_id") Long id) throws Exception {
 		logger.info("PostController-------------User getNumberOfUsersLikedPost-------------" + new Date());
-
 		Map<String, Object> response = new HashMap<>();
 
 		int result = userslikepostService.getNumberOfUsersLikedPost(id);
+		logger.info("Result : " + result);
 
 		response.put("num", result);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
