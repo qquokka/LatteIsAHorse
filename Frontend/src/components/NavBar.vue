@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-lg sticky-top" @click="this.$router.push('/hangman/is/the/perfect/game/of/the/whole/human/history')" id="topnav">
-  <router-link to="/" class="ml-2 row text-decoration-none" ><img src="../assets/logo_icon.png" style="margin: -30px" width="120px"><h4 class="my-auto ml-3" style="color:#3f3f3f">라떼는말이야</h4> </router-link>
+  <router-link to="/" class="ml-2 row text-decoration-none d-none d-lg-flex" ><img src="../assets/logo_icon.png" style="margin: -30px" width="120px"><h4 class="my-auto ml-3" style="color:#3f3f3f">라떼는말이야</h4> </router-link>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <fa icon="bars" size="2x" />
   </button>
@@ -21,9 +21,6 @@
       </li>
       <li class="nav-item">
         <router-link class="nav-link" to="/cafe/1"><fa icon="coffee" /> 카페 보기</router-link>
-      </li>
-      <li class="nav-item d-none">
-        <router-link class="nav-link" to="/posts"><fa icon="newspaper" /> 포스트 보기</router-link>
       </li>
       <li class="nav-item">
         <router-link class="nav-link" to="/map"><fa icon="map" /> 내 주변 보기</router-link>
@@ -59,7 +56,7 @@ methods: {
   logout() {
     this.$session.destroy()
     this.$store.dispatch('logout')
-    this.handleScroll ()
+    this.handleScroll()
   },
   handleScroll () {
     if (this.iswhite) {
@@ -103,7 +100,6 @@ i {
   color: inherit !important;
 }
 .nav-link {
-  color: #2f2f2f;
   margin:auto;
   cursor:pointer;
   transition: 0.25s ease-in-out;
@@ -121,14 +117,22 @@ i {
   height: 3px;
   right: 0;
   position: absolute;
-  background: #88D8B0;
+  background: violet;
   transition: width 0.15s ease-in 0s, right 0.3s ease 0s;
   width: 0;
 }
-.nav-link:hover, a:hover {
-	color:  #2f2f2f !important;
-}
+
 .fa-bars {
   color: gray
+}
+@media only screen and (max-width: 991px) {
+  #topnav {
+    background: rgba(255,255,255,0.7) !important;
+    width: fit-content;
+    border-radius: 15px;
+    justify-content: start;
+    text-align: left;
+    position: fixed;
+  }
 }
 </style>

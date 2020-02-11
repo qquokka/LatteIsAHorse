@@ -9,4 +9,5 @@ public interface IUserService {
 	int withdrawalUserAccount(Long id);
 
 	int updateUserRole(UserRoleUpdateRequest request);
+
 }

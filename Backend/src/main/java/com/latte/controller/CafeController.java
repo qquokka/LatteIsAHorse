@@ -110,7 +110,7 @@ public class CafeController {
 
 		List<MenuDto> menuList = ulmservice.getUsersLikeMenuByCafeIdNUserId(userslikemenu);
 		Map<String, Object> response = new HashMap<>();
-		
+
 		if (cafeInfo != null) {
 			User owner = userRepository.findById(cafeInfo.getCafe_owner_id()).get();
 			// Generate Cafe's Time Table
@@ -121,7 +121,7 @@ public class CafeController {
 					{ cafeInfo.getThu_open(), cafeInfo.getTue_close() },
 					{ cafeInfo.getFri_open(), cafeInfo.getFri_close() },
 					{ cafeInfo.getSat_open(), cafeInfo.getSat_close() } };
-			//response.put("time", time);
+			// response.put("time", time);
 			cafeInfo.setTime(time);
 			response.put("cafeinfo", cafeInfo);
 			if (menuList != null) {
@@ -165,7 +165,6 @@ public class CafeController {
 		
 		return null;
 	}
-	// ---------------------------------------------------
 	// check header from request and parse JWT Token
 	private Long getLoggedInUserId(HttpServletRequest request) {
 		String bearerToken = request.getHeader("Authorization");
