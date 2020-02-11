@@ -38,11 +38,13 @@ import com.latte.repository.RoleRepository;
 import com.latte.repository.UserRepository;
 import com.latte.security.JwtTokenProvider;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("/v1")
+@Api(value = "Auth APIs", description = "Auth APIs")
 public class AuthController {
 	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 

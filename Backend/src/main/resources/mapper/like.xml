@@ -2,49 +2,50 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.like">
 
+
+	<select id="getUsersLikeMenuList" resultType="userslikemenu">
+		select * from
+		userslikemen
+	</select>
+	
 	<!-- DB의 모든 UserLikeCafe 리스트 반환 -->
-	<select id="getUsersLikeCafeList"
-		resultType="userslikecafe">
-		select id, users_id, cafe_id, like_count
+	<select id="getUsersLikeCafeList" resultType="userslikecafe">
+		select id,
+		users_id, cafe_id, like_count
 		from userslikecafe
 	</select>
 
 	<!-- 카페의 좋아요 수를 반환 -->
-	<select id="getUsersLikeCafeByCafeId" parameterType="java.lang.Integer"
-		resultType="userslikecafe">
-		select cafe_id, count(like_count) like_count
+	<select id="getUsersLikeCafeByCafeId"
+		parameterType="java.lang.Integer" resultType="userslikecafe">
+		select cafe_id,
+		count(like_count) like_count
 		from userslikecafe
 		where cafe_id=#{cafe_id}
 	</select>
 
-	<!-- 카페의 좋아요를 누름  -->
-	<insert id="addUsersLikeCafe"
-		parameterType="userslikecafe">
-		insert into userslikecafe
+	<!-- 카페의 좋아요를 누름 -->
+	<insert id="addUsersLikeCafe" parameterType="userslikecafe">
+		insert into
+		userslikecafe
 		(users_id, cafe_id) values
 		(#{users_id}, #{cafe_id})
 	</insert>
 
 	<!-- 카페의 좋아요를 취소 -->
-	<delete id="deleteUsersLikeCafe"
-		parameterType="userslikecafe">
-		delete from userslikecafe where
+	<delete id="deleteUsersLikeCafe" parameterType="userslikecafe">
+		delete from
+		userslikecafe where
 		users_id=#{users_id} and
 		cafe_id=#{cafe_id}
 	</delete>
 
 
-	<select id="getUsersLikeMenuList"
-		resultType="userslikemenu">
-		select * from userslikemenu
-
-	</select>
-
 	<!-- 메뉴 고유 id 에 대한 카운트 값을 돌려줌. 고로 업데이트시 리스폰스 해줄 예정 -->
 	<select id="getUsersLikeMenuCountBymenuId"
-		parameterType="java.lang.Integer"
-		resultType="userslikemenu">
-		select m.mid menu_id, count(ulm.like_count) like_count from
+		parameterType="java.lang.Integer" resultType="userslikemenu">
+		select m.mid menu_id,
+		count(ulm.like_count) like_count from
 		menu m join
 		userslikemenu ulm on
 		m.mid=ulm.menu_id and m.mid = #{mid}
@@ -78,6 +79,7 @@
 		users_id=#{users_id} and
 		menu_id=#{menu_id}
 	</delete>
+
 
 
 	<!-- 해당 Post에 눌린 모든 좋아요 리스트 반환 -->

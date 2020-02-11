@@ -23,11 +23,14 @@ import com.latte.payload.UserInfoUpdateRequest;
 import com.latte.payload.UserRoleUpdateRequest;
 import com.latte.repository.RoleRepository;
 import com.latte.service.IUserService;
+
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("/v1")
+@Api(value = "Users APIs",description = "Users APIs")
 public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 

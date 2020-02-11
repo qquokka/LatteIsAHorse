@@ -35,7 +35,7 @@ import io.swagger.annotations.ApiOperation;
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("/v1")
-@Api(value = "Post Comments APIs")
+@Api(value = "Post Comments APIs", description = "Post Comments APIs")
 public class PostCommentsController {
 	private static final Logger logger = LoggerFactory.getLogger(PostCommentsController.class);
 

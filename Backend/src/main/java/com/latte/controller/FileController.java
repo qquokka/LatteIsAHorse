@@ -30,45 +30,44 @@ import io.swagger.annotations.Api;
 
 @RestController
 @RequestMapping("/v1")
-@Api(value = "File Upload/Download APIs")
+@Api(value = "File Upload/Download APIs", description = "File Up/Down APIs")
 public class FileController {
 	private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
 	@Autowired
 	private FileUploadDownloadService fileService;
 
-	//Thumbnail Upload
-	@PostMapping("/uploadThumbnail") //파일 저장
+	// Thumbnail Upload
+	@PostMapping("/uploadThumbnail") // 파일 저장
 	public FileUploadResponse uploadThumbnail(@RequestParam("file") MultipartFile file) {
-		String fileName = fileService.storeFile(file, "thumbnail"); //파일 저장
+		String fileName = fileService.storeFile(file, "thumbnail"); // 파일 저장
 
-		//저장한 파일 다운로드 URI 생성
-		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/downloadFile/").path(fileName)
-				.toUriString();
+		// 저장한 파일 다운로드 URI 생성
+		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/downloadFile/")
+				.path(fileName).toUriString();
 
-		//response
+		// response
 		return new FileUploadResponse(fileName, fileDownloadUri, file.getContentType(), file.getSize());
 	}
-	
-	@PostMapping("/uploadFile") //파일 저장
+
+	@PostMapping("/uploadFile") // 파일 저장
 	public FileUploadResponse uploadFile(@RequestParam("file") MultipartFile file) {
-		String fileName = fileService.storeFile(file, "images"); //파일 저장
+		String fileName = fileService.storeFile(file, "images"); // 파일 저장
 
-		//저장한 파일 다운로드 URI 생성
-		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/downloadFile/").path(fileName)
-				.toUriString();
+		// 저장한 파일 다운로드 URI 생성
+		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/downloadFile/")
+				.path(fileName).toUriString();
 
-		//response
+		// response
 		return new FileUploadResponse(fileName, fileDownloadUri, file.getContentType(), file.getSize());
 	}
 
-	@PostMapping("/uploadMultipleFiles") //여러 파일 저장
+	@PostMapping("/uploadMultipleFiles") // 여러 파일 저장
 	public List<FileUploadResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
 		return Arrays.asList(files).stream().map(file -> uploadFile(file)).collect(Collectors.toList());
 	}
 
-	
-	@GetMapping("/downloadFile/{fileName}") //파일 다운로드
+	@GetMapping("/downloadFile/{fileName}") // 파일 다운로드
 	public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
 		// Load file as Resource
 		Resource resource = fileService.loadFileAsResource(fileName);
@@ -77,7 +76,7 @@ public class FileController {
 		String contentType = null;
 
 		try {
-			//파일 타입 추출
+			// 파일 타입 추출
 			contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
 		} catch (IOException e) {
 			logger.info("Could not determine file type.");
@@ -88,7 +87,7 @@ public class FileController {
 			contentType = "application/octet-stream";
 		}
 
-		//response
+		// response
 		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
 				.body(resource);

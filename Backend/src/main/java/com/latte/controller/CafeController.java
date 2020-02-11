@@ -38,8 +38,7 @@ import io.swagger.annotations.ApiOperation;
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("/v1")
-
-@Api(value = "LATTE", description = "Cafe APIs")
+@Api(value = "Cafe APIs", description = "Cafe APIs")
 public class CafeController {
 	private static final Logger logger = LoggerFactory.getLogger(CafeController.class);
 
@@ -93,11 +92,11 @@ public class CafeController {
 		List<Post> postList = postservice.getPostListByCafeId(cafe_id);
 
 		UsersLikeMenu userslikemenu = new UsersLikeMenu();
-		
+
 		userslikemenu.setCafe_id(cafe_id);
-		
+
 		Long users_id = getLoggedInUserId2(request);
-		
+
 		if (users_id != 0L) {
 			userslikemenu.setUsers_id(users_id);
 		}

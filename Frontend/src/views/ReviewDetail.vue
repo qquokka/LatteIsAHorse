@@ -71,7 +71,7 @@ export default {
 		},
 		updateReview() {
 			console.log('수정 시작')
-			this.$router.push(`/post/${this.postId}/edit`)
+			this.$router.push(`/post/${this.reviewId}`)
 		},
 		deleteReview() {
 			axios.delete(`${this.$store.state.constants.SERVER}/post/${this.reviewId}`, {headers: {'Authorization': "Bearer " + this.$session.get('jwt')}})
