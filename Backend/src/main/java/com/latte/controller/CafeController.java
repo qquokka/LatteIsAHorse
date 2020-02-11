@@ -172,7 +172,7 @@ public class CafeController {
 //
 //		return new ResponseEntity<CafeDto>(cafe, HttpStatus.OK);
 //	}
-
+//
 	// ---------------------------------------------------
 	// check header from request and parse JWT Token
 	private Long getLoggedInUserId2(HttpServletRequest request) {
