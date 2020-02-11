@@ -56,7 +56,7 @@ methods: {
   logout() {
     this.$session.destroy()
     this.$store.dispatch('logout')
-    this.handleScroll ()
+    this.handleScroll()
   },
   handleScroll () {
     if (this.iswhite) {

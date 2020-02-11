@@ -5,14 +5,14 @@
     <div v-if="selectedImage" id="imgView">
       <img :src="selectedImage" @click.stop="selectedImage = null" />
     </div>
-    <router-link id="reviewWriteBtn" :to="`/cafe/${cafeId}/posts/create`" v-if="isLogined">리뷰 쓰러가기</router-link>
+    <router-link id="reviewWriteBtn" :to="`/cafe/${cafeId}/posts/create`" >리뷰 쓰러가기</router-link>
     <!-- global end-->
     <nav-bar />
     <div class="row m-0 mt-0 mt-lg-5 mx-lg-3 border-0">
-      <single-cafe-map :cafe="cafe" :isOpen="isOpen" class="col-12 col-lg-5 p-0" />
+      <single-cafe-map :cafe="info" :isOpen="isOpen" class="col-12 col-lg-5 shadow p-0" />
       <div class="col px-2">
         <div class="align-items-center d-none d-lg-flex">
-          <h1 class="cafe-name-detail">{{ cafe.cafe_name }}</h1>
+          <h1 class="cafe-name-detail">{{ info.cafe_name }}</h1>
           <p v-if="isOpen" class="openbdg ml-2" style="font-size: 1rem;">영업중</p>
           <p v-else style="font-size: 1rem;" class="closebdg ml-2">준비중</p>
         </div>
@@ -24,7 +24,7 @@
 
           <h6 class="text-left">
             <fa style="color:turquoise;margin-right:0.5rem;margin-left:0.2rem" icon="phone-square" />전화번호:
-            <span class="text-muted">{{ cafe.cafe_phone }}</span>
+            <span class="text-muted">{{ info.cafe_phone }}</span>
           </h6>
 
           <h6 class="text-left">
@@ -60,8 +60,8 @@
         <div class="row justify-content-around p-3">
           <div
             class="col-12 col-md-4 col-lg-3 cafe-preview"
-            @click="zoom(cafe.thumbnail)"
-            :style="`background:url('${cafe.thumbnail}')`"
+            @click="zoom(info.thumbnail)"
+            :style="`background:url('${info.thumbnail}')`"
           />
           <div
             v-if="reviews[0]"
@@ -91,18 +91,18 @@
             <p>open</p>
             <p>close</p>
           </div>
-          <div v-for="i in time.length - 1" :key="i" class="col" :id="i">
-            <p class="weekday">{{ time[i][2] }}</p>
-            <p>{{ time[i][0] }}</p>
-            <p>{{ time[i][1] }}</p>
+          <div v-for="i in info.time.length - 1" :key="i" class="col" :id="i">
+            <p class="weekday">{{ info.time[i][2] }}</p>
+            <p>{{ info.time[i][0].slice(11, 16) }}</p>
+            <p>{{ info.time[i][1].slice(11, 16) }}</p>
           </div>
-          <div class="col" :id="0">
+          <div class="col" id="0">
             <p
             class="weekday"
               style="color:crimson;font-size:1.2rem;font-weight:800;border-bottom: 1px solid crimson;"
-            >{{ time[0][2] }}</p>
-            <p>{{ time[0][0] }}</p>
-            <p>{{ time[0][1] }}</p>
+            >{{ info.time[0][2] }}</p>
+            <p>{{ info.time[0][0].slice(11, 16) }}</p>
+            <p>{{ info.time[0][1].slice(11, 16) }}</p>
           </div>
         </div>
       </div>
@@ -117,14 +117,13 @@
           <p>{{ menu.product }}</p>
         </div>
         <div class="col-1">
-          <p>
+          <p
+            style="cursor:pointer"
+            @click="pushLikeMenu(menu.mid, !menu.userLiked)">
             <fa
-              icon="thumbs-up"
-              class="likeybtn"
-              style="cursor:pointer"
-              :style="menu.userLiked?{color: 'skyblue'}:{color: 'gray'}"
-              @click="pushLikeMenu(menu.mid, !menu.userLiked)"
-            />
+              :icon="menu.user_like?['fas', 'heart']:['far', 'heart']"
+              style="cursor: pointer; color: red;"
+              :style="menu.user_like?{animation: 'bounce 1s infinite'}:{}"/>
             {{ menu.like_count? menu.like_count : 0 }}
           </p>
         </div>
@@ -209,8 +208,10 @@ import {
   faMugHot,
   faMoneyBill,
   faThumbsUp,
-  faUserCircle
+  faUserCircle,
+  faHeart as fasHeart,
 } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 library.add(
   faCrown,
   faPhoneSquare,
@@ -221,7 +222,8 @@ library.add(
   faMugHot,
   faMoneyBill,
   faThumbsUp,
-  faUserCircle
+  faUserCircle,
+  fasHeart, farHeart
 );
 
 export default {
@@ -235,10 +237,9 @@ export default {
   props: ["cafeId"],
   data() {
     return {
-      cafe: {},
+      info: null,
       menus: [],
       reviews: [],
-      time: [[]],
       isOpen: false,
       isLogined: false,
       isLoading: false,
@@ -277,11 +278,9 @@ export default {
           this.isLoading=false
           console.log("카페 데이터 ");
           console.log(response.data);
-          
-          this.cafe = response.data.cafeinfo;
+          this.info = response.data.cafeinfo;
           this.reviews = response.data.post;
           this.menus = response.data.menu;
-          this.time = response.data.time;
 
           // 리뷰 작성시간이 12시간 이내이면 '3시간 전' 이런 식으로 나오게 하고, 12시간 이전이면 날짜 시간 다 표시
           let now = Date.now();
@@ -303,10 +302,10 @@ export default {
           now = new Date(now);
           this.today = now.getDay();
           let openTime = new Date(
-            response.data.time[this.today][0].slice(0, 19)
+            this.info.time[this.today][0].slice(0, 19)
           );
           let closeTime = new Date(
-            response.data.time[this.today][1].slice(0, 19)
+            this.info.time[this.today][1].slice(0, 19)
           );
           let nowTime = now.getHours() * 100 + now.getMinutes();
 
@@ -324,25 +323,10 @@ export default {
             this.isOpen = false;
           }
           let days = "일월화수목금토";
-          for (let i = 0; i < 7; i++) {
-            for (let j = 0; j < 2; j++) {
-              this.time[i][j] = this.time[i][j].slice(11, 16);
-            }
-            this.time[i].push(days[i]);
-          }
 
-          // 메뉴별로 좋아요 표시되어 있으면 menus 배열에 userLiked(Boolean)랑 likeCount(Num) 넣어주기
-          response.data.like.forEach(elem => {
-            for (let i = 0; i < this.menus.length; i++) {
-              if (this.menus[i].mid === elem.menu_id) {
-                // this.menus[i].like_count = elem.like_count
-                this.menus[i].userLiked = true;
-                break;
-              }
-            }
-            
-          });
-          
+          for (let i = 0; i < 7; i++) {
+            this.info.time[i].push(days[i]);
+          }
         })
         .catch(error => {
           console.log(error.data);
@@ -367,7 +351,7 @@ export default {
       }
       const config = {
         headers: { Authorization: "Bearer " + this.$session.get("jwt") }
-      };
+      }
       if (ifUserLikesMenu) {
         // 좋아요 누를 때
         console.log("좋아요");
@@ -412,8 +396,8 @@ export default {
             console.log(this.menus);
           })
           .catch(e => {
-            console.log(e.response.data);
-          });
+            console.log(e.response)
+          })
       }
     }
   },
@@ -429,6 +413,12 @@ export default {
       let todayCal = document.getElementById(dayofweek);
       todayCal.style.backgroundColor = "lavender";
     }, 250);
+  },
+  computed: {
+    isLogined () {
+        console.log('jwt가 있는지: ', this.$store.state.token !== null)
+        return this.$store.state.token !== null
+    }
   }
 };
 </script>
@@ -489,11 +479,7 @@ export default {
   border-bottom: 1px solid lightgray;
 }
 @keyframes bounce {
-  0%,
-  20%,
-  50%,
-  80%,
-  100% {
+  0%, 50%, 80%, 100% {
     transform: translateY(0);
   }
   40% {
