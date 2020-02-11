@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiOperation;
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("/v1")
-@Api(value = "Post Hashtag APIs")
+@Api(value = "Post Hashtag APIs" , description = "Post Hashtag APIs")
 public class PostHashtagController {
 	private static final Logger logger = LoggerFactory.getLogger(PostHashtagController.class);
 	

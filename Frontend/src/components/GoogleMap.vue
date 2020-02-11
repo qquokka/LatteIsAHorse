@@ -1,11 +1,10 @@
 <template>
   <div>
-    <gmap-map
-      ref="gmap"
-      :center="center"
-      :zoom="zoom_level"
-      @zoom_changed="zoomChanged"
-      :options="{
+    <gmap-map ref="gmap" 
+              :center="center" 
+              :zoom="zoom_level"
+              @zoom_changed="zoomChanged" 
+              :options="{
                           zoomControl: false, //zoom 컨트롤바 생성
                           mapTypeControl: false,
                           scaleControl: true,

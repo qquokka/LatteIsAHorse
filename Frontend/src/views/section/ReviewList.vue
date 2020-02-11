@@ -22,6 +22,7 @@ export default {
   name: 'ReviewList',
   data() {
     return {
+      reviewId: null
     }  
   },
   props: {
@@ -41,7 +42,7 @@ export default {
     imgPlaceholder(e) {
       e.target.src = require("../../assets/noimage.png")
     }
-  }
+  },
 }
 </script>
 

@@ -6,15 +6,21 @@
 		select
 		mid, product, price,
 		description, cafe_id, tag
-		from menu;
+		from menu
 	</select>
 
 	<select id="getMenuListById" parameterType="java.lang.Integer"
 		resultType="com.latte.dto.MenuDto">
-		select
-		mid, product, price, description, tag
-		from menu where
-		cafe_id = #{cafe_id}
+		select menu.mid, menu.cafe_id, menu.product, menu.price,
+		menu.description, menu.tag,
+		sum(userslikemenu.like_count) as like_count
+		from menu left outer join userslikemenu
+		on menu.mid =
+		userslikemenu.menu_id
+		where menu.cafe_id =#{cafe_id}
+		group by
+		menu.product
+
 	</select>
 
 	<select id="getMenuById" parameterType="java.lang.Integer"
@@ -47,7 +53,7 @@
 		#{product},
 		#{price},
 		#{cafe_id},
-		#{tag}
+		#{tag})
 	</insert>
 
 	<update id="updateMenu" parameterType="com.latte.dto.MenuDto">

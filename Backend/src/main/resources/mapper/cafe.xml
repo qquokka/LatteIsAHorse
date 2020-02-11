@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.cafe">
 
-	<select id="getCafeList" resultType="com.latte.dto.CafeDto">
+	<select id="getCafeList" resultType="cafe">
 		select
 		cafe_id,
 		cafe_name,
@@ -33,7 +33,7 @@
 	</select>
 
 	<select id="getCafeById" parameterType="java.lang.Integer"
-		resultType="com.latte.dto.CafeDto">
+		resultType="cafe">
 		select
 		cafe_id,
 		cafe_name,
@@ -68,7 +68,7 @@
 
 
 	<select id="getCafeByName" parameterType="java.lang.String"
-		resultType="com.latte.dto.CafeDto">
+		resultType="cafe">
 		select
 		cafe_id,
 		cafe_name,
@@ -102,7 +102,7 @@
 	</select>
 
 	<select id="getCafeByAddress" parameterType="java.lang.String"
-		resultType="com.latte.dto.CafeDto">
+		resultType="cafe">
 		select
 		cafe_id,
 		cafe_name,
@@ -136,7 +136,7 @@
 	</select>
 
 
-	<insert id="addCafe" parameterType="com.latte.dto.CafeDto">
+	<insert id="addCafe" parameterType="cafe">
 		insert into
 		(
 		cafe_name,
@@ -186,7 +186,7 @@
 		)
 	</insert>
 
-	<update id="updateCafe" parameterType="com.latte.dto.CafeDto">
+	<update id="updateCafe" parameterType="cafe">
 		update cafe set
 		cafe_name = #{cafe_name},
 		cafe_address =

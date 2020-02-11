@@ -22,6 +22,7 @@
       <h2 class="article-header">EDITOR's PICK</h2>
       <review-list limits="3" :reviewData="reviewData" />
     </div>
+    <b-section />
     <Footer />
   </div>
 </template>
@@ -34,6 +35,7 @@ import CafeList from "@/components/CafeList.vue";
 import ReviewList from "@/views/section/ReviewList.vue";
 import PopularList from "@/components/PopularList.vue"
 import HashTags from "@/components/HashTags.vue";
+import BSection from "@/views/section/BuisinessSection.vue"
 import Footer from "@/views/section/Footer.vue";
 import axios from "axios";
 
@@ -46,6 +48,7 @@ export default {
     NavBar,
     HashTags,
     PopularList,
+    BSection,
     Footer
   },
   data() {

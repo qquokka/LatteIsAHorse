@@ -19,7 +19,7 @@ public class PostDaoImpl {
 	@Autowired
 	private SqlSession sqlSession;
 
-	//---------------- Post 관련 ----------------
+	// ---------------- Post 관련 ----------------
 	public List<Post> getPostList() {
 		return sqlSession.selectList(ns + "getPostList");
 	}
@@ -31,7 +31,7 @@ public class PostDaoImpl {
 	public List<Post> getPostByTitle(String title) {
 		return sqlSession.selectList(ns + "getPostByTitle", title);
 	}
-	
+
 	public List<Post> getPostListByCafeId(Integer cafe_id) {
 		return sqlSession.selectList(ns + "getPostListByCafeId", cafe_id);
 	}
@@ -52,7 +52,7 @@ public class PostDaoImpl {
 		return sqlSession.selectOne(ns + "getLastPostedId");
 	}
 
-	//---------------- Post hashtag 관련 ----------------
+	// ---------------- Post hashtag 관련 ----------------
 	public List<PostHashtag> getPostHashTags(Long post_id) {
 		return sqlSession.selectList(ns + "getPostHashTags", post_id);
 	}
@@ -73,8 +73,8 @@ public class PostDaoImpl {
 		return sqlSession.delete(ns + "deletePostHashtag", id);
 	}
 
-	//---------------- Post Comments 관련 ----------------
-	
+	// ---------------- Post Comments 관련 ----------------
+
 	public List<PostComments> getPostCommentsByPostId(Long post_id) {
 		return sqlSession.selectList(ns + "getPostCommentsByPostId", post_id);
 	}
@@ -91,10 +91,10 @@ public class PostDaoImpl {
 		return sqlSession.delete(ns + "deletePostComments", id);
 	}
 
-	//----------------jw add-----------------------------------------
-	
+	// ----------------jw add-----------------------------------------
+
 	public List<PostComments> getAllPostComments() {
-		return sqlSession.selectList(ns+"getAllPostComments");
+		return sqlSession.selectList(ns + "getAllPostComments");
 	}
 
 }

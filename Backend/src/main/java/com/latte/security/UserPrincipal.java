@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.latte.model.User;
 
 public class UserPrincipal implements UserDetails {
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String name;
 	private String username;

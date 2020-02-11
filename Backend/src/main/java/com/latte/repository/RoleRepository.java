@@ -9,6 +9,6 @@ import com.latte.model.Role;
 import com.latte.model.RoleName;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Long>{
+public interface RoleRepository extends JpaRepository<Role, Long> {
 	Optional<Role> findByName(RoleName roleName);
 }

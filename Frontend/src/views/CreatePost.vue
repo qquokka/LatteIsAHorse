@@ -1,40 +1,52 @@
 <template>
-  <div class="container-fluid" style="height:100vh;padding:4rem 8rem 8rem 8rem;background:lavender">
-      <router-link :to="`/cafe/${cafeId}/`"><fa icon="undo" class="float-right" size="3x" /></router-link> 
-    <h1 class="my-3"> <fa icon="pen-nib" style="color: beige;" /> REVIEW ABOUT <b> {{ cafe.cafe_name }} </b> </h1>
+  <div
+    class="row justify-content-center align-content-center"
+    style="height:100vh;background:lavender"
+  >
+    <div class="col-12 col-lg-8">
+      <router-link class="d-none d-lg-block" :to="`/cafe/${this.cafeId}/`">
+        <fa icon="undo" class="float-right" size="3x" />
+      </router-link>
+      <div class="pt-3">
+        <h3 class="d-none d-lg-block">
+          <fa icon="pen-nib" style="color: violet;margin-right:1rem" />REVIEW ABOUT
+        </h3>
+        <h2 class="bg-white py-2">{{ cafe.cafe_name }}</h2>
+      </div>
 
-    <div class="row px-3 justify-content-lg-between">
-    <div class="input-group mb-2 w-100 col-6 row align-items-center">
-      <input
-        type="text"
-        name
-        id="titleField"
-        v-model="title"
-        aria-label="제목"
-        style="background:white"
-        class="col"
-        placeholder="TITLE"
+      <div class="row justify-content-lg-between mb-2">
+        <div class="input-group col-9 row align-items-center p-0">
+          <input
+            type="text"
+            name
+            id="titleField"
+            v-model="title"
+            aria-label="제목"
+            style="background:white"
+            class="col"
+            placeholder="TITLE"
+          />
+        </div>
+        <div class="col row bg-white align-items-center justify-content-center p-0">
+          <fa class="text-muted pr-2" icon="user-circle" size="3x" />
+          <h4>@{{ getUserName() }}</h4>
+        </div>
+      </div>
+      <editor
+        id="tuiEditor"
+        :value="editorHtml"
+        :options="editorOptions"
+        :html="editorHtml"
+        :visible="editorVisible"
+        mode="wysiwyg"
+        previewStyle="vertical"
+        height="500px"
+        class="text-left"
       />
-    </div>
-    <div class="col bg-white mb-2 mx-2 row align-items-center justify-content-center">
-      <fa class="mr-3 text-muted" icon="user-circle" size="3x"/>
-      <h3>Written by @{{ getUserName() }}</h3>
-    </div>
-</div>
-    <editor
-      id="tuiEditor"
-      :value="editorHtml"
-      :options="editorOptions"
-      :html="editorHtml"
-      :visible="editorVisible"
-      mode="wysiwyg"
-      previewStyle="vertical"
-      height="500px"
-      class="text-left"
-    />
-    <button class="btn btn-light btn-block btn-lg" @click="getHtml">확인</button>
+      <button class="btn btn-light btn-block btn-lg" @click="getHtml">{{ this.btninfo }}</button>
 
-    <!-- <Footer /> -->
+      <!-- <Footer /> -->
+    </div>
   </div>
 </template>
 
@@ -43,23 +55,19 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 import "codemirror/lib/codemirror.css";
 import Editor from "@toast-ui/vue-editor/src/Editor.vue";
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPenNib, faUndo } from '@fortawesome/free-solid-svg-icons'
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faPenNib, faUndo } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faPenNib, faUndo)
+library.add(faPenNib, faUndo);
 export default {
   name: "create",
   components: {
     editor: Editor
   },
-  props: {
-    cafeId: {
-      type: Number
-    },      
-  },
   data() {
     return {
       cafe: {},
+      isCreate: null,
       editorText: "글을 좀 던져봐라?",
       editorOptions: {
         hideModeSwitch: true,
@@ -91,32 +99,55 @@ export default {
       editorHtml: "",
       editorVisible: true,
       title: "",
-      operation: ""
+      postId: null,
+      cafeId: null,
+      writerId: null
     };
   },
   computed: {
-    ...mapGetters(["options", "user"])
+    ...mapGetters(["options", "user"]),
+    btninfo() {
+      if (this.$route.name !== "edit-review") {
+        return "리뷰 작성";
+      } else {
+        return "리뷰 수정";
+      }
+    },
+    serverAddr() {
+      return this.$store.state.constants.SERVER;
+    }
   },
   methods: {
     submitPost(body) {
       axios
-        .post(`${this.$store.state.constants.SERVER}/post`, body, {
+        .post(`${this.serverAddr}/post`, body, {
           headers: { Authorization: "Bearer " + this.$session.get("jwt") }
         })
-        .then(response => {
-          this.$router.back()
-          console.log(response);
+        .then(() => {
+          this.$router.back();
         })
-        .catch(error => {
-          console.log(error.response);
+        .catch(() => {
+          alert("알 수 없는 오류가 발생했습니다.");
         });
     },
-      getUserName() {
-    return JSON.parse(localStorage.getItem("vue-session-key")).username
-  },
+    editPost(body) {
+      axios
+        .patch(`${this.serverAddr}/post`, body, {
+          headers: { Authorization: "Bearer " + this.$session.get("jwt") }
+        })
+        .then(() => {
+          this.$router.push(`/post/${this.postId}`);
+        })
+        .catch(e => {
+          console.log(e.response);
+        });
+    },
+    getUserName() {
+      return JSON.parse(localStorage.getItem("vue-session-key")).username;
+    },
     getHtml() {
       let html = document.querySelector(".te-ww-container").firstElementChild
-        .firstElementChild.firstElementChild;
+        .firstElementChild;
       let imgList = html.getElementsByTagName("img");
       if (imgList.length) {
         for (let i = 0; i < imgList.length; i++) {
@@ -129,60 +160,81 @@ export default {
               const file = new File([blob], `${imgname}`);
               fd.append("file", file);
               axios
-                .post(`${this.$store.state.constants.SERVER}/uploadFile`, fd)
+                .post(`${this.serverAddr}/uploadFile`, fd)
                 .then(response => {
-                  let tempres = response.data.fileDownloadUri;
-                  fetch(tempres).then(
-                    (html.getElementsByTagName("img")[i].src = tempres)
-                  );
-                  let body = {
-                    title: this.title,
-                    content: html.innerHTML,
-                    thumbnail: tempres,
-                    cafe_id: this.cafeId
-                  };
-                  this.submitPost(body);
+                  html.getElementsByTagName("img")[i].src =
+                    response.data.fileDownloadUri;
+                  if (i === imgList.length - 1) {
+                    this.bodyCreator(html);
+                  }
                 })
-                .catch(error => {
-                  console.log(error.response);
+                .catch(e => {
+                  console.log(e);
                 });
             });
         }
-      } else {
+      }
+    },
+    bodyCreator(h) {
+      let thumb = h.getElementsByTagName("img")[0] || "T";
+      if (this.$route.name !== "edit-review") {
         let body = {
           title: this.title,
-          content: html.innerHTML,
-          thumbnail: "T",
+          content: h.innerHTML,
+          thumbnail: thumb.src,
           cafe_id: this.cafeId
         };
         this.submitPost(body);
+      } else {
+        let ebody = {
+          title: this.title,
+          content: h.innerHTML,
+          thumbnail: thumb.src,
+          id: this.$route.params.postId,
+          cafe_id: this.cafeId,
+          writer_id: this.writerId,
+          writer_name: this.getUserName()
+        };
+        this.editPost(ebody);
       }
     }
   },
   beforeCreate: function() {
+    this.postId = this.$route.params.postId;
+    this.cafeId = this.$route.params.cafeId;
     if (!this.$session.exists("jwt")) {
-      alert('NEED LOGIN')
+      alert("NEED LOGIN");
       this.$router.back();
     }
-    if (this.$router.currentRoute.path === "posts/create") {
-      // 게시글 작성일 때
-      this.operation = "글쓰기";
-    } else {
-      // 게시글 수정일 때
-      const postId = this.$router.currentRoute.path.split("/")[2];
+    if (this.$route.name === "edit-review") {
       axios
-        .get(`${this.$store.state.constants.SERVER}/post/${postId}`)
+        .get(`${this.$store.state.constants.SERVER}/post/${this.postId}`)
         .then(response => {
-          console.log(response.data);
+          if (response.data.writer_name !== this.getUserName()) {
+            alert("수정 권한이 없습니다.");
+            this.$router.push("/");
+          } else {
+            this.cafeId = response.data.cafe_id;
+            this.writerId = response.data.writer_id;
+            this.title = response.data.title;
+            document.querySelector(
+              ".te-ww-container"
+            ).firstElementChild.firstElementChild.innerHTML =
+              response.data.content;
+            axios
+              .get(`${this.$store.state.constants.SERVER}/cafe/${this.cafeId}`)
+              .then(response => {
+                this.cafe = response.data;
+              });
+          }
         });
-      this.operation = "수정하기";
+    } else {
+      axios
+        .get(`${this.$store.state.constants.SERVER}/cafe/${this.cafeId}`)
+        .then(response => {
+          this.cafe = response.data;
+        });
     }
-  },
-  mounted() {
-    axios.get(`${this.$store.state.constants.SERVER}/cafe/${this.cafeId}`)
-    .then(response => {
-      this.cafe = response.data
-    })
   }
 };
 </script>
@@ -198,6 +250,7 @@ export default {
   font-family: "Roboto";
   font-size: 2rem;
   background: whitesmoke;
+  padding: 0;
 }
 /**
 * @fileoverview style for editor ui

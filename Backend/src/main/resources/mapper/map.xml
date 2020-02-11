@@ -4,14 +4,14 @@
 
 	<select id="getCafesByUserLocation" resultType="cafe">
 		<![CDATA[
-			SELECT *,
+			select *,
 			(6371
-			* ACOS(COS(RADIANS(#{latitude}))
-			* COS(RADIANS(latitude))
-			* COS(RADIANS(longitude)
-			- RADIANS(#{longitude}))
-			+ SIN(RADIANS(#{latitude})) * SIN(RADIANS(latitude)))) AS distance
-			FROM
+			* acos(cos(radians(#{latitude}))
+			* cos(radians(latitude))
+			* cos(radians(longitude)
+			- radians(#{longitude}))
+			+ sin(radians(#{latitude})) * sin(radians(latitude)))) as distance
+			from
 			cafe having distance <= #{meter} order by distance
 		]]>
 	</select>

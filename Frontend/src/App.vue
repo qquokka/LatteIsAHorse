@@ -56,14 +56,16 @@ export default {
 }
 </script>
 <style>
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&display=swap&subset=korean');
 html {
   overflow-x: hidden;
   min-height: 100vh;
 }
 #app {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Nanum Gothic', sans-serif;
   text-align: center;
-  color: #2c3e50;
+  color: #5f4f5f;
+  font-weight: 600;
   background-color: #ffffff;
 }
 #nav {
