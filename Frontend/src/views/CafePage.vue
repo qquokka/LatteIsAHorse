@@ -1,6 +1,7 @@
 <template>
   <div class="container-fluid p-0">
     <!-- global component -->
+    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="fullPage" loader="bars" color="violet"></loading>
     <div v-if="selectedImage" id="imgView">
       <img :src="selectedImage" @click.stop="selectedImage = null" />
     </div>
@@ -97,6 +98,7 @@
           </div>
           <div class="col" id="0">
             <p
+            class="weekday"
               style="color:crimson;font-size:1.2rem;font-weight:800;border-bottom: 1px solid crimson;"
             >{{ info.time[0][2] }}</p>
             <p>{{ info.time[0][0].slice(11, 16) }}</p>
@@ -105,9 +107,9 @@
         </div>
       </div>
     </div>
-    <div class="container mt-5 px-0  px-lg-5">
+    <div class="container mt-5 px-0 px-lg-5">
       <h4 class="my-5">
-        <fa icon="mug-hot" style="color:violet" /> MENU
+        <fa icon="mug-hot" style="color:violet" />MENU
       </h4>
       <hr />
       <div v-for="menu in menus" :key="menu.mid" class="row">
@@ -139,37 +141,51 @@
     </div>
 
     <hr />
-      <h4 class="my-5">
-        <fa icon="envelope-open-text" style="color:orange" /> REVIEW
-      </h4>
-      <div class="row px-0 px-lg-4">
-    <div class="container my-3 overflow-hidden col-12 col-lg-4"  v-for="review in reviews.slice().reverse()" :key="review.id">
-      <router-link :to="`/cafe/${cafeId}/review/${review.id}/`">
-        <div class="justify-content-center px-2" style="background: lavender;;border:1px solid lightgray">
-          <h1 class="py-2 font-weight-bold text-left text-truncate" style="font-size: 3rem">
-            {{ review.title }}
-            <button
-              v-if="review.writer_name === $session.get('username')"
-              @click="deleteReview(review.id)"
-              class="btn btn-light"
-            >삭제</button>
-          </h1>
-          <h5 class="text-right"> <fa class="text-muted" icon="user-circle" /> {{ review.writer_name }}  </h5>
-          <p style="font-size:0.8rem;text-align:right">작성일시: {{ review.updated_at.slice(0,11) }}</p> 
-        </div>
-        <div class="border">
-          <div class="row mt-2 px-1 justify-content-center">
-            <img :src="review.thumbnail" class="col-12" style="height:300px" @error="imgPlaceholder">
+    <h4 class="my-5">
+      <fa icon="envelope-open-text" style="color:orange" />REVIEW
+    </h4>
+    <div class="row px-0 px-lg-4">
+      <div
+        class="container my-3 overflow-hidden col-12 col-lg-4"
+        v-for="review in reviews.slice().reverse()"
+        :key="review.id"
+      >
+        <router-link :to="`/cafe/${cafeId}/review/${review.id}/`">
+          <div
+            class="justify-content-center px-2"
+            style="background: lavender;;border:1px solid lightgray"
+          >
+            <h1 class="py-2 font-weight-bold text-left text-truncate" style="font-size: 3rem">
+              {{ review.title }}
+              <button
+                v-if="review.writer_name === $session.get('username')"
+                @click="deleteReview(review.id)"
+                class="btn btn-light"
+              >삭제</button>
+            </h1>
+            <h5 class="text-right">
+              <fa class="text-muted" icon="user-circle" />
+              {{ review.writer_name }}
+            </h5>
+            <p style="font-size:0.8rem;text-align:right">작성일시: {{ review.updated_at.slice(0,11) }}</p>
           </div>
-          <div class="row p-1 justify-content-center line-clamp" style="height: 225px;">
-            <span class="col-12 my-5 text-left" v-html="review.content"></span>
+          <div class="border">
+            <div class="row mt-2 px-1 justify-content-center">
+              <img
+                :src="review.thumbnail"
+                class="col-12"
+                style="height:300px"
+                @error="imgPlaceholder"
+              />
+            </div>
+            <div class="row p-1 justify-content-center line-clamp" style="height: 225px;">
+              <span class="col-12 my-5 text-left" v-html="review.content"></span>
+            </div>
+            <div style="background: lavender !important;">- {{ review.id }} -</div>
           </div>
-          <div style="background: lavender !important;">- {{ review.id }} -</div>
-        </div>
-        
-      </router-link>
+        </router-link>
+      </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -177,6 +193,8 @@
 import axios from "axios";
 import ICountUp from "vue-countup-v2";
 import moment from "moment";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 import NavBar from "@/components/NavBar.vue";
 import SingleCafeMap from "@/components/SingleCafeMap.vue";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -213,7 +231,8 @@ export default {
   components: {
     NavBar,
     SingleCafeMap,
-    ICountUp
+    ICountUp,
+    Loading
   },
   props: ["cafeId"],
   data() {
@@ -222,6 +241,9 @@ export default {
       menus: [],
       reviews: [],
       isOpen: false,
+      isLogined: false,
+      isLoading: false,
+      fullPage: true,
       today: 0,
       selectedImage: null,
       delay: 400,
@@ -243,6 +265,7 @@ export default {
       this.selectedImage = url;
     },
     getData() {
+      this.isLoading = true
       const config = {
         headers: { Authorization: "Bearer " + this.$session.get("jwt") }
       };
@@ -252,6 +275,7 @@ export default {
           config
         )
         .then(response => {
+          this.isLoading=false
           console.log("카페 데이터 ");
           console.log(response.data);
           this.info = response.data.cafeinfo;
@@ -321,9 +345,9 @@ export default {
     pushLikeMenu(menuId, ifUserLikesMenu) {
       // 좋아요 버튼을 누르는 경우엔 true, 취소할 경우엔 false
       // var likeyBtn = document.querySelectorAll('.likeybtn')
-      if (!this.$session.exists('jwt')){
-        alert('plz login')
-        return
+      if (!this.isLogined) {
+        alert("plz login");
+        return;
       }
       const config = {
         headers: { Authorization: "Bearer " + this.$session.get("jwt") }
@@ -332,35 +356,44 @@ export default {
         // 좋아요 누를 때
         console.log("좋아요");
 
-        axios.post(`${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`, {}, config)
+        axios
+          .post(
+            `${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`,
+            {},
+            config
+          )
           .then(response => {
-            console.log(response.data)
+            console.log(response.data);
             for (let i = 0; i < this.menus.length; i++) {
               if (this.menus[i].mid === response.data.menu_id) {
-                this.menus[i].like_count = response.data.like_count
-                this.menus[i].userLiked = true
-                break
+                this.menus[i].like_count = response.data.like_count;
+                this.menus[i].userLiked = true;
+                break;
               }
             }
-            console.log(this.menus)
+            console.log(this.menus);
           })
           .catch(e => {
-            console.log(e.response.data)
-          })
+            console.log(e.response.data);
+          });
       } else {
         // 좋아요 취소할 때
-        console.log('안좋아요');
-        axios.delete(`${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`, config)
+        console.log("안좋아요");
+        axios
+          .delete(
+            `${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`,
+            config
+          )
           .then(response => {
-            console.log(response.data)
+            console.log(response.data);
             for (let i = 0; i < this.menus.length; i++) {
               if (this.menus[i].mid === response.data.menu_id) {
-                this.menus[i].like_count = response.data.like_count
-                this.menus[i].userLiked = false
-                break
+                this.menus[i].like_count = response.data.like_count;
+                this.menus[i].userLiked = false;
+                break;
               }
             }
-            console.log(this.menus)
+            console.log(this.menus);
           })
           .catch(e => {
             console.log(e.response)
@@ -372,8 +405,8 @@ export default {
     this.getData();
   },
   mounted() {
-    window.scrollTo(0,0)
-    this.isLogined = this.$store.state.token !== null;
+    window.scrollTo(0, 0);
+    this.isLogined = this.$session.has("jwt");
     setTimeout(() => {
       let week = ["0", "1", "2", "3", "4", "5", "6"];
       let dayofweek = week[new Date().getDay()];
@@ -393,13 +426,14 @@ export default {
 <style>
 #reviewWriteBtn {
   position: fixed;
-  bottom:15px;
+  bottom: 15px;
   right: 15px;
   color: black;
   background: gold;
   padding: 0.7rem 0.4rem;
   border-radius: 15px;
   z-index: 9999;
+  box-shadow: 0 0 10px lightgray
 }
 #reviewWriteBtn:hover {
   animation: bounce 1s infinite;
@@ -464,8 +498,8 @@ export default {
   background-size: cover;
 }
 .bg-content {
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0, 0.4); 
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
   color: white;
   font-weight: bold;
   border: 3px solid #f1f1f1;
@@ -481,12 +515,12 @@ export default {
 .menutxt {
   width: 100%;
   margin: 0 !important;
-  justify-content: center
+  justify-content: center;
 }
 .line-clamp {
   display: -webkit-box;
   -webkit-line-clamp: 7;
-  -webkit-box-orient: vertical;  
+  -webkit-box-orient: vertical;
   overflow: hidden;
 }
 @media only screen and (max-width: 991px) {
