@@ -24,4 +24,8 @@ public class QRCodeDaoImpl {
 		return sqlSession.delete(ns + "deleteQRCode", qrcode);
 	}
 
+	public int isExist(String encryptedCode) {
+		return sqlSession.selectOne(ns + "isExist", encryptedCode);
+	}
+
 }

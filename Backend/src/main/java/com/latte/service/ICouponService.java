@@ -23,4 +23,7 @@ public interface ICouponService {
 	// Delete
 	int deleteCouponByUserId(int user_id);
 
+	int isExist(Coupon coupon);
+
+	int useCoupon(Coupon coupon);
 }

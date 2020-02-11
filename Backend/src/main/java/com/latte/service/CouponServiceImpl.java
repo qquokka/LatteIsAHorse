@@ -28,6 +28,7 @@ public class CouponServiceImpl implements ICouponService {
 	}
 
 	@Override
+	@Transactional
 	public int addCoupon(Coupon coupon) {
 		return couponDao.addCoupon(coupon);
 	}
@@ -39,13 +40,27 @@ public class CouponServiceImpl implements ICouponService {
 	}
 
 	@Override
+	@Transactional
 	public int updateCoupon(Coupon coupon) {
 		return couponDao.updateCoupon(coupon);
 	}
 
 	@Override
+	@Transactional
 	public int deleteCouponByUserId(int user_id) {
 		return couponDao.deleteCouponByUserId(user_id);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public int isExist(Coupon coupon) {
+		return couponDao.isExist(coupon);
+	}
+
+	@Override
+	@Transactional
+	public int useCoupon(Coupon coupon) {
+		return couponDao.useCoupon(coupon);
 	}
 
 }
