@@ -156,6 +156,37 @@ public class CafeController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
+
+	// --------------------------------------------------------------
+	// --------------------------------------------------------------
+	// --------------------------------------------------------------
+
+//	@ApiOperation(value = "내가 좋아하는  Cafe의 리스트 반환", response = List.class)
+//	@GetMapping("/mycafe/{user_id}")
+//	public ResponseEntity<List<CafeDto>> getMyCafeList() throws Exception {
+//		logger.info("CafeController-------------getCafeList-------------" + new Date());
+//
+//		List<CafeDto> cafes = cafeservice.getCafeList();
+//		if (cafes == null || cafes.size() == 0) {
+//			return new ResponseEntity<List<CafeDto>>(cafes, HttpStatus.NO_CONTENT);
+//		}
+//		return new ResponseEntity<List<CafeDto>>(cafes, HttpStatus.OK);
+//	}
+//
+//	@ApiOperation(value = "해당 cafe_id 에 대한 기본 정보 반환", response = CafeDto.class)
+//	@GetMapping("/cafe/{cafe_id}")
+//	public ResponseEntity<CafeDto> getCafeById(@PathVariable("cafe_id") int cafe_id) throws Exception {
+//		logger.info("CafeController------------getCafeById-------------" + new Date());
+//		CafeDto cafe = cafeservice.getCafeById(cafe_id);
+//		if (cafe == null) {
+//			return new ResponseEntity<CafeDto>(cafe, HttpStatus.NO_CONTENT);
+//		}
+//
+//		return new ResponseEntity<CafeDto>(cafe, HttpStatus.OK);
+//	}
+//
+	// ---------------------------------------------------
+
 	@ApiOperation(value = "Cafe 등록")
 	@PostMapping("/cafe")
 	public ResponseEntity<Map<String, Object>> addCafe(@Valid @RequestBody CafeDto cafe) throws Exception{
@@ -165,6 +196,7 @@ public class CafeController {
 		
 		return null;
 	}
+
 	// check header from request and parse JWT Token
 	private Long getLoggedInUserId(HttpServletRequest request) {
 		String bearerToken = request.getHeader("Authorization");
