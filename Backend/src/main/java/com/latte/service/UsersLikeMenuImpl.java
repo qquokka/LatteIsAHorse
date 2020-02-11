@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.latte.dao.UsersLikeMenuDaoImpl;
+import com.latte.dto.MenuDto;
 import com.latte.dto.UsersLikeMenu;
 
 @Service
@@ -23,7 +24,7 @@ public class UsersLikeMenuImpl implements IUsersLikeMenuService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<UsersLikeMenu> getUsersLikeMenuByCafeIdNUserId(UsersLikeMenu userslikemenu) {
+	public List<MenuDto> getUsersLikeMenuByCafeIdNUserId(UsersLikeMenu userslikemenu) {
 		return userslikemenuDao.getUsersLikeMenuByCafeIdNUserId(userslikemenu);
 	}
 

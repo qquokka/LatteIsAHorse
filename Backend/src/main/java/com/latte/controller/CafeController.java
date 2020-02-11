@@ -88,7 +88,7 @@ public class CafeController {
 			HttpServletRequest request) throws Exception {
 		logger.info("CafeController------------getAllInfoByCafeId-------------" + new Date());
 		CafeDto cafeInfo = cafeservice.getCafeById(cafe_id);
-		List<MenuDto> menuList = menuservice.getMenuListById(cafe_id);
+//		List<MenuDto> menuList = menuservice.getMenuListById(cafe_id);
 		List<Post> postList = postservice.getPostListByCafeId(cafe_id);
 
 		UsersLikeMenu userslikemenu = new UsersLikeMenu();
@@ -101,7 +101,7 @@ public class CafeController {
 			userslikemenu.setUsers_id(users_id);
 		}
 
-		List<UsersLikeMenu> ulmlist = ulmservice.getUsersLikeMenuByCafeIdNUserId(userslikemenu);
+		List<MenuDto> menuList = ulmservice.getUsersLikeMenuByCafeIdNUserId(userslikemenu);
 		Map<String, Object> response = new HashMap<>();
 		
 		if (cafeInfo != null) {
