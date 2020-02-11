@@ -2,11 +2,7 @@
   <div>
     <gmap-map
       ref="gmap"
-<<<<<<< HEAD
-      :center="{ lat: parseFloat(cafe.latitude), lng: parseFloat(cafe.longitude) }"
-=======
       :center="{ lat: +cafe.latitude, lng:+cafe.longitude }"
->>>>>>> 9e8cb7d9867ad4195498d2cad30a885042f37404
       :zoom="zoom_level"
       :options="{
         zoomControl: false,
