@@ -103,7 +103,7 @@ public class CafeController {
 
 		List<UsersLikeMenu> ulmlist = ulmservice.getUsersLikeMenuByCafeIdNUserId(userslikemenu);
 		Map<String, Object> response = new HashMap<>();
-
+		
 		if (cafeInfo != null) {
 			response.put("cafeinfo", cafeInfo);
 			// Generate Cafe's Time Table
