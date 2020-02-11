@@ -20,7 +20,7 @@
           <p class="menu-tex">필터적용</p>
         </div>
 
-        <div class="menu-icon">
+        <div class="menu-icon" @click="locateMe()">
           <fa icon="map-marked-alt" size="3x" />
           <p class="menu-tex">내 위치</p>
         </div>
@@ -30,7 +30,7 @@
         <div class="info-header">
           <h1 class="font-weight-bolder">카페 데일리</h1>
           <small>Cafe' Daily</small>
-          <p>대표자: 김태우</p>
+          <p>대표자: {{ center }}</p>
           <p class="small">영업시간: 10 A.M. ~ 12 P.M.</p>
         </div>
         <div class="container px-5">
@@ -76,22 +76,17 @@
         </div>
       </div>
 
-      <google-map
-        class="col-12 col-md-8 my-auto shadow pl-1"
-        width="100%"
-        :height='avheight'
-      />
+      <google-map class="col-12 col-md-8 my-auto pl-1" width="100%" :height="avheight" :prop_center="center" />
     </div>
-    <!-- <Footer class="d-none d-sm-block" style="bottom:0 !important!" /> -->
   </div>
 </template>
 
 <script>
 import GoogleMap from "@/components/GoogleMap.vue";
-// import Footer from '@/views/section/Footer.vue'
 import NavBar from "@/components/NavBar.vue";
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faHome, faSearchLocation, faFilter, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons'
+// import axios from 'axios';
 
 library.add(faHome, faSearchLocation, faFilter, faMapMarkedAlt )
 
@@ -103,13 +98,28 @@ export default {
   },
   data() {
     return {
-      avheight: 0
-    };
+      avheight: 0,
+      center: {lat: parseFloat(37.5014281), lng: parseFloat(127.0385063) },
+    }
   },
   computed: {},
-  methods: {},
+  methods: {
+    locateMe() {
+      navigator.geolocation.getCurrentPosition(this.success, this.fail,{enableHighAccuracy: true})
+    },
+    success(position) {
+      this.center = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+      },
+      fail(error) {
+        console.log(error);
+      }
+  },
   mounted() {
     this.avheight = window.innerHeight - 76
+    this.locateMe()
   }
 };
 </script>
@@ -129,7 +139,7 @@ export default {
 }
 .info-header {
   padding: 1rem;
-	border-radius: 21px;
+  border-radius: 21px;
 }
 .menu-icon > i {
   color: transparent !important;
@@ -164,6 +174,6 @@ export default {
 }
 .infocol {
   background: lavender;
-	margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 </style>

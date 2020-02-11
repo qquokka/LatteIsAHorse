@@ -1,29 +1,29 @@
 <template>
   <div class="container-fluid p-0">
     <!-- global component -->
+    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="fullPage" loader="bars" color="violet"></loading>
     <div v-if="selectedImage" id="imgView">
       <img :src="selectedImage" @click.stop="selectedImage = null" />
     </div>
     <router-link id="reviewWriteBtn" :to="`/cafe/${cafeId}/posts/create`" v-if="isLogined">리뷰 쓰러가기</router-link>
     <!-- global end-->
     <nav-bar />
-    <div class="row mt-0 mt-lg-5 mx-lg-3 border-0">
-      <single-cafe-map :cafe="cafe" :isOpen="isOpen" class="col-12 col-lg-5 shadow w-100  " />
-
-      <div class="col">
+    <div class="row m-0 mt-0 mt-lg-5 mx-lg-3 border-0">
+      <single-cafe-map :cafe="cafe" :isOpen="isOpen" class="col-12 col-lg-5 p-0" />
+      <div class="col px-2">
         <div class="align-items-center d-none d-lg-flex">
           <h1 class="cafe-name-detail">{{ cafe.cafe_name }}</h1>
           <p v-if="isOpen" class="openbdg ml-2" style="font-size: 1rem;">영업중</p>
           <p v-else style="font-size: 1rem;" class="closebdg ml-2">준비중</p>
         </div>
-        <div class="row mt-3 mt-lg-1 justify-content-between">
+        <div class="row mt-3 mt-lg-1 justify-content-between px-4">
           <h6 class="text-left">
-            <fa style="color:gold;margin-right:0.5rem" icon="crown" />대표자명:
+            <fa style="color:gold;margin-right:0.4rem" icon="crown" />대표자명:
             <span class="text-muted">미등록</span>
           </h6>
 
           <h6 class="text-left">
-            <fa style="color:turquoise;margin-right:0.5rem" icon="phone-square" />전화번호:
+            <fa style="color:turquoise;margin-right:0.5rem;margin-left:0.2rem" icon="phone-square" />전화번호:
             <span class="text-muted">{{ cafe.cafe_phone }}</span>
           </h6>
 
@@ -33,7 +33,7 @@
           </h6>
         </div>
 
-        <div class="row justify-content-start pl-lg-5">
+        <div class="row justify-content-center my-4 justify-content-lg-center pl-lg-5">
           <h3 class="px-2 mr-lg-5">
             <fa class="mr-2 bouncer" style="color: royalblue" icon="heartbeat" />
             <ICountUp
@@ -59,31 +59,31 @@
 
         <div class="row justify-content-around p-3">
           <div
-            class="col-3 cafe-preview"
+            class="col-12 col-md-4 col-lg-3 cafe-preview"
             @click="zoom(cafe.thumbnail)"
             :style="`background:url('${cafe.thumbnail}')`"
           />
           <div
             v-if="reviews[0]"
-            class="col-3 cafe-preview"
+            class="col-12 col-md-4 col-lg-3 cafe-preview"
             @click="zoom(reviews[0].thumbnail)"
             :style="`background:url('${reviews[0].thumbnail}')`"
           />
           <div
             v-if="reviews[1]"
-            class="col-3 cafe-preview"
+            class="col-12 col-md-4 col-lg-3 cafe-preview"
             @click="zoom(reviews[1].thumbnail)"
             :style="`background:url('${reviews[1].thumbnail}')`"
           />
           <div
             v-if="reviews[2]"
-            class="col-3 cafe-preview"
+            class="col-12 col-md-4 col-lg-3 cafe-preview"
             @click="zoom(reviews[2].thumbnail)"
             :style="`background:url('${reviews[2].thumbnail}')`"
           />
         </div>
 
-        <div class="row px-3">
+        <div class="row">
           <div class="col border-right">
             <p class="border-bottom weekday">
               <fa icon="calendar" />
@@ -98,6 +98,7 @@
           </div>
           <div class="col" :id="0">
             <p
+            class="weekday"
               style="color:crimson;font-size:1.2rem;font-weight:800;border-bottom: 1px solid crimson;"
             >{{ time[0][2] }}</p>
             <p>{{ time[0][0] }}</p>
@@ -106,19 +107,25 @@
         </div>
       </div>
     </div>
-    <div class="container mt-5 px-5">
+    <div class="container mt-5 px-0 px-lg-5">
       <h4 class="my-5">
-        <fa icon="mug-hot" style="color:violet" /> MENU
+        <fa icon="mug-hot" style="color:violet" />MENU
       </h4>
       <hr />
-      <div v-for="menu in menus" :key="menu.id" class="row">
+      <div v-for="menu in menus" :key="menu.mid" class="row">
         <div class="col-3 row justify-content-between">
           <p>{{ menu.product }}</p>
         </div>
         <div class="col-1">
-          <p v-if="menu.like_count">
-            <fa icon="thumbs-up" :style="menu.userLiked?{color: 'skyblue'}:{color:'gray'}" style="cursor:pointer" @click="menu.userLiked?pushLikeMenu(menu.mid, !menu.userLiked):pushLikeMenu(menu.mid, !menu.userLiked)"/>
-            {{ menu.like_count }}
+          <p>
+            <fa
+              icon="thumbs-up"
+              class="likeybtn"
+              style="cursor:pointer"
+              :style="menu.userLiked?{color: 'skyblue'}:{color: 'gray'}"
+              @click="pushLikeMenu(menu.mid, !menu.userLiked)"
+            />
+            {{ menu.like_count? menu.like_count : 0 }}
           </p>
         </div>
         <div class="col-6">
@@ -135,29 +142,50 @@
     </div>
 
     <hr />
-      <h4 class="my-5">
-        <fa icon="envelope-open-text" style="color:orange" /> REVIEW
-      </h4>
-    <div class="container border my-3 "  v-for="review in reviews.slice().reverse()" :key="review.id">
-      <router-link   :to="`/cafe/${cafeId}/review/${review.id}/`">
-        <div class="justify-content-center px-5">
-          <h1 class="pt-5">
-            {{ review.title }}
-            <button
-              v-if="review.writer_name === $session.get('username')"
-              @click="deleteReview(review.id)"
-              class="btn btn-light"
-            >삭제</button>
-          </h1>
-          <h5> <fa icon="user-circle" /> {{ review.writer_name }} <span>{{ review.updated_at.slice(0,13) }}</span>  </h5>
-        </div>
-        <div class="row mt-2 px-5 justify-content-center">
-          <img :src="review.thumbnail" class="col-12 col-lg-8" @error="imgPlaceholder">
-        </div>
-        <div class="row justify-content-center">
-          <span class="col-12 col-lg-6 my-5" v-html="review.content"></span>
-        </div>
-      </router-link>
+    <h4 class="my-5">
+      <fa icon="envelope-open-text" style="color:orange" />REVIEW
+    </h4>
+    <div class="row px-0 px-lg-4">
+      <div
+        class="container my-3 overflow-hidden col-12 col-lg-4"
+        v-for="review in reviews.slice().reverse()"
+        :key="review.id"
+      >
+        <router-link :to="`/cafe/${cafeId}/review/${review.id}/`">
+          <div
+            class="justify-content-center px-2"
+            style="background: lavender;;border:1px solid lightgray"
+          >
+            <h1 class="py-2 font-weight-bold text-left text-truncate" style="font-size: 3rem">
+              {{ review.title }}
+              <button
+                v-if="review.writer_name === $session.get('username')"
+                @click="deleteReview(review.id)"
+                class="btn btn-light"
+              >삭제</button>
+            </h1>
+            <h5 class="text-right">
+              <fa class="text-muted" icon="user-circle" />
+              {{ review.writer_name }}
+            </h5>
+            <p style="font-size:0.8rem;text-align:right">작성일시: {{ review.updated_at.slice(0,11) }}</p>
+          </div>
+          <div class="border">
+            <div class="row mt-2 px-1 justify-content-center">
+              <img
+                :src="review.thumbnail"
+                class="col-12"
+                style="height:300px"
+                @error="imgPlaceholder"
+              />
+            </div>
+            <div class="row p-1 justify-content-center line-clamp" style="height: 225px;">
+              <span class="col-12 my-5 text-left" v-html="review.content"></span>
+            </div>
+            <div style="background: lavender !important;">- {{ review.id }} -</div>
+          </div>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -166,6 +194,8 @@
 import axios from "axios";
 import ICountUp from "vue-countup-v2";
 import moment from "moment";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 import NavBar from "@/components/NavBar.vue";
 import SingleCafeMap from "@/components/SingleCafeMap.vue";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -199,7 +229,8 @@ export default {
   components: {
     NavBar,
     SingleCafeMap,
-    ICountUp
+    ICountUp,
+    Loading
   },
   props: ["cafeId"],
   data() {
@@ -210,6 +241,8 @@ export default {
       time: [[]],
       isOpen: false,
       isLogined: false,
+      isLoading: false,
+      fullPage: true,
       today: 0,
       selectedImage: null,
       delay: 400,
@@ -231,6 +264,7 @@ export default {
       this.selectedImage = url;
     },
     getData() {
+      this.isLoading = true
       const config = {
         headers: { Authorization: "Bearer " + this.$session.get("jwt") }
       };
@@ -240,8 +274,10 @@ export default {
           config
         )
         .then(response => {
+          this.isLoading=false
           console.log("카페 데이터 ");
           console.log(response.data);
+          
           this.cafe = response.data.cafeinfo;
           this.reviews = response.data.post;
           this.menus = response.data.menu;
@@ -299,11 +335,14 @@ export default {
           response.data.like.forEach(elem => {
             for (let i = 0; i < this.menus.length; i++) {
               if (this.menus[i].mid === elem.menu_id) {
-                this.menus[i].userLiked = true
-                break
-                }
+                // this.menus[i].like_count = elem.like_count
+                this.menus[i].userLiked = true;
+                break;
+              }
             }
+            
           });
+          
         })
         .catch(error => {
           console.log(error.data);
@@ -321,9 +360,10 @@ export default {
     // },
     pushLikeMenu(menuId, ifUserLikesMenu) {
       // 좋아요 버튼을 누르는 경우엔 true, 취소할 경우엔 false
-      if (!this.isLogined){
-        alert('plz login')
-        return
+      // var likeyBtn = document.querySelectorAll('.likeybtn')
+      if (!this.isLogined) {
+        alert("plz login");
+        return;
       }
       const config = {
         headers: { Authorization: "Bearer " + this.$session.get("jwt") }
@@ -332,38 +372,48 @@ export default {
         // 좋아요 누를 때
         console.log("좋아요");
 
-        axios.post(`${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`, {}, config)
+        axios
+          .post(
+            `${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`,
+            {},
+            config
+          )
           .then(response => {
-            console.log(response.data)
+            console.log(response.data);
             for (let i = 0; i < this.menus.length; i++) {
               if (this.menus[i].mid === response.data.menu_id) {
-                this.menus[i].like_count = response.data.like_count
-                this.menus[i].userLiked = true
-                break
+                this.menus[i].like_count = response.data.like_count;
+                this.menus[i].userLiked = true;
+                break;
               }
             }
+            console.log(this.menus);
           })
           .catch(e => {
-            console.log(e.response.data)
-          })
+            console.log(e.response.data);
+          });
       } else {
         // 좋아요 취소할 때
-        console.log('안좋아요');
-        
-        axios.delete(`${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`, config)
+        console.log("안좋아요");
+        axios
+          .delete(
+            `${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`,
+            config
+          )
           .then(response => {
-            console.log(response)
+            console.log(response.data);
             for (let i = 0; i < this.menus.length; i++) {
               if (this.menus[i].mid === response.data.menu_id) {
-                this.menus[i].like_count = response.data.like_count
-                this.menus[i].userLiked = false
-                break
+                this.menus[i].like_count = response.data.like_count;
+                this.menus[i].userLiked = false;
+                break;
               }
             }
+            console.log(this.menus);
           })
           .catch(e => {
-            console.log(e.response.data)
-          })
+            console.log(e.response.data);
+          });
       }
     }
   },
@@ -371,7 +421,7 @@ export default {
     this.getData();
   },
   mounted() {
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0);
     this.isLogined = this.$session.has("jwt");
     setTimeout(() => {
       let week = ["0", "1", "2", "3", "4", "5", "6"];
@@ -386,13 +436,14 @@ export default {
 <style>
 #reviewWriteBtn {
   position: fixed;
-  bottom: 1rem;
-  right: 1rem;
+  bottom: 15px;
+  right: 15px;
   color: black;
   background: gold;
-  padding: 0.5rem 0.2rem;
+  padding: 0.7rem 0.4rem;
   border-radius: 15px;
   z-index: 9999;
+  box-shadow: 0 0 10px lightgray
 }
 #reviewWriteBtn:hover {
   animation: bounce 1s infinite;
@@ -461,8 +512,8 @@ export default {
   background-size: cover;
 }
 .bg-content {
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0, 0.4); 
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
   color: white;
   font-weight: bold;
   border: 3px solid #f1f1f1;
@@ -474,5 +525,21 @@ export default {
   width: 80%;
   padding: 20px;
   text-align: center;
+}
+.menutxt {
+  width: 100%;
+  margin: 0 !important;
+  justify-content: center;
+}
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+@media only screen and (max-width: 991px) {
+  .menutxt > div > p {
+    font-size: 2vw;
+  }
 }
 </style>

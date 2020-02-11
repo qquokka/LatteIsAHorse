@@ -10,6 +10,7 @@ import SearchResult from '../views/SearchResult.vue'
 import CafePage from '../views/CafePage.vue'
 import HangMan from '../views/HangMan.vue'
 import Admin from '../views/Admin.vue'
+import Profile from '../views/Profile.vue'
 
 Vue.use(VueRouter)
 
@@ -72,6 +73,11 @@ const routes = [
     name: 'cafePage',
     component: CafePage,
     props: true
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile
   },
   {
     path: '/hangman/is/the/perfect/game/of/the/whole/human/history',

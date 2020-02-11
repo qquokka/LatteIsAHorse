@@ -2,7 +2,7 @@
   <div>
     <gmap-map
       ref="gmap"
-      :center="{ lat: +cafe.latitude, lng: +cafe.longitude }"
+      :center="{ lat: +cafe.latitude, lng:+cafe.longitude }"
       :zoom="zoom_level"
       :options="{
 				zoomControl: false,
