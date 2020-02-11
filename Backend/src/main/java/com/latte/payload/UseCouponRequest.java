@@ -1,7 +1,11 @@
 package com.latte.payload;
 
+import javax.validation.constraints.NotNull;
+
 public class UseCouponRequest {
+	@NotNull
 	private Integer cafe_id;
+	@NotNull
 	private Integer num_coupon;
 
 	public UseCouponRequest() {
