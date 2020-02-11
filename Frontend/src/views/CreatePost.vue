@@ -14,8 +14,8 @@
         <h2 class="bg-white py-2">{{ cafe.cafe_name }}</h2>
       </div>
 
-      <div class="row justify-content-lg-between mb-2">
-        <div class="input-group col-9 row align-items-center p-0">
+      <div class="row mb-2 m-0">
+        <div class="input-group col-8 row m-0 align-items-center p-0">
           <input
             type="text"
             name
@@ -27,7 +27,7 @@
             placeholder="TITLE"
           />
         </div>
-        <div class="col row bg-white align-items-center justify-content-center p-0">
+        <div class="col m-0 border row bg-white align-items-center justify-content-center p-0">
           <fa class="text-muted pr-2" icon="user-circle" size="3x" />
           <h4>@{{ getUserName() }}</h4>
         </div>

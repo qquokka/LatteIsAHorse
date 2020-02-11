@@ -71,20 +71,20 @@ html {
 #nav {
   padding: 30px;
 }
-a {
+a, .router-link {
   text-decoration: none !important;
-  color: #2f2f2f !important;
+  color: #5f4f5f !important;
 }
-.router-link {
-  text-decoration: none !important;
-  color: #2f2f2f;
+a:hover, .router-link:hover {
+  color: #6f4f5f !important
 }
+
 .router-link-active {
   color: #42b983 !important;
 }
 
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 5px;
 }
 ::-webkit-scrollbar-track {
   border-radius: 10px;
