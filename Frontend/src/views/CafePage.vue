@@ -111,14 +111,18 @@
         <fa icon="mug-hot" style="color:violet" /> MENU
       </h4>
       <hr />
-      <div v-for="menu in menus" :key="menu.id" class="row">
+      <div v-for="menu in menus" :key="menu.mid" class="row">
         <div class="col-3 row justify-content-between">
           <p>{{ menu.product }}</p>
         </div>
         <div class="col-1">
-          <p v-if="menu.like_count">
-            <fa icon="thumbs-up" :style="menu.userLiked?{color: 'skyblue'}:{color:'gray'}" style="cursor:pointer" @click="menu.userLiked?pushLikeMenu(menu.mid, !menu.userLiked):pushLikeMenu(menu.mid, !menu.userLiked)"/>
-            {{ menu.like_count }}
+          <p>
+            <fa icon="thumbs-up"
+            class="likeybtn"
+              style="cursor:pointer"
+              :style="menu.userLiked?{color: 'skyblue'}:{color: 'gray'}"
+              @click="pushLikeMenu(menu.mid, !menu.userLiked)"/>
+            {{ menu.like_count? menu.like_count : 0 }}
           </p>
         </div>
         <div class="col-6">
@@ -299,6 +303,7 @@ export default {
           response.data.like.forEach(elem => {
             for (let i = 0; i < this.menus.length; i++) {
               if (this.menus[i].mid === elem.menu_id) {
+                // this.menus[i].like_count = elem.like_count
                 this.menus[i].userLiked = true
                 break
                 }
@@ -321,6 +326,7 @@ export default {
     // },
     pushLikeMenu(menuId, ifUserLikesMenu) {
       // 좋아요 버튼을 누르는 경우엔 true, 취소할 경우엔 false
+      // var likeyBtn = document.querySelectorAll('.likeybtn')
       if (!this.isLogined){
         alert('plz login')
         return
@@ -342,6 +348,7 @@ export default {
                 break
               }
             }
+            console.log(this.menus)
           })
           .catch(e => {
             console.log(e.response.data)
@@ -349,10 +356,9 @@ export default {
       } else {
         // 좋아요 취소할 때
         console.log('안좋아요');
-        
         axios.delete(`${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`, config)
           .then(response => {
-            console.log(response)
+            console.log(response.data)
             for (let i = 0; i < this.menus.length; i++) {
               if (this.menus[i].mid === response.data.menu_id) {
                 this.menus[i].like_count = response.data.like_count
@@ -360,6 +366,7 @@ export default {
                 break
               }
             }
+            console.log(this.menus)
           })
           .catch(e => {
             console.log(e.response.data)
