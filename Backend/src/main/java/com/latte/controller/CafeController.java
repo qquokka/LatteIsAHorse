@@ -121,9 +121,7 @@ public class CafeController {
 			if (postList != null) {
 				response.put("post", postList);
 			}
-			if (ulmlist != null) {
-				response.put("like", ulmlist);
-			}
+
 		} else {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}

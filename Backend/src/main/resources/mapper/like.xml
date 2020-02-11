@@ -5,7 +5,7 @@
 
 	<select id="getUsersLikeMenuList" resultType="userslikemenu">
 		select * from
-		userslikemen
+		userslikemenu
 	</select>
 
 	<!-- DB의 모든 UserLikeCafe 리스트 반환 -->
@@ -60,11 +60,31 @@
 			join userslikemenu ulm on m.mid=ulm.menu_id and m.cafe_id = #{cafe_id} and 
 			ulm.users_id =#{users_id} group by menu_id -->
 
-		select m.mid menu_id,sum(ulm.like_count) like_count from menu m join
-		userslikemenu ulm on m.mid = ulm.menu_id where m.cafe_id=#{cafe_id}
-		group by
-		menu_id;
+		<!-- select m.mid menu_id,sum(ulm.like_count) like_count from menu m join 
+			userslikemenu ulm on m.mid = ulm.menu_id where m.cafe_id=#{cafe_id} group 
+			by menu_id; -->
+
+		<!--select m.*, ifnull(sum(ulm.like_count),0) like_count from menu m left 
+			outer join userslikemenu ulm on m.mid=ulm.menu_id where cafe_id= #{cafe_id} 
+			group by mid -->
+
+
+		select m.*, ifnull(sum(ulm.like_count),0) like_count ,
+		<choose>
+		<when test="users_id != null" >
+			if(ulm.like_count and ulm.users_id = #{users_id}, 'true', 'false') as user_like
+		</when>
+		<otherwise>
+			'false' as user_like
+		</otherwise>
+		</choose>
+		from menu m
+		left outer join userslikemenu ulm
+		on m.mid = ulm.menu_id
+		where m.cafe_id= #{cafe_id}
+		group by m.mid
 	</select>
+
 
 	<insert id="addUsersLikeMenu" parameterType="userslikemenu">
 		insert into
