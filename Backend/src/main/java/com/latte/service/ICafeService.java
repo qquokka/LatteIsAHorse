@@ -26,4 +26,8 @@ public interface ICafeService {
 	// Delete
 	int deleteCafeById(int cafe_id);
 
+	// ---------------------------------------------------
+	// ---------------------------------------------------
+	List<CafeDto> getMyCafeList(Long user_id);
+
 }

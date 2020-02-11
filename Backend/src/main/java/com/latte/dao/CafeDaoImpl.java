@@ -48,4 +48,11 @@ public class CafeDaoImpl {
 	public int deleteCafeById(int cafe_id) {
 		return sqlSession.delete(ns + "deleteCafeById", cafe_id);
 	}
+	
+	
+	// 좋아요한 카페 
+	public List<CafeDto> getMyCafeList(Long user_id) {
+		return sqlSession.selectList(ns + "getMyCafeList", user_id);
+
+	}
 }
