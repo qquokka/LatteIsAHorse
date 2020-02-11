@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.latte.dto.CafeDto;
 import com.latte.dto.MenuDto;
 import com.latte.dto.UsersLikeMenu;
+import com.latte.model.User;
 import com.latte.model.post.Post;
+import com.latte.repository.UserRepository;
 import com.latte.security.JwtTokenProvider;
 import com.latte.service.ICafeService;
 import com.latte.service.IMenuService;
@@ -48,6 +52,9 @@ public class CafeController {
 	@Autowired
 	IMenuService menuservice;
 
+	@Autowired
+	UserRepository userRepository;
+	
 	@Autowired
 	IPostService postservice;
 
@@ -95,7 +102,7 @@ public class CafeController {
 
 		userslikemenu.setCafe_id(cafe_id);
 
-		Long users_id = getLoggedInUserId2(request);
+		Long users_id = getLoggedInUserId(request);
 
 		if (users_id != 0L) {
 			userslikemenu.setUsers_id(users_id);
@@ -105,6 +112,7 @@ public class CafeController {
 		Map<String, Object> response = new HashMap<>();
 
 		if (cafeInfo != null) {
+			User owner = userRepository.findById(cafeInfo.getCafe_owner_id()).get();
 			// Generate Cafe's Time Table
 			Instant[][] time = { { cafeInfo.getSun_open(), cafeInfo.getSun_close() },
 					{ cafeInfo.getMon_open(), cafeInfo.getMon_close() },
@@ -121,6 +129,9 @@ public class CafeController {
 			}
 			if (postList != null) {
 				response.put("post", postList);
+			}
+			if(owner != null) {
+				response.put("owner_name", owner.getName());
 			}
 
 		} else {
@@ -144,6 +155,7 @@ public class CafeController {
 		response.put("state", "success");
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
+
 
 	// --------------------------------------------------------------
 	// --------------------------------------------------------------
@@ -174,8 +186,19 @@ public class CafeController {
 //	}
 //
 	// ---------------------------------------------------
+
+	@ApiOperation(value = "Cafe 등록")
+	@PostMapping("/cafe")
+	public ResponseEntity<Map<String, Object>> addCafe(@Valid @RequestBody CafeDto cafe) throws Exception{
+		//카페 등록
+		//이미 DB에 등록된 카페가 있는지 파악(무엇으로? cafe_owner_id? 카페 주소와 연락처와 기타 내용을 바탕으로 조회?
+		//카페 주소를 위도 경도 변환하는 라이브러리 사용
+		
+		return null;
+	}
+
 	// check header from request and parse JWT Token
-	private Long getLoggedInUserId2(HttpServletRequest request) {
+	private Long getLoggedInUserId(HttpServletRequest request) {
 		String bearerToken = request.getHeader("Authorization");
 		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
 			String jwt = bearerToken.substring(7, bearerToken.length());
