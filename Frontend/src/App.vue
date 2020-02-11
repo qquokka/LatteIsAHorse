@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+
     <modal :loginFailed="loginFailed" @login="login" />
     <router-view :key="$route.fullPath" />
   </div>
@@ -8,14 +9,16 @@
 import axios from "axios";
 import Modal from "@/components/Modal.vue";
 
+
 export default {
   name: "App",
   components: {
-    Modal
+    Modal,
   },
   data() {
     return {
-      loginFailed: false
+      loginFailed: false,
+      fullPage: true
     };
   },
   methods: {
@@ -39,10 +42,10 @@ export default {
         })
         .catch(error => {
           if (error.response.data.status === 401) {
-            this.loginFailed = !this.loginFailed
-            alert(error.response.data)
+            this.loginFailed = !this.loginFailed;
+            alert(error.response.data);
           }
-        })
+        });
     }
   },
   mounted() {
@@ -53,16 +56,16 @@ export default {
       this.$store.commit("setToken", stored.jwt);
     }
   }
-}
+};
 </script>
 <style>
-@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&display=swap&subset=korean');
+@import url("https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&display=swap&subset=korean");
 html {
   overflow-x: hidden;
   min-height: 100vh;
 }
 #app {
-  font-family: 'Nanum Gothic', sans-serif;
+  font-family: "Nanum Gothic", sans-serif;
   text-align: center;
   color: #5f4f5f;
   font-weight: 600;
@@ -71,12 +74,14 @@ html {
 #nav {
   padding: 30px;
 }
-a, .router-link {
+a,
+.router-link {
   text-decoration: none !important;
   color: #5f4f5f !important;
 }
-a:hover, .router-link:hover {
-  color: #6f4f5f !important
+a:hover,
+.router-link:hover {
+  color: #6f4f5f !important;
 }
 
 .router-link-active {
@@ -94,5 +99,4 @@ a:hover, .router-link:hover {
   background: violet;
   border-radius: 10px;
 }
-
 </style>
