@@ -11,16 +11,12 @@
 
 	<select id="getMenuListById" parameterType="java.lang.Integer"
 		resultType="com.latte.dto.MenuDto">
-		select menu.mid, menu.cafe_id, menu.product, menu.price,
-		menu.description, menu.tag,
-		sum(userslikemenu.like_count) as like_count
-		from menu left outer join userslikemenu
-		on menu.mid =
-		userslikemenu.menu_id
-		where menu.cafe_id =#{cafe_id}
-		group by
-		menu.product
-
+		<!-- select menu.mid, menu.cafe_id, menu.product, menu.price, menu.description, 
+			menu.tag, sum(userslikemenu.like_count) as like_count from menu left outer 
+			join userslikemenu on menu.mid = userslikemenu.menu_id where menu.cafe_id 
+			=#{cafe_id} group by menu.product -->
+		select menu.mid, menu.cafe_id, menu.product, menu.price, menu.description, 
+			menu.tag, menu.mid like_count from menu where cafe_id = #{cafe_id}
 	</select>
 
 	<select id="getMenuById" parameterType="java.lang.Integer"
