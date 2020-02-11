@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.latte.dto.CafeDto;
 import com.latte.dto.MenuDto;
 import com.latte.dto.UsersLikeMenu;
+import com.latte.model.User;
 import com.latte.model.post.Post;
+import com.latte.repository.UserRepository;
 import com.latte.security.JwtTokenProvider;
 import com.latte.service.ICafeService;
 import com.latte.service.IMenuService;
@@ -48,6 +50,9 @@ public class CafeController {
 	@Autowired
 	IMenuService menuservice;
 
+	@Autowired
+	UserRepository userRepository;
+	
 	@Autowired
 	IPostService postservice;
 
@@ -95,7 +100,7 @@ public class CafeController {
 
 		userslikemenu.setCafe_id(cafe_id);
 
-		Long users_id = getLoggedInUserId2(request);
+		Long users_id = getLoggedInUserId(request);
 
 		if (users_id != 0L) {
 			userslikemenu.setUsers_id(users_id);
@@ -105,6 +110,7 @@ public class CafeController {
 		Map<String, Object> response = new HashMap<>();
 		
 		if (cafeInfo != null) {
+			User owner = userRepository.findById(cafeInfo.getCafe_owner_id()).get();
 			// Generate Cafe's Time Table
 			Instant[][] time = { { cafeInfo.getSun_open(), cafeInfo.getSun_close() },
 					{ cafeInfo.getMon_open(), cafeInfo.getMon_close() },
@@ -121,6 +127,9 @@ public class CafeController {
 			}
 			if (postList != null) {
 				response.put("post", postList);
+			}
+			if(owner != null) {
+				response.put("owner_name", owner.getName());
 			}
 
 		} else {
@@ -147,7 +156,7 @@ public class CafeController {
 
 	// ---------------------------------------------------
 	// check header from request and parse JWT Token
-	private Long getLoggedInUserId2(HttpServletRequest request) {
+	private Long getLoggedInUserId(HttpServletRequest request) {
 		String bearerToken = request.getHeader("Authorization");
 		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
 			String jwt = bearerToken.substring(7, bearerToken.length());
