@@ -43,12 +43,11 @@
 
 	<!-- Update -->
 	<update id="updateCoupon" parameterType="com.latte.dto.Coupon">
-		update coupon set
-		count =
-		#{count}
-		where
-		users_id =#{users_id}
-		and cafe_id =#{cafe_id}
+		UPDATE COUPON SET
+		COUNT = (#{count} + COUNT)
+		WHERE
+		USERS_ID = #{USERS_ID}
+		AND CAFE_ID = #{CAFE_ID}
 	</update>
 	
 	<!-- Delete -->
@@ -68,9 +67,15 @@
 	<!-- plus coupon count -->
 	<update id="useCoupon" parameterType="coupon">
 		UPDATE COUPON SET
-		COUNT = (#{count} + COUNT)
+		COUNT = (COUNT - #{count})
 		WHERE
-		USERS_ID =#{USERS_ID}
-		AND CAFE_ID =#{CAFE_ID}
+		USERS_ID = #{USERS_ID}
+		AND CAFE_ID = #{CAFE_ID}
 	</update>
+	
+	<select id="getCurrentCouponCount" parameterType="coupon" resultType="java.lang.Integer">
+		SELECT COUNT FROM COUPON WHERE
+		USERS_ID = #{USERS_ID}
+		AND CAFE_ID = #{CAFE_ID}
+	</select>
 </mapper>
