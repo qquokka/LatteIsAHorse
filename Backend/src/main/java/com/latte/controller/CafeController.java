@@ -105,7 +105,6 @@ public class CafeController {
 		Map<String, Object> response = new HashMap<>();
 		
 		if (cafeInfo != null) {
-			response.put("cafeinfo", cafeInfo);
 			// Generate Cafe's Time Table
 			Instant[][] time = { { cafeInfo.getSun_open(), cafeInfo.getSun_close() },
 					{ cafeInfo.getMon_open(), cafeInfo.getMon_close() },
@@ -114,7 +113,9 @@ public class CafeController {
 					{ cafeInfo.getThu_open(), cafeInfo.getTue_close() },
 					{ cafeInfo.getFri_open(), cafeInfo.getFri_close() },
 					{ cafeInfo.getSat_open(), cafeInfo.getSat_close() } };
-			response.put("time", time);
+			//response.put("time", time);
+			cafeInfo.setTime(time);
+			response.put("cafeinfo", cafeInfo);
 			if (menuList != null) {
 				response.put("menu", menuList);
 			}
