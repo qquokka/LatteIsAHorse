@@ -12,6 +12,7 @@ public class MenuDto {
 	private int cafe_id;
 	private String tag;
 	private int like_count;
+	private int num_coupon; //해당 메뉴 구매 가능한 최대 쿠폰 개수
 
 	public MenuDto() {
 		super();
@@ -26,6 +27,19 @@ public class MenuDto {
 		this.cafe_id = cafe_id;
 		this.tag = tag;
 		this.like_count = like_count;
+	}
+
+	public MenuDto(int mid, String product, int price, String description, int cafe_id, String tag, int like_count,
+			int num_coupon) {
+		super();
+		this.mid = mid;
+		this.product = product;
+		this.price = price;
+		this.description = description;
+		this.cafe_id = cafe_id;
+		this.tag = tag;
+		this.like_count = like_count;
+		this.num_coupon = num_coupon;
 	}
 
 	public int getMid() {
@@ -88,6 +102,14 @@ public class MenuDto {
 
 	public void setTag(String tag) {
 		this.tag = tag;
+	}
+
+	public int getNum_coupon() {
+		return num_coupon;
+	}
+
+	public void setNum_coupon(int num_coupon) {
+		this.num_coupon = num_coupon;
 	}
 
 }

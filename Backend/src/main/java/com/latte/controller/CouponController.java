@@ -1,22 +1,17 @@
 package com.latte.controller;
 
 import java.io.ByteArrayOutputStream;
-import java.net.URI;
 import java.nio.ByteBuffer;
 import java.security.AlgorithmParameters;
 import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.Base64;
-import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
-import javax.crypto.interfaces.PBEKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -29,17 +24,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.encrypt.Encryptors;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,17 +42,8 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.latte.dto.Coupon;
 import com.latte.dto.QRCode;
-import com.latte.exception.AppException;
-import com.latte.model.Role;
-import com.latte.model.RoleName;
-import com.latte.model.User;
-import com.latte.payload.ApiResponse;
-import com.latte.payload.JwtAuthenticationResponse;
-import com.latte.payload.LoginRequest;
 import com.latte.payload.QRCodeGenerateRequest;
-import com.latte.payload.SignUpRequest;
-import com.latte.repository.RoleRepository;
-import com.latte.repository.UserRepository;
+import com.latte.payload.UseCouponRequest;
 import com.latte.security.JwtTokenProvider;
 import com.latte.service.ICouponService;
 import com.latte.service.IQRCodeService;
@@ -85,18 +67,10 @@ public class CouponController {
 	IQRCodeService qrcodeService;
 
 	@Autowired
-	AuthenticationManager authenticationManager;
-
-	@Autowired
-	UserRepository userRepository;
-
-	@Autowired
-	PasswordEncoder passwordEncoder;
-
-	@Autowired
 	JwtTokenProvider tokenProvider;
 
-	@GetMapping("/coupon/{code}")
+	
+	@PutMapping("/coupon/{code}")
 	@ApiOperation(value = "쿠폰 등록하기")
 	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
 	public ResponseEntity<Map<String, Object>> enrollCoupon(@PathVariable("code") String code, HttpServletRequest request) throws Exception{
@@ -131,7 +105,7 @@ public class CouponController {
 		//쿠폰 정보가 이미 DB에 존재 하는지
 		result = (result < 1) ? 
 				couponService.addCoupon(coupon) :
-				couponService.useCoupon(coupon);
+				couponService.updateCoupon(coupon);
 
 		if(result >= 1) {
 			response.put("message", "쿠폰 등록 성공");
@@ -140,6 +114,60 @@ public class CouponController {
 		}else {
 			response.put("message", "쿠폰 등록 실패");
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/coupon/{cafe_id}")
+	@ApiOperation(value = "현재 로그인된 사용자가 보유한 쿠폰 갯수 반환")
+	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
+	public ResponseEntity<Map<String, Object>> getCurrentCouponCount(@PathVariable("cafe_id") Integer cafe_id, HttpServletRequest request) throws Exception{
+		Long users_id = getLoggedInUserId(request);
+		
+		Coupon coupon = new Coupon();
+		coupon.setCafe_id(cafe_id);
+		coupon.setUsers_id(users_id);
+		
+		Map<String, Object> response = new HashMap<String, Object>();
+		
+		//현재 보유한 쿠폰 갯수(등록되어 있지 않다면 기본값 = 0)
+		int numberOfCoupon = couponService.getCurrentCouponCount(coupon);
+		
+		response.put("message", "보유하신 쿠폰은 " + numberOfCoupon + "개 입니다.");
+		response.put("numberOfCoupon", numberOfCoupon);
+		
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	@PatchMapping("/coupon/{cafe_id}")
+	@ApiOperation(value = "사용자가 보유한 쿠폰 사용")
+	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
+	public ResponseEntity<Map<String, Object>> useCoupon(@Valid @RequestBody UseCouponRequest ucr, HttpServletRequest request) throws Exception{
+		Long users_id = getLoggedInUserId(request);
+		
+		Coupon coupon = new Coupon();
+		coupon.setCafe_id(ucr.getCafe_id()); //수정
+		coupon.setUsers_id(users_id);
+
+		Map<String, Object> response = new HashMap<String, Object>();
+		
+		//현재 보유한 쿠폰 갯수(등록되어 있지 않다면 기본값 = 0)
+		int numberOfCoupon = couponService.getCurrentCouponCount(coupon);
+		
+		if(numberOfCoupon - ucr.getNum_coupon() < 0) {
+			response.put("message", "보유하신 쿠폰의 개수가 부족합니다.");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		coupon.setCount(ucr.getNum_coupon());
+		int result = couponService.useCoupon(coupon);
+		
+		if(result < 1) {
+			response.put("message", "쿠폰을 사용하실 수 없습니다.");
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}else {
+			//response.put("numberOfCoupon", numberOfCoupon);
+			response.put("message", "쿠폰이 완료되었습니다.");
+			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 	}
 	

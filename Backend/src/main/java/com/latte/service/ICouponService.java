@@ -26,4 +26,6 @@ public interface ICouponService {
 	int isExist(Coupon coupon);
 
 	int useCoupon(Coupon coupon);
+
+	int getCurrentCouponCount(Coupon coupon);
 }

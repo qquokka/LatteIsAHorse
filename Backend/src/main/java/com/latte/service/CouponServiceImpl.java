@@ -63,4 +63,10 @@ public class CouponServiceImpl implements ICouponService {
 		return couponDao.useCoupon(coupon);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public int getCurrentCouponCount(Coupon coupon) {
+		return couponDao.getCurrentCouponCount(coupon);
+	}
+
 }

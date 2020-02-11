@@ -54,4 +54,8 @@ public class CouponDaoImpl {
 		return sqlSession.update(ns + "useCoupon", coupon);
 	}
 
+	public int getCurrentCouponCount(Coupon coupon) {
+		return sqlSession.selectOne(ns + "getCurrentCouponCount", coupon);
+	}
+
 }
