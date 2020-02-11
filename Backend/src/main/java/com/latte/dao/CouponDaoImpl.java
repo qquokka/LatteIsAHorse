@@ -46,4 +46,12 @@ public class CouponDaoImpl {
 		return sqlSession.delete(ns + "deleteCouponByUserId", user_id);
 	}
 
+	public int isExist(Coupon coupon) {
+		return sqlSession.selectOne(ns + "isExist", coupon);
+	}
+
+	public int useCoupon(Coupon coupon) {
+		return sqlSession.update(ns + "useCoupon", coupon);
+	}
+
 }

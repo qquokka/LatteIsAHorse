@@ -9,19 +9,24 @@ public class QRCode implements Serializable {
 
 	private Long id;
 	private Integer cafe_id;
-	private Instant time_stamp;
+	private Long time_stamp;
 	private String code;
 
 	public QRCode() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public QRCode(Long id, Integer cafe_id, Instant time_stamp, String code) {
+	public QRCode(Long id, Integer cafe_id, Long time_stamp, String code) {
 		super();
 		this.id = id;
 		this.cafe_id = cafe_id;
 		this.time_stamp = time_stamp;
+		this.code = code;
+	}
+
+	public QRCode(int cafe_id, String code) {
+		super();
+		this.cafe_id = cafe_id;
 		this.code = code;
 	}
 
@@ -41,11 +46,11 @@ public class QRCode implements Serializable {
 		this.cafe_id = cafe_id;
 	}
 
-	public Instant getTime_stamp() {
+	public Long getTime_stamp() {
 		return time_stamp;
 	}
 
-	public void setTime_stamp(Instant time_stamp) {
+	public void setTime_stamp(Long time_stamp) {
 		this.time_stamp = time_stamp;
 	}
 
