@@ -6,7 +6,7 @@
       class="d-none d-md-block brand"
       style="margin-top: 8rem;margin-bottom:2rem;position:relative"
     >Find your ideal cafe <i class="fas fa-mug-hot"></i></h2>
-    <h3 class="d-block d-md-none" style="margin-top: 1rem;margin-bottom:2rem;position:relative">
+    <h3 class="d-block d-md-none" style="margin-top: 5rem;margin-bottom:2rem;position:relative">
       LATTE
       <span style="color:violet">=</span> HORSE
     </h3>
@@ -107,17 +107,15 @@ export default {
 .main-section {
   position: relative;
   margin: 0 auto 3rem auto;
-  width: 85%;
-  min-width: 450px;
+  width: 100%;
   border-radius: 50px;
 }
 .list-container {
   background-color: rgba(255, 255, 255, 0.95);
 }
 .article-header {
-  color: #3f3f3f;
-  text-align: left;
-  margin-top: 2rem;
+  text-align: center;
+  margin: 2rem auto 2rem auto;
   border-radius: 20px;
   text-shadow: 26px 26px 51px #d9d9d9, -26px -26px 51px #ffffff;
   width: fit-content;
@@ -128,7 +126,7 @@ export default {
   left: 0;
   z-index: 0;
   width: 100vw;
-  height: 30rem;
+  height: 60vh;
   background-color: lavender;
 }
 </style>
