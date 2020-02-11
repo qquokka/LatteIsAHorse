@@ -36,6 +36,7 @@ export default {
           this.$store.dispatch("login", token);
           this.$store.commit("setToken", token);
           document.querySelector("#modalCloseButton").click();
+          console.log('로그인 성공')
         })
         .catch(error => {
           if (error.response.data.status === 401) {

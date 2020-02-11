@@ -4,7 +4,7 @@
     <div v-if="selectedImage" id="imgView">
       <img :src="selectedImage" @click.stop="selectedImage = null" />
     </div>
-    <router-link id="reviewWriteBtn" :to="`/cafe/${cafeId}/posts/create`" v-if="isLogined">리뷰 쓰러가기</router-link>
+    <router-link id="reviewWriteBtn" :to="`/cafe/${cafeId}/posts/create`" >리뷰 쓰러가기</router-link>
     <!-- global end-->
     <nav-bar />
     <div class="row mt-0 mt-lg-5 mx-lg-3 border-0">
@@ -213,7 +213,6 @@ export default {
       reviews: [],
       time: [[]],
       isOpen: false,
-      isLogined: false,
       today: 0,
       selectedImage: null,
       delay: 400,
@@ -386,6 +385,11 @@ export default {
       let todayCal = document.getElementById(dayofweek);
       todayCal.style.backgroundColor = "lavender";
     }, 250);
+  },
+  computed: {
+    isLogined() {
+      return 1;
+    }
   }
 };
 </script>
