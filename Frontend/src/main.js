@@ -9,6 +9,7 @@ import VueSession from 'vue-session'
 import store from './store' // vuex
 import * as VueGoogleMaps from 'vue2-google-maps'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import './registerServiceWorker'
 
 Vue.component('fa', FontAwesomeIcon)
 Vue.config.productionTip = false

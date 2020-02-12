@@ -14,18 +14,44 @@
                           fullscreenControl: true,
                           disableDefaultUi: false,
                           gestureHandling: 'greedy', //Ctrl + 화면을 사용하려면 Google지도 확대 / 축소를 사용 비활성화
-                          minZoom: 13, //최소 줌 레벨
-                          maxZoom: 16 //최대 줌 레벨
+                          minZoom: 12, //최소 줌 레벨
+                          maxZoom: 18 //최대 줌 레벨
                         }"
-      style="width:100%;  height: 640px;"
+      style="width:100%;  height: 100%;"
     >
       <gmap-marker
-        :key="index"
-        v-for="(m, index) in markers"
-        :position="m.position"
+        :position="prop_center"
         :clickable="true"
-        @click="center=m.position"
+        :icon="require('../assets/icons/myloc.png')"
+        
       ></gmap-marker>
+      <gmap-marker
+        :key="'m-' + idx"
+        v-for="(cafe, idx) in cafes"
+        :position="{ lat: +cafe.latitude, lng: +cafe.longitude }"
+        :clickable="true"
+        @click="infoWindow(idx)"
+      ></gmap-marker>
+        <gmap-info-window
+        v-for="(cafe, idx) in cafes"
+        :key="idx"
+        @closeclick="window_open[idx]=false"
+        :opened="window_open[idx]"
+        :position="{ lat: +cafe.latitude, lng: +cafe.longitude }"
+        :options="{
+          pixelOffset: {
+            width: 0,
+            height: -35
+          }
+        }"
+      >
+        <h5>{{ cafe.cafe_name }}</h5>
+        <small class="m-0">{{ cafe.cafe_address }}</small>
+        <h6 class="mt-3 font-weight-bold">
+          <fa icon="phone-alt" />
+          {{ cafe.cafe_phone }}
+        </h6>
+      </gmap-info-window>
     </gmap-map>
   </div>
 </template>
@@ -47,12 +73,15 @@ export default {
   },
   data() {
     return {
+      cafes: null,
       center: null,
       markers: [],
       places: [],
       zoom_level: 15,
       currentPlace: null,
-      mapLoading: false
+      mapLoading: false,
+      window_open: [],
+      selected_cafe: {}
     };
   },
   watch: {
@@ -61,14 +90,12 @@ export default {
         this.center = this.prop_center
         axios
           .post(`${this.$store.state.constants.SERVER}/map/`, {
-            longitude: this.center.lng,
-            latitude: this.center.lat,
+            longitude: this.prop_center.lng,
+            latitude: this.prop_center.lat,
           })
           .then(res => {
             if (res.data.constructor === Array) {
-              this.addCafeMarkers(res.data);
-            } else {
-              this.markers = this.markers.splice(0, 1)
+              this.cafes = res.data;
             }
           })
           .catch(err => {
@@ -79,6 +106,9 @@ export default {
   },
   beforeMount() {
     this.center = this.prop_center
+                for (var ix=0;ix < 1000;ix++) {
+              this.window_open.push(false)
+            }
   },
   mounted() {
     this.mapLoading = true
@@ -86,14 +116,11 @@ export default {
     
   },
   methods: {
-    addCafeMarkers(cafes) {
-      cafes.forEach(cafe => {
-        const marker = {
-          lat: +cafe.latitude,
-          lng: +cafe.longitude
-        };
-        this.markers.push({ position: marker });
-      });
+    infoWindow(idx) {
+      // this.window_open[idx] = !this.window_open[idx]
+      this.$set(this.window_open, idx, !this.window_open[idx])
+      this.selected_cafe = this.cafes[idx]
+      this.$emit('cafe_change_event', this.selected_cafe)
     },
     zoomChanged(e) {
       this.zoom_level = e;
@@ -103,12 +130,6 @@ export default {
       this.currentPlace = place;
     },
     geolocate() {
-      let position = this.center
-        const marker = {
-          lat: position.lat,
-          lng: position.lng
-        };
-      
         axios
           .post(`${this.$store.state.constants.SERVER}/map/`, {
             longitude: this.prop_center.lng,
@@ -116,16 +137,11 @@ export default {
             level: 13,
           })
           .then(res => {
+
             setTimeout(() => {
               this.mapLoading = false
-            }, 1000);
-            
-            if (res.data.constructor === Array) {
-              this.addCafeMarkers(res.data);
-              this.markers.push({ position: marker });
-            }
-            
-            
+            }, 1000);   
+            this.cafes = res.data;
           })
           .catch(err => {
             console.log(err);
