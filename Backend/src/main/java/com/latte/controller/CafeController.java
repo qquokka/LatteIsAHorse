@@ -71,7 +71,7 @@ public class CafeController {
 
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	IPostService postservice;
 
@@ -112,7 +112,6 @@ public class CafeController {
 			HttpServletRequest request) throws Exception {
 		logger.info("CafeController------------getAllInfoByCafeId-------------" + new Date());
 		CafeDto cafeInfo = cafeservice.getCafeById(cafe_id);
-//		List<MenuDto> menuList = menuservice.getMenuListById(cafe_id);
 		List<Post> postList = postservice.getPostListByCafeId(cafe_id);
 
 		UsersLikeMenu userslikemenu = new UsersLikeMenu();
@@ -136,9 +135,9 @@ public class CafeController {
 			// Generate Cafe's Time Table
 			Instant[][] time = { { cafeInfo.getSun_open(), cafeInfo.getSun_close() },
 					{ cafeInfo.getMon_open(), cafeInfo.getMon_close() },
-					{ cafeInfo.getThu_open(), cafeInfo.getTue_close() },
+					{ cafeInfo.getTue_open(), cafeInfo.getTue_close() },
 					{ cafeInfo.getWed_open(), cafeInfo.getWed_close() },
-					{ cafeInfo.getThu_open(), cafeInfo.getTue_close() },
+					{ cafeInfo.getThu_open(), cafeInfo.getThu_close() },
 					{ cafeInfo.getFri_open(), cafeInfo.getFri_close() },
 					{ cafeInfo.getSat_open(), cafeInfo.getSat_close() } };
 			// response.put("time", time);
@@ -150,7 +149,7 @@ public class CafeController {
 			if (postList != null) {
 				response.put("post", postList);
 			}
-			if(owner != null) {
+			if (owner != null) {
 				response.put("owner_name", owner.getName());
 			}
 
@@ -177,16 +176,36 @@ public class CafeController {
 	}
 
 	@ApiOperation(value = "내가 좋아하는  Cafe의 리스트 반환", response = List.class)
-	@GetMapping("/mycafe/{user_id}")
-	public ResponseEntity<List<CafeDto>> getMyCafeList() throws Exception {
-		logger.info("CafeController-------------getCafeList-------------" + new Date());
 
-		List<CafeDto> cafes = cafeservice.getCafeList();
+	@GetMapping("/cafe/my/{user_id}")
+	public ResponseEntity<List<CafeDto>> getMyCafeList(@PathVariable("user_id") Long user_id) throws Exception {
+		logger.info("CafeController-------------getMyCafeList-------------" + new Date());
+		List<CafeDto> cafes = cafeservice.getMyCafeList(user_id);
 		if (cafes == null || cafes.size() == 0) {
 			return new ResponseEntity<List<CafeDto>>(cafes, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<CafeDto>>(cafes, HttpStatus.OK);
 	}
+
+	@ApiOperation(value = "해당 Cafe의 메뉴 리스트 반환", response = List.class)
+	@GetMapping("/cafe/{cafe_id}/menu")
+	public ResponseEntity<List<MenuDto>> getMenuCafeIdList(@PathVariable("cafe_id") int cafe_id,
+			HttpServletRequest request) throws Exception {
+		logger.info("CafeController-------------getMenuCafeIdList-------------" + new Date());
+		UsersLikeMenu userslikemenu = new UsersLikeMenu();
+		userslikemenu.setCafe_id(cafe_id);
+		Long users_id = getLoggedInUserId(request);
+
+		if (users_id != 0L) {
+			userslikemenu.setUsers_id(users_id);
+		}
+		List<MenuDto> menuList = ulmservice.getUsersLikeMenuByCafeIdNUserId(userslikemenu);
+		if (menuList == null || menuList.size() == 0) {
+			return new ResponseEntity<List<MenuDto>>(menuList, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<MenuDto>>(menuList, HttpStatus.OK);
+	}
+
 
 	@ApiOperation(value = "Cafe 등록")
 	@PostMapping("/cafe")
@@ -271,6 +290,7 @@ public class CafeController {
 		}
 		
 		return map;
+
 	}
 
 	// check header from request and parse JWT Token

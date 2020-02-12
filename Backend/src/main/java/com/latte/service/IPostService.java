@@ -29,6 +29,8 @@ public interface IPostService {
 	int deletePostById(Long id);
 
 	Long getLastPostedId();
+	
+	List<Post> getMyPostList(Long user_id);
 
 	// Post hashtag 관련
 	List<PostHashtag> getPostHashTags(Long post_id);
@@ -50,8 +52,7 @@ public interface IPostService {
 
 	int deletePostComments(Long id);
 
-	// ----------------jw add------------------------
-
 	List<PostComments> getAllPostComments();
-
+	
+	List<PostComments> getMyPostCommentsList(Long user_id);
 }

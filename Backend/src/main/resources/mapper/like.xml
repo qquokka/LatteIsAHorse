@@ -71,7 +71,8 @@
 		select m.*, ifnull(sum(ulm.like_count),0) like_count ,
 		<choose>
 			<when test="users_id != null">
-				if(ulm.like_count and ulm.users_id = #{users_id}, 'true', 'false') as user_like
+				if(ulm.like_count and ulm.users_id = #{users_id},
+				'true', 'false') as user_like
 			</when>
 			<otherwise>
 				'false' as user_like

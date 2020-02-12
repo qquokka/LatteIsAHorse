@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class CafeDto implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 	private int cafe_id;
 	private String cafe_name;
@@ -48,7 +47,6 @@ public class CafeDto implements Serializable {
 	private Boolean closed;
 	private Long cafe_owner_id;
 	private String description;
-
 	private Instant[][] time;
 
 	public CafeDto() {
@@ -294,5 +292,4 @@ public class CafeDto implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
 }

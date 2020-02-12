@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.latte.dto.CafeDto;
 import com.latte.model.post.Post;
 import com.latte.payload.PostAddRequest;
 import com.latte.security.JwtTokenProvider;
@@ -70,7 +71,6 @@ public class PostController {
 
 		Long userId = getLoggedInUserId(request);
 		Long lastId = postservice.getLastPostedId();
-		
 
 		Map<String, Object> response = new HashMap<>();
 
@@ -80,7 +80,7 @@ public class PostController {
 		// 사진 있다면 사진 등록하는 로직 추가
 		// NumberResult response = new NumberResult();
 		int result = postservice.addPost(post);
-		
+
 		if (result < 1) { // 등록 실패
 			response.put("state", "fail");
 			return new ResponseEntity(null, HttpStatus.EXPECTATION_FAILED);
@@ -156,9 +156,35 @@ public class PostController {
 			response.put("state", "fail");
 			return new ResponseEntity(null, HttpStatus.EXPECTATION_FAILED);
 		}
-
 		response.put("state", "success");
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+
+//	@ApiOperation(value = "내가 쓴 Post의 리스트 반환", response = List.class)
+//	@GetMapping("/post/my/{user_id}")
+//	public ResponseEntity<List<Post>> getMyPostList(@PathVariable("user_id") Long user_id) throws Exception {
+//		logger.info("CafeController-------------getMyPostList-------------" + new Date());
+//		List<Post> posts = postservice.getMyPostList(user_id);
+//		if (posts == null || posts.size() == 0) {
+//			return new ResponseEntity<List<Post>>(posts, HttpStatus.NO_CONTENT);
+//		}
+//		return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
+//	}
+
+	@ApiOperation(value = "내가 쓴 Post의 리스트 반환", response = List.class)
+	@GetMapping("/post/my")
+	public ResponseEntity<List<Post>> getMyPostList(HttpServletRequest request) throws Exception {
+		logger.info("CafeController-------------getMyPostList-------------" + new Date());
+		List<Post> posts = null;
+		Long userId = getLoggedInUserId(request);
+		if (userId != 0L) {
+			posts = postservice.getMyPostList(userId);
+		}
+
+		if (posts == null || posts.size() == 0) {
+			return new ResponseEntity<List<Post>>(posts, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
 	}
 
 	// ---------------------------------------------------
@@ -173,5 +199,5 @@ public class PostController {
 		}
 		return 0L;
 	}
-	
+
 }
