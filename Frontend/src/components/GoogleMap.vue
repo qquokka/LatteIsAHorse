@@ -4,7 +4,6 @@
     <gmap-map ref="gmap" 
               :center="center" 
               :zoom="zoom_level"
-              @zoom_changed="zoomChanged" 
               :options="{
                           zoomControl: false, //zoom 컨트롤바 생성
                           mapTypeControl: false,
@@ -121,9 +120,6 @@ export default {
       this.$set(this.window_open, idx, !this.window_open[idx])
       this.selected_cafe = this.cafes[idx]
       this.$emit('cafe_change_event', this.selected_cafe)
-    },
-    zoomChanged(e) {
-      this.zoom_level = e;
     },
     // receives a place object via the autocomplete component
     setPlace(place) {
