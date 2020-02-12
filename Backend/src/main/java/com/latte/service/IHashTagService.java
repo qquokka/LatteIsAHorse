@@ -1,7 +1,9 @@
 package com.latte.service;
 
+import java.util.HashMap;
 import java.util.List;
 
+import com.latte.model.Hashtag;
 import com.latte.model.PostHashtag;
 
 public interface IHashTagService {
@@ -18,11 +20,11 @@ public interface IHashTagService {
 	int deleteHashtagId(Long post_id);
 	
 	//Post에 등록된 해쉬태그의 id 추가 INSERT
-	int addHashtagId(Long post_id);
+	int addHashtagId(PostHashtag post_hashtag);
 	
 	//Post에 등록된 모든 해쉬태그명 반환 String List
 	List<String> hashtagsInThePost(Long post_id);
 	
 	//해쉬태그명으로 hashtag 모두 검색
-	List<String> getAllHashtagByNames(List<String> names);
+	List<Hashtag> getAllHashtagByNames(List<String> names);
 }

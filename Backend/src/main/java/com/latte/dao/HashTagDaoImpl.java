@@ -1,10 +1,14 @@
 package com.latte.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.latte.model.Hashtag;
+import com.latte.model.PostHashtag;
 
 @Repository
 public class HashTagDaoImpl {
@@ -29,15 +33,15 @@ public class HashTagDaoImpl {
 		return sqlSession.delete(ns + "deleteHashtagId", post_id);
 	}
 
-	public int addHashtagId(Long post_id) {
-		return sqlSession.insert(ns + "addHashtagId", post_id);
+	public int addHashtagId(PostHashtag post_hashtag) {
+		return sqlSession.insert(ns + "addHashtagId", post_hashtag);
 	}
 
 	public List<String> hashtagsInThePost(Long post_id) {
 		return sqlSession.selectList(ns + "hashtagsInThePost", post_id);
 	}
 
-	public List<String> getAllHashtagByNames(List<String> names) {
+	public List<Hashtag> getAllHashtagByNames(List<String> names) {
 		return sqlSession.selectList(ns + "getAllHashtagByNames", names);
 	}
 	

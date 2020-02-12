@@ -60,7 +60,7 @@ public class UserController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "회원 정보 수정(전화번호, 이름")
+	@ApiOperation(value = "회원 권한 수정")
 	@PatchMapping("/userrole")
 	public ResponseEntity<Map<String, Object>> updateUserRole(@Valid @RequestBody UserRoleUpdateRequest request)
 			throws Exception {
@@ -96,7 +96,7 @@ public class UserController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "회원 정보 수정(전화번호, 이름")
+	@ApiOperation(value = "회원 탈퇴 처리")
 	@DeleteMapping("/withdrawal/{id}")
 	public ResponseEntity<Map<String, Object>> withdrawalUserAccount(@PathVariable("id") Long id) throws Exception {
 		logger.info("UserController-------------withdrawalUserAccount-------------" + new Date());

@@ -19,6 +19,8 @@
 			alias="userslikepost" />
 		<typeAlias type="com.latte.dto.Coupon" alias="coupon" />
 		<typeAlias type="com.latte.dto.QRCode" alias="qrcode" />
+		<typeAlias type="com.latte.model.Hashtag" alias="hashtag"/>
+		<typeAlias type="com.latte.model.PostHashtag" alias="posthashtag"/>
 	</typeAliases>
 
 </configuration>

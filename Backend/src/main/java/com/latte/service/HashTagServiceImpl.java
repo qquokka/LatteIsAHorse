@@ -1,5 +1,6 @@
 package com.latte.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.latte.dao.HashTagDaoImpl;
+import com.latte.model.Hashtag;
+import com.latte.model.PostHashtag;
 
 @Service
 public class HashTagServiceImpl implements IHashTagService {
@@ -40,8 +43,8 @@ public class HashTagServiceImpl implements IHashTagService {
 
 	@Override
 	@Transactional
-	public int addHashtagId(Long post_id) {
-		return hashtagDao.addHashtagId(post_id);
+	public int addHashtagId(PostHashtag post_hashtag) {
+		return hashtagDao.addHashtagId(post_hashtag);
 	}
 
 	@Override
@@ -52,7 +55,7 @@ public class HashTagServiceImpl implements IHashTagService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<String> getAllHashtagByNames(List<String> names) {
+	public List<Hashtag> getAllHashtagByNames(List<String> names) {
 		return hashtagDao.getAllHashtagByNames(names);
 	}
 	
