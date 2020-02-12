@@ -33,7 +33,7 @@ const getters = {
         }
     },
     user(state) {
-        return jwtDecode(state.token).user_id
+        return jwtDecode(state.token).sub
     },
     isLoggedIn: state => !!state.token,
 }

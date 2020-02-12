@@ -24,6 +24,7 @@
     "load-script-once": "^2.0.1",
     "moment": "^2.24.0",
     "popper.js": "^1.16.0",
+    "register-service-worker": "^1.6.2",
     "vue": "^2.6.10",
     "vue-countup-v2": "^4.0.0",
     "vue-games": "^0.2.2",
@@ -37,6 +38,7 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-eslint": "^4.0.0",
+    "@vue/cli-plugin-pwa": "^4.2.2",
     "@vue/cli-service": "^4.0.0",
     "babel-eslint": "^10.0.3",
     "eslint": "^5.16.0",

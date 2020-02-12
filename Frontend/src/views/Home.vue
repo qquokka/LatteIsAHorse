@@ -77,7 +77,6 @@ export default {
 
     axios.get(`${this.$store.state.constants.SERVER}/post`).then(response => {
       this.reviewData = response.data;
-      console.log(this.reviewData)
     });
   }
 };

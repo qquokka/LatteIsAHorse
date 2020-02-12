@@ -9,7 +9,6 @@
 import axios from "axios";
 import Modal from "@/components/Modal.vue";
 
-
 export default {
   name: "App",
   components: {
@@ -27,7 +26,6 @@ export default {
       this.$store.dispatch("logout");
     },
     login(credentials) {
-      console.log(credentials);
       axios
         .post(`${this.$store.state.constants.SERVER}/signin`, credentials)
         .then(response => {
@@ -36,10 +34,10 @@ export default {
           this.$session.start();
           this.$session.set("jwt", token);
           this.$session.set("username", response.data.username);
+          this.$session.set("expire", Date.now());
           this.$store.dispatch("login", token);
           this.$store.commit("setToken", token);
           document.querySelector("#modalCloseButton").click();
-          console.log('로그인 성공')
         })
         .catch(error => {
           if (error.response.data.status === 401) {
@@ -56,6 +54,13 @@ export default {
       this.$store.dispatch("login", stored.jwt);
       this.$store.commit("setToken", stored.jwt);
     }
+    setInterval(() => {
+      if(this.$session.exists("jwt")){
+        if (Date.now() - this.$session.getItem("expire") > 3600000) {
+          this.logout()
+        }
+      }
+    }, 60000);
   }
 };
 </script>
