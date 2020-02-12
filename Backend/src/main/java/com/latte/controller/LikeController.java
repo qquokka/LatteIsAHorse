@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.latte.dto.MenuDto;
 import com.latte.dto.UsersLikeCafeDto;
 import com.latte.dto.UsersLikeMenu;
 import com.latte.dto.UsersLikePost;
@@ -160,6 +161,7 @@ public class LikeController {
 		if (userId != 0L) {
 			userslikemenu.setUsers_id(userId);
 		}
+
 		int result = ulmservice.addUsersLikeMenu(userslikemenu);
 		UsersLikeMenu ulm = ulmservice.getUsersLikeMenuCountBymenuId(mid);// 업데이트 해줌.
 		if (result < 1) { // 등록 실패
@@ -184,7 +186,7 @@ public class LikeController {
 
 		int result = ulmservice.deleteUsersLikeMenuByUserIdNMenuId(userslikemenu);
 		UsersLikeMenu ulm = ulmservice.getUsersLikeMenuCountBymenuId(mid);// 업데이트 해줌.
-		
+
 		if (result < 1) { // 등록 실패
 			return new ResponseEntity<UsersLikeMenu>(ulm, HttpStatus.EXPECTATION_FAILED);
 		}

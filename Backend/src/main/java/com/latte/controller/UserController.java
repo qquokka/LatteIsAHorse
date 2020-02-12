@@ -148,11 +148,11 @@ public class UserController {
 	public ResponseEntity<AjaxResult> getCheckUserName(@PathVariable String username) throws Exception {
 		AjaxResult ajaxResult = new AjaxResult();
 		if (userRepository.existsByUsername(username)) {
-			ajaxResult.setResult("SUCS");
-			return new ResponseEntity<AjaxResult>(ajaxResult, HttpStatus.OK);
-		} else {
 			ajaxResult.setResult("FAIL");
 			return new ResponseEntity<AjaxResult>(ajaxResult, HttpStatus.BAD_REQUEST);
+		} else {
+			ajaxResult.setResult("SUCS");
+			return new ResponseEntity<AjaxResult>(ajaxResult, HttpStatus.OK);
 		}
 	}
 
