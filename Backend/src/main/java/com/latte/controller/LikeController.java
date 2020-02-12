@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.latte.dto.MenuDto;
 import com.latte.dto.UsersLikeCafeDto;
 import com.latte.dto.UsersLikeMenu;
 import com.latte.dto.UsersLikePost;
@@ -109,6 +108,7 @@ public class LikeController {
 		UsersLikeCafeDto userslikecafe = new UsersLikeCafeDto();
 		userslikecafe.setCafe_id(cafe_id);
 		Long userId = getLoggedInUserId(request);
+		
 		if (userId != 0L) {
 			userslikecafe.setUsers_id(userId);
 		}
