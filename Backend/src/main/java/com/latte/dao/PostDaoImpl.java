@@ -6,9 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.latte.model.PostHashtag;
 import com.latte.model.post.Post;
 import com.latte.model.post.PostComments;
-import com.latte.model.post.PostHashtag;
 import com.latte.payload.PostAddRequest;
 
 @Repository

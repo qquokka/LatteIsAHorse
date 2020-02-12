@@ -1,4 +1,4 @@
-package com.latte.model.post;
+package com.latte.model;
 
 import java.io.Serializable;
 
