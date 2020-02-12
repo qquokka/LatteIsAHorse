@@ -108,6 +108,7 @@ public class LikeController {
 		UsersLikeCafeDto userslikecafe = new UsersLikeCafeDto();
 		userslikecafe.setCafe_id(cafe_id);
 		Long userId = getLoggedInUserId(request);
+		
 		if (userId != 0L) {
 			userslikecafe.setUsers_id(userId);
 		}
@@ -160,6 +161,7 @@ public class LikeController {
 		if (userId != 0L) {
 			userslikemenu.setUsers_id(userId);
 		}
+
 		int result = ulmservice.addUsersLikeMenu(userslikemenu);
 		UsersLikeMenu ulm = ulmservice.getUsersLikeMenuCountBymenuId(mid);// 업데이트 해줌.
 		if (result < 1) { // 등록 실패
@@ -184,7 +186,7 @@ public class LikeController {
 
 		int result = ulmservice.deleteUsersLikeMenuByUserIdNMenuId(userslikemenu);
 		UsersLikeMenu ulm = ulmservice.getUsersLikeMenuCountBymenuId(mid);// 업데이트 해줌.
-		
+
 		if (result < 1) { // 등록 실패
 			return new ResponseEntity<UsersLikeMenu>(ulm, HttpStatus.EXPECTATION_FAILED);
 		}

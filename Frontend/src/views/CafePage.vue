@@ -8,7 +8,7 @@
     <router-link id="reviewWriteBtn" :to="`/cafe/${cafeId}/posts/create`" >리뷰 쓰러가기</router-link>
     <!-- global end-->
     <nav-bar />
-    <div class="row m-0 mt-0 mt-lg-5 mx-lg-3 border-0">
+    <div class="row m-0 mt-0 mt-lg-5 mx-lg-3 border-0" v-if="info">
       <single-cafe-map :cafe="info" :isOpen="isOpen" class="col-12 col-lg-5 shadow p-0" />
       <div class="col px-2">
         <div class="align-items-center d-none d-lg-flex">
@@ -107,19 +107,19 @@
         </div>
       </div>
     </div>
-    <div class="container mt-5 px-0 px-lg-5">
+    <div class="container mt-5 px-0 px-lg-5" v-if="menus">
       <h4 class="my-5">
         <fa icon="mug-hot" style="color:violet" />MENU
       </h4>
       <hr />
-      <div v-for="menu in menus" :key="menu.mid" class="row">
+      <div  v-for="menu in menus" :key="menu.mid" class="row">
         <div class="col-3 row justify-content-between">
           <p>{{ menu.product }}</p>
         </div>
         <div class="col-1">
           <p
             style="cursor:pointer"
-            @click="pushLikeMenu(menu.mid, !menu.userLiked)">
+            @click="pushLikeMenu(menu.mid, menu.user_like)">
             <fa
               :icon="menu.user_like?['fas', 'heart']:['far', 'heart']"
               style="cursor: pointer; color: red;"
@@ -241,7 +241,6 @@ export default {
       menus: [],
       reviews: [],
       isOpen: false,
-      isLogined: false,
       isLoading: false,
       fullPage: true,
       today: 0,
@@ -271,8 +270,7 @@ export default {
       };
       axios
         .get(
-          `${this.$store.state.constants.SERVER}/cafe/detail/${this.cafeId}`,
-          config
+          `${this.$store.state.constants.SERVER}/cafe/detail/${this.cafeId}`,{}, config
         )
         .then(response => {
           this.isLoading=false
@@ -331,7 +329,6 @@ export default {
         .catch(error => {
           console.log(error.data);
         });
-
       // reponse.data.like.forEach(elem => {
       //   menuselem.menuId
       // })
@@ -342,71 +339,36 @@ export default {
     // 			console.log(response)
     // 		})
     // },
-    pushLikeMenu(menuId, ifUserLikesMenu) {
-      // 좋아요 버튼을 누르는 경우엔 true, 취소할 경우엔 false
-      // var likeyBtn = document.querySelectorAll('.likeybtn')
-      if (!this.isLogined) {
+    pushLikeMenu(menuId,likeornot) {
+      if (!this.$store.getters.isLoggedIn) {
         alert("plz login");
         return;
       }
-      const config = {
-        headers: { Authorization: "Bearer " + this.$session.get("jwt") }
-      }
-      if (ifUserLikesMenu) {
-        // 좋아요 누를 때
-        console.log("좋아요");
-
+      if (likeornot) {
         axios
           .post(
-            `${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`,
-            {},
-            config
+            `${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`,{headers: { Authorization: "Bearer " + this.$session.get("jwt") }}
           )
-          .then(response => {
-            console.log(response.data);
-            for (let i = 0; i < this.menus.length; i++) {
-              if (this.menus[i].mid === response.data.menu_id) {
-                this.menus[i].like_count = response.data.like_count;
-                this.menus[i].userLiked = true;
-                break;
-              }
-            }
-            console.log(this.menus);
+          .then(()=>{
+            this.getData()
           })
-          .catch(e => {
-            console.log(e.response.data);
-          });
+          .catch(e=> {
+            console.log(e.response);
+          })
       } else {
-        // 좋아요 취소할 때
-        console.log("안좋아요");
         axios
           .delete(
-            `${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`,
-            config
+            `${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`,{headers: { Authorization: "Bearer " + this.$session.get("jwt") }}
           )
-          .then(response => {
-            console.log(response.data);
-            for (let i = 0; i < this.menus.length; i++) {
-              if (this.menus[i].mid === response.data.menu_id) {
-                this.menus[i].like_count = response.data.like_count;
-                this.menus[i].userLiked = false;
-                break;
-              }
-            }
-            console.log(this.menus);
-          })
-          .catch(e => {
-            console.log(e.response)
+          .then(()=>{
+            this.getData()
           })
       }
     }
   },
-  beforeMount() {
-    this.getData();
-  },
   mounted() {
+    this.getData();
     window.scrollTo(0, 0);
-    this.isLogined = this.$session.has("jwt");
     setTimeout(() => {
       let week = ["0", "1", "2", "3", "4", "5", "6"];
       let dayofweek = week[new Date().getDay()];
@@ -414,12 +376,6 @@ export default {
       todayCal.style.backgroundColor = "lavender";
     }, 250);
   },
-  computed: {
-    isLogined () {
-        console.log('jwt가 있는지: ', this.$store.state.token !== null)
-        return this.$store.state.token !== null
-    }
-  }
 };
 </script>
 

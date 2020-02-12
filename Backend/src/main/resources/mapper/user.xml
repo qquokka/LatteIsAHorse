@@ -4,7 +4,8 @@
 
 	<update id="updateUserInfo"
 		parameterType="com.latte.payload.UserInfoUpdateRequest">
-		update users set name = #{name}, phone = #{phone} where
+		update users set name = #{name}, phone = #{phone}
+		username=#{username} where
 		id = #{id}
 	</update>
 
