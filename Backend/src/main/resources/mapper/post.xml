@@ -65,28 +65,7 @@
 	<delete id="deletePostById">
 		delete from posts where id = #{id}
 	</delete>
-	<!-- Post Hashtag related queries -->
-	<select id="getPostHashTags" parameterType="java.lang.Long"
-		resultType="posthashtag">
-		select * from post_hashtag where post_id = #{post_id}
-	</select>
-	<select id="getAllHashTags" resultType="posthashtagname">
-		select distinct content from
-		post_hashtag
-	</select>
-	<insert id="addPostHashtag">
-		insert into post_hashtag
-		(content, post_id)
-		values
-		(#{content}, #{post_id})
-	</insert>
-	<update id="updatePostHashtag">
-		update post_hashtag set content = #{content} where id =
-		#{id}
-	</update>
-	<delete id="deletePostHashtag">
-		delete from post_hashtag where id = #{id}
-	</delete>
+
 	<!-- Post Comments CRUD -->
 	<select id="getPostCommentsByPostId" resultType="postComments">
 		select pc.*,

@@ -48,7 +48,6 @@ public class PostCommentsController {
 	@Autowired
 	UserRepository userRepository;
 
-	// -------------Post Hashtag APIs----------------------
 	@ApiOperation(value = "해당 post에 등록된 모든 comments 조회", response = List.class)
 	@GetMapping("/comments/{post_id}")
 	public ResponseEntity<List<PostComments>> getPostCommentsByPostId(@PathVariable("post_id") Long post_id) throws Exception {
