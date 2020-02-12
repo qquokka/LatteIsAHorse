@@ -1,64 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.cafe">
-
 	<select id="getCafeList" resultType="cafe">
 		select
-		cafe_id,
-		cafe_name,
-		cafe_address,
-		cafe_phone,
-		latitude,
-		longitude,
-		thumbnail,
-		tag,
-		mon_open,
-		mon_close,
-		tue_open,
-		tue_close,
-		wed_open,
-		wed_close,
-		thu_open,
-		thu_close,
-		fri_open,
-		fri_close,
-		sat_open,
-		sat_close,
-		sun_open,
-		sun_close,
-		closed,
-		cafe_owner_id
+		*
 		from
 		cafe;
 	</select>
-
 	<select id="getCafeById" parameterType="java.lang.Integer"
 		resultType="cafe">
 		select
-		cafe_id,
-		cafe_name,
-		cafe_address,
-		cafe_phone,
-		latitude,
-		longitude,
-		thumbnail,
-		tag,
-		mon_open,
-		mon_close,
-		tue_open,
-		tue_close,
-		wed_open,
-		wed_close,
-		thu_open,
-		thu_close,
-		fri_open,
-		fri_close,
-		sat_open,
-		sat_close,
-		sun_open,
-		sun_close,
-		closed,
-		cafe_owner_id
+		*
 		from
 		cafe
 		where
@@ -66,77 +18,26 @@
 		=
 		#{cafe_id};
 	</select>
-
-
 	<select id="getCafeByName" parameterType="java.lang.String"
 		resultType="cafe">
 		select
-		cafe_id,
-		cafe_name,
-		cafe_address,
-		cafe_phone,
-		latitude,
-		longitude,
-		thumbnail,
-		tag,
-		mon_open,
-		mon_close,
-		tue_open,
-		tue_close,
-		wed_open,
-		wed_close,
-		thu_open,
-		thu_close,
-		fri_open,
-		fri_close,
-		sat_open,
-		sat_close,
-		sun_open,
-		sun_close,
-		closed,
-		cafe_owner_id
+		*
 		from
 		cafe
 		where
 		cafe_name like
 		'%'+#{cafe_name}+'%';
 	</select>
-
 	<select id="getCafeByAddress" parameterType="java.lang.String"
 		resultType="cafe">
 		select
-		cafe_id,
-		cafe_name,
-		cafe_address,
-		cafe_phone,
-		latitude,
-		longitude,
-		thumbnail,
-		tag,
-		mon_open,
-		mon_close,
-		tue_open,
-		tue_close,
-		wed_open,
-		wed_close,
-		thu_open,
-		thu_close,
-		fri_open,
-		fri_close,
-		sat_open,
-		sat_close,
-		sun_open,
-		sun_close,
-		closed,
-		cafe_owner_id
+		*
 		from
 		cafe
 		where
 		cafe_address like
 		'%'+#{cafe_address}+'%';
 	</select>
-
-
 	<insert id="addCafe" parameterType="cafe">
 		insert into
 		(
@@ -146,7 +47,6 @@
 		latitude,
 		longitude,
 		thumbnail,
-		tag,
 		mon_open,
 		mon_close,
 		tue_open,
@@ -161,14 +61,14 @@
 		sat_close,
 		sun_open,
 		sun_close,
-		cafe_owner_id
+		cafe_owner_id,
+		description
 		) values (
 		#{cafe_name},
 		#{cafe_address},
 		#{cafe_phone},
 		#{latitude},
 		#{longitude},
-		#{tag},
 		#{mon_open},
 		#{mon_close},
 		#{tue_open},
@@ -183,10 +83,10 @@
 		#{sat_close},
 		#{sun_open},
 		#{sun_close},
-		#{cafe_owner_id}
+		#{cafe_owner_id},
+		#{description}
 		)
 	</insert>
-
 	<update id="updateCafe" parameterType="cafe">
 		update cafe set
 		cafe_name =
@@ -198,7 +98,6 @@
 		longitude =#{longitude},
 		thumbnail
 		=#{thumbnail},
-		tag =#{tag},
 		mon_open =#{mon_open},
 		mon_close
 		=#{mon_close},
@@ -223,19 +122,20 @@
 		where
 		cafe_id=#{cafe_id}
 	</update>
-
 	<delete id="deleteCafeById" parameterType="java.lang.Integer">
 		delete from cafe where
 		cafe_id=#{cafe_id}
 	</delete>
-
-
 	<!-- ////////////////////////////////////////////////////////////////////// -->
-
 	<select id="getMyCafeList" parameterType="java.lang.Long"
 		resultType="cafe">
 		select * from cafe c join userslikecafe u on c.cafe_id =
 		u.cafe_id where
 		u.users_id=#{user_id};
+	</select>
+	
+	<select id="isExist" parameterType="java.lang.Long" resultType="java.lang.Integer">
+		select count(*) from cafe where 
+		cafe_owner_id = #{cafe_owner_id}
 	</select>
 </mapper>
