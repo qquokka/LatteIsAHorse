@@ -1,5 +1,6 @@
 package com.latte.controller;
 
+import java.net.URLEncoder;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -22,19 +24,31 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.latte.dto.CafeDto;
 import com.latte.dto.MenuDto;
 import com.latte.dto.UsersLikeMenu;
+import com.latte.model.KaKaoGeoResponse;
 import com.latte.model.User;
 import com.latte.model.post.Post;
+import com.latte.payload.CafeEnrollRequest;
+import com.latte.payload.FileUploadResponse;
 import com.latte.repository.UserRepository;
 import com.latte.security.JwtTokenProvider;
+import com.latte.service.FileUploadDownloadService;
 import com.latte.service.ICafeService;
 import com.latte.service.IMenuService;
 import com.latte.service.IPostService;
 import com.latte.service.IUsersLikeMenuService;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,6 +60,9 @@ import io.swagger.annotations.ApiOperation;
 public class CafeController {
 	private static final Logger logger = LoggerFactory.getLogger(CafeController.class);
 
+	@Value("${kakao.restapi.key}")
+    private String restApiKey;
+	
 	@Autowired
 	ICafeService cafeservice;
 
@@ -60,7 +77,7 @@ public class CafeController {
 
 	@Autowired
 	IUsersLikeMenuService ulmservice;
-
+	
 	@Autowired
 	JwtTokenProvider tokenProvider;
 
@@ -145,7 +162,7 @@ public class CafeController {
 	@ApiOperation(value = "cafe 정보 업데이트", response = Map.class)
 	@PatchMapping("/cafe")
 	public ResponseEntity<Map<String, Object>> updateCafe(@RequestBody CafeDto cafedto) throws Exception {
-		logger.info("PostController-------------Cafe Update-------------" + new Date());
+		logger.info("CafeController-------------Cafe Update-------------" + new Date());
 		// 사용자 아이디 조회해서 수정하려는 카페가 로그인한 회원과 일치하는지 체크 구현안함.
 		Map<String, Object> response = new HashMap<>();
 		int result = cafeservice.updateCafe(cafedto);
@@ -159,10 +176,10 @@ public class CafeController {
 	}
 
 	@ApiOperation(value = "내가 좋아하는  Cafe의 리스트 반환", response = List.class)
+
 	@GetMapping("/cafe/my/{user_id}")
 	public ResponseEntity<List<CafeDto>> getMyCafeList(@PathVariable("user_id") Long user_id) throws Exception {
 		logger.info("CafeController-------------getMyCafeList-------------" + new Date());
-
 		List<CafeDto> cafes = cafeservice.getMyCafeList(user_id);
 		if (cafes == null || cafes.size() == 0) {
 			return new ResponseEntity<List<CafeDto>>(cafes, HttpStatus.NO_CONTENT);
@@ -189,14 +206,91 @@ public class CafeController {
 		return new ResponseEntity<List<MenuDto>>(menuList, HttpStatus.OK);
 	}
 
+
 	@ApiOperation(value = "Cafe 등록")
 	@PostMapping("/cafe")
-	public ResponseEntity<Map<String, Object>> addCafe(@Valid @RequestBody CafeDto cafe) throws Exception {
-		// 카페 등록
-		// 이미 DB에 등록된 카페가 있는지 파악(무엇으로? cafe_owner_id? 카페 주소와 연락처와 기타 내용을 바탕으로 조회?
-		// 카페 주소를 위도 경도 변환하는 라이브러리 사용
+	public ResponseEntity<Map<String, Object>> addCafe(@Valid @RequestBody CafeEnrollRequest cafe, HttpServletRequest request) throws Exception{
 
-		return null;
+		Long cafe_owner_id = getLoggedInUserId(request);
+		//이미 DB에 등록된 카페인지 조회
+		int result = cafeservice.isExist(cafe_owner_id);
+		Map<String, Object> response = new HashMap<>();
+
+		if(result >= 1) {
+			response.put("message", "이미 등록된 카페입니다!");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		CafeDto newCafe = settingNewCafeInfo(cafe);
+		newCafe.setCafe_owner_id(cafe_owner_id); //카페 사장의 id 등록
+		result = cafeservice.addCafe(newCafe);
+		
+		if(result < 1) {
+			response.put("message", "카페 등록 실패");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}else {
+			response.put("message", "카페 등록 성공");
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		//이미 DB에 등록된 카페가 있는지 파악(무엇으로? cafe_owner_id? 카페 주소와 연락처와 기타 내용을 바탕으로 조회?
+		//카페 등록
+		//카페 주소를 위도 경도 변환하는 라이브러리 사용
+	}
+
+	//등록할 카페에 대한 정보 셋팅
+    private CafeDto settingNewCafeInfo(CafeEnrollRequest cafe) {
+    	CafeDto temp = new CafeDto(cafe.getCafe_name(),
+    			cafe.getCafe_address(), cafe.getCafe_phone(),
+    			cafe.getThumbnail(), cafe.getClosed(), cafe.getDescription());
+    	
+    	//주소로 위도 및 경도 알아내기
+    	String address = cafe.getCafe_address();
+    	Map<String, Double> latlng = getLatLngByAddress(address);
+    	
+    	if(latlng.size() > 0) {
+    		temp.setLatitude(latlng.get("lat").doubleValue());
+    		temp.setLongitude(latlng.get("lng").doubleValue());
+    	}
+    	
+    	Instant[][] time = cafe.getTime();
+    	//카페 시간 셋팅
+		//일, 월, 화, 수, 목, 금, 토, 일
+    	temp.setSun_open(time[0][0]); temp.setSun_close(time[0][1]); 
+		temp.setMon_open(time[1][0]); temp.setMon_close(time[1][1]); 
+		temp.setThu_open(time[2][0]); temp.setTue_close(time[2][1]); 
+		temp.setWed_open(time[3][0]); temp.setWed_close(time[3][1]); 
+		temp.setThu_open(time[4][0]); temp.setTue_close(time[4][1]); 
+		temp.setFri_open(time[5][0]); temp.setFri_close(time[5][1]); 
+		temp.setSat_open(time[6][0]); temp.setSat_close(time[6][1]); 
+    	return temp;
+	}
+
+	private Map<String, Double> getLatLngByAddress(String address) {
+		Map<String, Double> map = new HashMap<>();
+		
+		try {
+			String apiURL = "https://dapi.kakao.com/v2/local/search/address.json?query=" 
+							+ URLEncoder.encode(address, "UTF-8");
+			HttpResponse<JsonNode> response = Unirest.get(apiURL)
+					.header("Authorization",restApiKey).asJson();
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+			
+			KaKaoGeoResponse bodyJson = objectMapper.readValue(response.getBody().toString(), KaKaoGeoResponse.class);
+			//what if Documents의 길이가 2 이상이면?
+			if(bodyJson.getDocuments().size() > 0) {
+				map.put("lng", bodyJson.getDocuments().get(0).getX());
+				map.put("lat", bodyJson.getDocuments().get(0).getY());
+				//private Double x; // longitude
+				//private Double y; // latitude
+			}
+		} catch (Exception e) {
+			return null;
+		}
+		
+		return map;
+
 	}
 
 	// check header from request and parse JWT Token

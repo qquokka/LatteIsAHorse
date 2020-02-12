@@ -97,7 +97,7 @@ public class MenuDto {
 	@Override
 	public String toString() {
 		return "MenuDto [mid=" + mid + ", product=" + product + ", price=" + price + ", description=" + description
-				+ ", cafe_id=" + cafe_id + ", like_count=" + like_count + ", num_coupon=" + num_coupon + ", user_like="
+				+ ", cafe_id=" + cafe_id + "like_count=" + like_count + ", num_coupon=" + num_coupon + ", user_like="
 				+ user_like + "]";
 	}
 

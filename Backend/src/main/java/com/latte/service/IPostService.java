@@ -2,9 +2,9 @@ package com.latte.service;
 
 import java.util.List;
 
+import com.latte.model.PostHashtag;
 import com.latte.model.post.Post;
 import com.latte.model.post.PostComments;
-import com.latte.model.post.PostHashtag;
 import com.latte.payload.PostAddRequest;
 
 public interface IPostService {

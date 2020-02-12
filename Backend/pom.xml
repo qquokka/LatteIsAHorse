@@ -143,6 +143,12 @@
 			<version>3.4.0</version>
 		</dependency>
 
+		<!-- UniREST : Simplified, lightweight HTTP client library -->
+		<dependency>
+			<groupId>com.mashape.unirest</groupId>
+			<artifactId>unirest-java</artifactId>
+			<version>1.4.9</version>
+		</dependency>
 	</dependencies>
 
 

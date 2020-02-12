@@ -46,6 +46,7 @@ public class CafeDto implements Serializable {
 	private Instant sun_close;
 	private Boolean closed;
 	private Long cafe_owner_id;
+	private String description;
 	private Instant[][] time;
 
 	public CafeDto() {
@@ -83,6 +84,17 @@ public class CafeDto implements Serializable {
 		this.closed = closed;
 		this.cafe_owner_id = cafe_owner_id;
 		this.time = time;
+	}
+
+	public CafeDto(String cafe_name, String cafe_address, String cafe_phone, String thumbnail, Boolean closed,
+			String description) {
+		super();
+		this.cafe_name = cafe_name;
+		this.cafe_address = cafe_address;
+		this.cafe_phone = cafe_phone;
+		this.thumbnail = thumbnail;
+		this.closed = closed;
+		this.description = description;
 	}
 
 	public String getCafe_name() {
