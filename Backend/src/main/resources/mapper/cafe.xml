@@ -4,30 +4,7 @@
 
 	<select id="getCafeList" resultType="cafe">
 		select
-		cafe_id,
-		cafe_name,
-		cafe_address,
-		cafe_phone,
-		latitude,
-		longitude,
-		thumbnail,
-		tag,
-		mon_open,
-		mon_close,
-		tue_open,
-		tue_close,
-		wed_open,
-		wed_close,
-		thu_open,
-		thu_close,
-		fri_open,
-		fri_close,
-		sat_open,
-		sat_close,
-		sun_open,
-		sun_close,
-		closed,
-		cafe_owner_id
+		*
 		from
 		cafe;
 	</select>
@@ -35,30 +12,7 @@
 	<select id="getCafeById" parameterType="java.lang.Integer"
 		resultType="cafe">
 		select
-		cafe_id,
-		cafe_name,
-		cafe_address,
-		cafe_phone,
-		latitude,
-		longitude,
-		thumbnail,
-		tag,
-		mon_open,
-		mon_close,
-		tue_open,
-		tue_close,
-		wed_open,
-		wed_close,
-		thu_open,
-		thu_close,
-		fri_open,
-		fri_close,
-		sat_open,
-		sat_close,
-		sun_open,
-		sun_close,
-		closed,
-		cafe_owner_id
+		*
 		from
 		cafe
 		where
@@ -71,30 +25,7 @@
 	<select id="getCafeByName" parameterType="java.lang.String"
 		resultType="cafe">
 		select
-		cafe_id,
-		cafe_name,
-		cafe_address,
-		cafe_phone,
-		latitude,
-		longitude,
-		thumbnail,
-		tag,
-		mon_open,
-		mon_close,
-		tue_open,
-		tue_close,
-		wed_open,
-		wed_close,
-		thu_open,
-		thu_close,
-		fri_open,
-		fri_close,
-		sat_open,
-		sat_close,
-		sun_open,
-		sun_close,
-		closed,
-		cafe_owner_id
+		*
 		from
 		cafe
 		where
@@ -105,30 +36,7 @@
 	<select id="getCafeByAddress" parameterType="java.lang.String"
 		resultType="cafe">
 		select
-		cafe_id,
-		cafe_name,
-		cafe_address,
-		cafe_phone,
-		latitude,
-		longitude,
-		thumbnail,
-		tag,
-		mon_open,
-		mon_close,
-		tue_open,
-		tue_close,
-		wed_open,
-		wed_close,
-		thu_open,
-		thu_close,
-		fri_open,
-		fri_close,
-		sat_open,
-		sat_close,
-		sun_open,
-		sun_close,
-		closed,
-		cafe_owner_id
+		*
 		from
 		cafe
 		where
@@ -146,7 +54,6 @@
 		latitude,
 		longitude,
 		thumbnail,
-		tag,
 		mon_open,
 		mon_close,
 		tue_open,
@@ -168,7 +75,6 @@
 		#{cafe_phone},
 		#{latitude},
 		#{longitude},
-		#{tag},
 		#{mon_open},
 		#{mon_close},
 		#{tue_open},
@@ -198,7 +104,6 @@
 		longitude =#{longitude},
 		thumbnail
 		=#{thumbnail},
-		tag =#{tag},
 		mon_open =#{mon_open},
 		mon_close
 		=#{mon_close},

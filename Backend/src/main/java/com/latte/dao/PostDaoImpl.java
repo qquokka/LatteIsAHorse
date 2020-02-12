@@ -52,6 +52,10 @@ public class PostDaoImpl {
 		return sqlSession.selectOne(ns + "getLastPostedId");
 	}
 
+	public List<Post> getMyPostList(Long user_id) {
+		return sqlSession.selectList(ns + "getMyPostList", user_id);
+	}
+
 	// ---------------- Post hashtag 관련 ----------------
 	public List<PostHashtag> getPostHashTags(Long post_id) {
 		return sqlSession.selectList(ns + "getPostHashTags", post_id);
@@ -91,10 +95,12 @@ public class PostDaoImpl {
 		return sqlSession.delete(ns + "deletePostComments", id);
 	}
 
-	// ----------------jw add-----------------------------------------
-
 	public List<PostComments> getAllPostComments() {
 		return sqlSession.selectList(ns + "getAllPostComments");
+	}
+
+	public List<PostComments> getMyPostCommentsList(Long user_id) {
+		return sqlSession.selectList(ns + "getMyPostCommentsList", user_id);
 	}
 
 }

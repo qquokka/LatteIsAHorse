@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class CafeDto implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 	private int cafe_id;
 	private String cafe_name;
@@ -17,7 +16,6 @@ public class CafeDto implements Serializable {
 	private double latitude;
 	private double longitude;
 	private String thumbnail; // varchar(500) default null, -- 썸네일
-	private String tag;
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Instant mon_open;
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -46,9 +44,8 @@ public class CafeDto implements Serializable {
 	private Instant sun_open;
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Instant sun_close;
-	private int closed;
+	private Boolean closed;
 	private Long cafe_owner_id;
-
 	private Instant[][] time;
 
 	public CafeDto() {
@@ -57,10 +54,10 @@ public class CafeDto implements Serializable {
 	}
 
 	public CafeDto(int cafe_id, String cafe_name, String cafe_address, String cafe_phone, double latitude,
-			double longitude, String thumbnail, String tag, Instant mon_open, Instant mon_close, Instant tue_open,
+			double longitude, String thumbnail, Instant mon_open, Instant mon_close, Instant tue_open,
 			Instant tue_close, Instant wed_open, Instant wed_close, Instant thu_open, Instant thu_close,
 			Instant fri_open, Instant fri_close, Instant sat_open, Instant sat_close, Instant sun_open,
-			Instant sun_close, int closed, Long cafe_owner_id, Instant[][] time) {
+			Instant sun_close, Boolean closed, Long cafe_owner_id, Instant[][] time) {
 		super();
 		this.cafe_id = cafe_id;
 		this.cafe_name = cafe_name;
@@ -69,7 +66,6 @@ public class CafeDto implements Serializable {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.thumbnail = thumbnail;
-		this.tag = tag;
 		this.mon_open = mon_open;
 		this.mon_close = mon_close;
 		this.tue_open = tue_open;
@@ -135,14 +131,6 @@ public class CafeDto implements Serializable {
 
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
-	}
-
-	public String getTag() {
-		return tag;
-	}
-
-	public void setTag(String tag) {
-		this.tag = tag;
 	}
 
 	public Instant getMon_open() {
@@ -257,11 +245,11 @@ public class CafeDto implements Serializable {
 		this.sun_close = sun_close;
 	}
 
-	public int getClosed() {
+	public Boolean getClosed() {
 		return closed;
 	}
 
-	public void setClosed(int closed) {
+	public void setClosed(Boolean closed) {
 		this.closed = closed;
 	}
 
@@ -292,5 +280,4 @@ public class CafeDto implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
 }

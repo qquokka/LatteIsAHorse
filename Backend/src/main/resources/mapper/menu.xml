@@ -5,7 +5,7 @@
 	<select id="getMenuList" resultType="com.latte.dto.MenuDto">
 		select
 		mid, product, price,
-		description, cafe_id, tag
+		description, cafe_id
 		from menu
 	</select>
 
@@ -22,7 +22,7 @@
 	<select id="getMenuById" parameterType="java.lang.Integer"
 		resultType="com.latte.dto.MenuDto">
 		select
-		cafe_id, product, price, description, tag
+		cafe_id, product, price, description
 		from menu
 		where
 		mid = #{mid}
@@ -32,7 +32,7 @@
 	<select id="getMenuByName" parameterType="java.lang.String"
 		resultType="com.latte.dto.MenuDto">
 		select
-		mid, price, description, cafe_id, tag
+		mid, price, description, cafe_id
 		from menu
 		where
 		product like
@@ -44,7 +44,7 @@
 		insert into
 		(
 		product, price,
-		description, cafe_id, tag
+		description, cafe_id
 		) values (
 		#{product},
 		#{price},
@@ -60,7 +60,6 @@
 		description =#{description},
 		cafe_id =
 		#{cafe_id},
-		tag =#{tag},
 		like_count =#{like_count},
 		tag =#{tag},
 		where
