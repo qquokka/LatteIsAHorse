@@ -414,12 +414,6 @@ export default {
       todayCal.style.backgroundColor = "lavender";
     }, 250);
   },
-  computed: {
-    isLogined () {
-        console.log('jwt가 있는지: ', this.$store.state.token !== null)
-        return this.$store.state.token !== null
-    }
-  }
 };
 </script>
 
