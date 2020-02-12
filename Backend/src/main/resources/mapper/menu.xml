@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.menu">
-
 	<select id="getMenuList" resultType="com.latte.dto.MenuDto">
 		select
 		mid, product, price,
 		description, cafe_id
 		from menu
 	</select>
-
 	<select id="getMenuListById" parameterType="java.lang.Integer"
 		resultType="com.latte.dto.MenuDto">
-		<!-- select menu.mid, menu.cafe_id, menu.product, menu.price, menu.description, 
-			menu.tag, sum(userslikemenu.like_count) as like_count from menu left outer 
-			join userslikemenu on menu.mid = userslikemenu.menu_id where menu.cafe_id 
+		<!-- select menu.mid, menu.cafe_id, menu.product, menu.price, menu.description,
+			menu.tag, sum(userslikemenu.like_count) as like_count from menu left outer
+			join userslikemenu on menu.mid = userslikemenu.menu_id where menu.cafe_id
 			=#{cafe_id} group by menu.product -->
-		select menu.mid, menu.cafe_id, menu.product, menu.price, menu.description, 
+		select menu.mid, menu.cafe_id, menu.product, menu.price, menu.description,
 			menu.tag, menu.mid like_count from menu where cafe_id = #{cafe_id}
 	</select>
-
 	<select id="getMenuById" parameterType="java.lang.Integer"
 		resultType="com.latte.dto.MenuDto">
 		select
@@ -27,8 +24,6 @@
 		where
 		mid = #{mid}
 	</select>
-
-
 	<select id="getMenuByName" parameterType="java.lang.String"
 		resultType="com.latte.dto.MenuDto">
 		select
@@ -38,8 +33,6 @@
 		product like
 		'%'+#{product}+'%';
 	</select>
-
-
 	<insert id="addMenu" parameterType="com.latte.dto.MenuDto">
 		insert into
 		(
@@ -51,7 +44,6 @@
 		#{cafe_id},
 		#{tag})
 	</insert>
-
 	<update id="updateMenu" parameterType="com.latte.dto.MenuDto">
 		update menu set
 		product =
@@ -69,5 +61,4 @@
 		delete from menu where
 		mid=#{mid}
 	</delete>
-
 </mapper>
