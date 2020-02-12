@@ -11,6 +11,7 @@ import CafePage from '../views/CafePage.vue'
 import HangMan from '../views/HangMan.vue'
 import Admin from '../views/Admin.vue'
 import Profile from '../views/Profile.vue'
+import CafeList from '../components/CafeList.vue'
 
 Vue.use(VueRouter)
 
@@ -67,6 +68,11 @@ const routes = [
     path: '/searched',
     name: 'search-result',
     component: SearchResult,
+  },
+  {
+    path: '/cafes',
+    name: 'cafe-list',
+    component: CafeList
   },
   {
     path: '/cafe/:cafeId',

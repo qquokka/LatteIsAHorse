@@ -271,8 +271,7 @@ export default {
       };
       axios
         .get(
-          `${this.$store.state.constants.SERVER}/cafe/detail/${this.cafeId}`,
-          config
+          `${this.$store.state.constants.SERVER}/cafe/detail/${this.cafeId}`, config
         )
         .then(response => {
           this.isLoading=false
@@ -415,10 +414,10 @@ export default {
     }, 250);
   },
   computed: {
-    isLogined () {
-        console.log('jwt가 있는지: ', this.$store.state.token !== null)
-        return this.$store.state.token !== null
-    }
+    // isLogined () {
+    //     console.log('jwt가 있는지: ', this.$store.state.token !== null)
+    //     return this.$store.state.token !== null
+    // }
   }
 };
 </script>
