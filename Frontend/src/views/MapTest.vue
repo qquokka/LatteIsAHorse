@@ -10,7 +10,7 @@
 
     <nav-bar class="mapnav" />
     <div id="fixcont" class="row p-0 m-0" :style="`height: ${avheight}px;background:#f2f2f2`">
-      <div class="d-none d-md-flex col-md-1 menucol-1" style="font-size:1vw">
+      <div class="d-fixed d-md-flex col-md-1 menucol-1" style="font-size:1vw">
         <div class="menu-icon">
           <router-link to="/">
             <fa icon="home" size="3x" />
@@ -28,7 +28,7 @@
           <p class="menu-tex">필터적용</p>
         </div>
 
-        <div class="menu-icon" @click="locateMe()">
+        <div class="menu-icon" @click="locateMe">
           <fa icon="map-marked-alt" size="3x" />
           <p class="menu-tex">내 위치</p>
         </div>
@@ -94,9 +94,8 @@
         </div>
       </div>
       <google-map
+        v-if="center"
         class="col-12 col-md-8"
-        width="100%"
-        height="100%"
         :prop_center="center"
         @cafe_change_event="cafeChange"
       />
@@ -180,11 +179,15 @@ export default {
     axios.get('http://13.125.168.55:3000/v1/cafe/detail/1')
     .then(r=>{
       this.cafe = r.data
+      this.center = {
+        lat: r.data.cafeinfo.latitude,
+        lng: r.data.cafeinfo.longitude
+      };  
+      
     })
   },
   mounted() {
     this.avheight = window.innerHeight - 75;
-    this.locateMe();
   }
 };
 </script>
