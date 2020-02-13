@@ -29,7 +29,7 @@
         </div>
         <div class="col m-0 border row bg-white align-items-center justify-content-center p-0">
           <fa class="text-muted pr-2" icon="user-circle" size="3x" />
-          <h4>@{{ getUserName() }}</h4>
+          <h4>@{{ getname }}</h4>
         </div>
       </div>
       <editor
@@ -101,7 +101,8 @@ export default {
       title: "",
       postId: null,
       cafeId: null,
-      writerId: null
+      writerId: null,
+      tagids: []
     };
   },
   computed: {
@@ -115,6 +116,9 @@ export default {
     },
     serverAddr() {
       return this.$store.state.constants.SERVER;
+    },
+    getname() {
+      return this.$session.get('username')
     }
   },
   methods: {
@@ -123,12 +127,17 @@ export default {
         .post(`${this.serverAddr}/post`, body, {
           headers: { Authorization: "Bearer " + this.$session.get("jwt") }
         })
-        .then(() => {
-          this.$router.back();
+        .then(r => {
+          console.log(r);
+          let hashidbody = {
+            hashtag_ids: this.tagids,
+            post_id: r.data.posted_id
+          }
+          axios.post(`${this.serverAddr}/hashtag`, hashidbody)
+          .then(() =>{
+            this.$router.back()
+          })
         })
-        .catch(() => {
-          alert("알 수 없는 오류가 발생했습니다.");
-        });
     },
     editPost(body) {
       axios
@@ -141,9 +150,6 @@ export default {
         .catch(e => {
           console.log(e.response);
         });
-    },
-    getUserName() {
-      return JSON.parse(localStorage.getItem("vue-session-key")).username;
     },
     getHtml() {
       let html = document.querySelector(".te-ww-container").firstElementChild
@@ -173,29 +179,83 @@ export default {
                 });
             });
         }
+      } else {
+        this.bodyCreator(html);
       }
     },
-    bodyCreator(h) {
-      let thumb = h.getElementsByTagName("img")[0] || "T";
+    bodyCreator() {
+      let hh = document.querySelector(".te-ww-container").firstElementChild.firstElementChild
+      let thumb = hh.getElementsByTagName("img")[0] || "T";
+      let h = hh.innerHTML
       if (this.$route.name !== "edit-review") {
-        let body = {
-          title: this.title,
-          content: h.innerHTML,
-          thumbnail: thumb.src,
-          cafe_id: this.cafeId
-        };
-        this.submitPost(body);
+        let tags = h.match(/#[0-9a-zA-Z가-힣]+/gi);
+        for (var t = 0; t < tags.length; t++) {
+          tags[t] = tags[t].slice(1);
+          if (t === tags.length - 1) {
+            axios
+              .post(`${this.serverAddr}/hashtagname`, { names: tags })
+              .then(r => {
+                let hashtags = r.data.hashtags;
+                let mycontent = document.querySelector(".te-ww-container").firstElementChild.firstElementChild.innerHTML
+                for (var hdx = 0; hdx < hashtags.length; hdx++) {
+                  this.tagids.push(hashtags[hdx])
+                  var beforestr = `#${hashtags[hdx].name}`
+                  var afterstr = `<a class="hashtag" href="/hashtag/${hashtags[hdx].hashtag_id}">#${hashtags[hdx].name}</a>`
+                  mycontent = mycontent.replace(
+                    beforestr,
+                    afterstr
+                  );
+                  if (hdx === hashtags.length - 1) {
+                    let body = {
+                      title: this.title,
+                      content: mycontent,
+                      thumbnail: thumb.src,
+                      cafe_id: this.$route.params.cafeId
+                    };
+                    this.submitPost(body);
+                  }
+                }
+              });
+          }
+        }
       } else {
-        let ebody = {
-          title: this.title,
-          content: h.innerHTML,
-          thumbnail: thumb.src,
-          id: this.$route.params.postId,
-          cafe_id: this.cafeId,
-          writer_id: this.writerId,
-          writer_name: this.getUserName()
-        };
-        this.editPost(ebody);
+      let hh = document.querySelector(".te-ww-container").firstElementChild.firstElementChild
+      let thumb = hh.getElementsByTagName("img")[0] || "T";
+      let h = hh.innerHTML
+      if (this.$route.name !== "edit-review") {
+        let tags = h.match(/#[0-9a-zA-Z가-힣]+/gi);
+        for (var tt = 0; tt < tags.length; tt++) {
+          tags[tt] = tags[tt].slice(1);
+          if (tt === tags.length - 1) {
+            axios
+              .post(`${this.serverAddr}/hashtagname`, { names: tags })
+              .then(r => {
+                let hashtags = r.data.hashtags;
+                let mycontent = document.querySelector(".te-ww-container").firstElementChild.firstElementChild.innerHTML
+                for (var hdx = 0; hdx < hashtags.length; hdx++) {
+                  var beforestr = `#${hashtags[hdx].name}`
+                  var afterstr = `<a href="/hashtag/${hashtags[hdx].hashtag_id}">#${hashtags[hdx].name}</a>`
+                  mycontent = mycontent.replace(
+                    beforestr,
+                    afterstr
+                  );
+                  if (hdx === hashtags.length - 1) {
+                    let ebody = {
+                      title: this.title,
+                      content: mycontent,
+                      thumbnail: thumb.src,
+                      id: this.$route.params.postId,
+                      cafe_id: this.cafeId,
+                      writer_id: this.writerId,
+                      writer_name: this.$session.get("username")
+                    }
+                      this.editPost(ebody);
+                  }
+                }
+                })
+          }
+        }
+      }
       }
     }
   },
@@ -210,7 +270,7 @@ export default {
       axios
         .get(`${this.$store.state.constants.SERVER}/post/${this.postId}`)
         .then(response => {
-          if (response.data.writer_name !== this.getUserName()) {
+          if (response.data.writer_name !== this.$session.get("username")) {
             alert("수정 권한이 없습니다.");
             this.$router.push("/");
           } else {
@@ -236,10 +296,14 @@ export default {
         });
     }
   }
-};
+}
 </script>
 
 <style>
+.hashtag {
+  color: royalblue !important;
+  text-decoration: #125de6;
+}
 #tuiEditor {
   border-radius: 20px;
 }

@@ -98,7 +98,10 @@ export default {
   },
   mounted() {
     this.mapLoading = true;
-    this.geolocate();
+    setTimeout(() => {
+      this.geolocate();
+    }, 500);
+    
     
   },
   methods: {
@@ -112,7 +115,7 @@ export default {
         .post(`${this.$store.state.constants.SERVER}/map/`, {
           latitude: this.prop_center.lat,
           longitude: this.prop_center.lng,
-          level: 15
+          level: 12
         })
         .then(res => {
           this.cafes = res.data;
