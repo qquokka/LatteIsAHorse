@@ -1,7 +1,7 @@
 <template>
   <div id="postDetail">
     <NavBar />
-    <div class="container">
+    <div class="container">                                                                                                                          
       <h1 class="display-3 mx-5" style="padding-top:6rem;font-weight:700">{{ review.title }}</h1>
       <h5>{{ displayTime(review.time) }} 작성</h5>
       <h1 class="border-bottom pb-4">
@@ -16,11 +16,11 @@
       <div class="container comments">
         댓글 갯수: {{ comments.length }}
         <li v-for="comment in comments" :key="comment.id">
-          {{ comment.writer_name }} : {{ comment.content }} at {{ displayTime(comment.time.slice(0,19)) }}
+          {{ comment.writer_name }} : {{ comment.content }} at {{ displayTime(comment.created_at.slice(0,19)) }}
           <a
             v-if="comment.writer_name === $session.get('username')"
             @click.prevent="deleteComment(comment.id)"
-          >[X]</a>
+          ><fa icon="trash-alt" /></a>
         </li>
       </div>
       <form v-if="isLogined" @submit.prevent="addComment">
@@ -35,6 +35,13 @@
 import NavBar from "@/components/NavBar.vue";
 import axios from "axios";
 import moment from "moment";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faTrashAlt
+} from "@fortawesome/free-solid-svg-icons";
+library.add(
+  faTrashAlt
+);
 
 export default {
   name: "ReviewDetail",

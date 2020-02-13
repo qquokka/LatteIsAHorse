@@ -30,11 +30,13 @@ export default {
         .post(`${this.$store.state.constants.SERVER}/signin`, credentials)
         .then(response => {
           this.loginFailed = false;
+          console.log(response)
           const token = response.data.accessToken;
           this.$session.start();
           this.$session.set("jwt", token);
           this.$session.set("username", response.data.username);
           this.$session.set("expire", Date.now());
+          this.$session.set("role", response.data.roles[0])
           this.$store.dispatch("login", token);
           this.$store.commit("setToken", token);
           document.querySelector("#modalCloseButton").click();
