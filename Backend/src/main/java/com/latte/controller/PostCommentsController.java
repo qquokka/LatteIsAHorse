@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.latte.model.User;
 import com.latte.model.post.PostComments;
+import com.latte.payload.ApiResponse;
 import com.latte.repository.UserRepository;
 import com.latte.security.JwtTokenProvider;
 import com.latte.service.IPostService;
@@ -68,10 +69,16 @@ public class PostCommentsController {
 	public ResponseEntity<Map<String, Object>> addPostComments(@RequestBody PostComments comment,
 			HttpServletRequest request) throws Exception {
 		logger.info("PostCommentsController-------------Post Comment Add-------------" + new Date());
-
+		logger.info(comment.toString());
 		Map<String, Object> response = new HashMap<>();
-
-		User user = userRepository.getOne(getLoggedInUserId(request));
+		
+		Long user_id = getLoggedInUserId(request);
+		if(user_id == 0L) {
+			response.put("message", "토근 만료");
+			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.FORBIDDEN);
+		}
+		
+		User user = userRepository.getOne(user_id);
 		comment.setWriter_id(user.getId());
 
 		int result = postservice.addPostComments(comment);
@@ -146,7 +153,14 @@ public class PostCommentsController {
 	public ResponseEntity<List<PostComments>> getMyPostCommentsList(HttpServletRequest request) throws Exception {
 		logger.info("PostCommentsController-------------getMyPostCommentsList-------------" + new Date());
 		List<PostComments> comments = null;
+		Map<String, Object> response = new HashMap<>();
+		
 		Long userId = getLoggedInUserId(request);
+		if(userId == 0L) {
+			response.put("message", "토근 만료");
+			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+		}
+		
 		if (userId != 0L) {
 			comments = postservice.getMyPostCommentsList(userId);
 		}

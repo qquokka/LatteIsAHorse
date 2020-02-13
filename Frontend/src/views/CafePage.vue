@@ -157,11 +157,6 @@
           >
             <h1 class="py-2 font-weight-bold text-left text-truncate" style="font-size: 3rem">
               {{ review.title }}
-              <button
-                v-if="review.writer_name === $session.get('username')"
-                @click="deleteReview(review.id)"
-                class="btn btn-light"
-              >삭제</button>
             </h1>
             <h5 class="text-right">
               <fa class="text-muted" icon="user-circle" />

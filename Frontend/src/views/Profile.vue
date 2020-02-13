@@ -3,8 +3,8 @@
 		<nav-bar blackOrWhite="true" />
 		<h1>내 정보</h1>
 			<div class="row">
-				<div class="d-inline col-3">
-					<h4 class="menu-tab">내 카페 관리</h4>
+				<div class="d-inline col-3">  <!-- 사장님일 때 -->
+					<h4 class="menu-tab" @click="showContent(0)">내 카페 관리</h4>
 				</div>
 				<div class="d-inline col-3">
 					<h4 class="menu-tab" @click="showContent(1)">내가 좋아하는 카페</h4>
@@ -17,6 +17,9 @@
 					<h4 class="menu-tab">회원 정보 수정</h4>
 				</div>
 				<div class="container" style="height:50vh;background:lavender">
+					<div v-if="contentNum === 0">
+						내 카페
+					</div>
 					<div v-if="contentNum === 1">
 						<cafe-list :cafeData="myFavoriteCafes" />
 					</div>
@@ -59,10 +62,10 @@ export default {
 			nicknameToChange: '',
 			role: 4,
 			roles: {
-				4: '일반회원',
-				7: '에디터',
-				6: '사장님',
-				5: '관리자'
+				4: '일반회원', // ROLE_USER
+				7: '에디터', // ROLE_EDITOR
+				6: '사장님', // ROLE_OWNER
+				5: '관리자' // ROLE_ADMIN
 			},
 			nicknameCheck: false
 		}
@@ -77,6 +80,7 @@ export default {
 				notification.color = 'red'
 				myNickname.parentElement.insertBefore(notification, myNickname)
 			}
+			notification.hidden = false
 			axios.get(`${this.$store.state.constants.SERVER}/user/checkusername/${this.nicknameToChange}`)
 				.then(response => {
 					console.log(response.data)
@@ -86,7 +90,7 @@ export default {
 				})
 				.catch(error => {
 					console.log(error)
-					notification.innerText = '이미 존재하거나 16자 이상입니다'
+					notification.innerText = '닉네임이 이미 존재하거나 너무 깁니다'
 					myNickname.childNodes[1].style.backgroundColor = "rgba(255, 0, 0, 0.100)"
 					this.nicknameCheck = false
 				})
@@ -109,10 +113,12 @@ export default {
 				notification2.color = 'red'
 				myPhone.parentElement.insertBefore(notification2, myPhone)
 			}
-			if (this.nicknameToChange !== this.profile.username && this.nicknameCheck === false) {
+			if (this.nicknameToChange !== this.profile.username && !this.nicknameCheck) {
 				console.log('중복체크해야함')
 				notification.innerText = '닉네임 중복 체크 해주세요'
+				notification.hidden = false
 				myNickname.childNodes[1].style.backgroundColor = "rgba(255, 0, 0, 0.100)"
+				return
 			}
 			if (phone === '' ||
 				11 < phone.length && phone.length < 14 && phone[3] === '-' && phone[phone.length-5] === '-') {
@@ -120,7 +126,17 @@ export default {
 					notification.hidden = true
 					notification2.hidden = true
 					myPhone.childNodes[1].style.backgroundColor = "white"
+					axios.patch(`${this.$store.state.constants.SERVER}/userinfo`,
+					{username: this.nicknameToChange, name: this.profile.name, phone: this.profile.phone},
+					{headers: {Authorization: "Bearer " + this.$session.get("jwt")}})
+						.then(response => {
+							console.log(response)
+						})
+						.catch(error => {
+							console.log(error)
+						})
 			} else {
+				notification2.hidden = false
 				notification2.innerText = '010-0000-0000 형식으로 입력해주세요'
 				myPhone.childNodes[1].style.backgroundColor = "rgba(255, 0, 0, 0.100)"
 			}

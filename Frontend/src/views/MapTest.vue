@@ -9,6 +9,7 @@
     ></loading>
 
     <nav-bar class="mapnav" />
+
     <div id="fixcont" class="row p-0 m-0" :style="`height: ${avheight}px;background:#f2f2f2`">
       <div class="d-fixed d-md-flex col-md-1 menucol-1" style="font-size:1vw">
         <div class="menu-icon">
@@ -34,58 +35,43 @@
         </div>
       </div>
 
-      <div class="d-none d-md-block col-md-3 bg-white px-0 py-2 infocol" v-if="cafe.cafeinfo">
-        <div class="info-header">
-              <loading
+      <google-map
+        v-if="center"
+        class="col-12 col-md-8 p-0"
+        :prop_center="center"
+        @cafe_change_event="cafeChange"
+      />
+    </div>
+          <div class="d-none d-md-block col-md-3 bg-white px-0 infocol" v-if="cafe.cafeinfo">
+                      <loading
           :active.sync="detailLoading"
           :can-cancel="false"
           :is-full-page="false"
           loader="bars"
           color="violet"
         ></loading>
-          <h1 class="font-weight-bolder">{{ cafe.cafeinfo.cafe_name }}</h1>
+        <div class="info-header">
+
+          <h1 class="font-weight-bold pt-3">{{ cafe.cafeinfo.cafe_name }}</h1>
           <small>Cafe</small>
           <p>대표자: {{ cafe.cafeinfo.owner }}</p>
-          <p class="small">{{ cafe.cafeinfo.cafe_name }}</p>
+          <p class="small">{{ cafe.cafeinfo.cafe_phone }}</p>
         </div>
-        <div class="container px-5">
+        <div class="container px-1">
           <div class="row align-content-center">
             <div
+              v-for="i in 6"
+              :key="'t' + i"
               class="frame col-4"
-              :style="`background: url('https://picsum.photos/seed/${Math.floor(Math.random() * 100)}/200')`"
-            ></div>
-            <div
-              class="frame col-4"
-              :style="`background: url('https://picsum.photos/seed/${Math.floor(Math.random() * 100)}/200')`"
-            ></div>
-            <div
-              class="frame col-4"
-              :style="`background: url('https://picsum.photos/seed/${Math.floor(Math.random() * 100)}/200')`"
+              :style="`background-image: ${thumb[i-1]}`"
             ></div>
           </div>
-          <div class="row">
-            <div
-              class="frame col-4"
-              :style="`background: url('https://picsum.photos/seed/${Math.floor(Math.random() * 100)}/200')`"
-            ></div>
-            <div
-              class="frame col-4"
-              :style="`background: url('https://picsum.photos/seed/${Math.floor(Math.random() * 100)}/200')`"
-            ></div>
-            <div
-              class="frame col-4"
-              :style="`background: url('https://picsum.photos/seed/${Math.floor(Math.random() * 100)}/200')`"
-            ></div>
-          </div>
-          <a href>#스터디</a>
-          <a href>#시나몬라떼</a>
-          <a href>#2층이상</a>
-          <a href>#대학가</a>
-          <a href>#저렴이</a>
-          <button class="btn btn-block btn-info mt-2">자세히 보기</button>
+          <router-link :to="`/cafe/${cafe.cafeinfo.cafe_id}`">
+            <button class="btn btn-block btn-outline-dark mt-2">자세히 보기</button>
+          </router-link>
         </div>
         <div class="container">
-          <p class="py-2 shadow">베스트 리뷰</p>
+          <p class="py-2">리뷰 : {{ cafe.post.length }}</p>
           <div v-for="review in cafe.post" :key="review.id">
             <p>{{ review.title }}<span class="ml-3 text-info">@{{ review.writer_name }}</span></p>
             <p class="border shadow p-2">{{ review.content }}</p>
@@ -93,13 +79,7 @@
           
         </div>
       </div>
-      <google-map
-        v-if="center"
-        class="col-12 col-md-8"
-        :prop_center="center"
-        @cafe_change_event="cafeChange"
-      />
-    </div>
+
   </div>
 </template>
 
@@ -131,7 +111,15 @@ export default {
       center: { lat: parseFloat(37.5014281), lng: parseFloat(127.0385063) },
       locmeLoading: false,
       detailLoading: false,
-      cafe: {}
+      cafe: {},
+      thumb: [
+        'url(' + require('@/assets/noimage.png') + ')',
+        'url(' + require('@/assets/noimage.png') + ')',
+        'url(' + require('@/assets/noimage.png') + ')',
+        'url(' + require('@/assets/noimage.png') + ')',
+        'url(' + require('@/assets/noimage.png') + ')',
+        'url(' + require('@/assets/noimage.png') + ')',
+      ]
     };
   },
   computed: {},
@@ -145,6 +133,14 @@ export default {
         .then(response => {
           this.cafe = response.data
           this.detailLoading = false
+          
+          for (let i=0;i<6;i++){
+            if (i < response.data.post.length) {
+              this.$set(this.thumb, i, `url(${response.data.post[i].thumbnail})`)
+            } else {
+              this.$set(this.thumb, i, `url(${require('@/assets/noimage.png')})`)
+            }
+          }
         })
         .catch(error => {
           console.log(error.data);
@@ -188,6 +184,12 @@ export default {
   },
   mounted() {
     this.avheight = window.innerHeight - 75;
+    setTimeout(() => {
+      for (let i=0;i<6;i++){
+        this.$set(this.thumb, i, `url(${this.cafe.post[i].thumbnail})`)
+      }
+    }, 500);
+
   }
 };
 </script>
@@ -217,8 +219,9 @@ export default {
   text-align: center;
 }
 .info-header {
-  padding: 1rem;
-  border-radius: 21px;
+  background: lavender;
+  border-bottom: 1px solid lightsteelblue;
+  width: 100%;
 }
 .menu-icon > i {
   color: transparent !important;
@@ -247,15 +250,19 @@ export default {
   color: #2f2f2f;
 }
 .frame {
-  height: 120px;
+  height: 150px;
   overflow: hidden;
-  background-size: 100%;
+  background-size: cover;
 }
 .infocol {
+  margin-left: auto;
+  min-height: 100vh;
+  overflow-x:hidden;
+  z-index: 99;
   display: flex;
   background: lavender;
-  margin-bottom: 5px;
   position:relative;
-  overflow-y: scroll
+  overflow-y: scroll;
+  border: 1px solid lightsteelblue
 }
 </style>
