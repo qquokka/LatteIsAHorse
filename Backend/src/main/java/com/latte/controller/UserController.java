@@ -27,7 +27,6 @@ import com.latte.help.AjaxResult;
 import com.latte.model.Role;
 import com.latte.model.RoleName;
 import com.latte.model.User;
-import com.latte.payload.ApiResponse;
 import com.latte.payload.UserInfoUpdateRequest;
 import com.latte.payload.UserRoleUpdateRequest;
 import com.latte.repository.RoleRepository;
@@ -57,7 +56,7 @@ public class UserController {
 	@Autowired
 	JwtTokenProvider tokenProvider;
 
-  @ApiOperation(value = "회원 정보 수정(이름, 전화번호)")
+	@ApiOperation(value = "회원 정보 수정(이름, 전화번호)")
 
 	@PatchMapping("/userinfo")
 	public ResponseEntity<Map<String, Object>> updateUserInfo(@Valid @RequestBody UserInfoUpdateRequest request)

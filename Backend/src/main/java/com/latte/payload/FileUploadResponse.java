@@ -8,7 +8,6 @@ public class FileUploadResponse {
 
 	public FileUploadResponse() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public FileUploadResponse(String fileName, String fileDownloadUri, String fileType, long size) {

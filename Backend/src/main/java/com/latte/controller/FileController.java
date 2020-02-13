@@ -92,7 +92,7 @@ public class FileController {
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
 				.body(resource);
 	}
-	
+
 	@GetMapping("/downloadThumbnail/{fileName}") // 파일 다운로드
 	public ResponseEntity<Resource> downloadThumbnail(@PathVariable String fileName, HttpServletRequest request) {
 		// Load file as Resource

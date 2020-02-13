@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.latte.model.User;
-import com.latte.model.post.Post;
 import com.latte.model.post.PostComments;
 import com.latte.repository.UserRepository;
 import com.latte.security.JwtTokenProvider;

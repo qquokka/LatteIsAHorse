@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.latte.dao.PostDaoImpl;
-import com.latte.model.PostHashtag;
 import com.latte.model.post.Post;
 import com.latte.model.post.PostComments;
 import com.latte.payload.PostAddRequest;
@@ -69,38 +68,6 @@ public class PostServiceImpl implements IPostService {
 	@Override
 	public List<Post> getMyPostList(Long user_id) {
 		return postDao.getMyPostList(user_id);
-	}
-
-	// ---------------- Post hashtag 관련 ----------------
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<PostHashtag> getPostHashTags(Long post_id) {
-		return postDao.getPostHashTags(post_id);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<PostHashtag> getAllHashTags() {
-		return postDao.getAllHashTags();
-	}
-
-	@Override
-	@Transactional
-	public int addPostHashtag(PostHashtag hashTag) {
-		return postDao.addPostHashtag(hashTag);
-	}
-
-	@Override
-	@Transactional
-	public int updatePostHashtag(PostHashtag hashTag) {
-		return postDao.updatePostHashtag(hashTag);
-	}
-
-	@Override
-	@Transactional
-	public int deletePostHashtag(Long id) {
-		return postDao.deletePostHashtag(id);
 	}
 
 	// ---------------- Post Comments 관련 ----------------

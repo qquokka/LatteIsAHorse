@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.latte.dao.CafeDaoImpl;
 import com.latte.dto.CafeDto;
-import com.latte.payload.CafeEnrollRequest;
 
 @Service
 public class CafeServiceImpl implements ICafeService {
@@ -41,21 +40,25 @@ public class CafeServiceImpl implements ICafeService {
 	}
 
 	@Override
+	@Transactional
 	public int addCafe(CafeDto cafe) {
 		return cafeDao.addCafe(cafe);
 	}
 
 	@Override
+	@Transactional
 	public int updateCafe(CafeDto cafedto) {
 		return cafeDao.updateCafe(cafedto);
 	}
 
 	@Override
+	@Transactional
 	public int deleteCafeById(int cafe_id) {
 		return cafeDao.deleteCafeById(cafe_id);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<CafeDto> getMyCafeList(Long user_id) {
 		return cafeDao.getMyCafeList(user_id);
 	}

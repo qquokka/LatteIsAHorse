@@ -9,10 +9,10 @@ public class PostComments implements Serializable {
 
 	private Instant created_at;
 	private Instant updated_at;
-	private Long id; // bigint(20) NOT NULL AUTO_INCREMENT,
-	private Long post_id; // bigint(20) not null, -- 댓글이 달린 게시물 id
-	private Long writer_id; // bigint(20) not null, -- 댓글이 작성자의 id
-	private String content; // text not null, -- 댓글 내용
+	private Long id; // id
+	private Long post_id; // 댓글이 달린 게시물 id
+	private Long writer_id; // 댓글이 작성자의 id
+	private String content; // 댓글 내용
 	private String writer_name; // username
 
 	public PostComments() {
