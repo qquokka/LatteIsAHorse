@@ -72,8 +72,7 @@ public class CouponController {
 	@PutMapping("/coupon/{code}")
 	@ApiOperation(value = "쿠폰 등록하기")
 	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
-	public ResponseEntity<Map<String, Object>> enrollCoupon(@PathVariable("code") String code,
-			HttpServletRequest request) throws Exception {
+	public ResponseEntity<Map<String, Object>> enrollCoupon(@PathVariable("code") String code, HttpServletRequest request) throws Exception {
 		String decryptedCode = decryptAES256(code);
 		// format : "cafe_id,count,time_stamp"
 		String[] data = decryptedCode.split(",");
