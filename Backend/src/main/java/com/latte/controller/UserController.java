@@ -75,7 +75,6 @@ public class UserController {
 	}
 
 	@ApiOperation(value = "회원 정보 수정(역할)")
-
 	@PatchMapping("/userrole")
 	public ResponseEntity<Map<String, Object>> updateUserRole(@Valid @RequestBody UserRoleUpdateRequest request)
 			throws Exception {
@@ -112,7 +111,6 @@ public class UserController {
 	}
 
 	@ApiOperation(value = "회원 탈퇴")
-
 	@DeleteMapping("/withdrawal/{id}")
 	public ResponseEntity<Map<String, Object>> withdrawalUserAccount(@PathVariable("id") Long id) throws Exception {
 		logger.info("UserController-------------withdrawalUserAccount-------------" + new Date());
@@ -149,12 +147,19 @@ public class UserController {
 	@ApiOperation(value = "username 중복 확인")
 	public ResponseEntity<AjaxResult> getCheckUserName(@PathVariable String username) throws Exception {
 		AjaxResult ajaxResult = new AjaxResult();
-		if (userRepository.existsByUsername(username)) {
+		String name = username;
+
+		if (name.length() > 15) {
 			ajaxResult.setResult("FAIL");
 			return new ResponseEntity<AjaxResult>(ajaxResult, HttpStatus.BAD_REQUEST);
 		} else {
-			ajaxResult.setResult("SUCS");
-			return new ResponseEntity<AjaxResult>(ajaxResult, HttpStatus.OK);
+			if (!userRepository.existsByUsername(username)) {
+				ajaxResult.setResult("SUCS");
+				return new ResponseEntity<AjaxResult>(ajaxResult, HttpStatus.OK);
+			} else {
+				ajaxResult.setResult("FAIL");
+				return new ResponseEntity<AjaxResult>(ajaxResult, HttpStatus.BAD_REQUEST);
+			}
 		}
 	}
 
