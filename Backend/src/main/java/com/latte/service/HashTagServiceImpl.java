@@ -1,6 +1,5 @@
 package com.latte.service;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +47,12 @@ public class HashTagServiceImpl implements IHashTagService {
 	}
 
 	@Override
+	@Transactional
+	public int deletePostHashtag(PostHashtag post_hashtag) {
+		return hashtagDao.deletePostHashtag(post_hashtag);
+	}
+	
+	@Override
 	@Transactional(readOnly = true)
 	public List<String> hashtagsInThePost(Long post_id) {
 		return hashtagDao.hashtagsInThePost(post_id);
@@ -58,6 +63,18 @@ public class HashTagServiceImpl implements IHashTagService {
 	public List<Hashtag> getAllHashtagByNames(List<String> names) {
 		return hashtagDao.getAllHashtagByNames(names);
 	}
-	
+
+	@Override
+	@Transactional(readOnly = true)
+	public int isHashtagIdExist(Integer hashtag_id) {
+		return hashtagDao.isHashtagIdExist(hashtag_id);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Integer> getAllHashtagIdByPostId(Long posts_id) {
+		return hashtagDao.getAllHashtagIdByPostId(posts_id);
+	}
+
 
 }

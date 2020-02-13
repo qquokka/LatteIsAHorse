@@ -33,14 +33,14 @@
 		</encoder>
 	</appender>
 
-	<logger name="com.latte.controller" level="INFO"/>
-	<logger name="com.latte.dao" level="INFO"/>
-	<logger name="com.latte.service" level="INFO"/>
-	<logger name="org.springframework" level="INFO"/>
-	
+	<logger name="com.latte.controller" level="INFO" />
+	<logger name="com.latte.dao" level="INFO" />
+	<logger name="com.latte.service" level="INFO" />
+	<logger name="org.springframework" level="INFO" />
+
 
 	<root level="debug">
 		<appender-ref ref="CONSOLE" />
-<!-- 		<appender-ref ref="FILE" /> -->
+		<!-- <appender-ref ref="FILE" /> -->
 	</root>
 </configuration>

@@ -13,7 +13,6 @@ public class PostAddRequest implements Serializable {
 
 	public PostAddRequest() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public PostAddRequest(String title, String thumbnail, String content) {

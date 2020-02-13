@@ -4,7 +4,7 @@ import com.latte.dto.QRCode;
 
 public interface IQRCodeService {
 	int addQRCode(QRCode qrcode);
-	
+
 	int deleteQRCode(QRCode qrcode);
 
 	int isExist(String encryptedCode);

@@ -56,27 +56,6 @@ public class PostDaoImpl {
 		return sqlSession.selectList(ns + "getMyPostList", user_id);
 	}
 
-	// ---------------- Post hashtag 관련 ----------------
-	public List<PostHashtag> getPostHashTags(Long post_id) {
-		return sqlSession.selectList(ns + "getPostHashTags", post_id);
-	}
-
-	public List<PostHashtag> getAllHashTags() {
-		return sqlSession.selectList(ns + "getAllHashTags");
-	}
-
-	public int addPostHashtag(PostHashtag hashTag) {
-		return sqlSession.insert(ns + "addPostHashtag", hashTag);
-	}
-
-	public int updatePostHashtag(PostHashtag hashTag) {
-		return sqlSession.update(ns + "updatePostHashtag", hashTag);
-	}
-
-	public int deletePostHashtag(Long id) {
-		return sqlSession.delete(ns + "deletePostHashtag", id);
-	}
-
 	// ---------------- Post Comments 관련 ----------------
 
 	public List<PostComments> getPostCommentsByPostId(Long post_id) {

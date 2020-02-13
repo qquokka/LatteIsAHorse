@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 public class QRCodeGenerateRequest {
 	@NotNull
 	private Integer cafe_id;
-	
+
 	@NotNull
 	private Integer count;
 

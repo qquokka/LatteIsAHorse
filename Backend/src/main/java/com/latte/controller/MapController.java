@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "Map APIs", description = "Map APIs")
 public class MapController {
 	private static final Logger logger = LoggerFactory.getLogger(MapController.class);
-	private final double limitRange = 7.0; //km
+	private final double limitRange = 7.0; // km
 	@Autowired
 	IMapService mapService;
 
@@ -36,7 +36,7 @@ public class MapController {
 		logger.info("MapController-------------Get near cafe list by current user location-------------" + new Date());
 
 		// Converting level value to meter
-		//location.setMeter(convertLeveltoKilioMeter(location.getLevel()));
+		// location.setMeter(convertLeveltoKilioMeter(location.getLevel()));
 		location.setMeter(limitRange);
 		logger.info("Level : " + location.getLevel());
 		logger.info("Latitude : " + location.getLatitude());

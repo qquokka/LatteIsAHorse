@@ -12,7 +12,7 @@ public class UsersLikeCafeDto implements Serializable {
 	private Long users_id;
 	private int cafe_id;
 	private int like_count;
-	
+
 	public UsersLikeCafeDto() {
 		super();
 	}
@@ -27,7 +27,7 @@ public class UsersLikeCafeDto implements Serializable {
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -55,5 +55,5 @@ public class UsersLikeCafeDto implements Serializable {
 	public void setLike_count(int like_count) {
 		this.like_count = like_count;
 	}
-	
+
 }
