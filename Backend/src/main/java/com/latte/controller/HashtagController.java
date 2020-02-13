@@ -1,6 +1,7 @@
 package com.latte.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,10 +22,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.latte.model.Hashtag;
 import com.latte.model.PostHashtag;
+import com.latte.payload.HashtagNameRequest;
 import com.latte.payload.HashtagUpdateRequest;
 import com.latte.payload.PostHashtagRequest;
 import com.latte.service.IHashTagService;
@@ -44,9 +47,11 @@ public class HashtagController {
 
 	@ApiOperation(value = "해쉬태그명 추가(여러개)", response = Map.class)
 	@PostMapping("/hashtagname")
-	public ResponseEntity<Map<String, Object>> addHashtagName(@RequestBody List<String> names) throws Exception {
+	public ResponseEntity<Map<String, Object>> addHashtagName(@RequestBody HashtagNameRequest request) throws Exception {
 		Map<String, Object> response = new HashMap<>();
 
+		List<String> names = request.getNames();
+		
 		if (names.isEmpty()) {
 			response.put("message", "추가할 해쉬태그명이 없습니다.");
 			return new ResponseEntity<>(response, HttpStatus.OK);
