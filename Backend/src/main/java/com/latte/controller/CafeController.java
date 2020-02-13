@@ -172,10 +172,16 @@ public class CafeController {
 
 	@ApiOperation(value = "내가 좋아하는  Cafe의 리스트 반환", response = List.class)
 
-	@GetMapping("/cafe/my/{user_id}")
-	public ResponseEntity<List<CafeDto>> getMyCafeList(@PathVariable("user_id") Long user_id) throws Exception {
+	@GetMapping("/cafe/my")
+	public ResponseEntity<List<CafeDto>> getMyCafeList(HttpServletRequest request) throws Exception {
 		logger.info("CafeController-------------getMyCafeList-------------" + new Date());
-		List<CafeDto> cafes = cafeservice.getMyCafeList(user_id);
+		List<CafeDto> cafes = null;
+
+		Long userId = getLoggedInUserId(request);
+		if (userId != 0L) {
+			cafes = cafeservice.getMyCafeList(userId);
+		}
+
 		if (cafes == null || cafes.size() == 0) {
 			return new ResponseEntity<List<CafeDto>>(cafes, HttpStatus.NO_CONTENT);
 		}

@@ -14,7 +14,8 @@
 		update users set active = false where id = #{id}
 	</update>
 
-	<update id="updateUserRole" parameterType="com.latte.payload.UserRoleUpdateRequest">
+	<update id="updateUserRole"
+		parameterType="com.latte.payload.UserRoleUpdateRequest">
 		update user_roles set role_id = #{role_id} where user_id
 		= #{id}
 	</update>
