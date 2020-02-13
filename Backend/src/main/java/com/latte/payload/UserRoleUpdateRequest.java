@@ -4,7 +4,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class UserRoleUpdateRequest {
-	@NotNull
 	private Long id;
 
 	private Long role_id;
