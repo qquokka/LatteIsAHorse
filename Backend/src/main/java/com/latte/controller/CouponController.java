@@ -81,14 +81,19 @@ public class CouponController {
 		int count = Integer.parseInt(data[1]);
 		long time_stamp = Long.parseLong(data[2]);
 
+		Map<String, Object> response = new HashMap<String, Object>();
 		Long users_id = getLoggedInUserId(request);
 
+		if(users_id == 0L) {
+			response.put("message", "토근 만료");
+			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.FORBIDDEN);
+		}
+		
 		Coupon coupon = new Coupon();
 		coupon.setCafe_id(cafe_id);
 		coupon.setUsers_id(users_id);
 		coupon.setCount(count);
 
-		Map<String, Object> response = new HashMap<String, Object>();
 
 		// 쿠픈 등록 시간 만료 체크
 		long currentTime = Instant.now().toEpochMilli();
@@ -120,12 +125,17 @@ public class CouponController {
 	public ResponseEntity<Map<String, Object>> getCurrentCouponCount(@PathVariable("cafe_id") Integer cafe_id,
 			HttpServletRequest request) throws Exception {
 		Long users_id = getLoggedInUserId(request);
+		Map<String, Object> response = new HashMap<String, Object>();
 
+		if(users_id == 0L) {
+			response.put("message", "토근 만료");
+			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.FORBIDDEN);
+		}
+		
 		Coupon coupon = new Coupon();
 		coupon.setCafe_id(cafe_id);
 		coupon.setUsers_id(users_id);
 
-		Map<String, Object> response = new HashMap<String, Object>();
 
 		// 현재 보유한 쿠폰 갯수(등록되어 있지 않다면 기본값 = 0)
 		int numberOfCoupon = couponService.getCurrentCouponCount(coupon);
@@ -142,12 +152,17 @@ public class CouponController {
 	public ResponseEntity<Map<String, Object>> useCoupon(@Valid @RequestBody UseCouponRequest ucr,
 			HttpServletRequest request) throws Exception {
 		Long users_id = getLoggedInUserId(request);
-
+		Map<String, Object> response = new HashMap<String, Object>();
+		
+		if(users_id == 0L) {
+			response.put("message", "토근 만료");
+			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.FORBIDDEN);
+		}
+		
 		Coupon coupon = new Coupon();
 		coupon.setCafe_id(ucr.getCafe_id()); // 수정
 		coupon.setUsers_id(users_id);
 
-		Map<String, Object> response = new HashMap<String, Object>();
 
 		// 현재 보유한 쿠폰 갯수(등록되어 있지 않다면 기본값 = 0)
 		int numberOfCoupon = couponService.getCurrentCouponCount(coupon);

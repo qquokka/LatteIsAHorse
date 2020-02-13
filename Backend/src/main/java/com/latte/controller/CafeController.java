@@ -114,13 +114,18 @@ public class CafeController {
 		userslikemenu.setCafe_id(cafe_id);
 
 		Long users_id = getLoggedInUserId(request);
+		Map<String, Object> response = new HashMap<>();
 
+		if(users_id == 0L) {
+			response.put("message", "토근 만료");
+			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.FORBIDDEN);
+		}
+		
 		if (users_id != 0L) {
 			userslikemenu.setUsers_id(users_id);
 		}
 
 		List<MenuDto> menuList = ulmservice.getUsersLikeMenuByCafeIdNUserId(userslikemenu);
-		Map<String, Object> response = new HashMap<>();
 
 		if (cafeInfo != null) {
 			Long cafe_owner_id = cafeInfo.getCafe_owner_id();
@@ -176,8 +181,14 @@ public class CafeController {
 	public ResponseEntity<List<CafeDto>> getMyCafeList(HttpServletRequest request) throws Exception {
 		logger.info("CafeController-------------getMyCafeList-------------" + new Date());
 		List<CafeDto> cafes = null;
-
+		Map<String, Object> response = new HashMap<>();
 		Long userId = getLoggedInUserId(request);
+		
+		if(userId == 0L) {
+			response.put("message", "토근 만료");
+			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+		}
+		
 		if (userId != 0L) {
 			cafes = cafeservice.getMyCafeList(userId);
 		}
@@ -196,7 +207,13 @@ public class CafeController {
 		UsersLikeMenu userslikemenu = new UsersLikeMenu();
 		userslikemenu.setCafe_id(cafe_id);
 		Long users_id = getLoggedInUserId(request);
-
+		Map<String, Object> response = new HashMap<>();
+		
+		if(users_id == 0L) {
+			response.put("message", "토근 만료");
+			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+		}
+		
 		if (users_id != 0L) {
 			userslikemenu.setUsers_id(users_id);
 		}
@@ -211,11 +228,15 @@ public class CafeController {
 	@PostMapping("/cafe")
 	public ResponseEntity<Map<String, Object>> addCafe(@Valid @RequestBody CafeEnrollRequest cafe,
 			HttpServletRequest request) throws Exception {
-
+		Map<String, Object> response = new HashMap<>();
+		
 		Long cafe_owner_id = getLoggedInUserId(request);
+		if(cafe_owner_id == 0L) {
+			response.put("message", "토근 만료");
+			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+		}
 		// 이미 DB에 등록된 카페인지 조회
 		int result = cafeservice.isExist(cafe_owner_id);
-		Map<String, Object> response = new HashMap<>();
 
 		if (result >= 1) {
 			response.put("message", "이미 등록된 카페입니다!");
