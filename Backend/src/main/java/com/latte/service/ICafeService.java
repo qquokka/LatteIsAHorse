@@ -6,7 +6,7 @@ import com.latte.dto.CafeDto;
 
 public interface ICafeService {
 	// DB에 저장된 모든 Cafe를 반환
-	List<CafeDto> getCafeList(CafeDto cafe);
+	List<CafeDto> getCafeList();
 
 	// Create
 	int addCafe(CafeDto cafe);

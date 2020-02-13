@@ -17,8 +17,8 @@ public class CafeServiceImpl implements ICafeService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<CafeDto> getCafeList(CafeDto cafe) {
-		return cafeDao.getCafeList(cafe);
+	public List<CafeDto> getCafeList() {
+		return cafeDao.getCafeList();
 	}
 
 	@Override

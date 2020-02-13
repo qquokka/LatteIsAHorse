@@ -15,8 +15,8 @@ public class CafeDaoImpl {
 	@Autowired
 	private SqlSession sqlSession;
 
-	public List<CafeDto> getCafeList(CafeDto cafe) {
-		return sqlSession.selectList(ns + "getCafeList", cafe);
+	public List<CafeDto> getCafeList() {
+		return sqlSession.selectList(ns + "getCafeList");
 	};
 
 	// Create
