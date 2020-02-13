@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 public class PostHashtagRequest {
 	@NotNull
 	private Long post_id;
-
+	@NotNull
 	private List<Integer> hashtag_ids;
 
 	public PostHashtagRequest(@NotNull Long post_id, List<Integer> hashtag_ids) {
