@@ -1,6 +1,7 @@
 package com.latte.controller;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -81,7 +82,13 @@ public class AuthController {
 		
 		JwtAuthenticationResponse response = new JwtAuthenticationResponse(jwt);
 		response.setUsername(user.getUsername());
-		response.setRoles(user.getRoles().toString());
+		
+		List<String> roles = new ArrayList<String>();
+		for(Role role : user.getRoles()) {
+			roles.add(role.toString());
+		}
+		
+		response.setRoles(roles);
 		
 		return ResponseEntity.ok(response);
 	}
