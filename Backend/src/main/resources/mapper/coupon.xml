@@ -14,8 +14,7 @@
 	</select>
 
 	<!-- 카페아이디로 등록된 쿠폰을 보여줍니다. -->
-	<select id="getCouponListByCafeId" parameterType="_long"
-		resultType="com.latte.dto.Coupon">
+	<select id="getCouponListByCafeId" parameterType="java.lang.Long" resultType="com.latte.dto.Coupon">
 		select id, users_id,
 		cafe_id, count
 		from coupon where
@@ -35,8 +34,7 @@
 	</insert>
 
 	<!-- Read -->
-	<select id="getCouponByUserId" parameterType="_long"
-		resultType="com.latte.dto.Coupon">
+	<select id="getCouponByUserId" parameterType="java.lang.Long" resultType="com.latte.dto.Coupon">
 		select id, users_id, cafe_id, count from coupon where
 		users_id =#{users_id}
 	</select>
@@ -51,7 +49,7 @@
 	</update>
 	
 	<!-- Delete -->
-	<delete id="deleteCouponByUserId" parameterType="_long">
+	<delete id="deleteCouponByUserId" parameterType="java.lang.Long">
 		delete from
 		coupon where
 		id=#{id}

@@ -21,6 +21,10 @@ public class UserInfoUpdateRequest {
 	@Size(max = 200)
 	private String phone;
 
+	@NotBlank
+	@Size(max = 100) // 15자 하려면 15입니까...
+	private String username;
+
 	public Long getId() {
 		return id;
 	}
@@ -43,6 +47,14 @@ public class UserInfoUpdateRequest {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 }

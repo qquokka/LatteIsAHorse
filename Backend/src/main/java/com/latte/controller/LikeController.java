@@ -108,7 +108,7 @@ public class LikeController {
 		UsersLikeCafeDto userslikecafe = new UsersLikeCafeDto();
 		userslikecafe.setCafe_id(cafe_id);
 		Long userId = getLoggedInUserId(request);
-		
+
 		if (userId != 0L) {
 			userslikecafe.setUsers_id(userId);
 		}

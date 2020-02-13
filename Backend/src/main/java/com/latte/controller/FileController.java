@@ -1,7 +1,6 @@
 package com.latte.controller;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -62,9 +62,10 @@ public class FileController {
 		return new FileUploadResponse(fileName, fileDownloadUri, file.getContentType(), file.getSize());
 	}
 
+	// @PostMapping(value = "", headers = ("content-type=multipart/*"))
 	@PostMapping("/uploadMultipleFiles") // 여러 파일 저장
-	public List<FileUploadResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
-		return Arrays.asList(files).stream().map(file -> uploadFile(file)).collect(Collectors.toList());
+	public List<FileUploadResponse> uploadMultipleFiles(@RequestPart("files") List<MultipartFile> files) {
+		return files.stream().map(file -> uploadFile(file)).collect(Collectors.toList());
 	}
 
 	@GetMapping("/downloadFile/{fileName}") // 파일 다운로드
@@ -92,7 +93,7 @@ public class FileController {
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
 				.body(resource);
 	}
-	
+
 	@GetMapping("/downloadThumbnail/{fileName}") // 파일 다운로드
 	public ResponseEntity<Resource> downloadThumbnail(@PathVariable String fileName, HttpServletRequest request) {
 		// Load file as Resource

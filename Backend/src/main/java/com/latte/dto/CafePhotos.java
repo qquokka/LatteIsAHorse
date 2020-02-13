@@ -3,6 +3,7 @@ package com.latte.dto;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class CafePhotos implements Serializable {
 

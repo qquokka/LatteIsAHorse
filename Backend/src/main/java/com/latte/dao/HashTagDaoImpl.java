@@ -2,6 +2,7 @@ package com.latte.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,21 @@ public class HashTagDaoImpl {
 	}
 
 	public List<Hashtag> getAllHashtagByNames(List<String> names) {
-		return sqlSession.selectList(ns + "getAllHashtagByNames", names);
+		Map<String, Object> param = new HashMap<>();
+		param.put("names", names);
+		return sqlSession.selectList(ns + "getAllHashtagByNames", param);
+	}
+
+	public int isHashtagIdExist(Integer hashtag_id) {
+		return sqlSession.selectOne(ns + "isHashtagIdExist", hashtag_id);
+	}
+
+	public List<Integer> getAllHashtagIdByPostId(Long posts_id) {
+		return sqlSession.selectList(ns + "getAllHashtagIdByPostId", posts_id);
+	}
+
+	public int deletePostHashtag(PostHashtag post_hashtag) {
+		return sqlSession.delete(ns + "deletePostHashtag", post_hashtag);
 	}
 	
 	

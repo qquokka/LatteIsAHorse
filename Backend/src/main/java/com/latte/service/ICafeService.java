@@ -2,10 +2,7 @@ package com.latte.service;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import com.latte.dto.CafeDto;
-import com.latte.payload.CafeEnrollRequest;
 
 public interface ICafeService {
 	// DB에 저장된 모든 Cafe를 반환
