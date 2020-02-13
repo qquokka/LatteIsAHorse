@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.latte.model.Hashtag;
 import com.latte.model.PostHashtag;
 import com.latte.payload.PostHashtagRequest;
+import com.latte.payload.UpdateHashtagRequest;
 import com.latte.service.IHashTagService;
 
 import io.swagger.annotations.Api;
@@ -74,9 +75,11 @@ public class HashtagController {
 	}
 
 	@ApiOperation(value = "Post에 등록된 해쉬태그의 id 변경 UPDATE", response = Map.class)
-	@PatchMapping("/hashtag/{post_id}")
-	public ResponseEntity<Map<String, Object>> updateHashtagId(@PathVariable("post_id") Long post_id) throws Exception {
+	@PatchMapping("/hashtag")
+	public ResponseEntity<Map<String, Object>> updateHashtagId(@Valid @RequestBody UpdateHashtagRequest request) throws Exception {
 		Map<String, Object> response = new HashMap<>();
+		//해시태그 존재하는지 체크, 있다면 그 놈의 id로 변경
+		//없으면 추가하고 그 놈으로 변경
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
