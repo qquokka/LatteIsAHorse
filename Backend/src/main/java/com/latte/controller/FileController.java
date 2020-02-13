@@ -43,7 +43,7 @@ public class FileController {
 		String fileName = fileService.storeFile(file, "thumbnail"); // 파일 저장
 
 		// 저장한 파일 다운로드 URI 생성
-		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/downloadFile/")
+		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/downloadThumbnail/")
 				.path(fileName).toUriString();
 
 		// response
@@ -69,6 +69,32 @@ public class FileController {
 
 	@GetMapping("/downloadFile/{fileName}") // 파일 다운로드
 	public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+		// Load file as Resource
+		Resource resource = fileService.loadFileAsResource(fileName);
+
+		// Try to determine file's content type
+		String contentType = null;
+
+		try {
+			// 파일 타입 추출
+			contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+		} catch (IOException e) {
+			logger.info("Could not determine file type.");
+		}
+
+		// Fallback to the default content type if type could not be determined
+		if (contentType == null) {
+			contentType = "application/octet-stream";
+		}
+
+		// response
+		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+				.body(resource);
+	}
+	
+	@GetMapping("/downloadThumbnail/{fileName}") // 파일 다운로드
+	public ResponseEntity<Resource> downloadThumbnail(@PathVariable String fileName, HttpServletRequest request) {
 		// Load file as Resource
 		Resource resource = fileService.loadFileAsResource(fileName);
 

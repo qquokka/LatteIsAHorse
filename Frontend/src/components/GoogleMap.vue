@@ -1,30 +1,36 @@
 <template>
   <div>
-    <loading :active.sync="mapLoading" :can-cancel="false" :is-full-page="true" loader="bars" color="violet"></loading>
-    <gmap-map ref="gmap" 
-              :center="center" 
-              :zoom="zoom_level"
-              @zoom_changed="zoomChanged" 
-              :options="{
-                          zoomControl: false, //zoom 컨트롤바 생성
-                          mapTypeControl: false,
-                          scaleControl: false,
-                          streetViewControl: false,
-                          rotateControl: false,
-                          fullscreenControl: true,
-                          disableDefaultUi: false,
-                          gestureHandling: 'greedy', //Ctrl + 화면을 사용하려면 Google지도 확대 / 축소를 사용 비활성화
-                          minZoom: 12, //최소 줌 레벨
-                          maxZoom: 18 //최대 줌 레벨
-                        }"
-      style="width:100%;  height: 100%;"
+    <loading
+      :active.sync="mapLoading"
+      :can-cancel="false"
+      :is-full-page="true"
+      loader="bars"
+      color="violet"
+    ></loading>
+    <gmap-map
+      ref="gmap"
+      :center="prop_center"
+      :zoom="16"
+      :options="{
+        zoomControl: true,
+        mapTypeControl: false,
+        scaleControl: false,
+        streetViewControl: true,
+        rotateControl: false,
+        fullscreenControl: true,
+        disableDefaultUi: false,
+        minZoom: 12,
+        maxZoom: 18
+      }"
+      :style="`height: ${avheight}px;`"
+
     >
       <gmap-marker
         :position="prop_center"
         :clickable="true"
         :icon="require('../assets/icons/myloc.png')"
-        
       ></gmap-marker>
+
       <gmap-marker
         :key="'m-' + idx"
         v-for="(cafe, idx) in cafes"
@@ -32,7 +38,7 @@
         :clickable="true"
         @click="infoWindow(idx)"
       ></gmap-marker>
-        <gmap-info-window
+      <gmap-info-window
         v-for="(cafe, idx) in cafes"
         :key="idx"
         @closeclick="window_open[idx]=false"
@@ -68,87 +74,56 @@ export default {
   props: {
     prop_center: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
+      center: {},
       cafes: null,
-      center: null,
       markers: [],
       places: [],
-      zoom_level: 15,
-      currentPlace: null,
+      zoom_level: 16,
       mapLoading: false,
       window_open: [],
-      selected_cafe: {}
+      selected_cafe: {},
+      avheight: 0,
     };
   },
-  watch: {
-    prop_center: {
-      handler() {
-        this.center = this.prop_center
-        axios
-          .post(`${this.$store.state.constants.SERVER}/map/`, {
-            longitude: this.prop_center.lng,
-            latitude: this.prop_center.lat,
-          })
-          .then(res => {
-            if (res.data.constructor === Array) {
-              this.cafes = res.data;
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
-    },
-  },
   beforeMount() {
-    this.center = this.prop_center
-                for (var ix=0;ix < 1000;ix++) {
-              this.window_open.push(false)
-            }
+    this.avheight = Math.min(window.innerHeight - 75, window.innerWidth * 1.3)
+    for (var ix = 0; ix < 1000; ix++) {
+      this.window_open.push(false);
+    }
   },
   mounted() {
-    this.mapLoading = true
+    this.mapLoading = true;
     this.geolocate();
     
   },
   methods: {
     infoWindow(idx) {
-      // this.window_open[idx] = !this.window_open[idx]
-      this.$set(this.window_open, idx, !this.window_open[idx])
-      this.selected_cafe = this.cafes[idx]
-      this.$emit('cafe_change_event', this.selected_cafe)
-    },
-    zoomChanged(e) {
-      this.zoom_level = e;
-    },
-    // receives a place object via the autocomplete component
-    setPlace(place) {
-      this.currentPlace = place;
+      this.$set(this.window_open, idx, !this.window_open[idx]);
+      this.selected_cafe = this.cafes[idx];
+      this.$emit("cafe_change_event", this.selected_cafe);
     },
     geolocate() {
-        axios
-          .post(`${this.$store.state.constants.SERVER}/map/`, {
-            longitude: this.prop_center.lng,
-            latitude: this.prop_center.lat,
-            level: 13,
-          })
-          .then(res => {
-
-            setTimeout(() => {
-              this.mapLoading = false
-            }, 1000);   
-            this.cafes = res.data;
-          })
-          .catch(err => {
-            console.log(err);
-          });
-        
-        
-      }
+      axios
+        .post(`${this.$store.state.constants.SERVER}/map/`, {
+          latitude: this.prop_center.lat,
+          longitude: this.prop_center.lng,
+          level: 15
+        })
+        .then(res => {
+          this.cafes = res.data;
+          setTimeout(() => {
+            this.mapLoading = false;
+          }, 1);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
-}
+};
 </script>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.hashtag">
+	<!-- Post Hashtag related queries -->
+	
+	<select id="isHashtagNameExist" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select count(*) from hashtag 
+		where name = #{name}
+	</select>
+	
+	<select id="getAllHashtagByNames" parameterType="java.util.List" resultType="hashtag">
+		select * from hashtag
+		where name in
+		<foreach collection="names" item="name" open="(" close=")" separator=",">
+			#{name}
+		</foreach>
+		group by name
+	</select>
+	
+	<insert id="addHashtagName" parameterType="java.lang.String">
+		insert into hashtag (name) values (#{name})
+	</insert>
+	
+	<insert id="addHashtagId" parameterType="posthashtag">
+		insert into post_hashtag (posts_id, hashtag_id)
+		values (#{posts_id}, #{hashtag_id})
+	</insert>
+	
+	<select id="hashtagsInThePost" parameterType="java.lang.Long" resultType="java.lang.String">
+		select hashtag.name from post_hashtag
+		join hashtag on post_hashtag.posts_id = #{post_id}
+		and post_hashtag.hashtag_id = hashtag.hashtag_id 
+	</select>
+</mapper>

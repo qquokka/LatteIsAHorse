@@ -2,6 +2,7 @@ package com.latte.service;
 
 import java.util.List;
 
+import com.latte.dto.MenuDto;
 import com.latte.dto.UsersLikeMenu;
 
 public interface IUsersLikeMenuService {
@@ -12,7 +13,7 @@ public interface IUsersLikeMenuService {
 	UsersLikeMenu getUsersLikeMenuCountBymenuId(int mid);
 
 //	// READ
-	List<UsersLikeMenu> getUsersLikeMenuByCafeIdNUserId(UsersLikeMenu userslikemenu);
+	List<MenuDto> getUsersLikeMenuByCafeIdNUserId(UsersLikeMenu userslikemenu);
 
 	// Create
 	int addUsersLikeMenu(UsersLikeMenu userslikemenu);

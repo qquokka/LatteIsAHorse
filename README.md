@@ -170,4 +170,4 @@ In `pom.xml`
 ### Swagger
 
 현재까지 구현된 본 프로젝트의 모든 REST API는 아래의 주소에서 확인 및 테스트 가능합니다.
-http://192.168.31.111:8080/swagger-ui.html
+http://http://13.125.168.55/swagger-ui.html

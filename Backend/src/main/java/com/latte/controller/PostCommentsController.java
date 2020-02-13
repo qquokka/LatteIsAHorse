@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.latte.model.User;
+import com.latte.model.post.Post;
 import com.latte.model.post.PostComments;
 import com.latte.repository.UserRepository;
 import com.latte.security.JwtTokenProvider;
@@ -48,10 +49,10 @@ public class PostCommentsController {
 	@Autowired
 	UserRepository userRepository;
 
-	// -------------Post Hashtag APIs----------------------
 	@ApiOperation(value = "해당 post에 등록된 모든 comments 조회", response = List.class)
 	@GetMapping("/comments/{post_id}")
-	public ResponseEntity<List<PostComments>> getPostCommentsByPostId(@PathVariable("post_id") Long post_id) throws Exception {
+	public ResponseEntity<List<PostComments>> getPostCommentsByPostId(@PathVariable("post_id") Long post_id)
+			throws Exception {
 		logger.info("PostCommentsController-------------Get Post's Comments-------------" + new Date());
 
 		List<PostComments> comments = postservice.getPostCommentsByPostId(post_id);
@@ -73,14 +74,14 @@ public class PostCommentsController {
 
 		User user = userRepository.getOne(getLoggedInUserId(request));
 		comment.setWriter_id(user.getId());
-		
+
 		int result = postservice.addPostComments(comment);
 
 		if (result < 1) { // 등록 실패
 			response.put("state", "fail");
 			return new ResponseEntity(null, HttpStatus.EXPECTATION_FAILED);
 		}
-		
+
 		response.put("state", "success");
 		response.put("username", user.getUsername());
 		response.put("user_id", user.getId());
@@ -128,19 +129,6 @@ public class PostCommentsController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
-	private Long getLoggedInUserId(HttpServletRequest request) {
-		String bearerToken = request.getHeader("Authorization");
-		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-			String jwt = bearerToken.substring(7, bearerToken.length());
-			if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-				return tokenProvider.getUserIdFromJWT(jwt);
-			}
-		}
-		return 0L;
-	}
-
-	// --------------------- jw add ----------------------------------------------
-
 	@ApiOperation(value = "DB의 모든 comments 조회", response = List.class)
 	@GetMapping("/comments")
 	public ResponseEntity<List<PostComments>> getAllPostComments() throws Exception {
@@ -152,6 +140,35 @@ public class PostCommentsController {
 			return new ResponseEntity(null, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<PostComments>>(comments, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "내가 쓴 comments의 리스트 반환", response = List.class)
+	@GetMapping("/comments/my")
+	public ResponseEntity<List<PostComments>> getMyPostCommentsList(HttpServletRequest request) throws Exception {
+		logger.info("PostCommentsController-------------getMyPostCommentsList-------------" + new Date());
+		List<PostComments> comments = null;
+		Long userId = getLoggedInUserId(request);
+		if (userId != 0L) {
+			comments = postservice.getMyPostCommentsList(userId);
+		}
+
+		if (comments == null || comments.size() == 0) {
+			return new ResponseEntity<List<PostComments>>(comments, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<PostComments>>(comments, HttpStatus.OK);
+	}
+
+	// ---------------------------------------------------
+	// check header from request and parse JWT Token
+	private Long getLoggedInUserId(HttpServletRequest request) {
+		String bearerToken = request.getHeader("Authorization");
+		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+			String jwt = bearerToken.substring(7, bearerToken.length());
+			if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+				return tokenProvider.getUserIdFromJWT(jwt);
+			}
+		}
+		return 0L;
 	}
 
 }

@@ -5,9 +5,9 @@
 
 	<select id="getUsersLikeMenuList" resultType="userslikemenu">
 		select * from
-		userslikemen
+		userslikemenu
 	</select>
-	
+
 	<!-- DB의 모든 UserLikeCafe 리스트 반환 -->
 	<select id="getUsersLikeCafeList" resultType="userslikecafe">
 		select id,
@@ -55,16 +55,36 @@
 
 	<!-- cafecontroller에서만 사용!!!!!! detail에사용되며 완벽작동함. 에러시 로그인 세션이 풀린거 체크!... -->
 	<select id="getUsersLikeMenuByCafeIdNUserId"
-		parameterType="userslikemenu" resultType="userslikemenu">
-		select m.mid menu_id,
-		count(ulm.like_count) like_count from
-		menu m join
-		userslikemenu ulm on
-		m.mid=ulm.menu_id and m.cafe_id =
-		#{cafe_id} and
-		ulm.users_id
-		=#{users_id} group by menu_id
+		parameterType="userslikemenu" resultType="com.latte.dto.MenuDto">
+		<!-- select m.mid menu_id, count(ulm.like_count) like_count from menu m 
+			join userslikemenu ulm on m.mid=ulm.menu_id and m.cafe_id = #{cafe_id} and 
+			ulm.users_id =#{users_id} group by menu_id -->
+
+		<!-- select m.mid menu_id,sum(ulm.like_count) like_count from menu m join 
+			userslikemenu ulm on m.mid = ulm.menu_id where m.cafe_id=#{cafe_id} group 
+			by menu_id; -->
+
+		<!--select m.*, ifnull(sum(ulm.like_count),0) like_count from menu m left 
+			outer join userslikemenu ulm on m.mid=ulm.menu_id where cafe_id= #{cafe_id} 
+			group by mid -->
+
+		select m.*, ifnull(sum(ulm.like_count),0) like_count ,
+		<choose>
+			<when test="users_id != null">
+				if(ulm.like_count and ulm.users_id = #{users_id},
+				'true', 'false') as user_like
+			</when>
+			<otherwise>
+				'false' as user_like
+			</otherwise>
+		</choose>
+		from menu m
+		left outer join userslikemenu ulm
+		on m.mid = ulm.menu_id
+		where m.cafe_id= #{cafe_id}
+		group by m.mid,m.cafe_id,m.product,m.price,m.description,m.num_coupon,ulm.like_count
 	</select>
+
 
 	<insert id="addUsersLikeMenu" parameterType="userslikemenu">
 		insert into
@@ -89,10 +109,12 @@
 	</select>
 
 	<!-- 해당 Post의 전체 좋아요 수를 반환 -->
-	<select id="getNumberOfUsersLikedPost" parameterType="_long">
+	<select id="getNumberOfUsersLikedPost"
+		parameterType="java.lang.Long" resultType="java.lang.Integer">
 		select
 		count(*)
-		from userslikepost where
+		from
+		userslikepost where
 		post_id = #{post_id}
 	</select>
 

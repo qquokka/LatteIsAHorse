@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.post">
-
 	<select id="getPostList" resultType="post">
 		select
 		p.id, p.created_at,
@@ -15,7 +14,6 @@
 		order by
 		updated_at desc
 	</select>
-
 	<insert id="addPost"
 		parameterType="com.latte.payload.PostAddRequest">
 		insert into posts
@@ -26,10 +24,8 @@
 		#{thumbnail},
 		now(), now(), #{writer_id}, #{cafe_id})
 	</insert>
-	<!-- <select id="getPostByPostId" parameterType="java.lang.Integer" resultType="com.latte.dto.PostDto"> 
+	<!-- <select id="getPostByPostId" parameterType="java.lang.Integer" resultType="com.latte.dto.PostDto">
 		</select> -->
-
-
 	<select id="getPostById" resultType="post">
 		select p.*, u.username as
 		writer_name
@@ -37,7 +33,6 @@
 		where p.id = #{id} and p.writer_id =
 		u.id
 	</select>
-
 	<select id="getPostByTitle" resultType="post">
 		select p.*, u.username as
 		writer_name
@@ -45,23 +40,18 @@
 		where p.title like "%"#{title}"%" and
 		p.writer_id = u.id
 	</select>
-
 	<select id="getPostListByCafeId"
 		parameterType="java.lang.Integer" resultType="post">
 		select p.*,u.username as
 		writer_name from posts p, users u where
 		u.id =p.writer_id and cafe_id
 		=#{cafe_id}
-
 	</select>
-
-
 	<!-- 가장 마지막에 저장된 Post의 ID 반환 -->
 	<select id="getLastPostedId" resultType="java.lang.Long">
 		select max(id) from
 		posts
 	</select>
-
 	<update id="updatePostById">
 		update posts set
 		title = #{title},
@@ -73,45 +63,21 @@
 		where id = #{id}
 	</update>
 
+	<select id="getMyPostList" parameterType="java.lang.Long"
+		resultType="post">
+		select * from posts where writer_id =#{user_id}
+	</select>
+
 	<delete id="deletePostById">
 		delete from posts where id = #{id}
 	</delete>
 
-	<!-- Post Hashtag related queries -->
-	<select id="getPostHashTags" parameterType="java.lang.Long"
-		resultType="posthashtag">
-		select * from post_hashtag where post_id = #{post_id}
-	</select>
-
-	<select id="getAllHashTags" resultType="posthashtagname">
-		select distinct name from
-		post_hashtag
-	</select>
-
-	<insert id="addPostHashtag">
-		insert into post_hashtag
-		(name, post_id)
-		values
-		(#{name}, #{post_id})
-	</insert>
-
-	<update id="updatePostHashtag">
-		update post_hashtag set name = #{name} where id =
-		#{id}
-	</update>
-
-	<delete id="deletePostHashtag">
-		delete from post_hashtag where id = #{id}
-	</delete>
-
 	<!-- Post Comments CRUD -->
-
 	<select id="getPostCommentsByPostId" resultType="postComments">
 		select pc.*,
 		u.username as writer_name from post_comments pc join users u on
 		u.id=pc.writer_id where post_id =#{post_id}
 	</select>
-
 	<insert id="addPostComments">
 		insert into post_comments
 		(created_at, updated_at,
@@ -120,7 +86,6 @@
 		(now(), now(), #{content},
 		#{post_id}, #{writer_id})
 	</insert>
-
 	<update id="updatePostComments">
 		update post_comments set
 		updated_at = now(),
@@ -128,16 +93,21 @@
 		#{content}
 		where id = #{id}
 	</update>
-
 	<delete id="deletePostComments">
 		delete from post_comments where id = #{id}
 	</delete>
 
-	<!-- jw add -->
 	<select id="getAllPostComments" resultType="postComments">
 		select pc.* ,
 		u.username as writer_name from post_comments pc join users u on
 		u.id=pc.writer_id
 	</select>
-
+  
+	<select id="getMyPostCommentsList"
+		parameterType="java.lang.Long" resultType="postComments">
+		select * from
+		post_comments
+		where writer_id = #{user_id}
+	</select>
 </mapper>
+

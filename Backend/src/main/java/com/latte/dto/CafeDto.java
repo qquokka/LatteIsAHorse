@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class CafeDto implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 	private int cafe_id;
 	private String cafe_name;
@@ -16,23 +16,38 @@ public class CafeDto implements Serializable {
 	private double latitude;
 	private double longitude;
 	private String thumbnail; // varchar(500) default null, -- 썸네일
-	private String tag;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Instant mon_open;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Instant mon_close;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Instant tue_open;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Instant tue_close;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Instant wed_open;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Instant wed_close;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Instant thu_open;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Instant thu_close;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Instant fri_open;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Instant fri_close;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Instant sat_open;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Instant sat_close;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Instant sun_open;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Instant sun_close;
-	private int closed;
-	private int cafe_owner_id;
+	private Boolean closed;
+	private Long cafe_owner_id;
+	private String description;
+	private Instant[][] time;
 
 	public CafeDto() {
 		super();
@@ -40,10 +55,10 @@ public class CafeDto implements Serializable {
 	}
 
 	public CafeDto(int cafe_id, String cafe_name, String cafe_address, String cafe_phone, double latitude,
-			double longitude, String thumbnail, String tag, Instant mon_open, Instant mon_close, Instant tue_open,
+			double longitude, String thumbnail, Instant mon_open, Instant mon_close, Instant tue_open,
 			Instant tue_close, Instant wed_open, Instant wed_close, Instant thu_open, Instant thu_close,
 			Instant fri_open, Instant fri_close, Instant sat_open, Instant sat_close, Instant sun_open,
-			Instant sun_close, int closed, int cafe_owner_id) {
+			Instant sun_close, Boolean closed, Long cafe_owner_id, Instant[][] time) {
 		super();
 		this.cafe_id = cafe_id;
 		this.cafe_name = cafe_name;
@@ -52,7 +67,6 @@ public class CafeDto implements Serializable {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.thumbnail = thumbnail;
-		this.tag = tag;
 		this.mon_open = mon_open;
 		this.mon_close = mon_close;
 		this.tue_open = tue_open;
@@ -69,6 +83,18 @@ public class CafeDto implements Serializable {
 		this.sun_close = sun_close;
 		this.closed = closed;
 		this.cafe_owner_id = cafe_owner_id;
+		this.time = time;
+	}
+
+	public CafeDto(String cafe_name, String cafe_address, String cafe_phone, String thumbnail, Boolean closed,
+			String description) {
+		super();
+		this.cafe_name = cafe_name;
+		this.cafe_address = cafe_address;
+		this.cafe_phone = cafe_phone;
+		this.thumbnail = thumbnail;
+		this.closed = closed;
+		this.description = description;
 	}
 
 	public String getCafe_name() {
@@ -117,14 +143,6 @@ public class CafeDto implements Serializable {
 
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
-	}
-
-	public String getTag() {
-		return tag;
-	}
-
-	public void setTag(String tag) {
-		this.tag = tag;
 	}
 
 	public Instant getMon_open() {
@@ -239,11 +257,11 @@ public class CafeDto implements Serializable {
 		this.sun_close = sun_close;
 	}
 
-	public int getClosed() {
+	public Boolean getClosed() {
 		return closed;
 	}
 
-	public void setClosed(int closed) {
+	public void setClosed(Boolean closed) {
 		this.closed = closed;
 	}
 
@@ -251,11 +269,11 @@ public class CafeDto implements Serializable {
 		return cafe_id;
 	}
 
-	public int getCafe_owner_id() {
+	public Long getCafe_owner_id() {
 		return cafe_owner_id;
 	}
 
-	public void setCafe_owner_id(int cafe_owner_id) {
+	public void setCafe_owner_id(Long cafe_owner_id) {
 		this.cafe_owner_id = cafe_owner_id;
 	}
 
@@ -263,4 +281,15 @@ public class CafeDto implements Serializable {
 		this.cafe_id = cafe_id;
 	}
 
+	public Instant[][] getTime() {
+		return time;
+	}
+
+	public void setTime(Instant[][] time) {
+		this.time = time;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 }

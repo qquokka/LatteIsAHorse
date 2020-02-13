@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.latte.dto.CafeDto;
+import com.latte.payload.CafeEnrollRequest;
 
 @Repository
 public class CafeDaoImpl {
@@ -47,5 +48,16 @@ public class CafeDaoImpl {
 	// Delete
 	public int deleteCafeById(int cafe_id) {
 		return sqlSession.delete(ns + "deleteCafeById", cafe_id);
+	}
+	
+	
+	// 좋아요한 카페 
+	public List<CafeDto> getMyCafeList(Long user_id) {
+		return sqlSession.selectList(ns + "getMyCafeList", user_id);
+
+	}
+
+	public int isExist(Long cafe_owner_id) {
+		return sqlSession.selectOne(ns + "isExist", cafe_owner_id);
 	}
 }

@@ -26,10 +26,11 @@
 	<insert id="addCoupon" parameterType="com.latte.dto.Coupon">
 		insert into coupon
 		(users_id,
-		cafe_id)
+		cafe_id, count)
 		values(
 		#{users_id},
-		#{cafe_id}
+		#{cafe_id},
+		#{count}
 		)
 	</insert>
 
@@ -43,11 +44,10 @@
 	<!-- Update -->
 	<update id="updateCoupon" parameterType="com.latte.dto.Coupon">
 		update coupon set
-		count =
-		#{count}
+		count = (#{count} + count)
 		where
-		users_id =#{users_id}
-		and cafe_id =#{cafe_id}
+		users_id = #{users_id}
+		and cafe_id = #{cafe_id}
 	</update>
 	
 	<!-- Delete -->
@@ -56,4 +56,26 @@
 		coupon where
 		id=#{id}
 	</delete>
+	
+	<!-- Is Exist in DB -->
+	<select id="isExist" parameterType="coupon">
+		select count(*) from coupon 
+		where users_id = #{users_id}
+		and cafe_id = #{cafe_id}
+	</select>
+	
+	<!-- plus coupon count -->
+	<update id="useCoupon" parameterType="coupon">
+		update coupon set
+		count = (count - #{count})
+		where
+		users_id = #{users_id}
+		and cafe_id = #{cafe_id}
+	</update>
+	
+	<select id="getCurrentCouponCount" parameterType="coupon" resultType="java.lang.Integer">
+		select count from coupon where
+		users_id = #{users_id}
+		and cafe_id = #{cafe_id}
+	</select>
 </mapper>

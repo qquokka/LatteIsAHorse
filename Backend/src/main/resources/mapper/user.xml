@@ -2,16 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.user">
 
-	<update id="updateUserInfo" parameterType="com.latte.payload.UserInfoUpdateRequest">
-		update users set name = #{name}, phone = #{phone} where id = #{id}
+	<update id="updateUserInfo"
+		parameterType="com.latte.payload.UserInfoUpdateRequest">
+		update users set name = #{name}, phone = #{phone}
+		username=#{username} where
+		id = #{id}
 	</update>
 
-	<update id="withdrawalUserAccount" parameterType="java.lang.Long">
+	<update id="withdrawalUserAccount"
+		parameterType="java.lang.Long">
 		update users set active = false where id = #{id}
 	</update>
 
-	<update id="updateUserRole" parameterType="com.latte.payload.UserRoleUpdateRequest">
-		update user_roles set role_id = #{role_id} where user_id = #{id}
+	<update id="updateUserRole"
+		parameterType="com.latte.payload.UserRoleUpdateRequest">
+		update user_roles set role_id = #{role_id} where user_id
+		= #{id}
 	</update>
 
 </mapper>
