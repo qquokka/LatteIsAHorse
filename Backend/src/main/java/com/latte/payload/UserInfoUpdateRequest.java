@@ -11,7 +11,6 @@ To validate long type field, use annotation @NotNull.
 */
 public class UserInfoUpdateRequest {
 
-	@NotNull
 	private Long id;
 
 	@NotBlank
