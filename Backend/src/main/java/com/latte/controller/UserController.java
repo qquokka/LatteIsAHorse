@@ -56,7 +56,7 @@ public class UserController {
 	@Autowired
 	JwtTokenProvider tokenProvider;
 
-	@ApiOperation(value = "회원 정보 수정(이름, 전화번호)")
+	@ApiOperation(value = "회원 정보 수정(이름, 전화번호, username)")
 
 	@PatchMapping("/userinfo")
 	public ResponseEntity<Map<String, Object>> updateUserInfo(@Valid @RequestBody UserInfoUpdateRequest request)
