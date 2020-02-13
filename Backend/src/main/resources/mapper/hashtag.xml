@@ -3,6 +3,11 @@
 <mapper namespace="mapper.hashtag">
 	<!-- Post Hashtag related queries -->
 	
+	<select id="isHashtagIdExist" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		select count(*) from hashtag
+		where hashtag_id = #{hashtag_id}
+	</select>
+	
 	<select id="isHashtagNameExist" parameterType="java.lang.String" resultType="java.lang.Integer">
 		select count(*) from hashtag 
 		where name = #{name}
@@ -26,9 +31,23 @@
 		values (#{posts_id}, #{hashtag_id})
 	</insert>
 	
+	<delete id="deletePostHashtag" parameterType="posthashtag">
+	
+	 	delete from post_hashtag
+	 	where 
+	 	posts_id = #{posts_id}
+	 	and
+	 	hashtag_id = #{hashtag_id}
+	</delete>
+	
 	<select id="hashtagsInThePost" parameterType="java.lang.Long" resultType="java.lang.String">
 		select hashtag.name from post_hashtag
 		join hashtag on post_hashtag.posts_id = #{post_id}
 		and post_hashtag.hashtag_id = hashtag.hashtag_id 
+	</select>
+	
+	<select id="getAllHashtagIdByPostId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+		select hashtag_id from post_hashtag
+		where posts_id = #{posts_id}	
 	</select>
 </mapper>

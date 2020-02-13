@@ -1,5 +1,6 @@
 package com.latte.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.latte.model.Hashtag;
 import com.latte.model.PostHashtag;
+import com.latte.payload.HashtagUpdateRequest;
 import com.latte.payload.PostHashtagRequest;
-import com.latte.payload.UpdateHashtagRequest;
 import com.latte.service.IHashTagService;
 
 import io.swagger.annotations.Api;
@@ -47,7 +49,7 @@ public class HashtagController {
 
 		if (names.isEmpty()) {
 			response.put("message", "추가할 해쉬태그명이 없습니다.");
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 
 		for (String name : names) {
@@ -62,7 +64,7 @@ public class HashtagController {
 
 			if (result < 1) {
 				response.put("message", "해쉬태그명 추가 실패");
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 			}
 		}
 
@@ -76,17 +78,85 @@ public class HashtagController {
 
 	@ApiOperation(value = "Post에 등록된 해쉬태그의 id 변경 UPDATE", response = Map.class)
 	@PatchMapping("/hashtag")
-	public ResponseEntity<Map<String, Object>> updateHashtagId(@Valid @RequestBody UpdateHashtagRequest request) throws Exception {
+	public ResponseEntity<Map<String, Object>> updateHashtagId(@RequestBody HashtagUpdateRequest request)
+			throws Exception {
 		Map<String, Object> response = new HashMap<>();
-		//해시태그 존재하는지 체크, 있다면 그 놈의 id로 변경
-		//없으면 추가하고 그 놈으로 변경
+
+		if (request.getNames().isEmpty()) {
+			response.put("message", "수정할 해쉬태그명이 없습니다.");
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+
+		Long post_id = request.getPost_id();
+		List<String> names = request.getNames();
+
+		// Add new hashtag name
+		for (String name : names) {
+			// 해쉬태그명이 이미 존재하는지
+			int result = hashtagService.isHashtagNameExist(name);
+
+			if (result >= 1)
+				continue;
+
+			// 존재하지 않으면 새로운 해시태그명 등록
+			result = hashtagService.addHashtagName(name);
+
+			if (result < 1) {
+				response.put("message", "해쉬태그명 추가 실패");
+				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+			}
+		} // 새로운 해쉬태그명들 DB에 추가됨
+
+		// ex) 1,2,3,4,5 hashtag_id
+		List<Integer> post_hashtags = hashtagService.getAllHashtagIdByPostId(post_id);
+		// 2,3,4,5
+		List<Hashtag> hashtags = hashtagService.getAllHashtagByNames(names);
+
+		List<Integer> delCadidates = new ArrayList<>();
+
+		for (Integer hashtag_id : post_hashtags) {
+			for (Hashtag hashtag : hashtags) {
+				if (hashtag_id.intValue() == hashtag.getHashtag_id().intValue())
+					break;
+			}
+			// 삭제할 후보 hashtag_id
+			delCadidates.add(hashtag_id);
+		}
+
+		for (Hashtag hashtag : hashtags) {
+			// 이미 등록된 것이니 패스
+			if (post_hashtags.contains(hashtag.getHashtag_id())) {
+				continue;
+			} else { // 새로운 post_hashtag 추가
+				int result = hashtagService.addHashtagId(new PostHashtag(post_id, hashtag.getHashtag_id()));
+				if (result < 1) {
+					response.put("message", "Posthashtag 추가 실패");
+					return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+				}
+			}
+		}
+
+		// post_hashtag 제거
+		for (Integer candi : delCadidates) {
+			int result = hashtagService.deletePostHashtag(new PostHashtag(post_id, candi));
+			if (result < 1) {
+				response.put("message", "Posthashtag 제거 실패");
+				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+			}
+		}
+
+		response.put("message", "해쉬태그명 추가 완료");
+		response.put("hashtags", hashtags);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Post에 등록된 해쉬태그의 id 삭제 DELETE", response = Map.class)
 	@DeleteMapping("/hashtag/{post_id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Map<String, Object>> deleteHashtagId(@PathVariable("post_id") Long post_id) throws Exception {
 		Map<String, Object> response = new HashMap<>();
+		//기능 구현 예정
+		//관리자만 삭제 가능하게?
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
