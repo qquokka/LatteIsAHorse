@@ -37,6 +37,9 @@ export default {
           this.$session.set("expire", Date.now());
           this.$store.dispatch("login", token);
           this.$store.commit("setToken", token);
+          //sh 추가
+          this.$session.set("roles", response.data.roles)
+          console.log(response.data)
           document.querySelector("#modalCloseButton").click();
         })
         .catch(error => {

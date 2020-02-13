@@ -11,9 +11,7 @@
         <p class="nav-link" v-if="!this.$store.getters.isLoggedIn" @click="showmodal">
           <fa icon="key" /> 로그인
         </p>
-        <p class="nav-link" @click="logout()" v-else >
-          <fa icon="key" /> {{ $session.get('username') }} 님 반갑습니다.
-        </p>
+        <router-link class="nav-link" to="/profile" v-else><fa icon="user" /> {{ $session.get('username') }} 님 반갑습니다.</router-link>
       </li>
       <li class="nav-item" >
         <router-link class="nav-link" to="/about"><fa icon="user" /> About Us</router-link>
@@ -23,6 +21,11 @@
       </li>
       <li class="nav-item">
         <router-link class="nav-link" to="/map"><fa icon="map" /> 내 주변 보기</router-link>
+      </li>
+      <li class="nav-item">
+        <p class="nav-link" v-if="this.$store.getters.isLoggedIn" @click="logout()">
+          <fa icon="logout" /> 로그아웃
+        </p>
       </li>
     </ul>
   </div>
@@ -61,8 +64,9 @@ methods: {
     modal.click()
   },
   logout() {
-    this.$session.destroy()
+    this.$session.destroy() //undefined error
     this.$store.dispatch('logout')
+    this.$router.push({ path: 'home' })
   },
   handleScroll() {
     if (this.iswhite) {

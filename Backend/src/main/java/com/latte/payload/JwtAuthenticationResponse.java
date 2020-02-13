@@ -12,6 +12,10 @@ public class JwtAuthenticationResponse {
 		this.roles = roles;
 	}
 
+	public List<String> getRoles() {
+		return roles;
+	}
+
 	public JwtAuthenticationResponse(String accessToken) {
 		this.accessToken = accessToken;
 	}
