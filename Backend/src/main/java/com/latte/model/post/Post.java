@@ -7,14 +7,14 @@ public class Post implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Long id; // bigint(20) NOT NULL AUTO_INCREMENT,
-	private Integer like_count; // int default 0, -- 좋아요 수
-	private String thumbnail; // varchar(200) default null, -- 썸네일
-	private String title; // varchar(200) not null, -- post의 제목
-	private String content; // text not null, -- post의 게시글 본문
-	private Long writer_id = 0L; // bigint(20) not null,
-	private Instant created_at;
-	private Instant updated_at;
+	private Long id; 			 // id
+	private Integer like_count;  //  좋아요 수
+	private String thumbnail; 	 // 썸네일
+	private String title; 		 // 제목
+	private String content; 	 // 게시글 본문
+	private Long writer_id = 0L; // 작성자의 id
+	private Instant created_at;  //게시물 작성일
+	private Instant updated_at;  //게시물 수정일
 
 	private String writer_name;
 	private int cafe_id; // get post 에서 cafe_id를 주기위함.

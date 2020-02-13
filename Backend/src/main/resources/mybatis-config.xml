@@ -4,23 +4,17 @@
 
 	<typeAliases>
 		<typeAlias type="com.latte.model.post.Post" alias="post" />
-		<typeAlias type="com.latte.payload.PostRequest"
-			alias="postRequest" />
-		<typeAlias type="com.latte.model.post.PostComments"
-			alias="postComments" />
-		<typeAlias type="com.latte.model.post.PostPhotos"
-			alias="postPhotos" />
+		<typeAlias type="com.latte.payload.PostRequest" alias="postRequest" />
+		<typeAlias type="com.latte.model.post.PostComments" alias="postComments" />
+		<typeAlias type="com.latte.model.post.PostPhotos" alias="postPhotos" />
 		<typeAlias type="com.latte.dto.CafeDto" alias="cafe" />
-		<typeAlias type="com.latte.dto.UsersLikeMenu"
-			alias="userslikemenu" />
-		<typeAlias type="com.latte.dto.UsersLikeCafeDto"
-			alias="userslikecafe" />
-		<typeAlias type="com.latte.dto.UsersLikePost"
-			alias="userslikepost" />
+		<typeAlias type="com.latte.dto.UsersLikeMenu" alias="userslikemenu" />
+		<typeAlias type="com.latte.dto.UsersLikeCafeDto" alias="userslikecafe" />
+		<typeAlias type="com.latte.dto.UsersLikePost" alias="userslikepost" />
 		<typeAlias type="com.latte.dto.Coupon" alias="coupon" />
 		<typeAlias type="com.latte.dto.QRCode" alias="qrcode" />
-		<typeAlias type="com.latte.model.Hashtag" alias="hashtag"/>
-		<typeAlias type="com.latte.model.PostHashtag" alias="posthashtag"/>
+		<typeAlias type="com.latte.model.Hashtag" alias="hashtag" />
+		<typeAlias type="com.latte.model.PostHashtag" alias="posthashtag" />
 	</typeAliases>
 
 </configuration>

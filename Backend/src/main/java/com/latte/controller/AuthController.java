@@ -66,24 +66,25 @@ public class AuthController {
 	@PostMapping("/signin")
 	@ApiOperation(value = "로그인 처리")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		
-		//회원탈퇴 처리된 경우
-		//User user = userRepository.findByUsernameOrEmail(loginRequest.getUsernameOrEmail(), loginRequest.getUsernameOrEmail());
-		
+
+		// 회원탈퇴 처리된 경우
+		// User user =
+		// userRepository.findByUsernameOrEmail(loginRequest.getUsernameOrEmail(),
+		// loginRequest.getUsernameOrEmail());
+
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-	
+
 		String jwt = tokenProvider.generateToken(authentication);
-		
-		User user = userRepository.findByUsernameOrEmail(loginRequest.getUsernameOrEmail(), loginRequest.getUsernameOrEmail()).get();
-		
-		
-		
+
+		User user = userRepository
+				.findByUsernameOrEmail(loginRequest.getUsernameOrEmail(), loginRequest.getUsernameOrEmail()).get();
+
 		JwtAuthenticationResponse response = new JwtAuthenticationResponse(jwt);
 		response.setUsername(user.getUsername());
-		
+
 		return ResponseEntity.ok(response);
 	}
 
@@ -92,23 +93,22 @@ public class AuthController {
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 		logger.info("AuthController / registerUser --------------------" + new Date());
 
-		
-		//Username(Nickname)이 이미 존재할 때
+		// Username(Nickname)이 이미 존재할 때
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return new ResponseEntity(new ApiResponse(false, "Username is already taken!"), HttpStatus.BAD_REQUEST);
 		}
-		//Email이 이미 존재할 때
+		// Email이 이미 존재할 때
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 			return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"), HttpStatus.BAD_REQUEST);
 		}
-		
+
 		// Creating user's account
 		User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
 				signUpRequest.getPassword());
-		
+
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-		//Default User Role is "ROLE_USER"
+		// Default User Role is "ROLE_USER"
 		Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
 				.orElseThrow(() -> new AppException("User Role not set."));
 
@@ -121,21 +121,21 @@ public class AuthController {
 
 		return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
 	}
-	
+
 	@GetMapping("/users")
 	@ApiOperation(value = "모든 회원 정보 가져오기")
 	@PreAuthorize("hasRole('ADMIN')")
 
-	public ResponseEntity<List<User>> getUserList(){
-		
+	public ResponseEntity<List<User>> getUserList() {
+
 		List<User> users = userRepository.findAll();
-		
-		if(users == null || users.isEmpty())
+
+		if (users == null || users.isEmpty())
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
-		
+
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
-	
+
 //	//회원 정보 수정(이름, 전화번호, 탈퇴처리)
 //	@ApiOperation(value = "회원 정보 수정하기")
 //	@PatchMapping("/user")
@@ -191,8 +191,8 @@ public class AuthController {
 //		response.setSuccess(true);
 //		return new ResponseEntity(response, HttpStatus.OK);
 //	}
-	
-	//권한 변경
+
+	// 권한 변경
 //	@PostMapping("/logout")
 //	public Resp
 }

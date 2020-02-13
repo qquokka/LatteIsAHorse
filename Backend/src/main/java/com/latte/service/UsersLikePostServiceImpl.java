@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.latte.dao.UsersLikeCafeDaoImpl;
 import com.latte.dao.UsersLikePostDaoImpl;
-import com.latte.dto.UsersLikeCafeDto;
 import com.latte.dto.UsersLikePost;
 
 @Service

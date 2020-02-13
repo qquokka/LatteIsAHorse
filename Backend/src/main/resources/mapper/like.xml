@@ -4,8 +4,7 @@
 
 
 	<select id="getUsersLikeMenuList" resultType="userslikemenu">
-		select * from
-		userslikemenu
+		select * from userslikemenu
 	</select>
 
 	<!-- DB의 모든 UserLikeCafe 리스트 반환 -->
@@ -16,8 +15,7 @@
 	</select>
 
 	<!-- 카페의 좋아요 수를 반환 -->
-	<select id="getUsersLikeCafeByCafeId"
-		parameterType="java.lang.Integer" resultType="userslikecafe">
+	<select id="getUsersLikeCafeByCafeId" parameterType="java.lang.Integer" resultType="userslikecafe">
 		select cafe_id,
 		count(like_count) like_count
 		from userslikecafe
@@ -42,8 +40,7 @@
 
 
 	<!-- 메뉴 고유 id 에 대한 카운트 값을 돌려줌. 고로 업데이트시 리스폰스 해줄 예정 -->
-	<select id="getUsersLikeMenuCountBymenuId"
-		parameterType="java.lang.Integer" resultType="userslikemenu">
+	<select id="getUsersLikeMenuCountBymenuId" parameterType="java.lang.Integer" resultType="userslikemenu">
 		select m.mid menu_id,
 		count(ulm.like_count) like_count from
 		menu m join
@@ -54,8 +51,7 @@
 	</select>
 
 	<!-- cafecontroller에서만 사용!!!!!! detail에사용되며 완벽작동함. 에러시 로그인 세션이 풀린거 체크!... -->
-	<select id="getUsersLikeMenuByCafeIdNUserId"
-		parameterType="userslikemenu" resultType="com.latte.dto.MenuDto">
+	<select id="getUsersLikeMenuByCafeIdNUserId" parameterType="userslikemenu" resultType="com.latte.dto.MenuDto">
 		<!-- select m.mid menu_id, count(ulm.like_count) like_count from menu m 
 			join userslikemenu ulm on m.mid=ulm.menu_id and m.cafe_id = #{cafe_id} and 
 			ulm.users_id =#{users_id} group by menu_id -->
@@ -93,8 +89,7 @@
 		(#{users_id},#{menu_id})
 	</insert>
 
-	<delete id="deleteLikeByUserIdNMenuId"
-		parameterType="userslikemenu">
+	<delete id="deleteLikeByUserIdNMenuId" parameterType="userslikemenu">
 		delete from userslikemenu where
 		users_id=#{users_id} and
 		menu_id=#{menu_id}
@@ -109,8 +104,7 @@
 	</select>
 
 	<!-- 해당 Post의 전체 좋아요 수를 반환 -->
-	<select id="getNumberOfUsersLikedPost"
-		parameterType="java.lang.Long" resultType="java.lang.Integer">
+	<select id="getNumberOfUsersLikedPost" parameterType="java.lang.Long" resultType="java.lang.Integer">
 		select
 		count(*)
 		from

@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-import com.latte.model.Hashtag;
-
 public class PostHashtagRequest {
 	@NotNull
 	private Long post_id;

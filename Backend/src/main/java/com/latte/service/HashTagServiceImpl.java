@@ -1,6 +1,5 @@
 package com.latte.service;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +57,5 @@ public class HashTagServiceImpl implements IHashTagService {
 	public List<Hashtag> getAllHashtagByNames(List<String> names) {
 		return hashtagDao.getAllHashtagByNames(names);
 	}
-	
 
 }
