@@ -30,6 +30,7 @@ export default {
         .post(`${this.$store.state.constants.SERVER}/signin`, credentials)
         .then(response => {
           this.loginFailed = false;
+          console.log(response)
           const token = response.data.accessToken;
           this.$session.start();
           this.$session.set("jwt", token);
