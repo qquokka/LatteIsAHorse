@@ -20,7 +20,6 @@ const actions = {
     },
     logout(context) {
         context.commit('setToken', null)
-        this.$session.destroy()
     }
 }
 import jwtDecode from 'jwt-decode'

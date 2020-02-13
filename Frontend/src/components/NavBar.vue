@@ -64,9 +64,13 @@ methods: {
     modal.click()
   },
   logout() {
-    this.$session.destroy() //undefined error
+    console.log('user call logout func')
+    if(this.$session.exists()){
+      this.$session.destroy()
+    }
+    console.log(this.$session.exists())
     this.$store.dispatch('logout')
-    this.$router.push({ path: 'home' })
+    this.$router.push({ path: '/' })
   },
   handleScroll() {
     if (this.iswhite) {

@@ -35,10 +35,10 @@ export default {
           this.$session.set("jwt", token);
           this.$session.set("username", response.data.username);
           this.$session.set("expire", Date.now());
-          this.$store.dispatch("login", token);
-          this.$store.commit("setToken", token);
           //sh 추가
           this.$session.set("roles", response.data.roles)
+          this.$store.dispatch("login", token);
+          this.$store.commit("setToken", token);
           console.log(response.data)
           document.querySelector("#modalCloseButton").click();
         })
