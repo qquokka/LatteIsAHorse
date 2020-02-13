@@ -3,7 +3,7 @@
     <NavBar />
     <div class="container">
       <h1 class="display-3 mx-5" style="padding-top:6rem;font-weight:700">{{ review.title }}</h1>
-      <h5>{{ review.created_at }}</h5>
+      <h5>{{ displayTime(review.time) }} 작성</h5>
       <h1 class="border-bottom pb-4">
         <span class="text-muted small">written by</span>
         {{ review.writer_name }}
@@ -16,7 +16,7 @@
       <div class="container comments">
         댓글 갯수: {{ comments.length }}
         <li v-for="comment in comments" :key="comment.id">
-          {{ comment.writer_name }} : {{ comment.content }} at {{ comment.created_at }}
+          {{ comment.writer_name }} : {{ comment.content }} at {{ displayTime(comment.time.slice(0,19)) }}
           <a
             v-if="comment.writer_name === $session.get('username')"
             @click.prevent="deleteComment(comment.id)"
@@ -46,6 +46,7 @@ export default {
     return {
       loading: false,
       review: {},
+      time: '',
       comments: [],
       isWriter: false,
       addCommentContent: null,
@@ -53,36 +54,6 @@ export default {
     };
   },
   methods: {
-    getReview() {
-      axios
-        .get(`${this.$store.state.constants.SERVER}/post/${this.reviewId}`)
-        .then(response => {
-          this.review = response.data;
-          let now = Date.now();
-
-          let dateCreatedAt = new Date(this.review.created_at.slice(0, 19));
-          if (now - Date.parse(dateCreatedAt) <= 43200000) {
-            this.review.created_at = moment(this.review.created_at)
-              .locale("ko")
-              .fromNow();
-          } else {
-            this.review.created_at = moment(this.review.created_at)
-              .locale("ko")
-              .format("llll");
-          }
-
-          let dateUpdatedAt = new Date(this.review.updated_at.slice(0, 19));
-          if (now - Date.parse(dateUpdatedAt) <= 43200000) {
-            this.review.updated_at = moment(this.review.updated_at)
-              .locale("ko")
-              .fromNow();
-          } else {
-            this.review.updated_at = moment(this.review.updated_at)
-              .locale("ko")
-              .format("llll");
-          }
-        });
-    },
     updateReview() {
       console.log("수정 시작");
       this.$router.push(`/post/${this.reviewId}`);
@@ -120,6 +91,7 @@ export default {
         .then(response => {
           console.log(response);
           this.getComment();
+          this.addCommentContent = ''
         })
         .catch(error => {
           console.log(error);
@@ -137,16 +109,15 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    displayTime(time) {
+      let now = Date.now();
+      if (now - Date.parse(time) <= 43200000) {
+        return moment(time).locale("ko").fromNow()
+      } else {
+        return moment(time).locale("ko").format("llll")
+      }
     }
-    // displayTime(time) {
-    // 	let now = Date.now()
-    // 	let dateCreatedAt = new Date(time.slice(0, 19))
-    // 	if (now - Date.parse(dateCreatedAt) <= 43200000) {
-    // 		this.review.created_at = moment(this.review.created_at).locale("ko").fromNow()
-    // 	} else {
-    // 		this.review.created_at = moment(this.review.created_at).locale("ko").format("llll")
-    // 	}
-    // }
   },
   mounted() {
     axios
@@ -156,18 +127,21 @@ export default {
         if (this.review.writer_name === this.$session.get("username")) {
           this.isWriter = true;
         }
+        console.log(this.review.content)
       });
     axios
       .get(`${this.$store.state.constants.SERVER}/comments/${this.reviewId}`)
       .then(response => {
-        this.comments = response.data;
+        console.log(response.data);
+        this.comments = response.data
       })
       .catch(error => {
         console.log(error);
       });
     this.isLogined = this.$session.has("jwt");
   }
-};
+}
+
 </script>
 
 <style>
