@@ -44,10 +44,11 @@ export default {
           document.querySelector("#modalCloseButton").click();
         })
         .catch(error => {
-          if (error.response.data.status === 401) {
-            this.loginFailed = !this.loginFailed;
-            alert(error.response.data);
-          }
+          console.log(error)
+          // if (error.response.data.status === 401) {
+          //   this.loginFailed = !this.loginFailed;
+          //   alert(error.response.data);
+          // }
         });
     }
   },

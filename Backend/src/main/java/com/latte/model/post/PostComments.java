@@ -104,4 +104,11 @@ public class PostComments implements Serializable {
 		this.content = content;
 	}
 
+	@Override
+	public String toString() {
+		return "PostComments [created_at=" + created_at + ", updated_at=" + updated_at + ", id=" + id + ", post_id="
+				+ post_id + ", writer_id=" + writer_id + ", content=" + content + ", writer_name=" + writer_name + "]";
+	}
+
+	
 }
