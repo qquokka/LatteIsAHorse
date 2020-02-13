@@ -14,7 +14,7 @@ import com.latte.model.PostHashtag;
 @Repository
 public class HashTagDaoImpl {
 	private final String ns = "mapper.hashtag.";
-	
+
 	@Autowired
 	private SqlSession sqlSession;
 
@@ -59,6 +59,5 @@ public class HashTagDaoImpl {
 	public int deletePostHashtag(PostHashtag post_hashtag) {
 		return sqlSession.delete(ns + "deletePostHashtag", post_hashtag);
 	}
-	
-	
+
 }
