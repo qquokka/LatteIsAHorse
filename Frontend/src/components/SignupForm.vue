@@ -4,7 +4,7 @@
       <p v-show="showText('email')"><small>이메일을 'your_id@example.com' 형식으로 입력해주세요</small></p>
       <input type="email" class="  logininput" id="email" placeholder="ID (id@example.com)" v-model="email"
       :style="{ 'background-color': bgColor.email }">
-      <p v-show="showText('nickname')"><small>닉네임을 3 ~ 15자로 입력해주세요</small></p>
+      <p v-show="showText('nickname')"><small>닉네임을 15자 이하로 입력해주세요</small></p>
       <input type="text" class="  logininput" id="nickname" placeholder="닉네임(3~15자리)을 입력해주세요" v-model="nickname"
       :style="{ 'background-color': bgColor.nickname }">
       <p v-show="showText('password')"><small>비밀번호를 6 ~ 20자로 입력해주세요</small></p>
@@ -149,11 +149,11 @@ export default {
     checkNickname() {
       let nickLen = this.nickname.length
       // console.log('nickname', this.nickname)
-      if (2 < nickLen && nickLen < 16) {
-        this.isOkay.nickname = true
-        this.bgColor.nickname = ''
-      } else if (nickLen === 0) {
+      if (nickLen === 0) {
         this.isOkay.nickname = false
+        this.bgColor.nickname = ''
+      } else if (nickLen < 16) {
+        this.isOkay.nickname = true
         this.bgColor.nickname = ''
       } else {
         this.isOkay.nickname = false

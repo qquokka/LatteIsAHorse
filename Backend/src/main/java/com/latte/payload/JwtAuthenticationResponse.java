@@ -1,9 +1,16 @@
 package com.latte.payload;
 
+import java.util.List;
+
 public class JwtAuthenticationResponse {
 	private String accessToken;
 	private String tokenType = "Bearer";
 	private String username;
+	private List<String> roles;
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
 
 	public JwtAuthenticationResponse(String accessToken) {
 		this.accessToken = accessToken;
