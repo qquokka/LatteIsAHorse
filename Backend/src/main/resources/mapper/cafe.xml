@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.cafe">
-	<select id="getCafeList" resultType="cafe">
-		select * from cafe
+	<select id="getCafeList" parameterType="cafe" resultType="cafe">
+		select * from cafe order by abs(sqrt(pow(longitude - #{lng}, 2) + pow(latitude - #{lat}, 2))) asc
 	</select>
 	
 	<select id="getCafeById" parameterType="java.lang.Integer" resultType="cafe">
