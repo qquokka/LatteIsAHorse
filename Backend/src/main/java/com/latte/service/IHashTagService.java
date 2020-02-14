@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.latte.model.Hashtag;
 import com.latte.model.PostHashtag;
+import com.latte.payload.HashtagNamesNumberResponse;
 
 public interface IHashTagService {
 	//해쉬태그 ID가 DB에 존재 하는지
@@ -35,4 +36,7 @@ public interface IHashTagService {
 	
 	// Post id로 등록된 모든 hashtag id 조회
 	List<Integer> getAllHashtagIdByPostId(Long posts_id);
+	
+	//모든 해시태그명과 빈도수 반환
+	List<HashtagNamesNumberResponse> getAllHashtagNamesNumber();
 }

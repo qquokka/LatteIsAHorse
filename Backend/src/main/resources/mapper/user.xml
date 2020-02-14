@@ -7,7 +7,8 @@
 		update users set
 		name = #{name},
 		phone = #{phone},
-		username =#{username}
+		username = #{username}
+
 		where
 		id =#{id}
 	</update>

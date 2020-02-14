@@ -56,7 +56,7 @@
 	</delete>
 	
 	<!-- Is Exist in DB -->
-	<select id="isExist" parameterType="coupon">
+	<select id="isExist" parameterType="coupon" resultType="java.lang.Integer">
 		select count(*) from coupon 
 		where users_id = #{users_id}
 		and cafe_id = #{cafe_id}
