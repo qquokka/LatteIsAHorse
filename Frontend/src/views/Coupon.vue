@@ -6,7 +6,7 @@
       <p>발급된 쿠폰 개수 : {{couponNum}}</p>
       <br/>
       <button type="button" class="couponbtn font-weight-bolder" 
-      v-on:click="!isGeneratedCoupon">재발급</button>
+      v-on:click="reGenerateCoupon">재발급</button>
       <br/>
       <p>{{uri}}</p>
     </div>
@@ -43,6 +43,9 @@ export default {
     }
   },
   methods: {
+    reGenerateCoupon(){
+      this.isGeneratedCoupon = false
+    },
     generate(){
       const payload = {
         //"cafe_id": this.cafe_id,

@@ -6,94 +6,121 @@
     <br/>
     <p class="error" v-if="errorOccur">Error Message : <b>{{error}}</b></p>
 
-    <qrcode-stream
-      :camera="camera" 
-      :key="_uid" 
-      :track="paintGreenText" 
-      @decode="onDecode" 
-      @init="onInit" 
-      :paused="paused">
+    <qrcode-drop-zone @decode="onDecode" @init="logErrors">
+      <qrcode-stream
+        :camera="camera" 
+        :key="_uid" 
+        @decode="onDecode" 
+        @init="onInit" 
+        > <!--:track="paintGreenText" -->
 
-      <div v-if="validationSuccess" class="validation-success">
-        This is a URL
-      </div>
+        <div v-if="validationSuccess" class="validation-success">
+          쿠폰 등록 성공 (^o^)
+        </div>
 
-      <div v-if="validationFailure" class="validation-failure">
-        This is NOT a URL!
-      </div>
+        <div v-if="validationFailure" class="validation-failure">
+          쿠폰 등록 실패 (^ㅠ_ㅠ^) <br/> 등록 유효기간 만료...
+        </div>
 
-      <div v-if="validationPending" class="validation-pending">
-        Long validation in progress...
-      </div>
-    </qrcode-stream>
+        <div v-if="validationPending" class="validation-pending">
+          쿠폰 등록 중...
+        </div>
+
+        <div v-if="validationCoupon" class="validation-failure">
+          유효하지 않은 쿠폰입니다!
+        </div>
+      </qrcode-stream>
+    </qrcode-drop-zone>
+    
+    <!-- 카메라 미지원일 때 파일 업로드로 QR 코드 인식 -->
+    <qrcode-capture v-if="noStreamApiSupport" @decode="onDecode" />
   </div>
 </template>
 
 <script>
 import axios from "axios"
 import 'vue-qrcode-reader/dist/vue-qrcode-reader.css'
-import { QrcodeStream } from 'vue-qrcode-reader'
+import { QrcodeStream, QrcodeDropZone, QrcodeCapture } from 'vue-qrcode-reader'
 
 export default {
   name: 'qrcode-reader',
   components:{
-    QrcodeStream  //https://gruhn.github.io/vue-qrcode-reader/demos/CustomTracking.html
+    QrcodeStream,  //https://gruhn.github.io/vue-qrcode-reader/demos/CustomTracking.html
+    QrcodeDropZone,
+    QrcodeCapture
   },
   data () {
     return {
       paused: false, //첫번째 결과에만 관심이 있다면 카메라 스트림 멈춤
       result: null,
       error:'',
-      errorOccur: false,
-      isValid: undefined,
+      errorOccur: false, //에러 발생 했을 때 에러 메세지 표시
+      isValid: undefined, //0 : validCoupon, 1 : couponAddSuccess, -1 : couponAddFail
       camera: 'auto',
+      noStreamApiSupport: false,
+      isNotACoupon: false
     } 
   },
   props: {
   },
   computed: {
-    isLogged() {
-      return this.$store.getters.isLoggedIn
-    },
+    isLogged() { return this.$store.getters.isLoggedIn },
+    validationCoupon () { return this.isValid === 0},
     validationPending () {
       return this.isValid === undefined
         && this.camera === 'off'
     },
-    validationSuccess () {
-      return this.isValid === true
-    },
-    validationFailure () {
-      return this.isValid === false
-    }
+    validationSuccess () { return this.isValid === 1 },
+    validationFailure () { return this.isValid === -1 }
   },
   methods: {
+    goBack() { this.$router.go(-1) }, //뒤로가기(아마도 카페 페이지?)
     async onDecode (content) {
-      // console.log(request)
-      // this.result = request
-      //쿠폰 등록
-      axios.post(content)
-           .then(res => {
-             if(res.status === 200){
-               console.log(res.data)
-             }
-           })
-           .catch(err => {
-             console.log(err.name)
-             console.log(err.data)
-           })
-  
+      
       this.result = content
       this.turnCameraOff()
 
       // pretend it's taking really long
-      await this.timeout(3000) //stop time in ms
-      this.isValid = content.startsWith('http') //validation 내용
+      await this.timeout(2000) //stop time in ms
+      
+      if(content.startsWith(`${this.$store.state.constants.SERVER}/coupon/`)){ //발급된 쿠폰인지 체크
+         const req = "coupon/"
+         const lastIdx = content.lastIndexOf(req)
+         console.log("last index : " + lastIdx)
+         const url = content.substring(0, lastIdx + req.length);
+         console.log("url : " + url)
+         const code = content.substring(lastIdx + req.length, content.length);
+         console.log("code : " + code)
+        //  const config = {
+        //     headers: { Authorization: "Bearer " + this.$session.get("jwt") }
+        //  }
+        console.log(typeof code)
+         await axios.put(`${this.$store.state.constants.SERVER}/coupon/`,{
+                code : code
+              }) //쿠폰 등록
+             .then(res => {
+               console.log(res.data)
+               if(res.status === 200){
+                 this.isValid = 1
+               }
+             })
+             .catch(err => {
+               this.isValid = -1
+               console.log(err.name)
+               console.log(err)
+             })
+      }else{
+        this.isValid = 0
+        
+      }
+      await this.timeout(1500)
+      if(this.isValid === -1 || this.isValid === 0){
+        this.turnCameraOn()
+      }else{
+        console.log("should go back")
+        //  this.goBack()
+      }
 
-      // some more delay, so users have time to read the message
-      await this.timeout(2000)
-
-      //결과 정상 처리 후 페이지 전환
-      this.turnCameraOn()
     },
     paintGreenText (location, ctx) {
       const {
@@ -131,7 +158,7 @@ export default {
       try {
         await promise
               .catch(console.error)
-              .then(this)
+              .then(this.resetValidationState)
       } catch (error) {
         this.errorOccur = true;
         if (error.name === 'NotAllowedError') {
@@ -146,6 +173,7 @@ export default {
           this.error = "ERROR: installed cameras are not suitable"
         } else if (error.name === 'StreamApiNotSupportedError') {
           this.error = "ERROR: Stream API is not supported in this browser"
+          this.noStreamApiSupport = true
         }
       }
     },
