@@ -60,7 +60,7 @@ export default {
       this.$store.commit("setToken", stored.jwt);
     }
     setInterval(() => {
-      if(this.$session.exists("jwt")){
+      if(this.$session.exists()){
         if (Date.now() - this.$session.getItem("expire") > 3600000) {
           this.logout()
         }
@@ -92,11 +92,11 @@ a,
 }
 a:hover,
 .router-link:hover {
-  color: #6f4f5f !important;
+  color: goldenrod !important;
 }
 
 .router-link-active {
-  color: #42b983 !important;
+  color: goldenrod !important;
 }
 
 ::-webkit-scrollbar {
