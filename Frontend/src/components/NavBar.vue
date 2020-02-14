@@ -162,13 +162,5 @@ i {
     color: black;
     font-size: 2em;
   }
-  .nav-item {
-    display: flex;
-    justify-content: center;
-    padding: 0;
-  }
-  .nav-link {
-    padding: 0 !important;
-  }
 }
 </style>
