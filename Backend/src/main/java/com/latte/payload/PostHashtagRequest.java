@@ -1,16 +1,19 @@
 package com.latte.payload;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-public class PostHashtagRequest {
+public class PostHashtagRequest implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	@NotNull
 	private Long post_id;
 	@NotNull
 	private List<Integer> hashtag_ids;
 
-	public PostHashtagRequest(@NotNull Long post_id, List<Integer> hashtag_ids) {
+	public PostHashtagRequest(Long post_id, List<Integer> hashtag_ids) {
 		super();
 		this.post_id = post_id;
 		this.hashtag_ids = hashtag_ids;
