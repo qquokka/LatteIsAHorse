@@ -80,15 +80,16 @@
 						</div>
 						<input v-model="profile.phone" type="text" class="form-control" placeholder="010-0000-0000 형식으로 입력해주세요">
 					</div>
-					<button id="saveMyDataButton" @click="saveMyData" type="button" class="btn btn-primary btn-lg btn-block">저장</button>
-					<!-- <div style="height: 100px"></div> -->
+					<button id="saveMyDataButton" @click="saveMyData" type="button" class="btn btn-warning btn-lg btn-block">저장</button>
+					<div style="height: 40px"></div>
+					<!-- Withdrawal modal trigger -->
 					<p class="text-right" data-toggle="modal" data-target="#withdrawalModal">회원탈퇴</p>
-				
+					<!-- Withdrawal modal -->
 					<div class="modal fade" id="withdrawalModal" tabindex="-1" role="dialog" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-centered" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="withdrawalModalTitle">회원 탈퇴</h5>
+									<h5 class="modal-title" id="withdrawalModalTitle">회원탈퇴</h5>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
