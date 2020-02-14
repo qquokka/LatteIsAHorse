@@ -76,6 +76,29 @@ public class CafeController {
 	@Autowired
 	JwtTokenProvider tokenProvider;
 
+	@ApiOperation(value = "사장님의 카페 정보 반환")
+	@GetMapping("/mycafe")
+	public ResponseEntity<Map<String, Object>> getMyCafeInfo(HttpServletRequest request) throws Exception {
+		Map<String, Object> response = new HashMap<>();
+
+		Long cafe_owner_id = getLoggedInUserId(request);
+		//what if user_id is not OWNER auth
+		if(cafe_owner_id == 0L) {
+			response.put("message", "토근 만료");
+			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.FORBIDDEN);
+		}
+		
+		CafeDto cafe = cafeservice.getMyCafeInfo(cafe_owner_id);
+		if (cafe == null) {
+			response.put("message", "카페 페이지가 존재하지 않습니다.");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NO_CONTENT);
+		}
+		
+		response.put("cafe", cafe);
+		response.put("message", "카페 정보 불러오기 성공");
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+	
 	@ApiOperation(value = "DB의 모든 Cafe 리스트 반환", response = List.class)
 	@GetMapping("/cafe")
 	public ResponseEntity<List<CafeDto>> getCafeList() throws Exception {

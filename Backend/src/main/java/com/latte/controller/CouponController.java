@@ -69,7 +69,7 @@ public class CouponController {
 	@Autowired
 	JwtTokenProvider tokenProvider;
 
-	@PutMapping("/coupon/{code}")
+	@PostMapping("/coupon/{code}")
 	@ApiOperation(value = "쿠폰 등록하기")
 //	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
 	public ResponseEntity<Map<String, Object>> enrollCoupon(@PathVariable("code") String code, HttpServletRequest request) throws Exception {

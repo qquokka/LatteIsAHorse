@@ -32,4 +32,6 @@ public interface ICafeService {
 
 	int isExist(Long cafe_owner_id);
 
+	//사장님의 카페 정보 불러오기
+	CafeDto getMyCafeInfo(Long cafe_owner_id);
 }

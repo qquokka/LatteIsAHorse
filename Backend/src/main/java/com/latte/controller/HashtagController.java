@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.latte.model.Hashtag;
 import com.latte.model.PostHashtag;
 import com.latte.payload.HashtagNameRequest;
+import com.latte.payload.HashtagNamesNumberResponse;
 import com.latte.payload.HashtagUpdateRequest;
 import com.latte.payload.PostHashtagRequest;
 import com.latte.service.IHashTagService;
@@ -205,4 +206,23 @@ public class HashtagController {
 		response.put("names", hashtagNames);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
+	
+	@ApiOperation(value = "DB에 등록된 모든 해쉬태그명과 빈도수 반환")
+	@GetMapping("/hashtags")
+	public ResponseEntity<Map<String, Object>> getAllHashtagNamesNumber() throws Exception {
+		Map<String, Object> response = new HashMap<>();
+
+		List<HashtagNamesNumberResponse> hashtagNamesNumber = hashtagService.getAllHashtagNamesNumber();
+
+		if (hashtagNamesNumber == null || hashtagNamesNumber.isEmpty()) {
+			response.put("message", "등록된 해시태그가 하나도 없습니다.");
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+
+		response.put("message", "해시태그명과 빈도수 반환 성공");
+		response.put("hashtags", hashtagNamesNumber);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+	
+	
 }
