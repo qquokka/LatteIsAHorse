@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.latte.dto.QRCode;
-import com.latte.payload.UserInfoUpdateRequest;
-import com.latte.payload.UserRoleUpdateRequest;
 
 @Repository
 public class QRCodeDaoImpl {

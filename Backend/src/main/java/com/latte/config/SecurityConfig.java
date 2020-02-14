@@ -25,7 +25,6 @@ import com.latte.security.JwtAuthenticationFilter;
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-
 	@Autowired
 	CustomUserDetailsService customUserDetailsService;
 
