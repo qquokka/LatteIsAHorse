@@ -86,6 +86,10 @@ public class LikeController {
 		UsersLikeCafeDto userslikecafe = new UsersLikeCafeDto();
 		userslikecafe.setCafe_id(cafe_id);
 		Long userId = getLoggedInUserId(request);
+		if (userId == 0L) {
+			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+		}
+
 		if (userId != 0L) {
 			userslikecafe.setUsers_id(userId);
 		}
@@ -108,7 +112,9 @@ public class LikeController {
 		UsersLikeCafeDto userslikecafe = new UsersLikeCafeDto();
 		userslikecafe.setCafe_id(cafe_id);
 		Long userId = getLoggedInUserId(request);
-
+		if (userId == 0L) {
+			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+		}
 		if (userId != 0L) {
 			userslikecafe.setUsers_id(userId);
 		}
@@ -158,6 +164,9 @@ public class LikeController {
 		userslikemenu.setMenu_id(mid);
 
 		Long userId = getLoggedInUserId(request);
+		if (userId == 0L) {
+			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+		}
 		if (userId != 0L) {
 			userslikemenu.setUsers_id(userId);
 		}
@@ -180,6 +189,9 @@ public class LikeController {
 		UsersLikeMenu userslikemenu = new UsersLikeMenu();
 		userslikemenu.setMenu_id(mid);
 		Long userId = getLoggedInUserId(request);
+		if (userId == 0L) {
+			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+		}
 		if (userId != 0L) {
 			userslikemenu.setUsers_id(userId);
 		}
@@ -218,7 +230,11 @@ public class LikeController {
 
 		UsersLikePost ulp = new UsersLikePost();
 		ulp.setPost_id(post_id);
-		ulp.setUser_id(getLoggedInUserId(request));
+		Long user_id = getLoggedInUserId(request);
+		if (user_id == 0L) {
+			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+		}
+		ulp.setUser_id(user_id);
 
 		int result = userslikepostService.userLikedPost(ulp);
 
@@ -243,7 +259,12 @@ public class LikeController {
 
 		UsersLikePost ulp = new UsersLikePost();
 		ulp.setPost_id(post_id);
-		ulp.setUser_id(getLoggedInUserId(request));
+		Long user_id = getLoggedInUserId(request);
+		if (user_id == 0L) {
+			response.put("message", "토근 만료");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
+		}
+		ulp.setUser_id(user_id);
 
 		int result = userslikepostService.userDislikedPost(ulp);
 
