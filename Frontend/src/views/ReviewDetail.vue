@@ -1,8 +1,10 @@
 <template>
   <div id="postDetail">
     <NavBar />
-    <div class="container">                                                                                                                          
-      <h1 class="display-3 mx-5" style="padding-top:6rem;font-weight:700">{{ review.title }}</h1>
+    <div class="container p-0">          
+      <div class="review-detail-header" :style="`background: url('${review.thumbnail}')`">                                                                                                               
+        <h1 class="review-detail-title">{{ review.title }}</h1>
+      </div> 
       <h5>{{ displayTime(review.time) }} 작성</h5>
       <h1 class="border-bottom pb-4">
         <span class="text-muted small">written by</span>
@@ -150,8 +152,22 @@ export default {
 }
 
 </script>
-
+<style scoped>
+div >>> img {
+  max-width: 100% !important;
+}
+</style>
 <style>
+.review-detail-header {
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px
+}
+.review-detail-title {
+  font-size: 1.5rem;
+}
 .comments {
   min-height: 10rem;
   width: 80%;

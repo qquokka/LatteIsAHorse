@@ -2,33 +2,59 @@
   <nav class="navbar navbar-expand-lg sticky-top" id="topnav">
   <div id="toggler" data-toggle="modal" data-target="#staticBackdrop"> </div>
   <router-link to="/" class="ml-2 row text-decoration-none d-none d-lg-flex" ><img src="../assets/logo_icon.png" style="margin: -30px" width="120px"><h4 class="my-auto ml-3" style="color:#3f3f3f">라떼는말이야</h4> </router-link>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <fa icon="bars" size="2x" />
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item" >
-        <p class="nav-link" v-if="!this.$store.getters.isLoggedIn" @click="showmodal">
-          <fa icon="key" /> 로그인
-        </p>
-        <router-link class="nav-link" to="/profile" v-else><fa icon="user" /> {{ $session.get('username') }} 님 반갑습니다.</router-link>
-      </li>
-      <li class="nav-item">
-        <p class="nav-link" v-if="this.$store.getters.isLoggedIn" @click="logout()">
-          <fa icon="key" /> 로그아웃
-        </p>
-      </li>
-      <li class="nav-item" >
-        <router-link class="nav-link" to="/about"><fa icon="user" /> About Us</router-link>
-      </li>
-      <li class="nav-item">
-        <router-link class="nav-link" to="/cafe/1"><fa icon="coffee" /> 카페 보기</router-link>
-      </li>
-      <li class="nav-item">
-        <router-link class="nav-link" to="/map"><fa icon="map" /> 내 주변 보기</router-link>
-      </li>
+  <div class="navbar-collapse" id="navbarNavDropdown">
+    <div class="row ml-auto mr-1">
+      <div class="col nav-col d-lg-none" >
+        <router-link class="p-0 m-0" to="/">
+        <div class="nav-link p-0" >
+          <div><fa icon="home"  :size="navfasize" /></div>
+          
+          <p class="nav-text">홈</p>
+          <p class="nav-mobile-text">HOME</p>
+        </div>
+        </router-link>
+      </div>
+      <div class="col nav-col" >
+        <div class="nav-link" v-if="!this.$store.getters.isLoggedIn" @click="showmodal">
+          <div><fa icon="key"  :size="navfasize" /></div>
+          <div class="nav-text">로그인</div>
+          <div class="nav-mobile-text">LOGIN</div>
+        </div>
+        <div class="nav-link" v-else @click="goToUserPage">
+          <div><fa icon="user-lock"  :size="navfasize" /></div>
+          <div class="nav-text">{{ uname() }}님</div>
+          <div class="nav-mobile-text">MYPAGE</div>
+        </div>
+      </div>
+      <div class="col nav-col" v-if="this.$store.getters.isLoggedIn">
+        <div class="nav-link" @click="logout()">
+          <div><fa icon="key"  :size="navfasize" /></div>
+          <div class="nav-text">로그아웃</div>
+          <div class="nav-mobile-text">LOGOUT</div>
+        </div>
+      </div>
+      <div class="col nav-col" >
+        <router-link class="nav-link" to="/about">
+          <div><fa icon="horse"  :size="navfasize" /></div>
+          <div class="nav-text">About</div>
+          <div class="nav-mobile-text">HORSE</div>
+        </router-link>
+      </div>
+      <div class="col nav-col d-none d-lg-block">
+        <router-link class="nav-link" to="/cafe/1">
+          <div><fa icon="coffee"  :size="navfasize" /></div>
+          <div class="nav-text">카페보기</div>
+        </router-link>
+      </div>
+      <div class="col nav-col">
+        <router-link class="nav-link" to="/map">
+          <div><fa icon="map"  :size="navfasize" /></div>
+          <div class="nav-text">내 주변 보기</div>
+          <div class="nav-mobile-text">NEAR</div>
+        </router-link>
+      </div>
 
-    </ul>
+    </div>
   </div>
   
 </nav>
@@ -37,15 +63,15 @@
 
 <script>
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faBars, faKey, faUser, faCoffee, faMap, faNewspaper } from '@fortawesome/free-solid-svg-icons'
-
-library.add(faBars, faKey, faUser, faCoffee, faMap, faNewspaper )
+import { faBars, faKey, faUser, faCoffee, faMap, faNewspaper, faUserLock, faHorse } from '@fortawesome/free-solid-svg-icons'
+library.add(faBars, faKey, faUser, faCoffee, faMap, faNewspaper, faUserLock, faHorse )
 
 export default {
   
   data () {
   return {
     scrolled: false,
+    navfasize: "sm",
   } 
 },
 props: {
@@ -60,9 +86,15 @@ computed: {
   }
 },
 methods: {
+  goToUserPage() {
+    this.$router.push('/profile')
+  },
   showmodal() {
     const modal = document.getElementById('toggler');
     modal.click()
+  },
+  uname() {
+    return this.$session.get('username')
   },
   logout() {
     if(this.$session.exists()){
@@ -87,31 +119,58 @@ methods: {
       topnav.style.boxShadow = "0px 0px 0px"
     }
   },
+  handleWidth() {
+    if (window.innerWidth < 991) {
+      this.navfasize = "2x"
+    } else {
+      this.navfasize = "sm"
+    }
+    
+  }
 },
 created() {
   window.addEventListener('scroll', this.handleScroll);
+  window.addEventListener('resize', this.handleWidth);
+
+},
+mounted() {
+  this.handleWidth()
 },
 destroyed() {
   window.removeEventListener('scroll', this.handleScroll);
+  window.addEventListener('resize', this.handleWidth);
 },
 }
 </script>
-
 <style>
 nav {
   transition: 0.25s ease-in-out;
   top: 0;
 }
-i {
-  color: inherit !important;
+#navbarNavDropdown > .row {
+  min-width: fit-content;
 }
+.nav-col {
+  padding: 0 !important;
+  min-width: 8vw;
+}
+.nav-col > .nav-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+}
+
 .nav-link {
   margin:auto;
+  color: inherit !important;
   cursor:pointer;
   transition: 0.25s ease-in-out;
-  position:relative
+  position:relative;
+  padding: 0;
 }
 .nav-link:hover:after {
+  color: goldenrod !important;
   width: 100%;
   left: 0;
 }
@@ -127,18 +186,45 @@ i {
   transition: width 0.15s ease-in 0s, right 0.3s ease 0s;
   width: 0;
 }
-
-.fa-bars {
-  color: gray
+.nav-mobile-text {
+    display: none;
+    font-size: 2vw;
+    font-weight: 900;
+    margin: 0;
+}
+.nav-text {
+  margin: 0 0 0 1rem;
+  font-size: 1vw;
 }
 @media only screen and (max-width: 991px) {
-  #topnav {
-    background: rgba(255,255,255,0.7) !important;
-    width: fit-content;
-    border-radius: 15px;
-    justify-content: start;
-    text-align: left;
-    position: fixed;
+  body {
+    padding-bottom: 75px;
   }
+  #topnav {
+    border-top: 1px solid lightgray;
+    background: whitesmoke !important;
+    width: 100%;
+    justify-content: start;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    height: fit-content;
+    margin-top: auto;
+  }
+  .nav-text {
+    display: none;
+  }
+  .nav-col {
+    max-width: 18vw;
+    padding: 0 !important;
+  }
+  .col > .nav-link {
+    padding: 0;
+    display: block;
+  }
+  .nav-mobile-text {
+    display: block;
+  }
+
 }
 </style>

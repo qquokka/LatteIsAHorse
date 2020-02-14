@@ -5,10 +5,17 @@
     <div v-if="selectedImage" id="imgView">
       <img :src="selectedImage" @click.stop="selectedImage = null" />
     </div>
-    <router-link id="reviewWriteBtn" :to="`/cafe/${cafeId}/posts/create`" >리뷰 쓰러가기</router-link>
+    <router-link id="reviewWriteBtn" :to="`/cafe/${cafeId}/posts/create`" ><fa icon="pencil-alt" style="filter: drop-shadow(0 0 1px white)" /></router-link>
     <!-- global end-->
     <nav-bar />
+      <div id="topbar" class="justify-content-between align-items-center">
+        <div class="ml-2"><fa icon="undo" /></div>
+        <div v-if="info">{{ info.cafe_name }}</div>
+        <div v-else>ERROR</div>
+        <div class="mr-2"><fa icon="coffee" /></div>
+      </div>
     <div class="row m-0 mt-0 mt-lg-5 mx-lg-3 border-0" v-if="info">
+
       <single-cafe-map :cafe="info" :isOpen="isOpen" class="col-12 col-lg-5 shadow p-0" />
       <div class="col px-2">
         <div class="align-items-center d-none d-lg-flex">
@@ -107,34 +114,34 @@
         </div>
       </div>
     </div>
-    <div class="container mt-5 px-0 px-lg-5" v-if="menus">
+    <div class="container mt-5" v-if="menus" >
       <h4 class="my-5">
         <fa icon="mug-hot" style="color:violet" />MENU
       </h4>
       <hr />
-      <div  v-for="menu in menus" :key="menu.mid" class="row">
-        <div class="col-3 row justify-content-between">
-          <p>{{ menu.product }}</p>
+      <div  v-for="menu in menus" :key="menu.mid" class="row menurow">
+        <div class="col-4 justify-content-between">
+          <p class="text-truncate text-left" style="font-size:4vw">{{ menu.product }}</p>
         </div>
         <div class="col-1">
           <p
-            style="cursor:pointer"
+            style="cursor:pointer; font-size: 4vw"
             @click="pushLikeMenu(menu.mid, menu.user_like)">
             <fa
               :icon="menu.user_like?['fas', 'heart']:['far', 'heart']"
-              style="cursor: pointer; color: red;"
+              style="cursor: pointer; color: red;display:inline"
               :style="menu.user_like?{animation: 'bounce 1s infinite'}:{}"/>
             {{ menu.like_count? menu.like_count : 0 }}
           </p>
         </div>
-        <div class="col-6">
-          <p class="text-muted">메뉴에 관한 설명이 들어갈 자리</p>
+        <div class="col-5 text-truncate">
+          <p class="text-muted">메뉴 설명</p>
         </div>
 
-        <div class="col-2">
+        <div class="col-2 ">
           <p>
             {{ menu.price }}
-            <fa icon="money-bill" style="color:green" />
+            <fa class="d-none d-lg-block" icon="money-bill" style="color:green" />
           </p>
         </div>
       </div>
@@ -153,9 +160,9 @@
         <router-link :to="`/cafe/${cafeId}/review/${review.id}/`">
           <div
             class="justify-content-center px-2"
-            style="background: lavender;;border:1px solid lightgray"
+            style="background: lightyellow;"
           >
-            <h1 class="py-2 font-weight-bold text-left text-truncate" style="font-size: 3rem">
+            <h1 class="py-2 font-weight-bold text-left text-truncate" style="font-size: 8vw">
               {{ review.title }}
             </h1>
             <h5 class="text-right">
@@ -165,18 +172,18 @@
             <p style="font-size:0.8rem;text-align:right">작성일시: {{ review.updated_at.slice(0,11) }}</p>
           </div>
           <div class="border">
-            <div class="row mt-2 px-1 justify-content-center">
+            <div class="row mt-2 justify-content-center">
               <img
                 :src="review.thumbnail"
                 class="col-12"
-                style="height:300px"
+                style="height:300px;padding:0;"
                 @error="imgPlaceholder"
               />
             </div>
             <div class="row p-1 justify-content-center line-clamp" style="height: 225px;">
-              <span class="col-12 my-5 text-left" v-html="review.content"></span>
+              <span class="col-12 text-left" v-html="review.content"></span>
             </div>
-            <div style="background: lavender !important;">- {{ review.id }} -</div>
+            <div style="border: 1px solid lightgray;">- {{ review.id }} -</div>
           </div>
         </router-link>
       </div>
@@ -204,6 +211,7 @@ import {
   faMoneyBill,
   faThumbsUp,
   faUserCircle,
+  faPencilAlt,
   faHeart as fasHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
@@ -218,7 +226,8 @@ library.add(
   faMoneyBill,
   faThumbsUp,
   faUserCircle,
-  fasHeart, farHeart
+  fasHeart, farHeart,
+  faPencilAlt
 );
 
 export default {
@@ -375,16 +384,25 @@ export default {
 </script>
 
 <style>
+  #topbar {
+    display: none;
+  }
+.menurow {
+  padding: 0 0.3rem
+}
+.menurow > div {
+  padding: 0;
+}
 #reviewWriteBtn {
   position: fixed;
-  bottom: 15px;
-  right: 15px;
-  color: black;
+  bottom: 75px;
+  right: 19px;
   background: gold;
-  padding: 0.7rem 0.4rem;
-  border-radius: 15px;
+  opacity: 0.9;
+  padding: 0.7rem 1rem;
+  border-radius: 50%;
   z-index: 9999;
-  box-shadow: 0 0 10px lightgray
+  box-shadow: 2px 3px 3px lightgray
 }
 #reviewWriteBtn:hover {
   animation: bounce 1s infinite;
@@ -477,6 +495,10 @@ export default {
 @media only screen and (max-width: 991px) {
   .menutxt > div > p {
     font-size: 2vw;
+  }
+  #topbar {
+    height: 7vh !important;
+    display: flex;
   }
 }
 </style>
