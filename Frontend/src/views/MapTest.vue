@@ -172,7 +172,7 @@ export default {
     }
   },
   beforeMount() {
-    axios.get('https://13.125.168.55:3000/v1/cafe/detail/1')
+    axios.get(`${this.$store.getters.constants.SERVER}/cafe/detail/1`)
     .then(r=>{
       this.cafe = r.data
       this.center = {
