@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -74,8 +73,10 @@ public class CouponController {
 	@ApiOperation(value = "쿠폰 등록하기")
 
 //	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
+
 	public ResponseEntity<Map<String, Object>> enrollCoupon(@RequestBody EnrollCouponRequest enroll, HttpServletRequest request) throws Exception {
 		String decryptedCode = decryptAES256(enroll.getCode());
+
 		// format : "cafe_id,count,time_stamp"
 		String[] data = decryptedCode.split(",");
 		logger.info("asdfasdfasfasfasddfs");
@@ -195,7 +196,8 @@ public class CouponController {
 	@PostMapping("/qrcode")
 	@ApiOperation(value = "QR code 생성")
 //	@PreAuthorize("hasAnyRole({'OWNER','ADMIN'})")
-	public ResponseEntity<Map<String, Object>> generateQRcode(@Valid @RequestBody QRCodeGenerateRequest request) throws Exception {
+	public ResponseEntity<Map<String, Object>> generateQRcode(@Valid @RequestBody QRCodeGenerateRequest request)
+			throws Exception {
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		// format : "cafe_id,count,time_stamp"

@@ -1,7 +1,6 @@
 package com.latte.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
 
 public class QRCode implements Serializable {
 

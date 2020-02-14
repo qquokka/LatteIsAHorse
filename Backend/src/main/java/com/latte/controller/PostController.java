@@ -69,7 +69,7 @@ public class PostController {
 		logger.info("PostController-------------Post add-------------" + new Date());
 
 		Long userId = getLoggedInUserId(request);
-		if(userId == 0L) {
+		if (userId == 0L) {
 			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 		}
 		Long lastId = postservice.getLastPostedId();
@@ -179,10 +179,10 @@ public class PostController {
 		logger.info("CafeController-------------getMyPostList-------------" + new Date());
 		List<Post> posts = null;
 		Long userId = getLoggedInUserId(request);
-		if(userId == 0L) {
+		if (userId == 0L) {
 			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 		}
-		
+
 		if (userId != 0L) {
 			posts = postservice.getMyPostList(userId);
 		}
