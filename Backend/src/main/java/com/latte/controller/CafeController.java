@@ -55,17 +55,11 @@ import io.swagger.annotations.ApiOperation;
 public class CafeController {
 	private static final Logger logger = LoggerFactory.getLogger(CafeController.class);
 
-	@Value("${kakao.restapi.key}")
-	private String restApiKey;
-
 	@Autowired
 	ICafeService cafeservice;
 
 	@Autowired
 	IMenuService menuservice;
-
-	@Autowired
-	UserRepository userRepository;
 
 	@Autowired
 	IPostService postservice;
@@ -74,7 +68,13 @@ public class CafeController {
 	IUsersLikeMenuService ulmservice;
 
 	@Autowired
+	UserRepository userRepository;
+
+	@Autowired
 	JwtTokenProvider tokenProvider;
+
+	@Value("${kakao.restapi.key}")
+	private String restApiKey;
 
 	@ApiOperation(value = "DB의 모든 Cafe 리스트 반환", response = List.class)
 	@GetMapping("/cafe")
@@ -115,11 +115,6 @@ public class CafeController {
 
 		Long users_id = getLoggedInUserId(request);
 		Map<String, Object> response = new HashMap<>();
-
-		if (users_id == 0L) {
-			response.put("message", "토근 만료");
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
-		}
 
 		if (users_id != 0L) {
 			userslikemenu.setUsers_id(users_id);
