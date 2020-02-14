@@ -1,23 +1,27 @@
 <template>
   <div class="container-fluid p-0">
 		<nav-bar blackOrWhite="true" />
-		<h1>내 정보</h1>
-			<div class="row">
-				<div class="d-inline col-3">  <!-- 사장님일 때 -->
-					<h4 class="menu-tab" @click="showContent(0)">내 카페 관리</h4>
-				</div>
-				<div class="d-inline col-3">
-					<h4 class="menu-tab" @click="showContent(1)">내가 좋아하는 카페</h4>
-					<!-- <cafe-list :cafeData="" /> -->
-				</div>
-				<div class="d-inline col-3" @click="showContent(2)">
-					<h4 class="menu-tab">내가 쓴 리뷰</h4>
-				</div>
-				<div class="d-inline col-3" @click="showContent(3)">
-					<h4 class="menu-tab">회원 정보 수정</h4>
-				</div>
-				<div class="container" style="height:50vh;background:lavender">
-					<div v-if="contentNum === 0">
+		<h1 class="my-5">내 정보</h1>
+		<!-- 내 쿠폰 -->
+		<div class="card text-center">
+			<div class="card-header">
+				<ul class="nav nav-tabs card-header-tabs">
+					<li class="li-menu-tab nav-item">
+						<a class="nav-link active" @click="showContent(0)"><fa icon="home"/><span class="menu-tab"> 내 카페</span></a>
+					</li>
+					<li class="li-menu-tab nav-item">
+						<a class="nav-link active" @click="showContent(1)"><fa icon="coffee"/><span class="menu-tab"> 내가 좋아하는 카페</span></a>
+					</li>
+					<li class="li-menu-tab nav-item">
+						<a class="nav-link active" @click="showContent(2)"><fa icon="pen"/><span class="menu-tab"> 내가 쓴 리뷰</span></a>
+					</li>
+					<li class="li-menu-tab nav-item">
+						<a class="nav-link active" @click="showContent(3)"><fa icon="user-edit"/><span class="menu-tab"> 내 정보 수정</span></a>
+					</li>
+				</ul>
+			</div>
+			<div class="card-body">
+				<div v-if="contentNum === 0">
 						내 카페
 					</div>
 					<div v-if="contentNum === 1">
@@ -27,16 +31,42 @@
 						<review-list limits="3" :reviewData="myReviews"/>
 					</div>
 					<div v-if="contentNum === 3">
-						<p>이메일: {{ profile.email }} </p>
-						<p id="myNickname">닉네임: <input  v-model="nicknameToChange" type="text" placeholder="3 ~ 15자로 입력해주세요"><button @click="checkNickname">중복확인</button></p>
-						<p>이름: <input type="text" v-model="profile.name"></p>
-						<p id="myPhone">전화번호: <input type="text" v-model="profile.phone" placeholder="010-0000-0000 형식으로 입력해주세요"></p>
-						<p>회원등급: {{ roles[role] }}</p>
-						<button id="saveMyDataButton" @click="saveMyData">변경</button>
+						<h5 class="card-title">내 정보 변경하기</h5>
+						<p class="card-text">이메일을 제외한 정보를 변경할 수 있습니다.</p>
+						<hr>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">이메일</span>
+							</div>
+							<p class="form-control text-left">{{ profile.email }}</p>
+						</div>
+						<div id="myNickname" class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">닉네임</span>
+							</div>
+							<input v-model="nicknameToChange" type="text" class="form-control" placeholder="3 ~ 15자로 입력해주세요">
+							<div class="input-group-append">
+								<button @click="checkNickname" type="button" class="btn btn-outline-secondary">중복확인</button>
+							</div>
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">이름</span>
+							</div>
+							<input v-model="profile.name" type="text" class="form-control">
+						</div>
+						<div id="myPhone" class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">핸드폰</span>
+							</div>
+							<input v-model="profile.phone" type="text" class="form-control" placeholder="010-0000-0000 형식으로 입력해주세요">
+						</div>
+						<button id="saveMyDataButton" @click="saveMyData" type="button" class="btn btn-primary btn-lg btn-block">저장</button>
 					</div>
-				</div>
+
+					
 			</div>
-		<!-- 내 쿠폰 -->
+		</div>
   </div>
 </template>
 
@@ -45,6 +75,14 @@ import axios from 'axios'
 import NavBar from "@/components/NavBar.vue"
 import CafeList from '../components/CafeList.vue'
 import ReviewList from "@/views/section/ReviewList.vue"
+
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faHome, faCoffee, faPen, faUserEdit
+} from "@fortawesome/free-solid-svg-icons";
+library.add(
+  faHome, faCoffee, faPen, faUserEdit
+);
 
 export default {
 	name: 'Profile',
@@ -62,9 +100,9 @@ export default {
 			nicknameToChange: '',
 			role: 4,
 			roles: {
-				4: '일반회원', // ROLE_USER
+				4: '회원', // ROLE_USER
 				7: '에디터', // ROLE_EDITOR
-				6: '사장님', // ROLE_OWNER
+				6: '사장', // ROLE_OWNER
 				5: '관리자' // ROLE_ADMIN
 			},
 			nicknameCheck: false
@@ -181,7 +219,12 @@ export default {
 </script>
 
 <style>
-.menu-tab {
-	cursor: pointer;
+@media only screen and (max-width: 600px) {
+	.menu-tab {
+		display: none
+	}
+}
+.li-menu-tab {
+	margin: 0.15rem
 }
 </style>
