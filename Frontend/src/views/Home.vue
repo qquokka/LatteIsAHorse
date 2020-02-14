@@ -1,17 +1,22 @@
 <template>
   <div class="container-fluid p-0">
-    <div id="background"></div>
-    <nav-bar blackOrWhite="true" />
-    <h2
-      class="d-none d-md-block brand"
-      style="margin-top: 8rem;margin-bottom:2rem;position:relative"
-    >Find your ideal cafe <i class="fas fa-mug-hot"></i></h2>
-    <h3 class="d-block d-md-none" style="margin-top: 5rem;margin-bottom:2rem;position:relative">
-      LATTE
-      <span style="color:violet">=</span> HORSE
-    </h3>
-    <search-bar class="mx-auto" />
-    <hash-tags class="position-relative mb-5 pb-5" />
+    <nav-bar />
+    <div class="home-header align-items-center d-flex flex-column justify-content-center">
+      <div>
+        <h2
+          class="d-none d-md-block brand"
+        >Find your ideal cafe <i class="fas fa-mug-hot"></i></h2>
+      </div>
+      <div>
+        <h3 class="d-block d-md-none">
+          LATTE
+          <span style="color:white">=</span> HORSE
+        </h3>
+      </div>
+        <search-bar class="mx-auto mt-4" />
+    </div>
+    
+
     <popular-list />
     <div class="main-section" style="margin-top:8rem;">
       <h2 class="article-header">가까운 카페</h2>
@@ -34,7 +39,6 @@ import NavBar from "@/components/NavBar.vue";
 import CafeList from "@/components/CafeList.vue";
 import ReviewList from "@/views/section/ReviewList.vue";
 import PopularList from "@/components/PopularList.vue"
-import HashTags from "@/components/HashTags.vue";
 import BSection from "@/views/section/BuisinessSection.vue"
 import Footer from "@/views/section/Footer.vue";
 import axios from "axios";
@@ -47,7 +51,6 @@ export default {
     CafeList,
     ReviewList,
     NavBar,
-    HashTags,
     PopularList,
     BSection,
     Footer,
@@ -89,6 +92,11 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css?family=Noto+Sans+KR:900&display=swap");
 
+.home-header {
+  background: goldenrod;
+  height: 50vh;
+  width: 100%;
+}
 .brand {
   opacity: 1;
   animation: fadein 1.5s;

@@ -44,16 +44,16 @@ export default {
 
 <style scoped>
 #title {
-  height: 3rem;
-  font-size: 3vw;
+  padding: 1rem;
+  font-size: 1.2rem;
 }
 
 .search-btn {
   background: gold;
   transition: 0.2s;
-  font-size: 3vw;
+  font-size: 1.2rem;
   width: 100%;
-  height: 3rem;
+  padding: 1rem;
 }
 .search-btn:hover {
   background: gold;
@@ -62,10 +62,20 @@ export default {
 
 .search-form {
   width: 50%;
+  min-width: 325px;
 }
 
 input[type="text"] {
   border: 0;
   background: #ffffff;
+}
+@media only screen and (max-width: 991px) {
+::-webkit-input-placeholder,::-moz-placeholder, :-ms-input-placeholder, :-moz-placeholder{ 
+  color: transparent
+}
+#title, .search-btn {
+  font-size: 4vw;
+  padding: 2vw !important;
+}
 }
 </style>
