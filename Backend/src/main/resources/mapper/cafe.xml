@@ -117,4 +117,8 @@
 		cafe_owner_id =
 		#{cafe_owner_id}
 	</select>
+	
+	<select id="getMyCafeInfo" parameterType="java.lang.Long" resultType="cafe">
+		select * from cafe where cafe_owner_id = #{cafe_owner_id} limit 1
+	</select>
 </mapper>
