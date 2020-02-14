@@ -133,6 +133,8 @@ export default {
             hashtag_ids: this.tagids,
             post_id: r.data.posted_id
           }
+          console.log(hashidbody);
+          
           axios.post(`${this.serverAddr}/hashtag`, hashidbody)
           .then(() =>{
             this.$router.back()
@@ -198,7 +200,7 @@ export default {
                 let hashtags = r.data.hashtags;
                 let mycontent = document.querySelector(".te-ww-container").firstElementChild.firstElementChild.innerHTML
                 for (var hdx = 0; hdx < hashtags.length; hdx++) {
-                  this.tagids.push(hashtags[hdx])
+                  this.tagids.push(hashtags[hdx].hashtag_id)
                   var beforestr = `#${hashtags[hdx].name}`
                   var afterstr = `<a class="hashtag" href="/hashtag/${hashtags[hdx].hashtag_id}">#${hashtags[hdx].name}</a>`
                   mycontent = mycontent.replace(

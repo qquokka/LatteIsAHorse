@@ -2,33 +2,42 @@
   <nav class="navbar navbar-expand-lg sticky-top" id="topnav">
   <div id="toggler" data-toggle="modal" data-target="#staticBackdrop"> </div>
   <router-link to="/" class="ml-2 row text-decoration-none d-none d-lg-flex" ><img src="../assets/logo_icon.png" style="margin: -30px" width="120px"><h4 class="my-auto ml-3" style="color:#3f3f3f">라떼는말이야</h4> </router-link>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <fa icon="bars" size="2x" />
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item" >
-        <p class="nav-link" v-if="!this.$store.getters.isLoggedIn" @click="showmodal">
-          <fa icon="key" /> 로그인
-        </p>
-        <router-link class="nav-link" to="/profile" v-else><fa icon="user" /> {{ $session.get('username') }} 님 반갑습니다.</router-link>
-      </li>
-      <li class="nav-item">
-        <p class="nav-link" v-if="this.$store.getters.isLoggedIn" @click="logout()">
-          <fa icon="key" /> 로그아웃
-        </p>
-      </li>
-      <li class="nav-item" >
-        <router-link class="nav-link" to="/about"><fa icon="user" /> About Us</router-link>
-      </li>
-      <li class="nav-item">
-        <router-link class="nav-link" to="/cafe/1"><fa icon="coffee" /> 카페 보기</router-link>
-      </li>
-      <li class="nav-item">
-        <router-link class="nav-link" to="/map"><fa icon="map" /> 내 주변 보기</router-link>
-      </li>
+  <div class="navbar-collapse" id="navbarNavDropdown">
+    <div class="row">
+      <div class="col d-lg-none" >
+        <div class="nav-link" >
+          <fa icon="home" size="2x" />
+          <p class="nav-text">홈</p>
+          <p class="nav-mobile-text">HOME</p>
+        </div>
+      </div>
+      <div class="col" >
+        <div class="nav-link" v-if="!this.$store.getters.isLoggedIn" @click="showmodal">
+          <fa icon="key" size="2x" />
+          <p class="nav-text">로그인</p>
+        </div>
+        <div class="nav-link" v-else @click="goToUserPage">
+          <fa icon="user-lock" size="2x" />
+          <p class="nav-text">{{ uname() }}님</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="nav-link" v-if="this.$store.getters.isLoggedIn" @click="logout()">
+          <fa icon="key" size="2x" />
+          <p class="nav-text">로그아웃</p>
+        </div>
+      </div>
+      <div class="col" >
+        <router-link class="nav-link" to="/about"><fa icon="horse" size="2x" /><p class="nav-text">About</p></router-link>
+      </div>
+      <div class="col d-none d-lg-block">
+        <router-link class="nav-link" to="/cafe/1"><fa icon="coffee" size="2x" /><p class="nav-text">카페보기</p></router-link>
+      </div>
+      <div class="col">
+        <router-link class="nav-link" to="/map"><fa icon="map" size="2x" /><p class="nav-text">내 주변 보기</p></router-link>
+      </div>
 
-    </ul>
+    </div>
   </div>
   
 </nav>
@@ -37,9 +46,9 @@
 
 <script>
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faBars, faKey, faUser, faCoffee, faMap, faNewspaper } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faKey, faUser, faCoffee, faMap, faNewspaper, faUserLock, faHorse } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faBars, faKey, faUser, faCoffee, faMap, faNewspaper )
+library.add(faBars, faKey, faUser, faCoffee, faMap, faNewspaper, faUserLock, faHorse )
 
 export default {
   
@@ -60,9 +69,15 @@ computed: {
   }
 },
 methods: {
+  goToUserPage() {
+    this.$router.push('/profile')
+  },
   showmodal() {
     const modal = document.getElementById('toggler');
     modal.click()
+  },
+  uname() {
+    return this.$session.get('username')
   },
   logout() {
     if(this.$session.exists()){
@@ -127,18 +142,33 @@ i {
   transition: width 0.15s ease-in 0s, right 0.3s ease 0s;
   width: 0;
 }
-
-.fa-bars {
-  color: gray
-}
 @media only screen and (max-width: 991px) {
   #topnav {
-    background: rgba(255,255,255,0.7) !important;
-    width: fit-content;
-    border-radius: 15px;
+    border-top: 1px solid lightgray;
+    background: white !important;
+    width: 100%;
     justify-content: start;
     text-align: left;
     position: fixed;
+    bottom: 0;
+    height: 61px;
+    margin-top: auto;
+    /* box-shadow:  !important; */
+  }
+  .nav-text {
+    font-size: 0;
+  }
+  .nav-mobile-text {
+    color: black;
+    font-size: 2em;
+  }
+  .nav-item {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+  }
+  .nav-link {
+    padding: 0 !important;
   }
 }
 </style>
