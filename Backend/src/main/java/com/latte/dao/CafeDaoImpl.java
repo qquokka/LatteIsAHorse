@@ -58,4 +58,8 @@ public class CafeDaoImpl {
 	public int isExist(Long cafe_owner_id) {
 		return sqlSession.selectOne(ns + "isExist", cafe_owner_id);
 	}
+
+	public CafeDto getMyCafeInfo(Long cafe_owner_id) {
+		return sqlSession.selectOne(ns + "getMyCafeInfo", cafe_owner_id);
+	}
 }

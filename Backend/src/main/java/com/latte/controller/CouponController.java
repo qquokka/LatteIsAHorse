@@ -69,10 +69,12 @@ public class CouponController {
 	@Autowired
 	JwtTokenProvider tokenProvider;
 
-	@PutMapping("/coupon/{code}")
+	@PostMapping("/coupon/{code}")
 	@ApiOperation(value = "쿠폰 등록하기")
-	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
+
+//	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
 	public ResponseEntity<Map<String, Object>> enrollCoupon(@PathVariable("code") String code, HttpServletRequest request) throws Exception {
+
 		String decryptedCode = decryptAES256(code);
 		// format : "cafe_id,count,time_stamp"
 		String[] data = decryptedCode.split(",");
@@ -84,16 +86,15 @@ public class CouponController {
 		Map<String, Object> response = new HashMap<String, Object>();
 		Long users_id = getLoggedInUserId(request);
 
-		if(users_id == 0L) {
+		if (users_id == 0L) {
 			response.put("message", "토근 만료");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.FORBIDDEN);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
 		}
-		
+
 		Coupon coupon = new Coupon();
 		coupon.setCafe_id(cafe_id);
 		coupon.setUsers_id(users_id);
 		coupon.setCount(count);
-
 
 		// 쿠픈 등록 시간 만료 체크
 		long currentTime = Instant.now().toEpochMilli();
@@ -121,21 +122,20 @@ public class CouponController {
 
 	@GetMapping("/coupon/{cafe_id}")
 	@ApiOperation(value = "현재 로그인된 사용자가 보유한 쿠폰 갯수 반환")
-	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
+//	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
 	public ResponseEntity<Map<String, Object>> getCurrentCouponCount(@PathVariable("cafe_id") Integer cafe_id,
 			HttpServletRequest request) throws Exception {
 		Long users_id = getLoggedInUserId(request);
 		Map<String, Object> response = new HashMap<String, Object>();
 
-		if(users_id == 0L) {
+		if (users_id == 0L) {
 			response.put("message", "토근 만료");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.FORBIDDEN);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
 		}
-		
+
 		Coupon coupon = new Coupon();
 		coupon.setCafe_id(cafe_id);
 		coupon.setUsers_id(users_id);
-
 
 		// 현재 보유한 쿠폰 갯수(등록되어 있지 않다면 기본값 = 0)
 		int numberOfCoupon = couponService.getCurrentCouponCount(coupon);
@@ -148,21 +148,20 @@ public class CouponController {
 
 	@PatchMapping("/coupon/{cafe_id}")
 	@ApiOperation(value = "사용자가 보유한 쿠폰 사용")
-	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
+//	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
 	public ResponseEntity<Map<String, Object>> useCoupon(@Valid @RequestBody UseCouponRequest ucr,
 			HttpServletRequest request) throws Exception {
 		Long users_id = getLoggedInUserId(request);
 		Map<String, Object> response = new HashMap<String, Object>();
-		
-		if(users_id == 0L) {
+
+		if (users_id == 0L) {
 			response.put("message", "토근 만료");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.FORBIDDEN);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
 		}
-		
+
 		Coupon coupon = new Coupon();
 		coupon.setCafe_id(ucr.getCafe_id()); // 수정
 		coupon.setUsers_id(users_id);
-
 
 		// 현재 보유한 쿠폰 갯수(등록되어 있지 않다면 기본값 = 0)
 		int numberOfCoupon = couponService.getCurrentCouponCount(coupon);
@@ -187,9 +186,8 @@ public class CouponController {
 
 	@PostMapping("/qrcode")
 	@ApiOperation(value = "QR code 생성")
-	@PreAuthorize("hasAnyRole({'OWNER','ADMIN'})")
-	public ResponseEntity<Map<String, Object>> generateQRcode(@Valid @RequestBody QRCodeGenerateRequest request)
-			throws Exception {
+//	@PreAuthorize("hasAnyRole({'OWNER','ADMIN'})")
+	public ResponseEntity<Map<String, Object>> generateQRcode(@Valid @RequestBody QRCodeGenerateRequest request) throws Exception {
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		// format : "cafe_id,count,time_stamp"

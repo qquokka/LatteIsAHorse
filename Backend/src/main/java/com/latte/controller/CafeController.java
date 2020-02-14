@@ -76,6 +76,29 @@ public class CafeController {
 	@Autowired
 	JwtTokenProvider tokenProvider;
 
+	@ApiOperation(value = "사장님의 카페 정보 반환")
+	@GetMapping("/mycafe")
+	public ResponseEntity<Map<String, Object>> getMyCafeInfo(HttpServletRequest request) throws Exception {
+		Map<String, Object> response = new HashMap<>();
+
+		Long cafe_owner_id = getLoggedInUserId(request);
+		//what if user_id is not OWNER auth
+		if(cafe_owner_id == 0L) {
+			response.put("message", "토근 만료");
+			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.FORBIDDEN);
+		}
+		
+		CafeDto cafe = cafeservice.getMyCafeInfo(cafe_owner_id);
+		if (cafe == null) {
+			response.put("message", "카페 페이지가 존재하지 않습니다.");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NO_CONTENT);
+		}
+		
+		response.put("cafe", cafe);
+		response.put("message", "카페 정보 불러오기 성공");
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+	
 	@ApiOperation(value = "DB의 모든 Cafe 리스트 반환", response = List.class)
 	@GetMapping("/cafe")
 	public ResponseEntity<List<CafeDto>> getCafeList() throws Exception {
@@ -116,11 +139,11 @@ public class CafeController {
 		Long users_id = getLoggedInUserId(request);
 		Map<String, Object> response = new HashMap<>();
 
-		if(users_id == 0L) {
+		if (users_id == 0L) {
 			response.put("message", "토근 만료");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.FORBIDDEN);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
 		}
-		
+
 		if (users_id != 0L) {
 			userslikemenu.setUsers_id(users_id);
 		}
@@ -183,12 +206,12 @@ public class CafeController {
 		List<CafeDto> cafes = null;
 		Map<String, Object> response = new HashMap<>();
 		Long userId = getLoggedInUserId(request);
-		
-		if(userId == 0L) {
+
+		if (userId == 0L) {
 			response.put("message", "토근 만료");
 			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 		}
-		
+
 		if (userId != 0L) {
 			cafes = cafeservice.getMyCafeList(userId);
 		}
@@ -208,12 +231,12 @@ public class CafeController {
 		userslikemenu.setCafe_id(cafe_id);
 		Long users_id = getLoggedInUserId(request);
 		Map<String, Object> response = new HashMap<>();
-		
-		if(users_id == 0L) {
+
+		if (users_id == 0L) {
 			response.put("message", "토근 만료");
 			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 		}
-		
+
 		if (users_id != 0L) {
 			userslikemenu.setUsers_id(users_id);
 		}
@@ -229,9 +252,9 @@ public class CafeController {
 	public ResponseEntity<Map<String, Object>> addCafe(@Valid @RequestBody CafeEnrollRequest cafe,
 			HttpServletRequest request) throws Exception {
 		Map<String, Object> response = new HashMap<>();
-		
+
 		Long cafe_owner_id = getLoggedInUserId(request);
-		if(cafe_owner_id == 0L) {
+		if (cafe_owner_id == 0L) {
 			response.put("message", "토근 만료");
 			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 		}

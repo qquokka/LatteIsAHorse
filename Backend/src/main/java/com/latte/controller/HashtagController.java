@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.latte.model.Hashtag;
 import com.latte.model.PostHashtag;
 import com.latte.payload.HashtagNameRequest;
+import com.latte.payload.HashtagNamesNumberResponse;
 import com.latte.payload.HashtagUpdateRequest;
 import com.latte.payload.PostHashtagRequest;
 import com.latte.service.IHashTagService;
@@ -45,11 +46,12 @@ public class HashtagController {
 
 	@ApiOperation(value = "해쉬태그명 추가(여러개)", response = Map.class)
 	@PostMapping("/hashtagname")
-	public ResponseEntity<Map<String, Object>> addHashtagName(@RequestBody HashtagNameRequest request) throws Exception {
+	public ResponseEntity<Map<String, Object>> addHashtagName(@RequestBody HashtagNameRequest request)
+			throws Exception {
 		Map<String, Object> response = new HashMap<>();
 
 		List<String> names = request.getNames();
-		
+
 		if (names.isEmpty()) {
 			response.put("message", "추가할 해쉬태그명이 없습니다.");
 			return new ResponseEntity<>(response, HttpStatus.OK);
@@ -158,8 +160,8 @@ public class HashtagController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Map<String, Object>> deleteHashtagId(@PathVariable("post_id") Long post_id) throws Exception {
 		Map<String, Object> response = new HashMap<>();
-		//기능 구현 예정
-		//관리자만 삭제 가능하게?
+		// 기능 구현 예정
+		// 관리자만 삭제 가능하게?
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
@@ -168,7 +170,7 @@ public class HashtagController {
 	public ResponseEntity<Map<String, Object>> addHashtagId(@Valid @RequestBody PostHashtagRequest request)
 			throws Exception {
 		Map<String, Object> response = new HashMap<>();
-
+		logger.info(request.getHashtag_ids().toString());
 		if (request.getHashtag_ids().isEmpty()) {
 			response.put("message", "추가할 해쉬태그 ID가 없습니다.");
 			return new ResponseEntity<>(HttpStatus.OK);
@@ -205,4 +207,23 @@ public class HashtagController {
 		response.put("names", hashtagNames);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
+	
+	@ApiOperation(value = "DB에 등록된 모든 해쉬태그명과 빈도수 반환")
+	@GetMapping("/hashtags")
+	public ResponseEntity<Map<String, Object>> getAllHashtagNamesNumber() throws Exception {
+		Map<String, Object> response = new HashMap<>();
+
+		List<HashtagNamesNumberResponse> hashtagNamesNumber = hashtagService.getAllHashtagNamesNumber();
+
+		if (hashtagNamesNumber == null || hashtagNamesNumber.isEmpty()) {
+			response.put("message", "등록된 해시태그가 하나도 없습니다.");
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+
+		response.put("message", "해시태그명과 빈도수 반환 성공");
+		response.put("hashtags", hashtagNamesNumber);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+	
+	
 }
