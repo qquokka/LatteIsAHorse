@@ -13,11 +13,11 @@
     <search-bar class="mx-auto" />
     <hash-tags class="position-relative mb-5 pb-5" />
     <popular-list />
-
     <div class="main-section" style="margin-top:8rem;">
       <h2 class="article-header">가까운 카페</h2>
       <cafe-list :cafeData="cafeData" />
     </div>
+    <word-cloud />
     <div class="main-section">
       <h2 class="article-header">EDITOR's PICK</h2>
       <review-list limits="3" :reviewData="reviewData" />
@@ -38,6 +38,7 @@ import HashTags from "@/components/HashTags.vue";
 import BSection from "@/views/section/BuisinessSection.vue"
 import Footer from "@/views/section/Footer.vue";
 import axios from "axios";
+import WordCloud from "@/components/WordCloud.vue"
 
 export default {
   name: "home",
@@ -49,7 +50,8 @@ export default {
     HashTags,
     PopularList,
     BSection,
-    Footer
+    Footer,
+    WordCloud,
   },
   data() {
     return {
@@ -69,16 +71,18 @@ export default {
   beforeMount() {
     axios.get(`${this.$store.state.constants.SERVER}/cafe`)
       .then(response => {
+        console.log(response.data)
         this.cafeData = response.data.slice(0, 6);
       })
       .catch(err => {
         console.log(err.response);
       });
 
-    axios.get(`${this.$store.state.constants.SERVER}/post`).then(response => {
-      this.reviewData = response.data;
-    });
-  }
+    axios.get(`${this.$store.state.constants.SERVER}/post`)
+      .then(response => {
+        this.reviewData = response.data;
+      });
+    }
 };
 </script>
 
