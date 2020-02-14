@@ -1,21 +1,21 @@
 <template>
   <div class="container-fluid p-0">
 		<nav-bar blackOrWhite="true" />
-		<h1 class="my-5">내 정보</h1>
+		<h1 class="my-5">{{ getUserName() }}님 안녕하세요</h1>
 		<!-- 내 쿠폰 -->
 		<div class="card text-center">
 			<div class="card-header">
-				<ul class="nav nav-tabs card-header-tabs">
-					<li class="li-menu-tab nav-item">
+				<ul class="nav nav-tabs card-header-tabs row">
+					<li class="li-menu-tab nav-item col-3">
 						<a class="nav-link active" @click="showContent(0)"><fa icon="home"/><span class="menu-tab"> 내 카페</span></a>
 					</li>
-					<li class="li-menu-tab nav-item">
+					<li class="li-menu-tab nav-item col-3">
 						<a class="nav-link active" @click="showContent(1)"><fa icon="coffee"/><span class="menu-tab"> 내가 좋아하는 카페</span></a>
 					</li>
-					<li class="li-menu-tab nav-item">
+					<li class="li-menu-tab nav-item col-3">
 						<a class="nav-link active" @click="showContent(2)"><fa icon="pen"/><span class="menu-tab"> 내가 쓴 리뷰</span></a>
 					</li>
-					<li class="li-menu-tab nav-item">
+					<li class="li-menu-tab nav-item col-3">
 						<a class="nav-link active" @click="showContent(3)"><fa icon="user-edit"/><span class="menu-tab"> 내 정보 수정</span></a>
 					</li>
 				</ul>
@@ -109,6 +109,9 @@ export default {
 		}
 	},
 	methods: {
+		getUserName() {
+			return this.$session.get("username")
+		},
 		checkNickname() {
 			const myNickname = document.getElementById('myNickname')
 			let notification = document.getElementById('notification')
@@ -225,6 +228,6 @@ export default {
 	}
 }
 .li-menu-tab {
-	margin: 0.15rem
+	padding: 0 0.25rem !important;
 }
 </style>
