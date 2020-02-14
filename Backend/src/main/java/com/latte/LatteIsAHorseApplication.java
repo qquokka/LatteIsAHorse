@@ -14,22 +14,17 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.latte.property.FileUploadProperties;
 
 @SpringBootApplication
-@EnableConfigurationProperties({
-	FileUploadProperties.class
-})
-@EntityScan(basePackageClasses = {
-		LatteIsAHorseApplication.class,
-		Jsr310JpaConverters.class
-})
+@EnableConfigurationProperties({ FileUploadProperties.class })
+@EntityScan(basePackageClasses = { LatteIsAHorseApplication.class, Jsr310JpaConverters.class })
 @EnableTransactionManagement
 public class LatteIsAHorseApplication {
 
 	@PostConstruct
 	void init() {
-		//Timezone Setting
+		// Timezone Setting
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 	}
-	
+
 	public static void main(String[] args) {
 		SpringApplication.run(LatteIsAHorseApplication.class, args);
 	}

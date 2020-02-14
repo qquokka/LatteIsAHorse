@@ -72,6 +72,7 @@ public class CouponController {
 
 	@PutMapping("/coupon")
 	@ApiOperation(value = "쿠폰 등록하기")
+
 //	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
 	public ResponseEntity<Map<String, Object>> enrollCoupon(@RequestBody EnrollCouponRequest enroll, HttpServletRequest request) throws Exception {
 		String decryptedCode = decryptAES256(enroll.getCode());
@@ -89,12 +90,10 @@ public class CouponController {
 //			response.put("message", "토근 만료");
 //			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.FORBIDDEN);
 //		}
-		
 		Coupon coupon = new Coupon();
 		coupon.setCafe_id(2);
 		coupon.setUsers_id(4L);
 		coupon.setCount(count);
-
 
 		// 쿠픈 등록 시간 만료 체크
 		long currentTime = Instant.now().toEpochMilli();
@@ -137,15 +136,14 @@ public class CouponController {
 		Long users_id = getLoggedInUserId(request);
 		Map<String, Object> response = new HashMap<String, Object>();
 
-		if(users_id == 0L) {
+		if (users_id == 0L) {
 			response.put("message", "토근 만료");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.FORBIDDEN);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
 		}
-		
+
 		Coupon coupon = new Coupon();
 		coupon.setCafe_id(cafe_id);
 		coupon.setUsers_id(users_id);
-
 
 		// 현재 보유한 쿠폰 갯수(등록되어 있지 않다면 기본값 = 0)
 		int numberOfCoupon = couponService.getCurrentCouponCount(coupon);
@@ -163,16 +161,15 @@ public class CouponController {
 			HttpServletRequest request) throws Exception {
 		Long users_id = getLoggedInUserId(request);
 		Map<String, Object> response = new HashMap<String, Object>();
-		
-		if(users_id == 0L) {
+
+		if (users_id == 0L) {
 			response.put("message", "토근 만료");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.FORBIDDEN);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
 		}
-		
+
 		Coupon coupon = new Coupon();
 		coupon.setCafe_id(ucr.getCafe_id()); // 수정
 		coupon.setUsers_id(users_id);
-
 
 		// 현재 보유한 쿠폰 갯수(등록되어 있지 않다면 기본값 = 0)
 		int numberOfCoupon = couponService.getCurrentCouponCount(coupon);

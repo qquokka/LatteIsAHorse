@@ -46,11 +46,12 @@ public class HashtagController {
 
 	@ApiOperation(value = "해쉬태그명 추가(여러개)", response = Map.class)
 	@PostMapping("/hashtagname")
-	public ResponseEntity<Map<String, Object>> addHashtagName(@RequestBody HashtagNameRequest request) throws Exception {
+	public ResponseEntity<Map<String, Object>> addHashtagName(@RequestBody HashtagNameRequest request)
+			throws Exception {
 		Map<String, Object> response = new HashMap<>();
 
 		List<String> names = request.getNames();
-		
+
 		if (names.isEmpty()) {
 			response.put("message", "추가할 해쉬태그명이 없습니다.");
 			return new ResponseEntity<>(response, HttpStatus.OK);
@@ -159,8 +160,8 @@ public class HashtagController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Map<String, Object>> deleteHashtagId(@PathVariable("post_id") Long post_id) throws Exception {
 		Map<String, Object> response = new HashMap<>();
-		//기능 구현 예정
-		//관리자만 삭제 가능하게?
+		// 기능 구현 예정
+		// 관리자만 삭제 가능하게?
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
