@@ -59,17 +59,17 @@ public class UserController {
 	@ApiOperation(value = "회원 정보 수정(이름, 전화번호, username)")
 
 	@PatchMapping("/userinfo")
-	public ResponseEntity<Map<String, Object>> updateUserInfo(@Valid @RequestBody UserInfoUpdateRequest request, HttpServletRequest httpRequest)
-			throws Exception {
+	public ResponseEntity<Map<String, Object>> updateUserInfo(@Valid @RequestBody UserInfoUpdateRequest request,
+			HttpServletRequest httpRequest) throws Exception {
 		logger.info("UserController-------------updateUserInfo-------------" + new Date());
 		Map<String, Object> response = new HashMap<>();
 
 		Long user_id = getLoggedInUserId(httpRequest);
-		if(user_id == 0L) {
+		if (user_id == 0L) {
 			response.put("message", "토근 만료");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.FORBIDDEN);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
 		}
-		
+
 		request.setId(user_id);
 		int result = userService.updateUserInfo(request);
 
@@ -83,18 +83,18 @@ public class UserController {
 
 	@ApiOperation(value = "회원 정보 수정(역할)")
 	@PatchMapping("/userrole")
-	public ResponseEntity<Map<String, Object>> updateUserRole(@Valid @RequestBody UserRoleUpdateRequest request, HttpServletRequest httpRequest)
-			throws Exception {
+	public ResponseEntity<Map<String, Object>> updateUserRole(@Valid @RequestBody UserRoleUpdateRequest request,
+			HttpServletRequest httpRequest) throws Exception {
 		logger.info("UserController-------------updateUserRole-------------" + new Date());
 		Map<String, Object> response = new HashMap<>();
 		Long user_id = getLoggedInUserId(httpRequest);
-		if(user_id == 0L) {
+		if (user_id == 0L) {
 			response.put("message", "토근 만료");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.FORBIDDEN);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
 		}
-		
+
 		request.setId(user_id);
-		
+
 		String role = request.getRole().toUpperCase();
 		Role userRole = null;
 
@@ -131,9 +131,9 @@ public class UserController {
 		Map<String, Object> response = new HashMap<>();
 
 		Long user_id = getLoggedInUserId(request);
-		if(user_id == 0L) {
+		if (user_id == 0L) {
 			response.put("message", "토근 만료");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.FORBIDDEN);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
 		}
 		int result = userService.withdrawalUserAccount(user_id);
 
@@ -153,12 +153,12 @@ public class UserController {
 		User user = null;
 		Long userId = getLoggedInUserId(request);
 		Map<String, Object> response = new HashMap<>();
-		
-		if(userId == 0L) {
+
+		if (userId == 0L) {
 			response.put("message", "토근 만료");
 			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 		}
-		
+
 		if (userId != 0L) {
 			user = userRepository.findById(userId).get();
 		}

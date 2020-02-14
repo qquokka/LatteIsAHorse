@@ -1,7 +1,6 @@
 package com.latte.payload;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /*
@@ -54,6 +53,25 @@ public class UserInfoUpdateRequest {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public UserInfoUpdateRequest() {
+		super();
+	}
+
+	public UserInfoUpdateRequest(Long id, @NotBlank String name, @NotBlank @Size(max = 200) String phone,
+			@NotBlank @Size(max = 100) String username) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.phone = phone;
+		this.username = username;
+	}
+
+	@Override
+	public String toString() {
+		return "UserInfoUpdateRequest [id=" + id + ", name=" + name + ", phone=" + phone + ", username=" + username
+				+ "]";
 	}
 
 }

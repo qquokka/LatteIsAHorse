@@ -116,11 +116,11 @@ public class CafeController {
 		Long users_id = getLoggedInUserId(request);
 		Map<String, Object> response = new HashMap<>();
 
-		if(users_id == 0L) {
+		if (users_id == 0L) {
 			response.put("message", "토근 만료");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.FORBIDDEN);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
 		}
-		
+
 		if (users_id != 0L) {
 			userslikemenu.setUsers_id(users_id);
 		}
@@ -183,12 +183,12 @@ public class CafeController {
 		List<CafeDto> cafes = null;
 		Map<String, Object> response = new HashMap<>();
 		Long userId = getLoggedInUserId(request);
-		
-		if(userId == 0L) {
+
+		if (userId == 0L) {
 			response.put("message", "토근 만료");
 			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 		}
-		
+
 		if (userId != 0L) {
 			cafes = cafeservice.getMyCafeList(userId);
 		}
@@ -208,12 +208,12 @@ public class CafeController {
 		userslikemenu.setCafe_id(cafe_id);
 		Long users_id = getLoggedInUserId(request);
 		Map<String, Object> response = new HashMap<>();
-		
-		if(users_id == 0L) {
+
+		if (users_id == 0L) {
 			response.put("message", "토근 만료");
 			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 		}
-		
+
 		if (users_id != 0L) {
 			userslikemenu.setUsers_id(users_id);
 		}
@@ -229,9 +229,9 @@ public class CafeController {
 	public ResponseEntity<Map<String, Object>> addCafe(@Valid @RequestBody CafeEnrollRequest cafe,
 			HttpServletRequest request) throws Exception {
 		Map<String, Object> response = new HashMap<>();
-		
+
 		Long cafe_owner_id = getLoggedInUserId(request);
-		if(cafe_owner_id == 0L) {
+		if (cafe_owner_id == 0L) {
 			response.put("message", "토근 만료");
 			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 		}
