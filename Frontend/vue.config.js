@@ -8,17 +8,17 @@ config => {
     return args;
   });
 };
-// module.exports = {
-//   devServer: {
-//     open: process.platform === 'darwin',
-//     host: 'localhost',
-//     port: 8080, // CHANGE YOUR PORT HERE!
-//     // https: false,
-//     // https: {
-//     //   key: '',
-//     //   cert: '',
-//     //   ca: '',
-//     // },
-//     hotOnly: false,
-//   },
-// }
+var fs = require('fs');
+module.exports = {
+  devServer: {
+    host: 'localhost',
+    port: 8080, // CHANGE YOUR PORT HERE!
+    https: true,
+    https: {
+      key: fs.readFileSync('privkey.pem'),
+      cert: fs.readFileSync('cert.pem'),
+      ca: fs.readFileSync('chain.pem'),
+    },
+    hotOnly: false,
+  },
+}
