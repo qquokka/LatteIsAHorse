@@ -168,7 +168,7 @@ public class HashtagController {
 	public ResponseEntity<Map<String, Object>> addHashtagId(@Valid @RequestBody PostHashtagRequest request)
 			throws Exception {
 		Map<String, Object> response = new HashMap<>();
-
+		logger.info(request.getHashtag_ids().toString());
 		if (request.getHashtag_ids().isEmpty()) {
 			response.put("message", "추가할 해쉬태그 ID가 없습니다.");
 			return new ResponseEntity<>(HttpStatus.OK);

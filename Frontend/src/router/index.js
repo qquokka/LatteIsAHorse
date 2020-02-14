@@ -12,6 +12,7 @@ import HangMan from '../views/HangMan.vue'
 import Admin from '../views/Admin.vue'
 import Profile from '../views/Profile.vue'
 import CafeList from '../components/CafeList.vue'
+import Coupon from '../views/Coupon.vue'
 
 Vue.use(VueRouter)
 
@@ -89,6 +90,11 @@ const routes = [
     path: '/hangman/is/the/perfect/game/of/the/whole/human/history',
     name: 'hangman',
     component: HangMan,
+  },
+  {
+    path: '/coupon',
+    name: 'coupon',
+    component: Coupon
   }
 ]
 

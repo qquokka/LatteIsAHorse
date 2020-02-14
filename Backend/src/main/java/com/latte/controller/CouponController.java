@@ -71,7 +71,7 @@ public class CouponController {
 
 	@PutMapping("/coupon/{code}")
 	@ApiOperation(value = "쿠폰 등록하기")
-	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
+//	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
 	public ResponseEntity<Map<String, Object>> enrollCoupon(@PathVariable("code") String code, HttpServletRequest request) throws Exception {
 		String decryptedCode = decryptAES256(code);
 		// format : "cafe_id,count,time_stamp"
@@ -121,7 +121,7 @@ public class CouponController {
 
 	@GetMapping("/coupon/{cafe_id}")
 	@ApiOperation(value = "현재 로그인된 사용자가 보유한 쿠폰 갯수 반환")
-	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
+//	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
 	public ResponseEntity<Map<String, Object>> getCurrentCouponCount(@PathVariable("cafe_id") Integer cafe_id,
 			HttpServletRequest request) throws Exception {
 		Long users_id = getLoggedInUserId(request);
@@ -148,7 +148,7 @@ public class CouponController {
 
 	@PatchMapping("/coupon/{cafe_id}")
 	@ApiOperation(value = "사용자가 보유한 쿠폰 사용")
-	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
+//	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
 	public ResponseEntity<Map<String, Object>> useCoupon(@Valid @RequestBody UseCouponRequest ucr,
 			HttpServletRequest request) throws Exception {
 		Long users_id = getLoggedInUserId(request);
@@ -187,9 +187,8 @@ public class CouponController {
 
 	@PostMapping("/qrcode")
 	@ApiOperation(value = "QR code 생성")
-	@PreAuthorize("hasAnyRole({'OWNER','ADMIN'})")
-	public ResponseEntity<Map<String, Object>> generateQRcode(@Valid @RequestBody QRCodeGenerateRequest request)
-			throws Exception {
+//	@PreAuthorize("hasAnyRole({'OWNER','ADMIN'})")
+	public ResponseEntity<Map<String, Object>> generateQRcode(@Valid @RequestBody QRCodeGenerateRequest request) throws Exception {
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		// format : "cafe_id,count,time_stamp"
