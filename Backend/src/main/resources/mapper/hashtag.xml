@@ -50,4 +50,11 @@
 		select hashtag_id from post_hashtag
 		where posts_id = #{posts_id}	
 	</select>
+	
+	<select id="getAllHashtagNamesNumber" resultType="com.latte.payload.HashtagNamesNumberResponse">
+		select name, count(name) as count from post_hashtag
+		left outer join hashtag
+		on post_hashtag.hashtag_id = hashtag.hashtag_id
+		group by name order by count desc limit 20
+	</select>
 </mapper>

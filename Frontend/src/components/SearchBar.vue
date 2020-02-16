@@ -1,17 +1,18 @@
 <template>
-  <form class="search-form input-group mb-3" @submit.prevent="goSearch()">
+  <form class="search-form row mb-3" @submit.prevent="goSearch()">
     <input
       v-model="query"
       id="title"
       type="text"
-      class="form-control morph-text"
+      class="col-10 morph-text p-0"
       placeholder=" 지역명, 카페 이름 등🔍"
-      aria-describedby="button-addon2"
       autofocus
       autocomplete
     />
-    <div class="input-group-append">
-      <button class="btn" type="submit" id="button-addon2">검색</button>
+    <div class="col h-100 p-0">
+      <div class="search-btn d-flex justify-content-center align-items-center" type="submit" >
+        <p class="m-0">검색</p>
+      </div>
     </div>
   </form>
 </template>
@@ -43,34 +44,38 @@ export default {
 
 <style scoped>
 #title {
-  height: 4rem;
-  border-radius: 20px 0 0 20px;
+  padding: 1rem;
   font-size: 1.2rem;
 }
 
-.btn {
-  border-radius: 50px;
-  width: 5rem;
-  background: #e6e6fa;
-  box-shadow: 26px 26px 51px #c4c4d5, -26px -26px 51px #ffffff;
+.search-btn {
+  background: gold;
   transition: 0.2s;
+  font-size: 1.2rem;
+  width: 100%;
+  padding: 1rem;
 }
-.btn:hover {
-  border-radius: 50px;
-  background: #e6e6fa;
-  box-shadow: inset 26px 26px 51px #c4c4d5, inset -26px -26px 51px #ffffff;
+.search-btn:hover {
+  background: gold;
   font-weight: 900;
 }
 
 .search-form {
-  width: 60%;
-  min-width: 450px;
+  width: 50%;
+  min-width: 325px;
 }
 
 input[type="text"] {
-  border-radius: 50px;
   border: 0;
   background: #ffffff;
-  box-shadow: 6px 16px 31px #d9d9d9, -6px -16px 31px #ffffff;
+}
+@media only screen and (max-width: 991px) {
+::-webkit-input-placeholder,::-moz-placeholder, :-ms-input-placeholder, :-moz-placeholder{ 
+  color: transparent
+}
+#title, .search-btn {
+  font-size: 4vw;
+  padding: 2vw !important;
+}
 }
 </style>

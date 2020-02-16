@@ -6,7 +6,7 @@
         <div class="postbody overflow-hidden">
           <img :src="review.thumbnail" width="100%" height="300px" @error="imgPlaceholder">
           <h3 class="p-2 posttitle">{{ review.title }}</h3>
-          <p class="" style="font-size:0.8rem"><i class="fas fa-thumbs-up"> {{ review.like_count }}</i></p>
+          <p style="font-size:0.8rem"><i class="fas fa-thumbs-up"> {{ review.like_count }}</i></p>
           <p class="mb-0"> {{ review.writer_name }}</p>
           <p class="postcreate" style="top:2rem;left:3rem;border-radius:15px"> {{ review.created_at.slice(0,10) }} </p>
         </div>

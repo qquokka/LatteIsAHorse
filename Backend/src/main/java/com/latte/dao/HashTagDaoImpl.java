@@ -10,11 +10,12 @@ import org.springframework.stereotype.Repository;
 
 import com.latte.model.Hashtag;
 import com.latte.model.PostHashtag;
+import com.latte.payload.HashtagNamesNumberResponse;
 
 @Repository
 public class HashTagDaoImpl {
 	private final String ns = "mapper.hashtag.";
-	
+
 	@Autowired
 	private SqlSession sqlSession;
 
@@ -59,6 +60,9 @@ public class HashTagDaoImpl {
 	public int deletePostHashtag(PostHashtag post_hashtag) {
 		return sqlSession.delete(ns + "deletePostHashtag", post_hashtag);
 	}
-	
-	
+
+	public List<HashtagNamesNumberResponse> getAllHashtagNamesNumber() {
+		return sqlSession.selectList(ns + "getAllHashtagNamesNumber");
+	}
+
 }

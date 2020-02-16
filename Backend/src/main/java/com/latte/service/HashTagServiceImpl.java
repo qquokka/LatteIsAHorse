@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.latte.dao.HashTagDaoImpl;
 import com.latte.model.Hashtag;
 import com.latte.model.PostHashtag;
+import com.latte.payload.HashtagNamesNumberResponse;
 
 @Service
 public class HashTagServiceImpl implements IHashTagService {
@@ -74,6 +75,12 @@ public class HashTagServiceImpl implements IHashTagService {
 	@Transactional(readOnly = true)
 	public List<Integer> getAllHashtagIdByPostId(Long posts_id) {
 		return hashtagDao.getAllHashtagIdByPostId(posts_id);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<HashtagNamesNumberResponse> getAllHashtagNamesNumber() {
+		return hashtagDao.getAllHashtagNamesNumber();
 	}
 
 

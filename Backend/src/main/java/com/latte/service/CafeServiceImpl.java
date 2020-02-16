@@ -69,4 +69,10 @@ public class CafeServiceImpl implements ICafeService {
 		return cafeDao.isExist(cafe_owner_id);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public CafeDto getMyCafeInfo(Long cafe_owner_id) {
+		return cafeDao.getMyCafeInfo(cafe_owner_id);
+	}
+
 }

@@ -12,6 +12,9 @@ import HangMan from '../views/HangMan.vue'
 import Admin from '../views/Admin.vue'
 import Profile from '../views/Profile.vue'
 import CafeList from '../components/CafeList.vue'
+import Coupon from '../views/Coupon.vue'
+import QRcodeReader from '../components/QRcodeReader'
+
 
 Vue.use(VueRouter)
 
@@ -89,7 +92,17 @@ const routes = [
     path: '/hangman/is/the/perfect/game/of/the/whole/human/history',
     name: 'hangman',
     component: HangMan,
-  }
+  },
+  {
+    path: '/coupon',
+    name: 'coupon',
+    component: Coupon
+  },
+  {
+    path: '/qrcode',
+    name: 'qrcode',
+    component: QRcodeReader
+  },
 ]
 
 const router = new VueRouter({
