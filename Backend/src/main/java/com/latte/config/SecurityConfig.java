@@ -1,8 +1,5 @@
 package com.latte.config;
 
-import com.latte.security.CustomUserDetailsService;
-import com.latte.security.JwtAuthenticationEntryPoint;
-import com.latte.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,10 +16,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.latte.security.CustomUserDetailsService;
+import com.latte.security.JwtAuthenticationEntryPoint;
+import com.latte.security.JwtAuthenticationFilter;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
 	@Autowired
 	CustomUserDetailsService customUserDetailsService;
 
@@ -63,6 +65,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// Add our custom JWT security filter
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+		http.requiresChannel().anyRequest().requiresSecure();
 
 	}
+
 }
