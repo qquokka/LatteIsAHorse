@@ -13,7 +13,8 @@ import Admin from '../views/Admin.vue'
 import Profile from '../views/Profile.vue'
 import CafeList from '../components/CafeList.vue'
 import Coupon from '../views/Coupon.vue'
-import QRcodeReader from '../components/QRcodeReader'
+import QRcodeReader from '../components/QRcodeReader.vue'
+import AddMyCafe from '../views/AddMyCafe.vue'
 
 
 Vue.use(VueRouter)
@@ -103,6 +104,11 @@ const routes = [
     name: 'qrcode',
     component: QRcodeReader
   },
+  {
+    path: '/newcafe',
+    name: 'addMyCafe',
+    component: AddMyCafe
+  }
 ]
 
 const router = new VueRouter({
