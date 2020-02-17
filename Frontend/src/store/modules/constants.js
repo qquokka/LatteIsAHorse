@@ -11,6 +11,15 @@ const actions = {
 }
 
 const getters = {
+    colors() {
+        return {    
+            black: "#555B6E",
+            mdark: "#89B0AE",
+            mlight: "#BEE3DB",
+            beige: "#FAF9F9",
+            orange: "#FFD6BA"
+        }
+    },
 }
 
 export default {

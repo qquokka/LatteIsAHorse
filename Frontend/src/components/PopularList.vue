@@ -1,69 +1,17 @@
 <template>
   <div class="w-100 justify-content-center pt-4" >
-    <h3 class="align-self-start" style="font-weight:100;"><fa icon="search-location" />  동네별 카페 바로찾기</h3>
+    <h3 class="align-self-start p-0 py-lg-5" style="font-weight:100; font-size: calc(16px + 1.2vw)"><fa icon="search-location" />  동네별 카페 바로찾기</h3>
     <div class="popular row justify-content-center mx-auto">
-      
-      
-			<!-- component화 예정 -->
-      <router-link to="/searched?q=전민동" class="cube col-12 col-md-4 col-lg-2">
-        <div class="flippety" style="background: lavender">
-          <p class="glow">전민동</p> 
+      <router-link v-for="neighbor in neighborList" :to="`/searched?q=${neighbor}`" :key="neighbor" class="cube col-12 col-md-4 col-lg-2">
+        <div class="flippety">
+          <p class="glow w-100" style="z-index: 5;background: rgba(0">{{ neighbor }}</p> 
+          <img :src="require(`@/assets/img/${neighbor}.jpg`)" style="width: 100%; height: 100%; position:absolute;filter: blur(2px)">
+          
         </div>
-        <div class="flop">
-          <h3 class="dong">전민동</h3>
-        </div>
-      </router-link>
-
-      <router-link to="/searched?q=둔산동" class="cube col-12 col-md-4 col-lg-2">
-        <div class="flippety" style="background: lavender">
-          <p class="glow">둔산동</p> 
-        </div>
-        <div class="flop">
-          <h3 class="dong">둔산동</h3>
+        <div class="flop border">
+          <p style="font-size: calc(1rem + 0.5vw)">{{ neighbor }} 카페 <br><span style="color:#89B0AE"><fa icon="search-location" /> 바로 검색</span> </p> 
         </div>
       </router-link>
-
-
-      <router-link to="/searched?q=궁동" class="cube col-12 col-md-4 col-lg-2">
-        <div class="flippety" style="background: lavender">
-          <p class="glow">궁동</p> 
-        </div>
-        <div class="flop">
-          <h3 class="dong">궁동</h3>
-        </div>
-      </router-link>
-
-
-      <router-link to="/searched?q=탄방동" class="cube col-12 col-md-4 col-lg-2">
-        <div class="flippety" style="background: lavender">
-          <p class="glow">탄방동</p> 
-        </div>
-        <div class="flop">
-          <h3 class="dong">탄방동</h3>
-        </div>
-      </router-link>
-
-
-      <router-link to="/searched?q=오류동" class="cube col-12 col-md-4 col-lg-2">
-        <div class="flippety" style="background: lavender">
-          <p class="glow">오류동</p> 
-        </div>
-        <div class="flop">
-          <h3 class="dong">오류동</h3>
-        </div>
-      </router-link>
-
-
-      <router-link to="/searched?q=덕명동" class="cube col-12 col-md-4 col-lg-2">
-        <div class="flippety" style="background: lavender">
-          <p class="glow">덕명동</p> 
-        </div>
-        <div class="flop">
-          <h3 class="dong">덕명동</h3>
-        </div>
-      </router-link>
-
-
     </div>
   </div>
 </template>
@@ -73,32 +21,30 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSearchLocation } from '@fortawesome/free-solid-svg-icons'
 library.add(faSearchLocation)
 
-export default {};
+export default {
+    data() {
+    return {
+      neighborList: ['전민동', '덕명동', '둔산동', '궁동', '탄방동', '오류동']
+    };
+  },
+};
 </script>
 
 <style>
 .popular {
-  width: 80%;
+  width: 100%;
   min-width: 375px;
   text-align: left;
-  padding: 3rem;
-  background: white;
-  border: 1px solid transparent;
+  padding: 0;
   transition: 120ms linear;
   border-radius: 12px;
 }
 .popular:hover {
-  width: 80%;
-  min-width: 375px;
-  text-align: left;
-  padding: 3rem;
-  background: white;
-  border: 1px solid gray;
+  background: 
 }
 .cube {
-  width: 150px;
 	text-align: center;
-  height: 150px;
+  height: 360px;
   transition: transform 0.33s;
   transform-style: preserve-3d;
 	cursor: pointer;
@@ -106,20 +52,19 @@ export default {};
 
 .flippety,
 .flop {
-  height: 150px;
+  height: 360px;
 	align-items: center !important;
 	justify-content: center !important;
 	display: flex;
-	border-radius: 5px;
-	background: #ffffff;
+	border-radius: 5px;;
 }
 
 .flippety {
-  transform: translateZ(75px);
+  transform: translateZ(180px);
 }
 
 .flop {
-  transform: rotateX(-90deg) translateZ(-75px);
+  transform: rotateX(-90deg) translateZ(-180px);
 	background-size: cover !important;
 }
 
@@ -135,6 +80,16 @@ export default {};
 .glow {
   text-shadow: 0px 0px 4px #2f2f2f;
   color: white;
-  font-size: 1.2rem;
+  font-weight: 400;
+  font-size: calc(1rem + 1vw);
+}
+@media only screen and (max-width: 991px) {
+  .popular {
+    padding: 0;
+  }
+  .cube {
+    margin: 1rem 0;
+    padding: 0 !important;
+  }
 }
 </style>

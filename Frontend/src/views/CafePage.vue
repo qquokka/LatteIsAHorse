@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid p-0">
+  <div id="cafe-page-container" class="container-fluid p-0">
     <!-- global component -->
     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="fullPage" loader="bars" color="violet"></loading>
     <div v-if="selectedImage" id="imgView">
@@ -14,9 +14,9 @@
         <div v-else>ERROR</div>
         <div class="mr-2"><fa icon="coffee" /></div>
       </div>
-    <div class="row m-0 mt-0 mt-lg-5 mx-lg-3 border-0" v-if="info">
+    <div class="row m-0 mt-0 mt-lg-5 border-0" v-if="info">
 
-      <single-cafe-map :cafe="info" :isOpen="isOpen" class="col-12 col-lg-5 shadow p-0" />
+      <single-cafe-map :cafe="info" :isOpen="isOpen" class="col-12 col-lg-5 p-0" />
       <div class="col px-2">
         <div class="align-items-center d-none d-lg-flex">
           <h1 class="cafe-name-detail">{{ info.cafe_name }}</h1>
@@ -24,17 +24,17 @@
           <p v-else style="font-size: 1rem;" class="closebdg ml-2">준비중</p>
         </div>
         <div class="row mt-3 mt-lg-1 justify-content-between px-4">
-          <h6 class="text-left">
+          <h6 class="text-left shortinfo">
             <fa style="color:gold;margin-right:0.4rem" icon="crown" />대표자명:
             <span class="text-muted">미등록</span>
           </h6>
 
-          <h6 class="text-left">
+          <h6 class="text-left shortinfo">
             <fa style="color:turquoise;margin-right:0.5rem;margin-left:0.2rem" icon="phone-square" />전화번호:
             <span class="text-muted">{{ info.cafe_phone }}</span>
           </h6>
 
-          <h6 class="text-left">
+          <h6 class="text-left shortinfo">
             <fa style="color:crimson;margin-right:0.5rem" icon="shopping-basket" />인기메뉴:
             <span class="text-muted">구현 예정</span>
           </h6>
@@ -89,24 +89,25 @@
             :style="`background:url('${reviews[2].thumbnail}')`"
           />
         </div>
-
-        <div class="row">
-          <div class="col border-right">
+        <div class="my-2" style="font-size: calc(1rem + 0.5vw)">영업 시간 </div>
+        <div class="row weekrow">
+          
+          <div class="col wcol border-right">
             <p class="border-bottom weekday">
               <fa icon="calendar" />
             </p>
             <p>open</p>
             <p>close</p>
           </div>
-          <div v-for="i in info.time.length - 1" :key="i" class="col" :id="i">
+          <div v-for="i in info.time.length - 1" :key="i" class="col wcol" :id="i">
             <p class="weekday">{{ info.time[i][2] }}</p>
             <p>{{ info.time[i][0].slice(11, 16) }}</p>
             <p>{{ info.time[i][1].slice(11, 16) }}</p>
           </div>
-          <div class="col" id="0">
+          <div class="col wcol" id="0">
             <p
             class="weekday"
-              style="color:crimson;font-size:1.2rem;font-weight:800;border-bottom: 1px solid crimson;"
+              style="color:crimson;border-bottom: 1px solid crimson;"
             >{{ info.time[0][2] }}</p>
             <p>{{ info.time[0][0].slice(11, 16) }}</p>
             <p>{{ info.time[0][1].slice(11, 16) }}</p>
@@ -115,75 +116,79 @@
       </div>
     </div>
     <div class="container mt-5" v-if="menus" >
-      <h4 class="my-5">
-        <fa icon="mug-hot" style="color:violet" />MENU
+      <h4 class="my-5 cafe-page-section-name">
+        <fa icon="mug-hot" style="color:#FFD6BA;margin-right:0.5rem" />MENU
       </h4>
       <hr />
       <div  v-for="menu in menus" :key="menu.mid" class="row menurow">
         <div class="col-4 justify-content-between">
-          <p class="text-truncate text-left" style="font-size:4vw">{{ menu.product }}</p>
+          <p class="text-truncate text-left menutitle">{{ menu.product }}</p>
         </div>
-        <div class="col-1">
+        <div class="col-1 ">
           <p
-            style="cursor:pointer; font-size: 4vw"
+            style="cursor:pointer;"
+            class="menutitle"
             @click="pushLikeMenu(menu.mid, menu.user_like)">
             <fa
               :icon="menu.user_like?['fas', 'heart']:['far', 'heart']"
-              style="cursor: pointer; color: red;display:inline"
-              :style="menu.user_like?{animation: 'bounce 1s infinite'}:{}"/>
+              style="cursor: pointer; color: red;display:inline" />
             {{ menu.like_count? menu.like_count : 0 }}
           </p>
         </div>
         <div class="col-5 text-truncate">
-          <p class="text-muted">메뉴 설명</p>
+          <p class="text-muted menutitle">메뉴 설명</p>
         </div>
 
-        <div class="col-2 ">
-          <p>
-            {{ menu.price }}
-            <fa class="d-none d-lg-block" icon="money-bill" style="color:green" />
-          </p>
+        <div class="col-2 menutitle">
+            {{ menu.price }} ₩
         </div>
       </div>
     </div>
 
     <hr />
-    <h4 class="my-5">
+    <h4 class="my-5 cafe-page-section-name">
       <fa icon="envelope-open-text" style="color:orange" />REVIEW
     </h4>
-    <div class="row px-0 px-lg-4">
+    <div class="row m-0 px-0 px-lg-4">
       <div
-        class="container my-3 overflow-hidden col-12 col-lg-4"
+        class="container my-3 overflow-hidden col-12 col-lg-4 review-link p-0"
         v-for="review in reviews.slice().reverse()"
         :key="review.id"
+
       >
         <router-link :to="`/cafe/${cafeId}/review/${review.id}/`">
           <div
-            class="justify-content-center px-2"
-            style="background: lightyellow;"
+            class="justify-content-center px-2 p-0 border"
+            style="background: #BEE3DB;"
           >
-            <h1 class="py-2 font-weight-bold text-left text-truncate" style="font-size: 8vw">
+            <h1 class="py-2 text-center text-truncate" style="font-size: calc(1.5rem + 1vw)">
               {{ review.title }}
             </h1>
-            <h5 class="text-right">
+            <h5 class="text-left bg-white py-1">
               <fa class="text-muted" icon="user-circle" />
               {{ review.writer_name }}
+              <span  style="font-size:0.8rem;text-align:left">{{ review.updated_at.slice(0,12) }}</span>
             </h5>
-            <p style="font-size:0.8rem;text-align:right">작성일시: {{ review.updated_at.slice(0,11) }}</p>
+            
           </div>
           <div class="border">
-            <div class="row mt-2 justify-content-center">
-              <img
-                :src="review.thumbnail"
-                class="col-12"
-                style="height:300px;padding:0;"
-                @error="imgPlaceholder"
-              />
+            <div class="m-2 border">
+              <div class="row m-0 mt-2 justify-content-center">
+                <div
+                  :style="`background: url(${review.thumbnail});background-size:cover`"
+                  class="col-11"
+                  style="height:300px;padding:0;"
+                  @error="imgPlaceholder"
+                />
+              </div>
+              <div class="row p-1 justify-content-center line-clamp" style="height: 225px;">
+                <span class="col-11 text-left p-2 " v-html="review.content"></span>
+              </div>
+              <div style="font-size: calc(2rem+2vw)" class="row justify-content-center">
+                댓글 : (...)
+              </div>
             </div>
-            <div class="row p-1 justify-content-center line-clamp" style="height: 225px;">
-              <span class="col-12 text-left" v-html="review.content"></span>
-            </div>
-            <div style="border: 1px solid lightgray;">- {{ review.id }} -</div>
+            <div style="">- {{ review.id }} -</div>
           </div>
         </router-link>
       </div>
@@ -344,28 +349,36 @@ export default {
     // 		})
     // },
     pushLikeMenu(menuId,likeornot) {
+      const config = {
+        headers: { Authorization: "Bearer " + this.$session.get("jwt") }
+      };
       if (!this.$store.getters.isLoggedIn) {
         alert("plz login");
         return;
       }
-      if (likeornot) {
+      if (!likeornot) {
+        console.log('likey');
+        
         axios
           .post(
-            `${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`,{headers: { Authorization: "Bearer " + this.$session.get("jwt") }}
-          )
+            `${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`,{}, config)
           .then(()=>{
             this.getData()
+            this.$forceUpdate()
           })
           .catch(e=> {
             console.log(e.response);
           })
       } else {
+        console.log('dislikey');
+        
         axios
           .delete(
-            `${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`,{headers: { Authorization: "Bearer " + this.$session.get("jwt") }}
+            `${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`,{},{headers: { Authorization: "Bearer " + this.$session.get("jwt") }}
           )
           .then(()=>{
             this.getData()
+            this.$forceUpdate()
           })
       }
     }
@@ -377,13 +390,25 @@ export default {
       let week = ["0", "1", "2", "3", "4", "5", "6"];
       let dayofweek = week[new Date().getDay()];
       let todayCal = document.getElementById(dayofweek);
-      todayCal.style.backgroundColor = "lavender";
+      todayCal.style.backgroundColor = "#BEE3DB";
     }, 250);
   },
 };
 </script>
 
 <style>
+.shortinfo {
+  font-size: calc(0.7rem + 0.7vw)
+}
+.cafe-page-section-name {
+  font-size: calc(1.2rem + 1vw)
+}
+.review-link:hover {
+  box-shadow: 0 0 15px lightgray;
+}
+#cafe-page-container {
+  font-weight: 400
+}
   #topbar {
     display: none;
   }
@@ -395,7 +420,7 @@ export default {
 }
 #reviewWriteBtn {
   position: fixed;
-  bottom: 75px;
+  bottom: 13%;
   right: 19px;
   background: gold;
   opacity: 0.9;
@@ -436,7 +461,7 @@ export default {
 
 .cafe-name-detail {
   text-align: left;
-  border-left: 15px solid lavender;
+  border-left: 15px solid #BEE3DB;
   padding-left: 1rem;
 }
 .bouncer {
@@ -444,8 +469,15 @@ export default {
 }
 .weekday {
   font-weight: 650;
-  font-size: 1.2rem;
+  margin-bottom: 0;
   border-bottom: 1px solid lightgray;
+}
+.wcol {
+  font-size: calc(0.7rem + 0.5vw);
+  padding: 0 !important
+}
+.wcol > p {
+  margin-bottom: 0.5rem;
 }
 @keyframes bounce {
   0%, 50%, 80%, 100% {
@@ -492,6 +524,9 @@ export default {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+  .menutitle { 
+    font-size: calc(0.5rem + 1vw)
+  }
 @media only screen and (max-width: 991px) {
   .menutxt > div > p {
     font-size: 2vw;

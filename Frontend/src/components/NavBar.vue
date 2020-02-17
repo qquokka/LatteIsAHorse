@@ -49,7 +49,7 @@
       <div class="col nav-col">
         <router-link class="nav-link" to="/map">
           <div><fa icon="map"  :size="navfasize" /></div>
-          <div class="nav-text">내 주변 보기</div>
+          <div class="nav-text">주변보기</div>
           <div class="nav-mobile-text">NEAR</div>
         </router-link>
       </div>
@@ -75,9 +75,9 @@ export default {
   } 
 },
 props: {
-        iswhite: {
-          type: Boolean,
-          default: false
+        bgcolor: {
+          type: String,
+          default: '#FAF9F9'
         }
 },
 computed: {
@@ -103,20 +103,14 @@ methods: {
     this.$store.dispatch('logout')
   },
   handleScroll() {
-    if (this.iswhite) {
-      this.scrolled = true
-    } else {
-      this.scrolled = window.scrollY > 0
-    }
+    this.scrolled = window.scrollY > 0
     const topnav = document.getElementById('topnav')
     if (this.scrolled) {
-      topnav.style.background = "whitesmoke"
-      topnav.style.boxShadow = "2px 2px 12px gray"
+      topnav.style.background = "white"
     }
     else {
-      topnav.style.background = "none"
+      topnav.style.background = this.bgcolor
       topnav.style.backgroundImage = "unset"
-      topnav.style.boxShadow = "0px 0px 0px"
     }
   },
   handleWidth() {
@@ -135,6 +129,7 @@ created() {
 },
 mounted() {
   this.handleWidth()
+  this.handleScroll()
 },
 destroyed() {
   window.removeEventListener('scroll', this.handleScroll);
@@ -143,10 +138,6 @@ destroyed() {
 }
 </script>
 <style>
-nav {
-  transition: 0.25s ease-in-out;
-  top: 0;
-}
 #navbarNavDropdown > .row {
   min-width: fit-content;
 }
@@ -188,28 +179,32 @@ nav {
 }
 .nav-mobile-text {
     display: none;
-    font-size: 2vw;
+    font-size:2vw;
     font-weight: 900;
     margin: 0;
 }
 .nav-text {
   margin: 0 0 0 1rem;
-  font-size: 1vw;
+  font-size: calc(0.2rem + 1vw);
+  overflow: nowrap;
+  text-overflow: clip
 }
 @media only screen and (max-width: 991px) {
   body {
     padding-bottom: 75px;
   }
   #topnav {
+    background: white !important;
     border-top: 1px solid lightgray;
-    background: whitesmoke !important;
-    width: 100%;
     justify-content: start;
     text-align: center;
     position: fixed;
-    bottom: 0;
     height: fit-content;
     margin-top: auto;
+    bottom: 0;
+    width: 100%;
+    max-width: 100vw;
+    padding: 1rem 0;
   }
   .nav-text {
     display: none;
