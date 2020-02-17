@@ -55,6 +55,7 @@ export default {
 }
 .search-btn:hover {
   background: #89B0AE;
+  color: white;
   font-weight: 900;
 }
 

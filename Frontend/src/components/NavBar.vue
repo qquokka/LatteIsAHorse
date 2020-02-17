@@ -77,7 +77,7 @@ export default {
 props: {
         bgcolor: {
           type: String,
-          default: 'white'
+          default: '#FAF9F9'
         }
 },
 computed: {

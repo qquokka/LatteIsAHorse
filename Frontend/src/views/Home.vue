@@ -19,7 +19,10 @@
 
     <popular-list />
     <div class="main-section" style="margin-top:8rem;">
-      <h2 class="article-header">가까운 카페</h2>
+      <div class="text-center">
+        <h2 class="article-header" > <fa icon="road" /> 가까운 카페</h2>
+        <div style="cursor:pointer; color: crimson;font-size: calc(5px + 0.5vw)" @onclick="geoPermission()"> <fa icon="crosshairs" /> 위치정보이용동의</div>
+      </div>
       <cafe-list :cafeData="cafeData" />
     </div>
     <word-cloud class="overflow-hidden" />
@@ -43,7 +46,9 @@ import BSection from "@/views/section/BuisinessSection.vue"
 import Footer from "@/views/section/Footer.vue";
 import axios from "axios";
 import WordCloud from "@/components/WordCloud.vue"
-
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faRoad, faCrosshairs } from "@fortawesome/free-solid-svg-icons";
+library.add(faRoad, faCrosshairs)
 export default {
   name: "home",
   components: {
@@ -58,6 +63,7 @@ export default {
   },
   data() {
     return {
+      center: null,
       answers: [],
       username: "",
       i: 0,
@@ -70,6 +76,18 @@ export default {
     ...mapGetters(["options", "user", "colors"])
   },
   methods: {
+    geoPermission() {
+      navigator.geolocation.getCurrentPosition(this.success, this.fail);
+    },
+    success(position) {
+      this.center = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+    },
+    fail(error) {
+      console.log(error);
+    },
   },
   beforeMount() {
     axios.get(`${this.$store.state.constants.SERVER}/cafe`)
@@ -126,8 +144,7 @@ export default {
 }
 .article-header {
   text-align: center;
-  margin: 2rem auto 2rem auto;
-  border-radius: 20px;
+  margin: 1rem auto 0.4rem auto;
   text-shadow: 26px 26px 51px #d9d9d9, -26px -26px 51px #ffffff;
   width: fit-content;
 }

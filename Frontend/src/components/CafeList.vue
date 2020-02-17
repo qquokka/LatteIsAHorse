@@ -37,7 +37,7 @@ export default {
   padding: 1rem;
   margin-top: 40% !important;
   width: fit-content;
-  border-radius: 50px;
+  border-radius: 25px;
 }
 .newmorph {
   overflow: hidden;
@@ -57,6 +57,7 @@ export default {
 .newmorph:hover .cafe-name {
   margin-top: 0% !important;
   width: 100%;
-  border-radius: 0;
+  border-radius: 10px;
+  background:rgba(0, 0, 0, 0.75)
 }
 </style>

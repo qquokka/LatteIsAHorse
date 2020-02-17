@@ -3,11 +3,13 @@
     <h3 class="align-self-start p-0 py-lg-5" style="font-weight:100; font-size: calc(16px + 1.2vw)"><fa icon="search-location" />  동네별 카페 바로찾기</h3>
     <div class="popular row justify-content-center mx-auto">
       <router-link v-for="neighbor in neighborList" :to="`/searched?q=${neighbor}`" :key="neighbor" class="cube col-12 col-md-4 col-lg-2">
-        <div class="flippety" style="background: #89B0AE">
-          <p class="glow">{{ neighbor }}</p> 
+        <div class="flippety">
+          <p class="glow w-100" style="z-index: 5;background: rgba(0">{{ neighbor }}</p> 
+          <img :src="require(`@/assets/img/${neighbor}.jpg`)" style="width: 100%; height: 100%; position:absolute;filter: blur(2px)">
+          
         </div>
-        <div class="flop">
-          <h3 class="dong">{{ neighbor }}</h3>
+        <div class="flop border">
+          <p style="font-size: calc(1rem + 0.5vw)">{{ neighbor }} 카페 <br><span style="color:#89B0AE"><fa icon="search-location" /> 바로 검색</span> </p> 
         </div>
       </router-link>
     </div>
@@ -34,7 +36,6 @@ export default {
   min-width: 375px;
   text-align: left;
   padding: 0;
-  border: 1px solid transparent;
   transition: 120ms linear;
   border-radius: 12px;
 }
@@ -56,7 +57,6 @@ export default {
 	justify-content: center !important;
 	display: flex;
 	border-radius: 5px;;
-  border: 1px solid lightgray
 }
 
 .flippety {
@@ -80,7 +80,8 @@ export default {
 .glow {
   text-shadow: 0px 0px 4px #2f2f2f;
   color: white;
-  font-size: 1.2rem;
+  font-weight: 400;
+  font-size: calc(1rem + 1vw);
 }
 @media only screen and (max-width: 991px) {
   .popular {

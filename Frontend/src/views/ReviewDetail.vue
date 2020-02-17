@@ -166,7 +166,8 @@ div >>> img {
   margin-top: 50px
 }
 .review-detail-title {
-  font-size: 1.5rem;
+  font-size: calc(2rem + 1vw);
+  color: white;
 }
 .comments {
   min-height: 10rem;
