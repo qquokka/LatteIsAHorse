@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid p-0">
-    <nav-bar />
+    <nav-bar bgcolor="#FFD6BA" />
     <div class="home-header align-items-center d-flex flex-column justify-content-center">
       <div>
         <h2
@@ -22,7 +22,7 @@
       <h2 class="article-header">가까운 카페</h2>
       <cafe-list :cafeData="cafeData" />
     </div>
-    <word-cloud />
+    <word-cloud class="overflow-hidden" />
     <div class="main-section">
       <h2 class="article-header">EDITOR's PICK</h2>
       <review-list limits="3" :reviewData="reviewData" />
@@ -67,7 +67,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["options", "user"])
+    ...mapGetters(["options", "user", "colors"])
   },
   methods: {
   },
@@ -93,7 +93,7 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Noto+Sans+KR:900&display=swap");
 
 .home-header {
-  background: goldenrod;
+  background: #FFD6BA;
   height: 50vh;
   width: 100%;
 }
@@ -105,11 +105,11 @@ export default {
 @keyframes fadein {
   0% {
     opacity: 0;
-    color: lavender;
+    color: #FAF9F9;
   }
   100% {
     opacity: 1;
-    color: #2f2f2f;
+    color: #555B6E;
   }
 }
 

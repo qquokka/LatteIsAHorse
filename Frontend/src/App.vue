@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-
     <modal :loginFailed="loginFailed" @login="login" />
     <router-view :key="$route.fullPath" />
   </div>
@@ -71,6 +70,7 @@ export default {
 </script>
 <style>
 @import url("https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&display=swap&subset=korean");
+
 html {
   overflow-x: hidden;
   min-height: 100vh;
@@ -78,9 +78,9 @@ html {
 #app {
   font-family: "Nanum Gothic", sans-serif;
   text-align: center;
-  color: #5f4f5f;
+  color: #555B6E;
   font-weight: 600;
-  background-color: #ffffff;
+  background-color: #FAF9F9;
 }
 #nav {
   padding: 30px;
@@ -88,15 +88,15 @@ html {
 a,
 .router-link {
   text-decoration: none !important;
-  color: #5f4f5f !important;
+  color: #555B6E !important;
 }
 a:hover,
 .router-link:hover {
-  color: goldenrod !important;
+  color: #BEE3DB !important;
 }
 
 .router-link-active {
-  color: goldenrod !important;
+  color:#FFD6BA !important;
 }
 
 ::-webkit-scrollbar {
@@ -107,7 +107,12 @@ a:hover,
 }
 
 ::-webkit-scrollbar-thumb {
-  background: violet;
+  background: #89B0AE;
   border-radius: 10px;
+}
+@media only screen and (max-width: 991px) {
+  ::-webkit-scrollbar {
+    width: 0 !important;
+  }
 }
 </style>

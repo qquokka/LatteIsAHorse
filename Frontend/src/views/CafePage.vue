@@ -89,24 +89,25 @@
             :style="`background:url('${reviews[2].thumbnail}')`"
           />
         </div>
-
-        <div class="row">
-          <div class="col border-right">
+        <div>영업시간 </div>
+        <div class="row weekrow">
+          
+          <div class="col wcol border-right">
             <p class="border-bottom weekday">
               <fa icon="calendar" />
             </p>
             <p>open</p>
             <p>close</p>
           </div>
-          <div v-for="i in info.time.length - 1" :key="i" class="col" :id="i">
+          <div v-for="i in info.time.length - 1" :key="i" class="col wcol" :id="i">
             <p class="weekday">{{ info.time[i][2] }}</p>
             <p>{{ info.time[i][0].slice(11, 16) }}</p>
             <p>{{ info.time[i][1].slice(11, 16) }}</p>
           </div>
-          <div class="col" id="0">
+          <div class="col wcol" id="0">
             <p
             class="weekday"
-              style="color:crimson;font-size:1.2rem;font-weight:800;border-bottom: 1px solid crimson;"
+              style="color:crimson;border-bottom: 1px solid crimson;"
             >{{ info.time[0][2] }}</p>
             <p>{{ info.time[0][0].slice(11, 16) }}</p>
             <p>{{ info.time[0][1].slice(11, 16) }}</p>
@@ -121,11 +122,12 @@
       <hr />
       <div  v-for="menu in menus" :key="menu.mid" class="row menurow">
         <div class="col-4 justify-content-between">
-          <p class="text-truncate text-left" style="font-size:4vw">{{ menu.product }}</p>
+          <p class="text-truncate text-left menutitle">{{ menu.product }}</p>
         </div>
-        <div class="col-1">
+        <div class="col-1 ">
           <p
-            style="cursor:pointer; font-size: 4vw"
+            style="cursor:pointer;"
+            class="menutitle"
             @click="pushLikeMenu(menu.mid, menu.user_like)">
             <fa
               :icon="menu.user_like?['fas', 'heart']:['far', 'heart']"
@@ -135,10 +137,10 @@
           </p>
         </div>
         <div class="col-5 text-truncate">
-          <p class="text-muted">메뉴 설명</p>
+          <p class="text-muted menutitle">메뉴 설명</p>
         </div>
 
-        <div class="col-2 ">
+        <div class="col-2 menutitle">
           <p>
             {{ menu.price }}
             <fa class="d-none d-lg-block" icon="money-bill" style="color:green" />
@@ -395,7 +397,7 @@ export default {
 }
 #reviewWriteBtn {
   position: fixed;
-  bottom: 75px;
+  bottom: 13%;
   right: 19px;
   background: gold;
   opacity: 0.9;
@@ -444,8 +446,15 @@ export default {
 }
 .weekday {
   font-weight: 650;
-  font-size: 1.2rem;
+  margin-bottom: 0;
   border-bottom: 1px solid lightgray;
+}
+.wcol {
+  font-size: calc(0.6rem + 1vw);
+  padding: 0 !important
+}
+.wcol > p {
+  margin-bottom: 0.5rem;
 }
 @keyframes bounce {
   0%, 50%, 80%, 100% {
@@ -492,6 +501,9 @@ export default {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+  .menutitle { 
+    font-size: calc(0.5rem + 1vw)
+  }
 @media only screen and (max-width: 991px) {
   .menutxt > div > p {
     font-size: 2vw;

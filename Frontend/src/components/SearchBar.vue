@@ -10,9 +10,9 @@
       autocomplete
     />
     <div class="col h-100 p-0">
-      <div class="search-btn d-flex justify-content-center align-items-center" type="submit" >
+      <button class="search-btn d-flex justify-content-center align-items-center" type="submit">
         <p class="m-0">검색</p>
-      </div>
+      </button>
     </div>
   </form>
 </template>
@@ -25,38 +25,36 @@ export default {
     return {
       query: ""
     };
-	},
-	props: {
-
-	},
+  },
+  props: {},
   methods: {
-		goSearch() {
-			this.$router.push(`/searched?q=${this.query}`)
-		}
-	},
-	mounted() {
-    if (this.$router.query) {
-      this.query = this.$route.query.q.split(" ")
+    goSearch() {
+      this.$router.push(`/searched?q=${this.query}`);
     }
-	}
-}
+  },
+  mounted() {
+    if (this.$router.query) {
+      this.query = this.$route.query.q.split(" ");
+    }
+  }
+};
 </script>
 
-<style scoped>
+<style>
 #title {
   padding: 1rem;
   font-size: 1.2rem;
 }
 
 .search-btn {
-  background: gold;
+  background: #BEE3DB;
   transition: 0.2s;
   font-size: 1.2rem;
   width: 100%;
   padding: 1rem;
 }
 .search-btn:hover {
-  background: gold;
+  background: #89B0AE;
   font-weight: 900;
 }
 
@@ -70,12 +68,16 @@ input[type="text"] {
   background: #ffffff;
 }
 @media only screen and (max-width: 991px) {
-::-webkit-input-placeholder,::-moz-placeholder, :-ms-input-placeholder, :-moz-placeholder{ 
-  color: transparent
-}
-#title, .search-btn {
-  font-size: 4vw;
-  padding: 2vw !important;
-}
+  ::-webkit-input-placeholder,
+  ::-moz-placeholder,
+  :-ms-input-placeholder,
+  :-moz-placeholder {
+    color: transparent;
+  }
+  #title,
+  .search-btn {
+    font-size: 4vw;
+    padding: 2vw !important;
+  }
 }
 </style>

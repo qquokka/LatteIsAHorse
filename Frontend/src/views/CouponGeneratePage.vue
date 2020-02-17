@@ -75,47 +75,4 @@ export default {
 </script>
 
 <style>
-nav {
-  transition: 0.25s ease-in-out;
-  top: 0;
-}
-i {
-  color: inherit !important;
-}
-.nav-link {
-  margin:auto;
-  cursor:pointer;
-  transition: 0.25s ease-in-out;
-  position:relative
-}
-.nav-link:hover:after {
-  width: 100%;
-  left: 0;
-}
-.nav-link:after {
-  background: none repeat scroll 0 0 transparent;
-  bottom: 0;
-  content: "";
-  display: block;
-  height: 3px;
-  right: 0;
-  position: absolute;
-  background: violet;
-  transition: width 0.15s ease-in 0s, right 0.3s ease 0s;
-  width: 0;
-}
-
-.fa-bars {
-  color: gray
-}
-@media only screen and (max-width: 991px) {
-  #topnav {
-    background: rgba(255,255,255,0.7) !important;
-    width: fit-content;
-    border-radius: 15px;
-    justify-content: start;
-    text-align: left;
-    position: fixed;
-  }
-}
 </style>
