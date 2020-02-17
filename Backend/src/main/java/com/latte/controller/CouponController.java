@@ -21,12 +21,10 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,9 +41,8 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.latte.dto.Coupon;
 import com.latte.dto.QRCode;
-import com.latte.payload.ApiResponse;
+import com.latte.payload.EnrollCouponRequest;
 import com.latte.payload.QRCodeGenerateRequest;
-import com.latte.payload.QRCodeRequest;
 import com.latte.payload.UseCouponRequest;
 import com.latte.security.JwtTokenProvider;
 import com.latte.service.ICouponService;
@@ -63,9 +60,6 @@ public class CouponController {
 	private final String key = "latte coupon";
 	private final long validMiliSeconde = 600000; // 10 min
 
-	@Value("${server.port}")
-	private String server_port;
-	
 	@Autowired
 	ICouponService couponService;
 
@@ -75,41 +69,17 @@ public class CouponController {
 	@Autowired
 	JwtTokenProvider tokenProvider;
 
-	@DeleteMapping("/qrcode")
-	@ApiOperation(value = "DB에 등록된 QR코드 삭제(쿠폰 등록 성공시, 쿠폰 등록 유효기간 지났을 때")
-	public ResponseEntity<?> deleteQRCode(@RequestBody QRCodeRequest request) throws Exception{
-		logger.info("DB에 등록된 QR코드 삭제(쿠폰 등록 성공시, 쿠폰 등록 유효기간 지났을 때");
-		logger.info("code : " + request.getCode());
-		String decryptedCode = decryptAES256(request.getCode());
-
-		// format : "cafe_id,count,time_stamp"
-		String[] data = decryptedCode.split(",");
-		int cafe_id = Integer.parseInt(data[0]);
-		long time_stamp = Long.parseLong(data[2]);
-		
-		logger.info("cafe_id : " + cafe_id);
-		logger.info("time_stamp : " + time_stamp);
-		
-		QRCode qrcode = new QRCode(cafe_id, time_stamp, request.getCode());
-		int result = qrcodeService.deleteQRCode(qrcode);
-		
-		if(result < 1) {
-			//삭제 실패(DB문제 또는 이미 삭제됨)
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		
-		return new ResponseEntity<>(new ApiResponse(true, "QR코드 삭제 성공"), HttpStatus.OK);
-	}
-	
 	@PutMapping("/coupon")
 	@ApiOperation(value = "쿠폰 등록하기")
+
 //	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
-	public ResponseEntity<Map<String, Object>> enrollCoupon(@RequestBody QRCodeRequest enroll, HttpServletRequest request) throws Exception {
-		logger.info("asdfasdfasfasfasddfs");
+
+	public ResponseEntity<Map<String, Object>> enrollCoupon(@RequestBody EnrollCouponRequest enroll, HttpServletRequest request) throws Exception {
 		String decryptedCode = decryptAES256(enroll.getCode());
 
 		// format : "cafe_id,count,time_stamp"
 		String[] data = decryptedCode.split(",");
+		logger.info("asdfasdfasfasfasddfs");
 		int cafe_id = Integer.parseInt(data[0]);
 		int count = Integer.parseInt(data[1]);
 		long time_stamp = Long.parseLong(data[2]);
@@ -130,6 +100,13 @@ public class CouponController {
 		long currentTime = Instant.now().toEpochMilli();
 		if (currentTime > time_stamp + validMiliSeconde) {
 			response.put("message", "쿠폰 등록 시간이 만료되었습니다.");
+			// DB에 등록된 qrcode 삭제
+			QRCode qrcode = new QRCode(cafe_id, decryptedCode);
+			int result = qrcodeService.deleteQRCode(qrcode);
+			logger.info("삭제하라고고ㅗ오오오오ㅗ오오오");
+
+			if(result >= 1)
+				logger.info("삭제ㅔㅔㅇ렌렝렌엘ㄴㅇ렌ㅇㄹ에");
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 
@@ -142,9 +119,9 @@ public class CouponController {
 
 		if (result >= 1) {
 			response.put("message", "쿠폰 등록 성공");
-			response.put("code", enroll.getCode());
-			response.put("cafe_id", cafe_id);
-			response.put("time_stamp", time_stamp);
+			result = qrcodeService.deleteQRCode(new QRCode(cafe_id, decryptedCode));
+			if(result >= 1)
+				logger.info("삭제ㅔㅔㅇ렌렝렌엘ㄴㅇ렌ㅇㄹ에");
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} else {
 			response.put("message", "쿠폰 등록 실패");
@@ -253,9 +230,7 @@ public class CouponController {
 				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 			} else {
 				// 쿠폰 등록 요청 URL
-				String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
-						.port(server_port)
-						.path("/v1/coupon/")
+				String uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/coupon/")
 						.path(encryptedCode).toUriString();
 
 				QRCodeWriter qrCodeWriter = new QRCodeWriter();
