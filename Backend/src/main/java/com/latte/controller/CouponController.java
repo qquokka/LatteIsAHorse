@@ -7,6 +7,7 @@ import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.crypto.Cipher;
@@ -44,6 +45,8 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.latte.dto.Coupon;
 import com.latte.dto.QRCode;
 import com.latte.payload.ApiResponse;
+import com.latte.payload.CouponUseRequest;
+import com.latte.payload.CouponUseResponse;
 import com.latte.payload.QRCodeGenerateRequest;
 import com.latte.payload.QRCodeRequest;
 import com.latte.payload.UseCouponRequest;
@@ -150,6 +153,54 @@ public class CouponController {
 			response.put("message", "쿠폰 등록 실패");
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@GetMapping("/coupons/{cafe_id}")
+	@ApiOperation(value = "쿠폰 사용 요청 리스트 반환")
+//	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})") //카페 사장님(관리자)만 요청 가능
+	public ResponseEntity<Map<String, Object>> getCouponUseRequests(@PathVariable("cafe_id") Integer cafe_id) throws Exception {
+		Map<String, Object> response = new HashMap<String, Object>();
+		logger.info("asfasfasfasddfasfasdfa : " + cafe_id);
+		// 현재 보유한 쿠폰 갯수(등록되어 있지 않다면 기본값 = 0)
+		List<CouponUseResponse> couponUseRequestList = couponService.getCouponUseRequests(cafe_id.intValue()); 
+
+		if(couponUseRequestList == null) {
+			response.put("message", "couponUseRequest 리스트 가져오기 실패");
+			return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+		}else {
+			response.put("message", "couponUseRequest 리스트 가져오기 성공");
+			response.put("requests", couponUseRequestList);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+
+	}
+	
+	@PostMapping("/coupon")
+	@ApiOperation(value = "쿠폰 사용 요청")
+//	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})") 
+	public ResponseEntity<Map<String, Object>> requestCouponUse(@Valid @RequestBody CouponUseRequest useRequest, HttpServletRequest request) 
+			throws Exception {
+		Long user_id = getLoggedInUserId(request); //owner's user id
+		Map<String, Object> response = new HashMap<String, Object>();
+
+		//나중에 주석 제거
+//		if (user_id == 0L) {
+//			response.put("message", "토근 만료, 다시 로그인 해주세요.");
+//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
+//		}
+		
+		useRequest.setUser_id(8L);
+		
+		int result = couponService.requestCouponUse(useRequest);
+		
+		if(result < 1) {
+			response.put("message", "쿠폰 사용 요청 실패");
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}else {
+			response.put("message", "쿠폰 사용 요청 성공");
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+
 	}
 
 	@GetMapping("/coupon/{cafe_id}")

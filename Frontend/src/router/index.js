@@ -14,7 +14,7 @@ import Profile from '../views/Profile.vue'
 import CafeList from '../components/CafeList.vue'
 import CouponGeneratePage from '../views/CouponGeneratePage.vue'
 import QRcodeReader from '../components/QRcodeReader'
-
+import CouponUseRequestList from '../components/CouponUseRequestList'
 
 Vue.use(VueRouter)
 
@@ -103,6 +103,11 @@ const routes = [
     name: 'qrcode',
     component: QRcodeReader
   },
+  {
+    path: '/coupon-use-request-list',
+    name: 'CouponUseRequestList',
+    component: CouponUseRequestList
+  }
 ]
 
 const router = new VueRouter({
