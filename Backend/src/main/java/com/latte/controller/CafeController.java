@@ -73,6 +73,8 @@ public class CafeController {
 	@Autowired
 	JwtTokenProvider tokenProvider;
 
+	@Value("${kakao.restapi.key}")
+	private String restApiKey;
 
 	@ApiOperation(value = "사장님의 카페 정보 반환")
 	@GetMapping("/mycafe")
