@@ -58,7 +58,8 @@ export default {
       isValid: undefined, //0 : validCoupon, 1 : couponAddSuccess, -1 : couponAddFail
       camera: 'auto',
       noStreamApiSupport: false,
-      isNotACoupon: false
+      isNotACoupon: false,
+      qrcode: null
     } 
   },
   props: {
@@ -74,44 +75,58 @@ export default {
     validationFailure () { return this.isValid === -1 }
   },
   methods: {
+    deleteQRCode(qrcode, validNum){
+          axios.delete(`${this.$store.state.constants.SERVER}/qrcode/`,{
+            data:{ code : qrcode }
+          })
+          .then(res => {
+            this.isValid = validNum
+            console.log('QR코드 삭제 성공!!!!!' + res.data)
+          }).catch(err => {
+              console.log(err)
+          })
+    },
     goBack() { this.$router.go(-1) }, //뒤로가기(아마도 카페 페이지?)
     async onDecode (content) {
       
       this.result = content
       this.turnCameraOff()
+      //  const config = {
+      //     headers: { Authorization: "Bearer " + this.$session.get("jwt") }
+      //  }
 
       // pretend it's taking really long
       await this.timeout(2000) //stop time in ms
-      
       if(content.startsWith(`${this.$store.state.constants.SERVER}/coupon/`)){ //발급된 쿠폰인지 체크
-         const req = "coupon/"
-         const lastIdx = content.lastIndexOf(req)
-         console.log("last index : " + lastIdx)
-         const url = content.substring(0, lastIdx + req.length);
-         console.log("url : " + url)
-         const code = content.substring(lastIdx + req.length, content.length);
-         console.log("code : " + code)
-        //  const config = {
-        //     headers: { Authorization: "Bearer " + this.$session.get("jwt") }
-        //  }
-        console.log(typeof code)
+        const req = "coupon/"
+        const lastIdx = content.lastIndexOf(req) //console.log("last index : " + lastIdx)
+        // const url = content.substring(0, lastIdx + req.length); //console.log("url : " + url)
+        const code = content.substring(lastIdx + req.length, content.length); //console.log("code : " + code)
+        this.qrcode = code
+        // console.log(typeof code)
+        //쿠폰 등록
          await axios.put(`${this.$store.state.constants.SERVER}/coupon/`,{
                 code : code
-              }) //쿠폰 등록
+              }) 
              .then(res => {
                console.log(res.data)
                if(res.status === 200){
-                 this.isValid = 1
+                 //쿠폰 등록이 정상적으로 완료되면 QR코드 삭제
+                 this.deleteQRCode(this.qrcode, 1)
+                 
+               }else{
+                 console.log("쿠폰 등록에 문제가 생겼다!!!!!!!!")
                }
              })
              .catch(err => {
-               this.isValid = -1
+                //쿠폰 등록 유효기간 지남
+               this.deleteQRCode(this.qrcode, -1)
                console.log(err.name)
                console.log(err)
              })
       }else{
+        //유효하지 않은 쿠폰
         this.isValid = 0
-        
       }
       await this.timeout(1500)
       if(this.isValid === -1 || this.isValid === 0){

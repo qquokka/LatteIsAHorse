@@ -1,6 +1,6 @@
 package com.latte.payload;
 
-public class EnrollCouponRequest {
+public class QRCodeRequest {
 	private String code;
 
 	public String getCode() {

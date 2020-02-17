@@ -172,7 +172,7 @@ export default {
     }
   },
   beforeMount() {
-    axios.get(`${this.$store.getters.constants.SERVER}/cafe/detail/1`)
+    axios.get(`${this.$store.state.constants.SERVER}/cafe/detail/1`)
     .then(r=>{
       this.cafe = r.data
       this.center = {
