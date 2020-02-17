@@ -12,7 +12,7 @@ import HangMan from '../views/HangMan.vue'
 import Admin from '../views/Admin.vue'
 import Profile from '../views/Profile.vue'
 import CafeList from '../components/CafeList.vue'
-import Coupon from '../views/Coupon.vue'
+import CouponGeneratePage from '../views/CouponGeneratePage.vue'
 import QRcodeReader from '../components/QRcodeReader'
 
 
@@ -96,7 +96,7 @@ const routes = [
   {
     path: '/coupon',
     name: 'coupon',
-    component: Coupon
+    component: CouponGeneratePage
   },
   {
     path: '/qrcode',
