@@ -120,7 +120,7 @@
         <fa icon="mug-hot" style="color:#FFD6BA;margin-right:0.5rem" />MENU
       </h4>
       <hr />
-      <div  v-for="menu in menus" :key="menu.mid" class="row menurow">
+      <div  v-for="menu in menus" :key="menu.mid + menu.user_like" class="row menurow">
         <div class="col-4 justify-content-between">
           <p class="text-truncate text-left menutitle">{{ menu.product }}</p>
         </div>
@@ -277,9 +277,10 @@ export default {
       const config = {
         headers: { Authorization: "Bearer " + this.$session.get("jwt") }
       };
+      console.log(config);
       axios
         .get(
-          `${this.$store.state.constants.SERVER}/cafe/detail/${this.cafeId}`,{}, config
+          `${this.$store.state.constants.SERVER}/cafe/detail/${this.cafeId}`, config
         )
         .then(response => {
           this.isLoading=false
@@ -349,19 +350,18 @@ export default {
     // 		})
     // },
     pushLikeMenu(menuId,likeornot) {
-      const config = {
-        headers: { Authorization: "Bearer " + this.$session.get("jwt") }
-      };
       if (!this.$store.getters.isLoggedIn) {
         alert("plz login");
         return;
       }
+      const config = {
+        headers: { Authorization: "Bearer " + this.$session.get("jwt") }
+      };
       if (!likeornot) {
         console.log('likey');
-        
         axios
           .post(
-            `${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`,{}, config)
+            `${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`, config)
           .then(()=>{
             this.getData()
             this.$forceUpdate()
@@ -374,7 +374,7 @@ export default {
         
         axios
           .delete(
-            `${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`,{},{headers: { Authorization: "Bearer " + this.$session.get("jwt") }}
+            `${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`, config
           )
           .then(()=>{
             this.getData()

@@ -173,7 +173,7 @@ destroyed() {
   height: 3px;
   right: 0;
   position: absolute;
-  background: violet;
+  background: #BEE3DB;
   transition: width 0.15s ease-in 0s, right 0.3s ease 0s;
   width: 0;
 }
@@ -192,6 +192,9 @@ destroyed() {
 @media only screen and (max-width: 991px) {
   body {
     padding-bottom: 75px;
+  }
+  .nav-link:after {
+    background: transparent
   }
   #topnav {
     background: white !important;
