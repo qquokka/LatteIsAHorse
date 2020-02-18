@@ -1,28 +1,49 @@
 <template>
-<div class="container">
-    <div class="row justify-content-center text-dark hash">
-        <a>#인스타맛집</a><a> #브런치</a><a> #24시간</a><a> #스터디</a><a> #조용한곳</a><a> #고급원두</a><a> #핸드드립 </a><a>#비건메뉴</a><a> #노키즈존</a>
-    </div>
-</div>
+  <div class="container border tag-box" style="border-radius: 10px">
+    <h2 style="margin: -1.2rem auto 0 auto; background-color:#FAF9F9;width:12rem;">인기 태그</h2>
+		<div class="row">
+		</div>
+    <div class="row mt-5 justify-content-center text-dark">
+			<router-link class="hash" v-for="tag in tags" :key="tag.name" :to="`hashtag/${tag.name}`">#{{ tag.name }}</router-link>
+		</div>
+  </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
-
-}
+  data() {
+    return {
+      tags: []
+    };
+  },
+  methods: {
+    bts() {
+      axios.get(`${this.$store.state.constants.SERVER}/hashtags`).then(res => {
+        this.tags = res.data.hashtags.slice(0,11);
+      });
+    }
+	},
+	mounted() {
+		this.bts()
+	}
+};
 </script>
 
 <style>
-.hash > a {
-    cursor: pointer;
-    margin: 5px;
-    padding: 2px;
-    border-radius: 5px;
-    background: rgba(255,255,255,0.2);
+.tag-box {
+  height: 10rem;
 }
-@media only screen and (max-width: 600px) {
-    .hash > a {
-        background: rgba(44,123,33,0.9); 
-    }
+.hash {
+  cursor: pointer;
+	font-weight: 400;
+	border: 1px solid lightgray;
+	font-size: calc(12px + 0.5vw);
+  margin: 5px;
+  padding: 5px;
+  border-radius: 15px;
+}
+.hash:hover {
+	color: royalblue !important;
 }
 </style>

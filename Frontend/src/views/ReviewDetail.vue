@@ -25,6 +25,14 @@
     </div>
     <div class="container mt-3">
       <div class="container border">
+
+        <form class="row my-2" v-if="isLogined" @submit.prevent="addComment">
+          <div style="width: 10%" class="small text-center my-auto">
+            @{{ $session.get('username') }}
+          </div>
+          <input class="inputcomm" type="text" v-model="addCommentContent" />
+          <button role="submit" style="width: 8%;background-color:#89B0AE; color:white;border:0">댓글쓰기</button>
+      </form>
         <div class="row py-2" style="background-color: #f2f2f2">
           <div style="font-weight: 400;margin-left:0.3rem">댓글 : {{ comments.length }}</div>
         </div>
@@ -43,10 +51,7 @@
           </a>
         </div>
       </div>
-      <form v-if="isLogined" @submit.prevent="addComment">
-        <input type="text" v-model="addCommentContent" />
-        <button>등록</button>
-      </form>
+
     </div>
     </div>
 </template>
@@ -197,5 +202,12 @@ div >>> img {
   color: white;
   text-shadow: 0 0 9px black;
 }
-
+.inputcomm {
+  width: 50% ;
+  transition: 150ms;
+  text-align: right;
+}
+.inputcomm:focus {
+  background: #BEE3DB
+}
 </style>

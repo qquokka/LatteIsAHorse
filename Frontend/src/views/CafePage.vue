@@ -131,7 +131,7 @@
             @click="pushLikeMenu(menu.mid, menu.user_like)">
             <fa
               :icon="menu.user_like?['fas', 'heart']:['far', 'heart']"
-              style="cursor: pointer; color: red;display:inline" />
+              style="cursor: pointer; color: violet;display:inline" />
             {{ menu.like_count? menu.like_count : 0 }}
           </p>
         </div>
@@ -359,9 +359,11 @@ export default {
       };
       if (!likeornot) {
         console.log('likey');
+        const likeybody = {"menu_id": menuId}
+        console.log(likeybody);
         axios
           .post(
-            `${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`, config)
+            `${this.$store.state.constants.SERVER}/userslikemenu`,likeybody, config)
           .then(()=>{
             this.getData()
             this.$forceUpdate()
@@ -371,11 +373,9 @@ export default {
           })
       } else {
         console.log('dislikey');
-        
         axios
           .delete(
-            `${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`, config
-          )
+            `${this.$store.state.constants.SERVER}/userslikemenu/${menuId}`, config)
           .then(()=>{
             this.getData()
             this.$forceUpdate()
