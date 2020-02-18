@@ -37,9 +37,22 @@
 			<div class="card-body">
 				<div v-if="contentNum === 0">
 					<h5 class="card-title mobile-display-block">내 카페 관리</h5>
-					<p class="card-text">내 카페 정보를 수정할 수 있습니다.</p>
-					<hr>
-					<cafe-list :cafeData="myCafe" />
+					<div v-if="!myCafe">
+						<p class="card-text">내 카페 정보를 수정할 수 있습니다.</p>
+						<hr>
+						<cafe-list :cafeData="myCafe" />
+					</div>
+					<router-link to="/newcafe" v-else>
+						<p class="card-text">내 카페 페이지를 생성할 수 있습니다.</p>
+						<hr>
+						<div class="card m-auto" :style="`border: 4px dashed lightgray; width: ${l}px; height: ${l < 400? l : 400}px;`">
+							<div class="card-body p-0" style="cursor: pointer;">
+								<h1 style="margin: 0" :style="`line-height: ${l < 400? l : 400}px; font-size: 70px`">
+									<fa icon="plus-circle" style="color:lightgray"/>
+								</h1>
+							</div>
+						</div>
+					</router-link>
 				</div>
 				<div v-if="contentNum === 1">
 					<h5 class="card-title mobile-display-block">내가 좋아하는 카페</h5>
@@ -103,7 +116,7 @@
 									<button type="button" class="btn btn-danger" :disabled="withdrawalMessage !== profile.email" @click="withdrawal">탈퇴</button>
 								</div>
 							</div>
-						</div>
+						</div> 
 					</div>
 				</div>
 			</div>
@@ -119,10 +132,10 @@ import ReviewList from "@/views/section/ReviewList.vue"
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
-  faHeart, faCoffee, faPen, faUserEdit
+  faHeart, faCoffee, faPen, faUserEdit, faPlusCircle
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
-  faHeart, faCoffee, faPen, faUserEdit
+  faHeart, faCoffee, faPen, faUserEdit, faPlusCircle
 );
 
 export default {
@@ -134,6 +147,7 @@ export default {
 	},
 	data() {
 		return {
+			l: window.innerWidth * 0.8,
 			myCafe: [],
 			myReviews: [],
 			myFavoriteCafes: [],

@@ -32,7 +32,7 @@
       ></gmap-marker>
 
       <gmap-marker
-        :key="'m-' + idx"
+        :key="idx"
         v-for="(cafe, idx) in cafes"
         :position="{ lat: +cafe.latitude, lng: +cafe.longitude }"
         :clickable="true"
@@ -72,15 +72,19 @@ export default {
     Loading
   },
   props: {
-    prop_center: {
+    prop_center: { //지도의 중심 위치
       type: Object,
       required: true
+    },
+    filtername: { //필터 이름
+      type: String,
+      default: '',
     }
   },
   data() {
     return {
       center: {},
-      cafes: null,
+      cafes: [],
       markers: [],
       places: [],
       zoom_level: 16,
@@ -88,6 +92,7 @@ export default {
       window_open: [],
       selected_cafe: {},
       avheight: 0,
+      hashtags: []
     };
   },
   beforeMount() {
@@ -101,14 +106,32 @@ export default {
     setTimeout(() => {
       this.geolocate();
     }, 500);
-    
-    
   },
   methods: {
     infoWindow(idx) {
       this.$set(this.window_open, idx, !this.window_open[idx]);
       this.selected_cafe = this.cafes[idx];
       this.$emit("cafe_change_event", this.selected_cafe);
+    },
+    getHashtagsByCafeIds(cafe_ids){
+      
+      console.log("cafe_ids : " + cafe_ids)
+      console.log(typeof cafe_ids)
+      axios
+        .post(`${this.$store.state.constants.SERVER}/map/hashtags`, {
+          cafe_ids: cafe_ids
+        })
+        .then(res => {
+          if(res.status === 200){
+            console.log(res.data)
+            this.hashtags = res.data.map_hashtags
+            this.$emit("hashtag_get_event", this.hashtags)
+            console.log(this.hashtags)
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        });
     },
     geolocate() {
       axios
@@ -118,7 +141,14 @@ export default {
           level: 12
         })
         .then(res => {
-          this.cafes = res.data;
+          console.log(res.data)
+          this.cafes = res.data.filter(ccc => ccc.cafe_name.includes(this.filtername));
+          //cafes 리스트에서 cafe_id만 추출하여 새로운 리스트 만듬
+          const cafe_ids = res.data.map((cafe) => { return cafe.cafe_id})
+          //카페 ID로 해시태그 가져오기
+          this.getHashtagsByCafeIds(cafe_ids)
+          
+          this.$forceUpdate()
           setTimeout(() => {
             this.mapLoading = false;
           }, 1);
@@ -127,6 +157,6 @@ export default {
           console.log(err);
         });
     }
-  }
+  },
 };
 </script>
