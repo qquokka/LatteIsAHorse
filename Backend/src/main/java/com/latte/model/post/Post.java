@@ -3,6 +3,8 @@ package com.latte.model.post;
 import java.io.Serializable;
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class Post implements Serializable {
 
 	private static final long serialVersionUID = 1L;
