@@ -38,7 +38,6 @@ import com.latte.payload.CafeEnrollRequest;
 import com.latte.repository.UserRepository;
 import com.latte.security.JwtTokenProvider;
 import com.latte.service.ICafeService;
-import com.latte.service.IMenuService;
 import com.latte.service.IPostService;
 import com.latte.service.IUsersLikeMenuService;
 import com.mashape.unirest.http.HttpResponse;
@@ -134,8 +133,8 @@ public class CafeController {
 		userslikemenu.setCafe_id(cafe_id);
 
 		Long users_id = getLoggedInUserId(request);
+		System.out.println("#$#$#$#$#$#$ users_id : " + users_id);
 		Map<String, Object> response = new HashMap<>();
-
 		if (users_id != 0L) {
 			userslikemenu.setUsers_id(users_id);
 		}
@@ -145,8 +144,9 @@ public class CafeController {
 		if (cafeInfo != null) {
 			Long cafe_owner_id = cafeInfo.getCafe_owner_id();
 			User owner = null;
-			if (cafe_owner_id != null && cafe_owner_id != 0L)
+			if (cafe_owner_id != null && cafe_owner_id != 0L) {
 				owner = userRepository.findById(cafeInfo.getCafe_owner_id()).get();
+			}
 			// Generate Cafe's Time Table
 			Instant[][] time = { { cafeInfo.getSun_open(), cafeInfo.getSun_close() },
 					{ cafeInfo.getMon_open(), cafeInfo.getMon_close() },

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -78,29 +79,21 @@ public class LikeController {
 	}
 
 	@ApiOperation(value = "Cafe_id로 좋아요 삽입 (User_id 자동 삽입)", response = UsersLikeCafeDto.class)
-	@PostMapping("/userslikecafe/{cafe_id}")
-	public ResponseEntity<UsersLikeCafeDto> addUsersLikeCafe(@PathVariable("cafe_id") int cafe_id,
+	@PostMapping("/userslikecafe")
+	public ResponseEntity<UsersLikeCafeDto> addUsersLikeCafe(@RequestBody UsersLikeCafeDto userslikecafe,
 			HttpServletRequest request) throws Exception {
 		logger.info("LikeController-------------addUsersLikeCafe-------------" + new Date());
-
-		UsersLikeCafeDto userslikecafe = new UsersLikeCafeDto();
-		userslikecafe.setCafe_id(cafe_id);
 		Long userId = getLoggedInUserId(request);
-		if (userId == 0L) {
-			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-		}
 
 		if (userId != 0L) {
 			userslikecafe.setUsers_id(userId);
 		}
 		int result = userslikecafeservice.addUsersLikeCafe(userslikecafe);
 
-		UsersLikeCafeDto getuserslikecafe = userslikecafeservice.getUsersLikeCafeByCafeId(cafe_id); // 업데이트
-
 		if (result < 1) { // 등록 실패
-			return new ResponseEntity<UsersLikeCafeDto>(getuserslikecafe, HttpStatus.EXPECTATION_FAILED);
+			return new ResponseEntity<UsersLikeCafeDto>(userslikecafe, HttpStatus.EXPECTATION_FAILED);
 		}
-		return new ResponseEntity<UsersLikeCafeDto>(getuserslikecafe, HttpStatus.OK);
+		return new ResponseEntity<UsersLikeCafeDto>(userslikecafe, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Cafe_id로 좋아요 삭제 (User_id 자동 삽입)", response = UsersLikeCafeDto.class)
@@ -154,29 +147,23 @@ public class LikeController {
 	}
 
 	@ApiOperation(value = "Menu_id로 좋아요 삽입 (User_id 자동 삽입)", response = UsersLikeMenu.class)
-	@PostMapping("/userslikemenu/{mid}")
+	@PostMapping("/userslikemenu")
 //	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
-	public ResponseEntity<UsersLikeMenu> addUsersLikeMenu(@PathVariable("mid") int mid, HttpServletRequest request)
-			throws Exception {
+	public ResponseEntity<UsersLikeMenu> addUsersLikeMenu(@RequestBody UsersLikeMenu userslikemenu,
+			HttpServletRequest request) throws Exception {
 		logger.info("LikeController-------------addUsersLikeMenu-------------" + new Date());
 
-		UsersLikeMenu userslikemenu = new UsersLikeMenu();
-		userslikemenu.setMenu_id(mid);
-
-		Long userId = getLoggedInUserId(request);
-		if (userId == 0L) {
-			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-		}
-		if (userId != 0L) {
-			userslikemenu.setUsers_id(userId);
+		Long users_Id = getLoggedInUserId(request);
+		if (users_Id != 0L) {
+			userslikemenu.setUsers_id(users_Id);
 		}
 
 		int result = ulmservice.addUsersLikeMenu(userslikemenu);
-		UsersLikeMenu ulm = ulmservice.getUsersLikeMenuCountBymenuId(mid);// 업데이트 해줌.
+		// UsersLikeMenu ulm = ulmservice.getUsersLikeMenuCountBymenuId(mid);// 업데이트 해줌.
 		if (result < 1) { // 등록 실패
 			return new ResponseEntity<UsersLikeMenu>(userslikemenu, HttpStatus.EXPECTATION_FAILED);
 		}
-		return new ResponseEntity<UsersLikeMenu>(ulm, HttpStatus.OK);
+		return new ResponseEntity<UsersLikeMenu>(userslikemenu, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Menu_id로 좋아요 삭제 (User_id 자동 삽입)", response = UsersLikeMenu.class)
@@ -189,9 +176,7 @@ public class LikeController {
 		UsersLikeMenu userslikemenu = new UsersLikeMenu();
 		userslikemenu.setMenu_id(mid);
 		Long userId = getLoggedInUserId(request);
-		if (userId == 0L) {
-			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-		}
+
 		if (userId != 0L) {
 			userslikemenu.setUsers_id(userId);
 		}
@@ -200,7 +185,7 @@ public class LikeController {
 		UsersLikeMenu ulm = ulmservice.getUsersLikeMenuCountBymenuId(mid);// 업데이트 해줌.
 
 		if (result < 1) { // 등록 실패
-			return new ResponseEntity<UsersLikeMenu>(ulm, HttpStatus.EXPECTATION_FAILED);
+			return new ResponseEntity<UsersLikeMenu>(userslikemenu, HttpStatus.EXPECTATION_FAILED);
 		}
 		return new ResponseEntity<UsersLikeMenu>(ulm, HttpStatus.OK);
 	}
@@ -220,22 +205,17 @@ public class LikeController {
 
 	// ------------------ User Liked Post ------------------
 	@ApiOperation(value = "해당 게시물에 대한 사용자의 좋아요 추가")
-	@PostMapping("/userslikepost/{post_id}")
+	@PostMapping("/userslikepost")
 //	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
-	public ResponseEntity<Map<String, Object>> userLikedPost(@PathVariable("post_id") Long post_id,
-			HttpServletRequest request) throws Exception {
+	public ResponseEntity<Map<String, Object>> userLikedPost(@RequestBody UsersLikePost ulp, HttpServletRequest request)
+			throws Exception {
 		logger.info("PostController-------------User Liked Post-------------" + new Date());
-
 		Map<String, Object> response = new HashMap<>();
-
-		UsersLikePost ulp = new UsersLikePost();
-		ulp.setPost_id(post_id);
 		Long user_id = getLoggedInUserId(request);
-		if (user_id == 0L) {
-			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-		}
-		ulp.setUser_id(user_id);
 
+		if (user_id != 0L) {
+			ulp.setUser_id(user_id);
+		}
 		int result = userslikepostService.userLikedPost(ulp);
 
 		if (result < 1) { // 등록 실패

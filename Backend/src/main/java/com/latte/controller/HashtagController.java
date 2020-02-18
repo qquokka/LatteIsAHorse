@@ -207,7 +207,7 @@ public class HashtagController {
 		response.put("names", hashtagNames);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
-	
+
 	@ApiOperation(value = "DB에 등록된 모든 해쉬태그명과 빈도수 반환")
 	@GetMapping("/hashtags")
 	public ResponseEntity<Map<String, Object>> getAllHashtagNamesNumber() throws Exception {
@@ -224,6 +224,5 @@ public class HashtagController {
 		response.put("hashtags", hashtagNamesNumber);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
-	
-	
+
 }
