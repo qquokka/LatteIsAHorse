@@ -76,7 +76,7 @@ export default {
       type: Object,
       required: true
     },
-    filtername: { //필터 이름
+    filtername: {
       type: String,
       default: '',
     }
@@ -147,7 +147,6 @@ export default {
           const cafe_ids = res.data.map((cafe) => { return cafe.cafe_id})
           //카페 ID로 해시태그 가져오기
           this.getHashtagsByCafeIds(cafe_ids)
-          
           this.$forceUpdate()
           setTimeout(() => {
             this.mapLoading = false;

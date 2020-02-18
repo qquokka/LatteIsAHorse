@@ -15,7 +15,7 @@
       </div>
         <search-bar class="mx-auto mt-4" />
     </div>
-    
+        <hash-tags class="mt-4" />
 
     <popular-list />
     <div class="main-section" style="margin-top:8rem;">
@@ -25,7 +25,7 @@
       </div>
       <cafe-list :cafeData="cafeData" />
     </div>
-    <word-cloud class="overflow-hidden" />
+
     <div class="main-section">
       <h2 class="article-header my-5"><fa icon="pen-nib"/> EDITOR's PICK</h2>
       <review-list limits="6" :reviewData="reviewData" />
@@ -44,6 +44,7 @@ import ReviewList from "@/views/section/ReviewList.vue";
 import PopularList from "@/components/PopularList.vue"
 import BSection from "@/views/section/BuisinessSection.vue"
 import Footer from "@/views/section/Footer.vue";
+import HashTags from "@/components/HashTags.vue"
 import axios from "axios";
 import WordCloud from "@/components/WordCloud.vue"
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -59,7 +60,7 @@ export default {
     PopularList,
     BSection,
     Footer,
-    WordCloud,
+    HashTags
   },
   data() {
     return {

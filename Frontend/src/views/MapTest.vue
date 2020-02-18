@@ -33,9 +33,6 @@
           </div>
 
           <div class="dropdown-menu">
-            <div v-for="hashtag in hashtags" :key="hashtag.hashtags_id"  class="p-0">
-              {{hashtag.name}}
-            </div>
             <!-- Dropdown menu links -->
           </div>
         </div>
