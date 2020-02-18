@@ -28,5 +28,10 @@
     "name": "latte.app.jwtExpirationMs",
     "type": "java.lang.String",
     "description": "A description for 'latte.app.jwtExpirationMs'"
+  },
+  {
+    "name": "app.jwtOwnerExpirationMs",
+    "type": "java.lang.String",
+    "description": "A description for 'app.jwtOwnerExpirationMs'"
   }
 ]}

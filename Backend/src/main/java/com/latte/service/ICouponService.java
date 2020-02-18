@@ -3,6 +3,8 @@ package com.latte.service;
 import java.util.List;
 
 import com.latte.dto.Coupon;
+import com.latte.payload.CouponUseRequest;
+import com.latte.payload.CouponUseResponse;
 
 public interface ICouponService {
 	// DB 에 저장된 모든 쿠폰을 반환[관리자용]
@@ -28,4 +30,8 @@ public interface ICouponService {
 	int useCoupon(Coupon coupon);
 
 	int getCurrentCouponCount(Coupon coupon);
+	
+	List<CouponUseResponse> getCouponUseRequests(int cafe_id);
+
+	int requestCouponUse(CouponUseRequest useRequest);
 }

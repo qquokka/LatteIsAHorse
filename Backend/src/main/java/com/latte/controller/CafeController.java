@@ -59,9 +59,6 @@ public class CafeController {
 	ICafeService cafeservice;
 
 	@Autowired
-	IMenuService menuservice;
-
-	@Autowired
 	IPostService postservice;
 
 	@Autowired

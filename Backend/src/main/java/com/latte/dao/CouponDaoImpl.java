@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.latte.dto.Coupon;
+import com.latte.payload.CouponUseRequest;
+import com.latte.payload.CouponUseResponse;
 
 @Repository
 public class CouponDaoImpl {
@@ -56,6 +58,14 @@ public class CouponDaoImpl {
 
 	public int getCurrentCouponCount(Coupon coupon) {
 		return sqlSession.selectOne(ns + "getCurrentCouponCount", coupon);
+	}
+
+	public List<CouponUseResponse> getCouponUseRequests(int cafe_id) {
+		return sqlSession.selectList(ns + "getCouponUseRequests", cafe_id);
+	}
+
+	public int requestCouponUse(CouponUseRequest useRequest) {
+		return sqlSession.insert(ns + "requestCouponUse", useRequest);
 	}
 
 }
