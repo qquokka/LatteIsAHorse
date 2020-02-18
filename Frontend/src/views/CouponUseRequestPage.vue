@@ -9,6 +9,7 @@
       <VueGoodTable
          :columns="columns"
          :rows="rows"
+         @on-cell-click="useCoupon"
       />
     </div>
   </div>
@@ -46,33 +47,33 @@ export default {
         },
         {
           label: '쿠폰 사용',
-          field: 'button',
+          field: 'coupon_btn',
           html: true
         }
       ],
-      rows: []
+      rows: [],
+      rowIndex: null,
     };
   },
   props: {
     cafe_id: {
       type: Number,
-      default: 1
+      default: 2
     }
   },
   methods: {
-   async useCoupon(num_coupon, mid){
-     console.log(num_coupon)
-     console.log(mid)
-     console.log("asdfasfafdasfasdf")
+   async useCoupon(params){
      //보유 쿠폰 차감
+      this.rowIndex = params.rowIndex
+      const row = params.row
       const payload = {
         cafe_id: this.cafe_id,
-        num_coupon: num_coupon
+        num_coupon: row.num_coupon
       }
       await axios.patch(`${this.$store.state.constants.SERVER}/coupon`, payload) //${cafe_id}
       .then(response => {
         console.log(response.data)
-        this.requestCouponUse(num_coupon, mid)
+        this.requestCouponUse(row.num_coupon, row.mid)
       })
       .catch(err => {
         console.log(err.response);
@@ -89,18 +90,33 @@ export default {
       .then(response => {
         console.log(response.data.message)
         this.numberOfCoupon = this.numberOfCoupon - count
-        this.deleteCouponUsedMenu(mid)
+        this.deleteCouponUsedMenu()
       })
       .catch(err => {
         console.log(err.response);
       });
    },
-   deleteCouponUsedMenu(mid){
-     this.rows.forEach(element => {
-       if(element.mid === mid){
-         delete element.button
-       }
+   deleteCouponUsedMenu(){
+    //  document.getElementById('coupon-use-btn' + mid).remove()
+     let frontRows = this.rows.slice(0, this.rowIndex)
+     let rearRows = this.rows.slice(this.rowIndex + 1, this.rows.length)
+     let newRows = []
+     frontRows.forEach(element => {
+       newRows.push(element)
      })
+     rearRows.forEach(element => {
+       newRows.push(element)
+     })
+
+     this.rows = newRows
+
+    //  this.rows = 
+    //  this.rows.forEach(element => {
+    //    console.log(element)
+    //    if(element.mid === mid){
+    //      this.rows.remove(element)
+    //    }
+    //  })
    },
    getMyCouponCount(){
      axios.get(`${this.$store.state.constants.SERVER}/coupon/${2}`) //${cafe_id}
@@ -119,7 +135,7 @@ export default {
         console.log(response.data)
         this.rows = response.data.menus;
         this.rows.forEach(element => {
-          element.button = `<button v-on:click="useCoupon(element.num_coupon, element.mid)">쿠폰 사용</button>`
+          element.coupon_btn = `<button id='coupon-use-btn${element.mid}'>쿠폰 사용</button>`
         });
       })
       .catch(err => {

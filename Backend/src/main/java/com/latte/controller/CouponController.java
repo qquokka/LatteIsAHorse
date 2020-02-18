@@ -227,7 +227,7 @@ public class CouponController {
 
 		Coupon coupon = new Coupon();
 		coupon.setCafe_id(ucr.getCafe_id()); // 수정
-		coupon.setUsers_id(8L);
+		coupon.setUsers_id(4L);
 
 		// 현재 보유한 쿠폰 갯수(등록되어 있지 않다면 기본값 = 0)
 		int numberOfCoupon = couponService.getCurrentCouponCount(coupon);

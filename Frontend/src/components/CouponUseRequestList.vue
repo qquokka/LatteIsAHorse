@@ -47,17 +47,17 @@ export default {
         {
           label: '요청일',
           field: 'created_at',
-          type: 'date',
-          dateInputFormat: 'yyyy-MM-dd',
-          dataOutputFormat: 'yyyy-MM-dd'
-          // dateOutputFormat: 'MMM Do yy',
+          
         }
       ],
       rows: []
     };
   },
   props: {
-    cafe_id: Number
+    cafe_id: {
+      type: Number,
+      default: 2
+    }
   },
   methods: {
     refreshList(){
@@ -66,8 +66,8 @@ export default {
     getCouponUseRequests(){
       axios.get(`${this.$store.state.constants.SERVER}/coupons/${this.cafe_id}`) //${cafe_id}
       .then(response => {
-        console.log(response.data)
-        this.rows = response.data;
+        console.log(response.data.requests)
+        this.rows = response.data.requests;
       })
       .catch(err => {
         console.log(err.response);
