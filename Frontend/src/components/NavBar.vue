@@ -185,7 +185,7 @@ destroyed() {
 }
 .nav-text {
   margin: 0 0 0 1rem;
-  font-size: calc(0.2rem + 1vw);
+  font-size: calc(0.2rem + 0.8vw);
   overflow: nowrap;
   text-overflow: clip
 }

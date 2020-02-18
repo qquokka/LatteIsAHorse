@@ -2,10 +2,11 @@
   <div id="cafe-page-container" class="container-fluid p-0">
     <!-- global component -->
     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="fullPage" loader="bars" color="violet"></loading>
+    <div v-if="isDesktop">
     <div v-if="selectedImage" id="imgView">
       <img :src="selectedImage" @click.stop="selectedImage = null" />
     </div>
-    <router-link id="reviewWriteBtn" :to="`/cafe/${cafeId}/posts/create`" ><fa icon="pencil-alt" style="filter: drop-shadow(0 0 1px white)" /></router-link>
+    <router-link id="reviewWriteBtn" :to="`/cafe/${cafeId}/posts/create`" ><fa icon="pencil-alt" size="2x" style="filter: drop-shadow(0 0 1px white)" /></router-link>
     <!-- global end-->
     <nav-bar />
       <div id="topbar" class="justify-content-between align-items-center">
@@ -99,7 +100,7 @@
             <p>open</p>
             <p>close</p>
           </div>
-          <div v-for="i in info.time.length - 1" :key="i" class="col wcol" :id="i">
+          <div v-for="i in info.time.length - 1" :key="'time' + i" class="col wcol" :id="i">
             <p class="weekday">{{ info.time[i][2] }}</p>
             <p>{{ info.time[i][0].slice(11, 16) }}</p>
             <p>{{ info.time[i][1].slice(11, 16) }}</p>
@@ -120,7 +121,7 @@
         <fa icon="mug-hot" style="color:#FFD6BA;margin-right:0.5rem" />MENU
       </h4>
       <hr />
-      <div  v-for="menu in menus" :key="menu.mid + menu.user_like" class="row menurow">
+      <div  v-for="menu in menus" :key="menu.mid * 1121" class="row menurow">
         <div class="col-4 justify-content-between">
           <p class="text-truncate text-left menutitle">{{ menu.product }}</p>
         </div>
@@ -151,7 +152,7 @@
     </h4>
     <div class="row m-0 px-0 px-lg-4">
       <div
-        class="container my-3 overflow-hidden col-12 col-lg-4 review-link p-0"
+        class="container my-3 overflow-hidden col-12 review-link p-0"
         v-for="review in reviews.slice().reverse()"
         :key="review.id"
 
@@ -159,7 +160,7 @@
         <router-link :to="`/cafe/${cafeId}/review/${review.id}/`">
           <div
             class="justify-content-center px-2 p-0 border"
-            style="background: #BEE3DB;"
+            style="background: #f3f3f3;"
           >
             <h1 class="py-2 text-center text-truncate" style="font-size: calc(1.5rem + 1vw)">
               {{ review.title }}
@@ -175,9 +176,9 @@
             <div class="m-2 border">
               <div class="row m-0 mt-2 justify-content-center">
                 <div
-                  :style="`background: url(${review.thumbnail});background-size:cover`"
+                  :style="`background: url(${review.thumbnail});`"
                   class="col-11"
-                  style="height:300px;padding:0;"
+                  style="height: 60vh;padding:0;background-size: cover !important;"
                   @error="imgPlaceholder"
                 />
               </div>
@@ -192,6 +193,7 @@
           </div>
         </router-link>
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -253,6 +255,7 @@ export default {
       isLoading: false,
       fullPage: true,
       today: 0,
+      isDesktop: true,
       selectedImage: null,
       delay: 400,
       options: {
@@ -336,19 +339,7 @@ export default {
             this.info.time[i].push(days[i]);
           }
         })
-        .catch(error => {
-          console.log(error.data);
-        });
-      // reponse.data.like.forEach(elem => {
-      //   menuselem.menuId
-      // })
     },
-    // deleteReview(reviewId) {
-    // 	axios.delete(`${this.$store.state.constants.SERVER}/post/${reviewId}`, {headers: {'Authorization': "Bearer " + this.$session.get('jwt')}})
-    // 		.then(response => {
-    // 			console.log(response)
-    // 		})
-    // },
     pushLikeMenu(menuId,likeornot) {
       if (!this.$store.getters.isLoggedIn) {
         alert("plz login");
@@ -383,6 +374,11 @@ export default {
       }
     }
   },
+  beforeMount() {
+    if (window.innerWidth < 991) {
+      this.isDesktop = false
+    }
+  },
   mounted() {
     this.getData();
     window.scrollTo(0, 0);
@@ -391,7 +387,7 @@ export default {
       let dayofweek = week[new Date().getDay()];
       let todayCal = document.getElementById(dayofweek);
       todayCal.style.backgroundColor = "#BEE3DB";
-    }, 250);
+    }, 500);
   },
 };
 </script>
@@ -402,6 +398,9 @@ export default {
 }
 .cafe-page-section-name {
   font-size: calc(1.2rem + 1vw)
+}
+.review-link {
+  max-width: 1440px !important;
 }
 .review-link:hover {
   box-shadow: 0 0 15px lightgray;
@@ -424,7 +423,7 @@ export default {
   right: 19px;
   background: gold;
   opacity: 0.9;
-  padding: 0.7rem 1rem;
+  padding: calc(0.5rem + 1vw) calc(0.7rem + 1vw);
   border-radius: 50%;
   z-index: 9999;
   box-shadow: 2px 3px 3px lightgray

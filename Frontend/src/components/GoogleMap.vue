@@ -23,7 +23,6 @@
         maxZoom: 18
       }"
       :style="`height: ${avheight}px;`"
-
     >
       <gmap-marker
         :position="prop_center"
@@ -32,17 +31,17 @@
       ></gmap-marker>
 
       <gmap-marker
-        :key="idx"
-        v-for="(cafe, idx) in cafes"
+        :key="cafe.cafe_id"
+        v-for="cafe in filteredCafes"
         :position="{ lat: +cafe.latitude, lng: +cafe.longitude }"
         :clickable="true"
-        @click="infoWindow(idx)"
+        @click="infoWindow(cafe.cafe_id)"
       ></gmap-marker>
       <gmap-info-window
-        v-for="(cafe, idx) in cafes"
-        :key="idx"
-        @closeclick="window_open[idx]=false"
-        :opened="window_open[idx]"
+        v-for="cafe in filteredCafes"
+        :key="'info' + cafe.cafe_id"
+        @closeclick="window_open[cafe.cafe_id]=false"
+        :opened="window_open[cafe.cafe_id]"
         :position="{ lat: +cafe.latitude, lng: +cafe.longitude }"
         :options="{
           pixelOffset: {
@@ -63,7 +62,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 export default {
@@ -78,15 +76,12 @@ export default {
     },
     filtername: {
       type: String,
-      default: '',
+      default: ""
     }
   },
   data() {
     return {
       center: {},
-      cafes: null,
-      markers: [],
-      places: [],
       zoom_level: 16,
       mapLoading: false,
       window_open: [],
@@ -95,41 +90,22 @@ export default {
     };
   },
   beforeMount() {
-    this.avheight = Math.min(window.innerHeight - 75, window.innerWidth * 1.3)
-    for (var ix = 0; ix < 1000; ix++) {
+    this.avheight = Math.min(window.innerHeight - 75, window.innerWidth * 1.3);
+    for (var lc=0;lc<1000;lc++) {
       this.window_open.push(false);
     }
   },
-  mounted() {
-    this.mapLoading = true;
-    setTimeout(() => {
-      this.geolocate();
-    }, 500);
-  },
   methods: {
-    infoWindow(idx) {
-      this.$set(this.window_open, idx, !this.window_open[idx]);
-      this.selected_cafe = this.cafes[idx];
+    infoWindow(id) {
+      this.$set(this.window_open[id], 0, !this.window_open[id])
+      this.selected_cafe = this.filteredCafes.find(cafe => cafe.cafe_id == id);
       this.$emit("cafe_change_event", this.selected_cafe);
     },
-    geolocate() {
-      axios
-        .post(`${this.$store.state.constants.SERVER}/map/`, {
-          latitude: this.prop_center.lat,
-          longitude: this.prop_center.lng,
-          level: 12
-        })
-        .then(res => {
-          this.cafes = res.data.filter(ccc => ccc.cafe_name.includes(this.filtername));
-          this.$forceUpdate()
-          setTimeout(() => {
-            this.mapLoading = false;
-          }, 1);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
   },
+  computed: {
+    filteredCafes() {
+        return this.$store.getters.filteredCafes(this.filtername)
+      }
+  }
 };
 </script>
