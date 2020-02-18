@@ -38,7 +38,6 @@ import com.latte.payload.CafeEnrollRequest;
 import com.latte.repository.UserRepository;
 import com.latte.security.JwtTokenProvider;
 import com.latte.service.ICafeService;
-import com.latte.service.IMenuService;
 import com.latte.service.IPostService;
 import com.latte.service.IUsersLikeMenuService;
 import com.mashape.unirest.http.HttpResponse;
