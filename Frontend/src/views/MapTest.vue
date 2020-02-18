@@ -11,34 +11,44 @@
     <nav-bar class="mapnav" />
 
     <div id="fixcont" class="row p-0 m-0" :style="`height: ${avheight}px;background:#f2f2f2`">
-      <div class="d-fixed d-md-flex col-md-1 menucol-1" style="font-size:1vw">
-        <div class="menu-icon">
-          <router-link to="/">
-            <fa icon="home" size="3x" />
-          </router-link>
-          <p class="menu-tex">돌아가기</p>
-        </div>
+      <div style="font-size:1vw;position:fixed;z-index:99">
 
-        <div class="menu-icon">
-          <fa icon="search-location" size="3x" />
-          <p class="menu-tex">검색</p>
-        </div>
+        <div class="btn-group dropright mt-2 ">
+          <div class="menu-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <fa icon="search-location" size="2x" />
+            <p class="menu-tex">검 색</p>
+          </div>
 
-        <div class="menu-icon">
-          <fa icon="filter" size="3x" />
-          <p class="menu-tex">필터적용</p>
+          <div class="dropdown-menu" >
+            <div class="p-0">
+              <input type="text" id="namefilter" placeholder="카페이름으로 검색" v-model="filtername">
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="btn-group dropright">
+          <div class="menu-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <fa icon="filter" size="2x" />
+            <p class="menu-tex">필 터</p>
+          </div>
+
+          <div class="dropdown-menu">
+            <!-- Dropdown menu links -->
+          </div>
         </div>
 
         <div class="menu-icon" @click="locateMe">
-          <fa icon="map-marked-alt" size="3x" />
-          <p class="menu-tex">내 위치</p>
+          <fa icon="map-marked-alt" size="2x" />
+          <p class="menu-tex">내위치</p>
         </div>
       </div>
 
       <google-map
         v-if="center"
-        class="col-12 col-md-8 p-0"
+        class="col-12 col-md-9 p-0"
         :prop_center="center"
+        :filtername="filtername"
+        :key="filtername"
         @cafe_change_event="cafeChange"
       />
     </div>
@@ -51,11 +61,17 @@
           color="violet"
         ></loading>
         <div class="info-header">
-
-          <h1 class="font-weight-bold pt-3">{{ cafe.cafeinfo.cafe_name }}</h1>
-          <small>Cafe</small>
-          <p>대표자: {{ cafe.cafeinfo.owner }}</p>
-          <p class="small">{{ cafe.cafeinfo.cafe_phone }}</p>
+          <div style="background-color:#BEE3DB" class="partenerbdg" v-if="cafe.cafeinfo.owner"><fa icon="crown" style="color: gold;margin-right: 4px" />파트너 카페</div>
+          <div style="background-color:lightgray" class="partenerbdg" v-else><fa icon="mug-hot" style="color: royalblue;margin-right: 4px" />일반 카페</div>
+          <h2 class="pt-3">{{ cafe.cafeinfo.cafe_name }}</h2>
+          <p v-if="cafe.cafeinfo.owner">{{ cafe.cafeinfo.owner }}님의 카페</p>
+          <p class="text-muted" v-else>(미등록)</p>
+          <p class="small"><fa icon="phone-alt" class="mr-2" />{{ cafe.cafeinfo.cafe_phone }}</p>
+          <div class="border tag-zone">
+            <p class="tag-zone-header">TAGS</p>
+            <p v-if="cafe.cafeinfo.tags">{{ cafe.tags }}</p>
+            <p v-else>(이 카페엔 등록된 태그가 없습니다.)</p>
+          </div>
         </div>
         <div class="container px-1">
           <div class="row align-content-center">
@@ -72,9 +88,9 @@
         </div>
         <div class="container">
           <p class="py-2">리뷰 : {{ cafe.post.length }}</p>
-          <div v-for="review in cafe.post" :key="review.id">
-            <p>{{ review.title }}<span class="ml-3 text-info">@{{ review.writer_name }}</span></p>
-            <p class="border shadow p-2">{{ review.content }}</p>
+          <div class="border" v-for="review in cafe.post.reverse()" :key="review.id">
+            <h4 class="border-bottom text-left mx-2">{{ review.title }}<span style="font-size:0.8rem;" class="ml-3 text-info">@{{ review.writer_name }}</span></h4>
+            <p class="text-left small p-1 rcontent" v-html="review.content"></p>
           </div>
           
         </div>
@@ -108,6 +124,7 @@ export default {
   data() {
     return {
       avheight: 0,
+      filtername: '',
       center: { lat: parseFloat(37.5014281), lng: parseFloat(127.0385063) },
       locmeLoading: false,
       detailLoading: false,
@@ -159,6 +176,7 @@ export default {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
+      this.$forceUpdate()
     },
     fail(error) {
       this.loadend();
@@ -172,7 +190,7 @@ export default {
     }
   },
   beforeMount() {
-    axios.get(`${this.$store.getters.constants.SERVER}/cafe/detail/1`)
+    axios.get(`${this.$store.state.constants.SERVER}/cafe/detail/1`)
     .then(r=>{
       this.cafe = r.data
       this.center = {
@@ -190,11 +208,32 @@ export default {
       }
     }, 500);
 
-  }
+  },
 };
 </script>
 
 <style>
+img {
+  max-width: 100% !important;
+}
+.tag-zone {
+  height: 3rem;
+  margin: 1rem;
+  font-weight: 400;
+}
+.tag-zone-header {
+  text-align: left;
+  margin: -0.7rem 0 0 1rem;
+  background: white;
+  width: fit-content;
+  padding: 0 1rem;
+}
+.partenerbdg {
+  width: 8rem;
+  border-radius: 10px;
+  font-weight: 400;
+  margin: 5px
+}
 #fixcont {
   position: fixed;
   top: 75px;
@@ -219,8 +258,7 @@ export default {
   text-align: center;
 }
 .info-header {
-  background: lavender;
-  border-bottom: 1px solid lightsteelblue;
+  border-bottom: 1px solid lightgray;
   width: 100%;
 }
 .menu-icon > i {
@@ -229,19 +267,18 @@ export default {
 }
 .menu-icon {
   cursor: pointer;
-  padding: 5px;
+  padding: 5px 1.3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   transition: 0.2s;
-  border-radius: 21px;
   background: #f2f2f2;
+  margin-bottom: 1rem;
+  border-radius: 10px;
 }
 .menu-icon:hover {
-  border-radius: 21px;
-  background: linear-gradient(145deg, #ffffff, #dadada);
-  box-shadow: 9px 9px 18px #cecece, -9px -9px 18px #ffffff;
+  background: #BEE3DB
 }
 .menu-icon:hover i {
   color: lavender !important;
@@ -263,6 +300,6 @@ export default {
   background: lavender;
   position:relative;
   overflow-y: scroll;
-  border: 1px solid lightsteelblue
+  border: 1px solid lightgray
 }
 </style>

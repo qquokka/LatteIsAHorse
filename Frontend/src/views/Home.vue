@@ -27,8 +27,8 @@
     </div>
     <word-cloud class="overflow-hidden" />
     <div class="main-section">
-      <h2 class="article-header">EDITOR's PICK</h2>
-      <review-list limits="3" :reviewData="reviewData" />
+      <h2 class="article-header my-5"><fa icon="pen-nib"/> EDITOR's PICK</h2>
+      <review-list limits="6" :reviewData="reviewData" />
     </div>
     <b-section />
     <Footer />
@@ -47,8 +47,8 @@ import Footer from "@/views/section/Footer.vue";
 import axios from "axios";
 import WordCloud from "@/components/WordCloud.vue"
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faRoad, faCrosshairs } from "@fortawesome/free-solid-svg-icons";
-library.add(faRoad, faCrosshairs)
+import { faRoad, faCrosshairs, faPenNib } from "@fortawesome/free-solid-svg-icons";
+library.add(faRoad, faCrosshairs, faPenNib)
 export default {
   name: "home",
   components: {

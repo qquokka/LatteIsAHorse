@@ -5,7 +5,7 @@
       <router-link v-for="neighbor in neighborList" :to="`/searched?q=${neighbor}`" :key="neighbor" class="cube col-12 col-md-4 col-lg-2">
         <div class="flippety">
           <p class="glow w-100" style="z-index: 5;background: rgba(0">{{ neighbor }}</p> 
-          <img :src="require(`@/assets/img/${neighbor}.jpg`)" style="width: 100%; height: 100%; position:absolute;filter: blur(2px)">
+          <img :src="require(`@/assets/img/${neighbor}-min.jpg`)" style="width: 100%; height: 100%; position:absolute;filter: brightness(0.6)">
           
         </div>
         <div class="flop border">
