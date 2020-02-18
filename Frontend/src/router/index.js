@@ -16,6 +16,7 @@ import Coupon from '../views/Coupon.vue'
 import QRcodeReader from '../components/QRcodeReader'
 import CouponUseRequestList from '../components/CouponUseRequestList'
 import CouponUseRequestPage from '../views/CouponUseRequestPage'
+import EditMyCafe from '../views/EditMyCafe.vue'
 
 Vue.use(VueRouter)
 
