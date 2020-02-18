@@ -62,6 +62,7 @@ export default {
     } 
   },
   props: {
+    cafe_id: Number
   },
   computed: {
     isLogged() { return this.$store.getters.isLoggedIn },
@@ -74,6 +75,22 @@ export default {
     validationFailure () { return this.isValid === -1 }
   },
   methods: {
+    deleteQRCode(code, config){
+      axios.delete(`${this.$store.state.constants.SERVER}/qrcode`,{
+        data:{
+          cafe_id: this.cafe_id,
+          code: code
+        }
+      }, config) //쿠폰 등록
+             .then(res => {
+               if(res.status === 200){
+                  console.log(res.data.message)
+               }
+             })
+             .catch(err => {
+               console.log(err)
+             })
+    },
     goBack() { this.$router.go(-1) }, //뒤로가기(아마도 카페 페이지?)
     async onDecode (content) {
       
@@ -86,22 +103,23 @@ export default {
       if(content.startsWith(`${this.$store.state.constants.SERVER}/coupon/`)){ //발급된 쿠폰인지 체크
          const req = "coupon/"
          const lastIdx = content.lastIndexOf(req)
-         console.log("last index : " + lastIdx)
-         const url = content.substring(0, lastIdx + req.length);
-         console.log("url : " + url)
+        //  console.log("last index : " + lastIdx)
+        //  const url = content.substring(0, lastIdx + req.length);
+        //  console.log("url : " + url)
          const code = content.substring(lastIdx + req.length, content.length);
-         console.log("code : " + code)
-        //  const config = {
-        //     headers: { Authorization: "Bearer " + this.$session.get("jwt") }
-        //  }
+        //  console.log("code : " + code)
+         const config = {
+            headers: { Authorization: "Bearer " + this.$session.get("jwt") }
+         }
         console.log(typeof code)
-         await axios.put(`${this.$store.state.constants.SERVER}/coupon/`,{
+        await axios.put(`${this.$store.state.constants.SERVER}/coupon/`,{
                 code : code
-              }) //쿠폰 등록
+              }, config) //쿠폰 등록
              .then(res => {
                console.log(res.data)
                if(res.status === 200){
-                 this.isValid = 1
+                  this.isValid = 1
+                  
                }
              })
              .catch(err => {
@@ -109,6 +127,10 @@ export default {
                console.log(err.name)
                console.log(err)
              })
+             
+        //DB에 등록된 QR코드 삭제
+        this.deleteQRCode(code, config)
+
       }else{
         this.isValid = 0
         

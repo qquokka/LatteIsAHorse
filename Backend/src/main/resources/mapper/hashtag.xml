@@ -19,7 +19,6 @@
 		<foreach collection="names" item="name" open="(" close=")" separator=",">
 			#{name}
 		</foreach>
-		group by name
 	</select>
 	
 	<insert id="addHashtagName" parameterType="java.lang.String">

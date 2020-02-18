@@ -78,18 +78,18 @@ public class AuthController {
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		String jwt = tokenProvider.generateToken(authentication);
-
 		User user = userRepository
 				.findByUsernameOrEmail(loginRequest.getUsernameOrEmail(), loginRequest.getUsernameOrEmail()).get();
-
-		JwtAuthenticationResponse response = new JwtAuthenticationResponse(jwt);
-		response.setUsername(user.getUsername());
 
 		List<String> roles = new ArrayList<String>();
 		for (Role role : user.getRoles()) {
 			roles.add(role.toString());
 		}
+
+		String jwt = tokenProvider.generateToken(authentication, roles);
+
+		JwtAuthenticationResponse response = new JwtAuthenticationResponse(jwt);
+		response.setUsername(user.getUsername());
 
 		response.setRoles(roles);
 

@@ -7,7 +7,9 @@
 
 	<select id="getCafeById" parameterType="java.lang.Integer"
 		resultType="cafe">
-		select * from cafe where cafe_id = #{cafe_id}
+		select cafe.*, ifnull(count(ulc.like_count), 0) as like_count
+		from cafe left outer join userslikecafe ulc on cafe.cafe_id = ulc.cafe_id
+		where cafe.cafe_id = #{cafe_id};
 	</select>
 
 	<select id="getCafeByName" parameterType="java.lang.String"

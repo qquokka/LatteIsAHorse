@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.latte.dao.CouponDaoImpl;
 import com.latte.dto.Coupon;
+import com.latte.payload.CouponUseRequest;
+import com.latte.payload.CouponUseResponse;
 
 @Service
 public class CouponServiceImpl implements ICouponService {
@@ -67,6 +69,18 @@ public class CouponServiceImpl implements ICouponService {
 	@Transactional(readOnly = true)
 	public int getCurrentCouponCount(Coupon coupon) {
 		return couponDao.getCurrentCouponCount(coupon);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<CouponUseResponse> getCouponUseRequests(int cafe_id) {
+		return couponDao.getCouponUseRequests(cafe_id);
+	}
+
+	@Override
+	@Transactional
+	public int requestCouponUse(CouponUseRequest useRequest) {
+		return couponDao.requestCouponUse(useRequest);
 	}
 
 }

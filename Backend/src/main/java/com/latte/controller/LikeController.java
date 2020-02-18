@@ -163,20 +163,17 @@ public class LikeController {
 		UsersLikeMenu userslikemenu = new UsersLikeMenu();
 		userslikemenu.setMenu_id(mid);
 
-		Long userId = getLoggedInUserId(request);
-		if (userId == 0L) {
-			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-		}
-		if (userId != 0L) {
-			userslikemenu.setUsers_id(userId);
+		Long users_Id = getLoggedInUserId(request);
+		if (users_Id != 0L) {
+			userslikemenu.setUsers_id(users_Id);
 		}
 
 		int result = ulmservice.addUsersLikeMenu(userslikemenu);
-		UsersLikeMenu ulm = ulmservice.getUsersLikeMenuCountBymenuId(mid);// 업데이트 해줌.
+		//UsersLikeMenu ulm = ulmservice.getUsersLikeMenuCountBymenuId(mid);// 업데이트 해줌.
 		if (result < 1) { // 등록 실패
 			return new ResponseEntity<UsersLikeMenu>(userslikemenu, HttpStatus.EXPECTATION_FAILED);
 		}
-		return new ResponseEntity<UsersLikeMenu>(ulm, HttpStatus.OK);
+		return new ResponseEntity<UsersLikeMenu>(userslikemenu, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Menu_id로 좋아요 삭제 (User_id 자동 삽입)", response = UsersLikeMenu.class)
@@ -189,9 +186,7 @@ public class LikeController {
 		UsersLikeMenu userslikemenu = new UsersLikeMenu();
 		userslikemenu.setMenu_id(mid);
 		Long userId = getLoggedInUserId(request);
-		if (userId == 0L) {
-			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-		}
+
 		if (userId != 0L) {
 			userslikemenu.setUsers_id(userId);
 		}
@@ -200,23 +195,23 @@ public class LikeController {
 		UsersLikeMenu ulm = ulmservice.getUsersLikeMenuCountBymenuId(mid);// 업데이트 해줌.
 
 		if (result < 1) { // 등록 실패
-			return new ResponseEntity<UsersLikeMenu>(ulm, HttpStatus.EXPECTATION_FAILED);
+			return new ResponseEntity<UsersLikeMenu>(userslikemenu, HttpStatus.EXPECTATION_FAILED);
 		}
 		return new ResponseEntity<UsersLikeMenu>(ulm, HttpStatus.OK);
 	}
 
 	// ---------------------------------------------------
 	// check header from request and parse JWT Token
-	private Long getLoggedInUserId(HttpServletRequest request) {
-		String bearerToken = request.getHeader("Authorization");
-		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-			String jwt = bearerToken.substring(7, bearerToken.length());
-			if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-				return tokenProvider.getUserIdFromJWT(jwt);
+		private Long getLoggedInUserId(HttpServletRequest request) {
+			String bearerToken = request.getHeader("Authorization");
+			if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+				String jwt = bearerToken.substring(7, bearerToken.length());
+				if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+					return tokenProvider.getUserIdFromJWT(jwt);
+				}
 			}
+			return 0L;
 		}
-		return 0L;
-	}
 
 	// ------------------ User Liked Post ------------------
 	@ApiOperation(value = "해당 게시물에 대한 사용자의 좋아요 추가")

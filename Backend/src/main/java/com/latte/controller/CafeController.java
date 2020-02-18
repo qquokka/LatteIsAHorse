@@ -55,17 +55,8 @@ import io.swagger.annotations.ApiOperation;
 public class CafeController {
 	private static final Logger logger = LoggerFactory.getLogger(CafeController.class);
 
-	@Value("${kakao.restapi.key}")
-	private String restApiKey;
-
 	@Autowired
 	ICafeService cafeservice;
-
-	@Autowired
-	IMenuService menuservice;
-
-	@Autowired
-	UserRepository userRepository;
 
 	@Autowired
 	IPostService postservice;
@@ -74,7 +65,13 @@ public class CafeController {
 	IUsersLikeMenuService ulmservice;
 
 	@Autowired
+	UserRepository userRepository;
+
+	@Autowired
 	JwtTokenProvider tokenProvider;
+
+	@Value("${kakao.restapi.key}")
+	private String restApiKey;
 
 	@ApiOperation(value = "사장님의 카페 정보 반환")
 	@GetMapping("/mycafe")
@@ -82,23 +79,23 @@ public class CafeController {
 		Map<String, Object> response = new HashMap<>();
 
 		Long cafe_owner_id = getLoggedInUserId(request);
-		//what if user_id is not OWNER auth
-		if(cafe_owner_id == 0L) {
+		// what if user_id is not OWNER auth
+		if (cafe_owner_id == 0L) {
 			response.put("message", "토근 만료");
-			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.FORBIDDEN);
+//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
 		}
-		
+
 		CafeDto cafe = cafeservice.getMyCafeInfo(cafe_owner_id);
 		if (cafe == null) {
 			response.put("message", "카페 페이지가 존재하지 않습니다.");
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NO_CONTENT);
 		}
-		
+
 		response.put("cafe", cafe);
 		response.put("message", "카페 정보 불러오기 성공");
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
-	
+
 	@ApiOperation(value = "DB의 모든 Cafe 리스트 반환", response = List.class)
 	@GetMapping("/cafe")
 	public ResponseEntity<List<CafeDto>> getCafeList() throws Exception {
@@ -137,13 +134,8 @@ public class CafeController {
 		userslikemenu.setCafe_id(cafe_id);
 
 		Long users_id = getLoggedInUserId(request);
+		System.out.println("#$#$#$#$#$#$ users_id : " + users_id);
 		Map<String, Object> response = new HashMap<>();
-
-		if (users_id == 0L) {
-			response.put("message", "토근 만료");
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
-		}
-
 		if (users_id != 0L) {
 			userslikemenu.setUsers_id(users_id);
 		}
@@ -153,8 +145,9 @@ public class CafeController {
 		if (cafeInfo != null) {
 			Long cafe_owner_id = cafeInfo.getCafe_owner_id();
 			User owner = null;
-			if (cafe_owner_id != null && cafe_owner_id != 0L)
+			if (cafe_owner_id != null && cafe_owner_id != 0L) {
 				owner = userRepository.findById(cafeInfo.getCafe_owner_id()).get();
+			}
 			// Generate Cafe's Time Table
 			Instant[][] time = { { cafeInfo.getSun_open(), cafeInfo.getSun_close() },
 					{ cafeInfo.getMon_open(), cafeInfo.getMon_close() },
@@ -207,13 +200,10 @@ public class CafeController {
 		Map<String, Object> response = new HashMap<>();
 		Long userId = getLoggedInUserId(request);
 
-		if (userId == 0L) {
-			response.put("message", "토근 만료");
-			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-		}
-
 		if (userId != 0L) {
 			cafes = cafeservice.getMyCafeList(userId);
+		} else {
+			response.put("message", "토근 만료");
 		}
 
 		if (cafes == null || cafes.size() == 0) {
@@ -232,13 +222,10 @@ public class CafeController {
 		Long users_id = getLoggedInUserId(request);
 		Map<String, Object> response = new HashMap<>();
 
-		if (users_id == 0L) {
-			response.put("message", "토근 만료");
-			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-		}
-
 		if (users_id != 0L) {
 			userslikemenu.setUsers_id(users_id);
+		} else {
+			response.put("message", "토근 만료");
 		}
 		List<MenuDto> menuList = ulmservice.getUsersLikeMenuByCafeIdNUserId(userslikemenu);
 		if (menuList == null || menuList.size() == 0) {

@@ -25,7 +25,6 @@ import com.latte.security.JwtAuthenticationFilter;
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-
 	@Autowired
 	CustomUserDetailsService customUserDetailsService;
 
@@ -62,12 +61,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						"/**/*.css", "/**/*.js")
 				.permitAll().antMatchers("/api/auth/**", "/v1/**", "/**", "/api/test/**").permitAll()
 				.antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability").permitAll()
+				.antMatchers(HttpMethod.GET, "/cafe/**", "/cafe/**/", "/cafe/detail/**/", "/cafe/detail/*/").permitAll()
+				.antMatchers(HttpMethod.POST, "/**/hashtagname/").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**").permitAll().anyRequest().authenticated();
 
 		// Add our custom JWT security filter
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 		http.requiresChannel().anyRequest().requiresSecure();
-
 	}
 
 }

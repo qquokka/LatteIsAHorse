@@ -4,7 +4,7 @@
 	<select id="getPostList" resultType="post">
 		select
 		p.id, p.created_at,
-		p.updated_at, p.like_count, p.thumbnail, p.title,
+		p.updated_at, p.thumbnail, p.title,
 		p.content,
 		u.username
 		as writer_name,
@@ -14,8 +14,9 @@
 		order by
 		updated_at desc
 	</select>
-	
-	<insert id="addPost" parameterType="com.latte.payload.PostAddRequest">
+
+	<insert id="addPost"
+		parameterType="com.latte.payload.PostAddRequest">
 		insert into posts
 		(title, content, thumbnail, created_at,
 		updated_at, writer_id, cafe_id)
@@ -24,8 +25,7 @@
 		#{thumbnail},
 		now(), now(), #{writer_id}, #{cafe_id})
 	</insert>
-	<!-- <select id="getPostByPostId" parameterType="java.lang.Integer" resultType="com.latte.dto.PostDto">
-		</select> -->
+
 	<select id="getPostById" resultType="post">
 		select p.*, u.username as
 		writer_name
@@ -33,7 +33,7 @@
 		where p.id = #{id} and p.writer_id =
 		u.id
 	</select>
-	
+
 	<select id="getPostByTitle" resultType="post">
 		select p.*, u.username as
 		writer_name
@@ -41,19 +41,23 @@
 		where p.title like "%"#{title}"%" and
 		p.writer_id = u.id
 	</select>
-	
-	<select id="getPostListByCafeId" parameterType="java.lang.Integer" resultType="post">
-		select p.*,u.username as
-		writer_name from posts p, users u where
-		u.id =p.writer_id and cafe_id
-		=#{cafe_id}
+
+	<select id="getPostListByCafeId"
+		parameterType="java.lang.Integer" resultType="post">
+		select p.*, u.username as writer_name,
+		ifnull(count(ulp.liked), 0) as like_count
+		from users u, posts p left outer join userslikepost ulp on p.id = ulp.post_id
+		where u.id = p.writer_id and p.cafe_id = #{cafe.id}
+		group by p.id
+		order by p.id asc;
 	</select>
-	
+
 	<!-- 가장 마지막에 저장된 Post의 ID 반환 -->
 	<select id="getLastPostedId" resultType="java.lang.Long">
-		select max(id) from posts
+		select max(id) from
+		posts
 	</select>
-	
+
 	<update id="updatePostById">
 		update posts set
 		title = #{title},
@@ -65,7 +69,8 @@
 		where id = #{id}
 	</update>
 
-	<select id="getMyPostList" parameterType="java.lang.Long" resultType="post">
+	<select id="getMyPostList" parameterType="java.lang.Long"
+		resultType="post">
 		select * from posts where writer_id =#{user_id}
 	</select>
 
@@ -79,7 +84,7 @@
 		u.username as writer_name from post_comments pc join users u on
 		u.id=pc.writer_id where post_id =#{post_id}
 	</select>
-	
+
 	<insert id="addPostComments">
 		insert into post_comments
 		(created_at, updated_at,
@@ -88,7 +93,7 @@
 		(now(), now(), #{content},
 		#{post_id}, #{writer_id})
 	</insert>
-	
+
 	<update id="updatePostComments">
 		update post_comments set
 		updated_at = now(),
@@ -96,7 +101,7 @@
 		#{content}
 		where id = #{id}
 	</update>
-	
+
 	<delete id="deletePostComments">
 		delete from post_comments where id = #{id}
 	</delete>
@@ -106,8 +111,9 @@
 		u.username as writer_name from post_comments pc join users u on
 		u.id=pc.writer_id
 	</select>
-  
-	<select id="getMyPostCommentsList" parameterType="java.lang.Long" resultType="postComments">
+
+	<select id="getMyPostCommentsList"
+		parameterType="java.lang.Long" resultType="postComments">
 		select * from
 		post_comments
 		where writer_id = #{user_id}

@@ -76,4 +76,17 @@
 		users_id = #{users_id}
 		and cafe_id = #{cafe_id}
 	</select>
+	
+	<select id="getCouponUseRequests" resultType="com.latte.payload.CouponUseResponse">
+		select u.username, u.phone, u.email, m.product, 
+		date_format(cu.created_at, '%Y-%m-%d') as created_at
+		from users u, menu m, coupon_use cu
+		where cu.user_id = u.id and cu.mid = m.mid and cu.cafe_id = #{cafe_id}
+	</select>
+	
+	<insert id="requestCouponUse" parameterType="com.latte.payload.CouponUseRequest">
+		insert into coupon_use (user_id, cafe_id, mid, created_at)
+		values (#{user_id}, #{cafe_id}, #{mid}, now())
+	</insert>
+	
 </mapper>

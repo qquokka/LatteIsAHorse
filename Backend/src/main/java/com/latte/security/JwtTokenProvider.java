@@ -1,12 +1,16 @@
 package com.latte.security;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+
+import com.latte.model.Role;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -25,13 +29,25 @@ public class JwtTokenProvider {
 
 	@Value("${app.jwtExpirationMs}")
 	private int jwtExpirationMs;
+	
+	@Value("${app.jwtOwnerExpirationMs}")
+	private int jwtOwnerExpirationMs;
 
 	// Token 생성
-	public String generateToken(Authentication authentication) {
+	public String generateToken(Authentication authentication, List<String> roles) {
 		UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
+		boolean isOwner = false;
+		for(String role : roles) {
+			if(role.contains("OWNER")) {
+				isOwner = true;
+				break;
+			}
+		}
+		
 		Date now = new Date(); // 현재 시간
-		Date expiryDate = new Date(now.getTime() + jwtExpirationMs); // 토근 만료 시간
+		Date expiryDate = isOwner ? new Date(now.getTime() + jwtOwnerExpirationMs) :
+				new Date(now.getTime() + jwtExpirationMs); // 토근 만료 시간
 
 		return Jwts.builder().setSubject(Long.toString(userPrincipal.getId())).setIssuedAt(new Date())
 				.setExpiration(expiryDate).signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
