@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.latte.dao.MapDaoImpl;
 import com.latte.dto.CafeDto;
 import com.latte.model.UserLocation;
+import com.latte.payload.MapHashtagResponse;
 
 @Service
 public class MapServiceImpl implements IMapService {
@@ -20,6 +21,12 @@ public class MapServiceImpl implements IMapService {
 	@Transactional(readOnly = true)
 	public List<CafeDto> getCafesByUserLocation(UserLocation location) {
 		return mapDao.getCafesByUserLocation(location);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<MapHashtagResponse> getHashtagsByCafeIds(List<Integer> cafe_ids) {
+		return mapDao.getHashtagsByCafeIds(cafe_ids);
 	}
 
 }

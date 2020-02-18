@@ -38,6 +38,7 @@
 				<div v-if="contentNum === 0">
 					<h5 class="card-title mobile-display-block">내 카페 관리</h5>
 					<div v-if="myCafe">
+
 						<p class="card-text">내 카페 정보를 수정할 수 있습니다.</p>
 						<hr>
 						<cafe-list :cafeData="myCafe" />

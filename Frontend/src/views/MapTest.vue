@@ -51,9 +51,10 @@
         :key="filtername"
         @cafe_change_event="cafeChange"
       />
+      <input @hashtag_get_event="getHashtags" type = "hidden">
     </div>
-          <div class="d-none d-md-block col-md-3 bg-white px-0 infocol" v-if="cafe.cafeinfo">
-                      <loading
+    <div class="d-none d-md-block col-md-3 bg-white px-0 infocol" v-if="cafe.cafeinfo">
+        <loading
           :active.sync="detailLoading"
           :can-cancel="false"
           :is-full-page="false"
@@ -136,11 +137,16 @@ export default {
         'url(' + require('@/assets/noimage.png') + ')',
         'url(' + require('@/assets/noimage.png') + ')',
         'url(' + require('@/assets/noimage.png') + ')',
-      ]
+      ],
+      hashtags: []
     };
   },
   computed: {},
   methods: {
+    getHashtags(hashtags){
+      alert('asdfadfads')
+      this.hashtags = hashtags
+    },
     cafeChange(sc) {
       this.detailLoading = true
       axios
@@ -148,6 +154,7 @@ export default {
           `${this.$store.state.constants.SERVER}/cafe/detail/${sc.cafe_id}`
         )
         .then(response => {
+          console.log(response.data)
           this.cafe = response.data
           this.detailLoading = false
           

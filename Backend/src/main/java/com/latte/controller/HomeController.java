@@ -5,11 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
+//@RequestMapping("/v1")
+public class HomeController implements ErrorController{
 public class HomeController implements ErrorController {
 	@GetMapping({ "/", "/error" })
 	public String index() {
 		return "index.html";
-//		return null;
 	}
 
 	@Override

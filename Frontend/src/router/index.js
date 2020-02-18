@@ -13,9 +13,10 @@ import Admin from '../views/Admin.vue'
 import Profile from '../views/Profile.vue'
 import CafeList from '../components/CafeList.vue'
 import Coupon from '../views/Coupon.vue'
-import QRcodeReader from '../components/QRcodeReader'
-import CouponUseRequestList from '../components/CouponUseRequestList'
-import CouponUseRequestPage from '../views/CouponUseRequestPage'
+import CouponUseRequestList from '../components/CouponUseRequestList.vue'
+import CouponUseRequestPage from '../views/CouponUseRequestPage.vue'
+import QRcodeReader from '../components/QRcodeReader.vue'
+import AddMyCafe from '../views/AddMyCafe.vue'
 
 Vue.use(VueRouter)
 
@@ -118,6 +119,11 @@ const routes = [
     path: '/coupon-use-request-page',
     name: 'CouponUseRequestPage',
     component: CouponUseRequestPage
+  },
+  {
+    path: '/newcafe',
+    name: 'addMyCafe',
+    component: AddMyCafe
   }
 ]
 
