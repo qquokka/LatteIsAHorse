@@ -79,6 +79,7 @@
 		on m.mid = ulm.menu_id
 		where m.cafe_id= #{cafe_id}
 		group by m.mid,m.cafe_id,m.product,m.price,m.description,m.num_coupon,ulm.like_count
+
 	</select>
 
 
