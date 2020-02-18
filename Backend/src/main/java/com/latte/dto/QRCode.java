@@ -29,12 +29,6 @@ public class QRCode implements Serializable {
 		this.code = code;
 	}
 
-	public QRCode(int cafe_id, long time_stamp, String code) {
-		this.cafe_id = cafe_id;
-		this.time_stamp = time_stamp;
-		this.code = code;
-	}
-
 	public Long getId() {
 		return id;
 	}

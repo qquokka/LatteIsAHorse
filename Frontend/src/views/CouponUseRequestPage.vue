@@ -1,25 +1,133 @@
 <template>
   <div class="row mx-auto my-4">
-   
+   <div>
+     <p>현재 보유중인 쿠폰 개수 : {{numberOfCoupon}}</p>
+     <p>쿠폰 사용은 메뉴당 하나씩만 가능합니다.</p>
+   </div>
+   <button v-on:click="useCoupon(1, 1)">쿠폰 사용</button>
+   <div>
+      <VueGoodTable
+         :columns="columns"
+         :rows="rows"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+import 'vue-good-table/dist/vue-good-table.css'
+import { VueGoodTable } from 'vue-good-table'
+import axios from "axios"
+
 export default {
   name: "CouponUseRequestPage",
-  components: {},
+  components: { VueGoodTable },
   data() {
     return {
+      numberOfCoupon: null, //보유중인 쿠폰 개수
+      columns: [
+        {
+          label: '제품명',
+          field: 'product'
+        },
+        {
+          label: '가격',
+          field: 'price',
+          type: 'number',
+        },
+        {
+          label: '제품 설명',
+          field: 'description',
+        },
+        {
+          label: '개당 쿠폰 차감수',
+          field: 'num_coupon',
+          type: 'number'
+        },
+        {
+          label: '쿠폰 사용',
+          field: 'button',
+          html: true
+        }
+      ],
+      rows: []
     };
   },
   props: {
-    
+    cafe_id: {
+      type: Number,
+      default: 1
+    }
   },
   methods: {
-   
+   async useCoupon(num_coupon, mid){
+     console.log(num_coupon)
+     console.log(mid)
+     console.log("asdfasfafdasfasdf")
+     //보유 쿠폰 차감
+      const payload = {
+        cafe_id: this.cafe_id,
+        num_coupon: num_coupon
+      }
+      await axios.patch(`${this.$store.state.constants.SERVER}/coupon`, payload) //${cafe_id}
+      .then(response => {
+        console.log(response.data)
+        this.requestCouponUse(num_coupon, mid)
+      })
+      .catch(err => {
+        console.log(err.response);
+      });
+   },
+   requestCouponUse(count, mid){
+     //응답 성공 후 쿠폰 사용 리스트에 등록
+      const payload = {
+        cafe_id: this.cafe_id,
+        count: count,
+        mid: mid
+      }
+      axios.post(`${this.$store.state.constants.SERVER}/coupon`, payload) //${cafe_id}
+      .then(response => {
+        console.log(response.data.message)
+        this.numberOfCoupon = this.numberOfCoupon - count
+        this.deleteCouponUsedMenu(mid)
+      })
+      .catch(err => {
+        console.log(err.response);
+      });
+   },
+   deleteCouponUsedMenu(mid){
+     this.rows.forEach(element => {
+       if(element.mid === mid){
+         delete element.button
+       }
+     })
+   },
+   getMyCouponCount(){
+     axios.get(`${this.$store.state.constants.SERVER}/coupon/${2}`) //${cafe_id}
+      .then(response => {
+        console.log(response.data)
+        this.numberOfCoupon = response.data.numberOfCoupon;
+      })
+      .catch(err => {
+        console.log(err.response);
+      });
+   },
+  },
+  beforeMount(){
+      axios.get(`${this.$store.state.constants.SERVER}/menus/${1}`) //${cafe_id}
+      .then(response => {
+        console.log(response.data)
+        this.rows = response.data.menus;
+        this.rows.forEach(element => {
+          element.button = `<button v-on:click="useCoupon(element.num_coupon, element.mid)">쿠폰 사용</button>`
+        });
+      })
+      .catch(err => {
+        console.log(err.response);
+      });
   },
   mounted() {
-    
+    this.getMyCouponCount()
   }
 };
 </script>

@@ -29,14 +29,6 @@ public class CouponUseRequest {
 		this.created_at = created_at;
 	}
 
-	public Instant getCreated_at() {
-		return created_at;
-	}
-
-	public void setCreated_at(Instant created_at) {
-		this.created_at = created_at;
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -75,6 +67,14 @@ public class CouponUseRequest {
 
 	public void setMid(Integer mid) {
 		this.mid = mid;
+	}
+
+	public Instant getCreated_at() {
+		return created_at;
+	}
+
+	public void setCreated_at(Instant created_at) {
+		this.created_at = created_at;
 	}
 
 }

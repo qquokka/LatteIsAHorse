@@ -64,7 +64,7 @@ export default {
       this.getCouponUseRequests()
     },
     getCouponUseRequests(){
-      axios.get(`${this.$store.state.constants.SERVER}/coupons/${1}`) //${cafe_id}
+      axios.get(`${this.$store.state.constants.SERVER}/coupons/${this.cafe_id}`) //${cafe_id}
       .then(response => {
         console.log(response.data)
         this.rows = response.data;

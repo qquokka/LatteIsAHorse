@@ -12,9 +12,10 @@ import HangMan from '../views/HangMan.vue'
 import Admin from '../views/Admin.vue'
 import Profile from '../views/Profile.vue'
 import CafeList from '../components/CafeList.vue'
-import CouponGeneratePage from '../views/CouponGeneratePage.vue'
+import Coupon from '../views/Coupon.vue'
 import QRcodeReader from '../components/QRcodeReader'
 import CouponUseRequestList from '../components/CouponUseRequestList'
+import CouponUseRequestPage from '../views/CouponUseRequestPage'
 
 Vue.use(VueRouter)
 
@@ -96,7 +97,7 @@ const routes = [
   {
     path: '/coupon',
     name: 'coupon',
-    component: CouponGeneratePage
+    component: Coupon
   },
   {
     path: '/qrcode',
@@ -107,6 +108,11 @@ const routes = [
     path: '/coupon-use-request-list',
     name: 'CouponUseRequestList',
     component: CouponUseRequestList
+  },
+  {
+    path: '/coupon-use-request-page',
+    name: 'CouponUseRequestPage',
+    component: CouponUseRequestPage
   }
 ]
 
