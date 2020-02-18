@@ -78,7 +78,8 @@
 	</select>
 	
 	<select id="getCouponUseRequests" resultType="com.latte.payload.CouponUseResponse">
-		select u.username, u.phone, u.email, m.product, cu.created_at
+		select u.username, u.phone, u.email, m.product, 
+		date_format(cu.created_at, '%Y-%m-%d') as created_at
 		from users u, menu m, coupon_use cu
 		where cu.user_id = u.id and cu.mid = m.mid and cu.cafe_id = #{cafe_id}
 	</select>

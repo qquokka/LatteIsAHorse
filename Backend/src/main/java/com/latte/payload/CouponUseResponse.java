@@ -7,9 +7,9 @@ public class CouponUseResponse {
 	private String phone;
 	private String email;
 	private String product;
-	private Instant created_at;
+	private String created_at;
 
-	public CouponUseResponse(String username, String phone, String email, String product, Instant created_at) {
+	public CouponUseResponse(String username, String phone, String email, String product, String created_at) {
 		super();
 		this.username = username;
 		this.phone = phone;
@@ -22,11 +22,11 @@ public class CouponUseResponse {
 		super();
 	}
 
-	public Instant getCreated_at() {
+	public String getCreated_at() {
 		return created_at;
 	}
 
-	public void setCreated_at(Instant created_at) {
+	public void setCreated_at(String created_at) {
 		this.created_at = created_at;
 	}
 
