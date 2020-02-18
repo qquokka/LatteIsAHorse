@@ -16,7 +16,7 @@
         minZoom: 7, //최소 줌 레벨
         maxZoom: 17 //최대 줌 레벨
       }"
-      style="width:100%;  height: 70vh;"
+      style="width:100%; height: 100%"
     >
       <gmap-marker
         id="gmarker"

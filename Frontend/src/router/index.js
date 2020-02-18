@@ -105,6 +105,11 @@ const routes = [
     component: QRcodeReader
   },
   {
+    path: '/editcafe',
+    name: 'editMyCafe',
+    component: EditMyCafe
+  },
+  {
     path: '/coupon-use-request-list',
     name: 'CouponUseRequestList',
     component: CouponUseRequestList

@@ -32,7 +32,7 @@
       ></gmap-marker>
 
       <gmap-marker
-        :key="'m-' + idx"
+        :key="idx"
         v-for="(cafe, idx) in cafes"
         :position="{ lat: +cafe.latitude, lng: +cafe.longitude }"
         :clickable="true"
@@ -75,6 +75,10 @@ export default {
     prop_center: {
       type: Object,
       required: true
+    },
+    filtername: {
+      type: String,
+      default: '',
     }
   },
   data() {
@@ -101,8 +105,6 @@ export default {
     setTimeout(() => {
       this.geolocate();
     }, 500);
-    
-    
   },
   methods: {
     infoWindow(idx) {
@@ -118,7 +120,8 @@ export default {
           level: 12
         })
         .then(res => {
-          this.cafes = res.data;
+          this.cafes = res.data.filter(ccc => ccc.cafe_name.includes(this.filtername));
+          this.$forceUpdate()
           setTimeout(() => {
             this.mapLoading = false;
           }, 1);
@@ -127,6 +130,6 @@ export default {
           console.log(err);
         });
     }
-  }
+  },
 };
 </script>

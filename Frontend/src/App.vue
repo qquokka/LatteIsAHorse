@@ -90,10 +90,6 @@ a,
   text-decoration: none !important;
   color: #555B6E !important;
 }
-a:hover,
-.router-link:hover {
-  color: #BEE3DB !important;
-}
 
 .router-link-active {
   color:#FFD6BA !important;

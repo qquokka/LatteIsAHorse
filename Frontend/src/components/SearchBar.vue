@@ -52,20 +52,25 @@ export default {
   font-size: 1.2rem;
   width: 100%;
   padding: 1rem;
+  border:0;
+  border-radius: 0 10px 10px 0;
 }
 .search-btn:hover {
   background: #89B0AE;
+  color: white;
   font-weight: 900;
 }
 
 .search-form {
   width: 50%;
   min-width: 325px;
+  
 }
 
 input[type="text"] {
   border: 0;
   background: #ffffff;
+  border-radius: 10px 0 0 10px;
 }
 @media only screen and (max-width: 991px) {
   ::-webkit-input-placeholder,

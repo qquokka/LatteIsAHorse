@@ -10,6 +10,7 @@ import store from './store' // vuex
 import * as VueGoogleMaps from 'vue2-google-maps'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import './registerServiceWorker'
+import ImageUploader from "vue-image-upload-resize";
 
 Vue.component('fa', FontAwesomeIcon)
 Vue.config.productionTip = false
@@ -20,6 +21,9 @@ Vue.use(VueGoogleMaps, {
     libraries: 'places,drawing,visualization'
   }
 })
+Vue.use(ImageUploader);
+
+Vue.config.productionTip = false;
 
 new Vue({
   router,

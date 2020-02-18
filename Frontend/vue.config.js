@@ -10,7 +10,7 @@ var fs = require('fs');
 module.exports = {
   devServer: {
     host: 'localhost',
-    port: 8080,
+    port: 443,
     https: true,
     https: {
       key: fs.readFileSync('privkey.pem'),
