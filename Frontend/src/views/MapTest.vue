@@ -48,13 +48,14 @@
       </div>
 
       <google-map
-        class="col-12 col-md-9 p-0"
+        class="col-12 col-md-9 p-0 border"
+        style="margin-top: -2rem"
         :prop_center="center"
         :filtername="filtername"
         @cafe_change_event="cafeChange"
       />
     </div>
-    <div class="d-none d-md-block col-md-3 bg-white px-0 infocol" v-if="cafe.cafeinfo">
+    <div class="d-none d-lg-block col-lg-3 bg-white px-0 infocol" v-if="cafe.cafeinfo">
       <loading
         :active.sync="detailLoading"
         :can-cancel="false"
@@ -62,14 +63,14 @@
         loader="bars"
         color="violet"
       ></loading>
-      <div class="info-header">
+      <div class="info-header p-0">
         <div style="background-color:#BEE3DB" class="partenerbdg" v-if="cafe.cafeinfo.owner">
           <fa icon="crown" style="color: gold;margin-right: 4px" />파트너 카페
         </div>
         <div style="background-color:lightgray" class="partenerbdg" v-else>
           <fa icon="mug-hot" style="color: royalblue;margin-right: 4px" />일반 카페
         </div>
-        <h2 class="pt-3">{{ cafe.cafeinfo.cafe_name }}</h2>
+        <h2>{{ cafe.cafeinfo.cafe_name }}</h2>
         <p v-if="cafe.cafeinfo.owner">{{ cafe.cafeinfo.owner }}님의 카페</p>
         <p class="text-muted" v-else>(미등록)</p>
         <p class="small">
@@ -101,7 +102,7 @@
           <button class="btn btn-block btn-outline-dark mt-2">자세히 보기</button>
         </router-link>
       </div>
-      <div class="container">
+      <div class="container p-0">
         <p class="py-2">리뷰 : {{ cafe.post.length }}</p>
         <div class="border" v-for="review in cafe.post.slice().reverse()" :key="review.id">
           <h4 class="border-bottom text-left mx-2">
@@ -112,8 +113,8 @@
         </div>
       </div>
     </div>
-    <div class="d-none d-md-block col-md-3 bg-white px-0 infocol d-flex" v-else>
-      <h4 class="my-auto" style="margin-top: 45vh">지도에서 마커를 눌러주세요</h4> 
+    <div class="d-none col-lg-3 text-center bg-white px-0 infocol d-flex" v-else>
+      <h4 class="my-auto" style="margin: auto">지도에서 마커를 눌러주세요</h4> 
     </div>
   </div>
 </template>
@@ -144,7 +145,7 @@ export default {
     return {
       avheight: 0,
       filtername: "",
-      center: { lat: parseFloat(37.5014281), lng: parseFloat(127.0385063) },
+      center: {},
       locmeLoading: false,
       detailLoading: false,
       cafe: {},
@@ -203,7 +204,9 @@ export default {
     locateMe() {
       this.locmeLoading = true;
       navigator.geolocation.getCurrentPosition(this.success, this.fail, {
-        enableHighAccuracy: true
+        enableHighAccuracy: true,
+        timeout: 27000,
+        maximumAge: 0
       });
     },
     success(position) {
@@ -262,7 +265,7 @@ img {
   width: 8rem;
   border-radius: 10px;
   font-weight: 400;
-  margin: 5px;
+  margin: 0 5px;
 }
 #fixcont {
   position: fixed;
@@ -332,10 +335,16 @@ img {
   min-height: 100vh;
   overflow-x: hidden;
   z-index: 99;
-  display: flex;
   background: lavender;
   position: relative;
   overflow-y: scroll;
   border: 1px solid lightgray;
+}
+
+@media only screen and (max-width: 991px) {
+  .infocol {
+    display: none !important;
+    min-height: 0;
+  }
 }
 </style>

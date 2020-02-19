@@ -296,7 +296,7 @@ export default {
           // 리뷰 작성시간이 12시간 이내이면 '3시간 전' 이런 식으로 나오게 하고, 12시간 이전이면 날짜 시간 다 표시
           let now = Date.now();
           this.reviews.forEach(review => {
-            review.updated_at = review.updated_at.slice(0, 19);
+            review.updated_at = review.updated_at.slice(0, 20);
             let date = new Date(review.updated_at);
             if (now - Date.parse(date) <= 43200000) {
               review.updated_at = moment(review.updated_at)

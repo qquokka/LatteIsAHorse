@@ -185,7 +185,8 @@ export default {
     bodyCreator() {
       let hh = document.querySelector(".te-ww-container").firstElementChild
         .firstElementChild;
-      let thumb = hh.getElementsByTagName("img")[0] || "T";
+      let thumb = hh.getElementsByTagName("img")[0] || require('../assets/img/thumbnail_placeholder.jpg');
+      
       let h = hh.innerHTML;
       if (this.$route.name !== "edit-review") {
         let tags = h.match(/#[0-9a-zA-Z가-힣]+/gi);
@@ -227,9 +228,8 @@ export default {
           }
         }
       } else {
-        let hh = document.querySelector(".te-ww-container").firstElementChild
-          .firstElementChild;
-        let thumb = hh.getElementsByTagName("img")[0] || "T";
+        let hh = document.querySelector(".te-ww-container").firstElementChild.firstElementChild;
+        let thumb = hh.getElementsByTagName("img")[0] || require('../assets/img/thumbnail_placeholder.jpg');
         let h = hh.innerHTML;
         if (this.$route.name !== "edit-review") {
           let tags = h.match(/#[0-9a-zA-Z가-힣]+/gi);
