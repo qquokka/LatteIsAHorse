@@ -41,7 +41,7 @@
           <div class="col-1 border text-left">
             <small> <fa icon="user-circle" /> {{ comment.writer_name }}</small>
           </div>
-          <div class="col text-left border" style="font-weight:400">{{ comment.content }} <span class="float-right small" style="">{{ displayTime(comment.created_at.slice(0,19)) }}</span> </div>
+          <div class="col text-left border" style="font-weight:400">{{ comment.content }} <span class="float-right small" style="">{{ displayTime(comment.created_at.slice(0,20)) }}</span> </div>
           <a 
             class="col-1 bg-danger text-white"
             v-if="comment.writer_name === $session.get('username')"

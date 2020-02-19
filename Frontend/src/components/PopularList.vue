@@ -1,6 +1,6 @@
 <template>
   <div class="w-100 justify-content-center pt-4" >
-    <h3 class="align-self-start p-0 py-lg-5" style="font-weight:100; font-size: calc(16px + 1.2vw)"><fa icon="search-location" />  동네별 카페 바로찾기</h3>
+    <h3 class="align-self-start p-0 py-lg-5" style="font-weight:100; font-size: calc(16px + 0.8vw)"><fa icon="search-location" />  동네별 카페 바로찾기</h3>
     <div class="popular row justify-content-center mx-auto">
       <router-link v-for="neighbor in neighborList" :to="`/searched?q=${neighbor}`" :key="neighbor" class="cube col-12 col-md-4 col-lg-2">
         <div class="flippety">
@@ -39,12 +39,9 @@ export default {
   transition: 120ms linear;
   border-radius: 12px;
 }
-.popular:hover {
-  background: 
-}
 .cube {
 	text-align: center;
-  height: 360px;
+  height: 26vh;
   transition: transform 0.33s;
   transform-style: preserve-3d;
 	cursor: pointer;
@@ -52,7 +49,7 @@ export default {
 
 .flippety,
 .flop {
-  height: 360px;
+  height: 26vh;
 	align-items: center !important;
 	justify-content: center !important;
 	display: flex;
@@ -60,11 +57,11 @@ export default {
 }
 
 .flippety {
-  transform: translateZ(180px);
+  transform: translateZ(13vh);
 }
 
 .flop {
-  transform: rotateX(-90deg) translateZ(-180px);
+  transform: rotateX(-90deg) translateZ(-13vh);
 	background-size: cover !important;
 }
 

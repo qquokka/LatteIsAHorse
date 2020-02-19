@@ -2,6 +2,7 @@
   <div class="container-fluid p-0">
     <nav-bar bgcolor="#FFD6BA" />
     <div class="home-header align-items-center d-flex flex-column justify-content-center">
+      <img class="d-none d-lg-block" style="position:absolute;height: 100vh;right:-16vw;bottom:15vh; opacity: 0.08;filter: grayscale(100%)" :src="require('../assets/navlogo.png')" alt="">
       <div>
         <h2
           class="d-none d-md-block brand"
@@ -15,12 +16,13 @@
       </div>
         <search-bar class="mx-auto mt-4" />
     </div>
-        <hash-tags class="mt-4" />
-
+        
+    <div class="container">
+      <hash-tags class="mt-4" />
     <popular-list />
     <div class="main-section" style="margin-top:8rem;">
       <div class="text-center">
-        <h2 class="article-header" > <fa icon="road" /> 가까운 카페</h2>
+        <h2 class="article-header" > <fa icon="road" /> 가까운 인기 카페</h2>
         <div style="cursor:pointer; color: crimson;font-size: calc(5px + 0.5vw)" @onclick="geoPermission()"> <fa icon="crosshairs" /> 위치정보이용동의</div>
       </div>
       <cafe-list :cafeData="cafeData" />
@@ -29,6 +31,7 @@
     <div class="main-section">
       <h2 class="article-header my-5"><fa icon="pen-nib"/> EDITOR's PICK</h2>
       <review-list limits="6" :reviewData="reviewData" />
+    </div>
     </div>
     <b-section />
     <Footer />
@@ -86,20 +89,12 @@ export default {
         lng: position.coords.longitude
       };
     },
-    fail(error) {
-      console.log(error);
-    },
   },
   beforeMount() {
     axios.get(`${this.$store.state.constants.SERVER}/cafe`)
       .then(response => {
-        console.log(response.data)
         this.cafeData = response.data.slice(0, 6);
       })
-      .catch(err => {
-        console.log(err.response);
-      });
-
     axios.get(`${this.$store.state.constants.SERVER}/post`)
       .then(response => {
         this.reviewData = response.data;

@@ -7,30 +7,30 @@
         class="m-4 gitlink"
         :icon="github"
         size="3x"
-        style="color: lavender"
+        style="color: lightgray"
       />
     </a>
-    <div class="row m-0 mx-auto text-white-50 justify-content-around align-items-center" style="max-width: 750px;">
-			<p style="color:violet;">|</p>
+    <div class="row m-0 mx-auto text-white-50 justify-content-around align-items-center" style="max-width: 550px;">
+			<p style="color:lightgray;">|</p>
       <p>류시호</p>
-      <p style="color:violet;">|</p>
+      <p style="color:lightgray;">|</p>
       <p>이경호</p>
-      <p style="color:violet;">|</p>
+      <p style="color:lightgray;">|</p>
       <p>조현호</p>
-      <p style="color:violet;">|</p>
+      <p style="color:lightgray;">|</p>
       <p>양혜진</p>
-      <p style="color:violet;">|</p>
+      <p style="color:lightgray;">|</p>
       <p>현진원</p>
-      <p style="color:violet;">|</p>
+      <p style="color:lightgray;">|</p>
     </div>
     <div class="row m-0 text-white-50 justify-content-center align-items-center">
       <p>
-        <img src="../../assets/ssafy_logo.png" height="50px" />
+        <img src="../../assets/ssafy_logo.png" height="18px" />
       </p>
       <p>
         SSAFY 2기
-        <span style="color:violet;">|</span> 대전 캠퍼스 1반
-        <span style="color:violet;">|</span> 웹 / 모바일 프로젝트 팀 HBH
+        <span style="color:lightgray;">|</span> 대전 캠퍼스 1반
+        <span style="color:lightgray;">|</span> 웹 / 모바일 프로젝트 팀 HBH
       </p>
     </div>
     <div class="row m-0 text-white-50 justify-content-center align-items-center">
@@ -44,8 +44,11 @@
       <div class="d-none d-md-flex col-md-5">
         <p class="footer-brand">
           LATTE
-          <span style="color:violet;">=</span>HORSE
-        </p>
+          </p>
+          <span class="footer-brand" style="color:violet;">=</span>
+        <p class="footer-brand">
+          HORSE
+          </p>
         <small class="text-muted my-auto ml-2">
           <span @click="$router.push('/hangman/is/the/perfect/game/of/the/whole/human/history')">라떼는</span> 말이야
         </small>
@@ -84,35 +87,35 @@ export default {
   }
 };
 </script>
-
 <style>
 #footer {
-  background: #4f4f4f;
+  background: #555B6E;
   align-items: center;
   position: relative;
   margin-top: auto !important;
+  font-size: calc(6px + 0.6vw)
 }
 .footer-brand {
   font-size: 2rem;
   font-weight: 900;
-  color: lavender;
+  color: lightgray;
   font-family: sans-serif;
   user-select: none;
   margin: 0;
 }
 .footer-right {
-  font-size: 1rem;
-  color: lavender !important;
+  font-size: calc(6px + 0.5vw);
+  color: lightgray !important;
   text-align: left;
   padding: 1rem;
   text-decoration: none !important;
 }
 .footer-right:hover {
-  color: violet !important;
+  color: lightgray !important;
 }
 .gitlink:hover {
   transition: cubic-bezier(0.39, 0.575, 0.565, 1);
   animation: bounce 1s infinite;
-  color: violet !important;
+  color: lightgray !important;
 }
 </style>

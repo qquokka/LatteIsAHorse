@@ -13,10 +13,11 @@ import Admin from '../views/Admin.vue'
 import Profile from '../views/Profile.vue'
 import CafeList from '../components/CafeList.vue'
 import Coupon from '../views/Coupon.vue'
-import CouponUseRequestList from '../components/CouponUseRequestList.vue'
-import CouponUseRequestPage from '../views/CouponUseRequestPage.vue'
-import QRcodeReader from '../components/QRcodeReader.vue'
-import AddMyCafe from '../views/AddMyCafe.vue'
+import QRcodeReader from '../components/QRcodeReader'
+import CouponUseRequestList from '../components/CouponUseRequestList'
+import CouponUseRequestPage from '../views/CouponUseRequestPage'
+import EditMyCafe from '../views/EditMyCafe.vue'
+import HashTagList from '../components/HashTagList.vue'
 
 Vue.use(VueRouter)
 
@@ -121,9 +122,10 @@ const routes = [
     component: CouponUseRequestPage
   },
   {
-    path: '/newcafe',
-    name: 'addMyCafe',
-    component: AddMyCafe
+    path: '/hashtag/:tagname',
+    name: 'taglist',
+    component: HashTagList,
+    props: true
   }
 ]
 

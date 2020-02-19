@@ -2,10 +2,11 @@
   <div id="cafe-page-container" class="container-fluid p-0">
     <!-- global component -->
     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="fullPage" loader="bars" color="violet"></loading>
+    <div v-if="isDesktop">
     <div v-if="selectedImage" id="imgView">
       <img :src="selectedImage" @click.stop="selectedImage = null" />
     </div>
-    <router-link id="reviewWriteBtn" :to="`/cafe/${cafeId}/posts/create`" ><fa icon="pencil-alt" style="filter: drop-shadow(0 0 1px white)" /></router-link>
+    <router-link id="reviewWriteBtn" :to="`/cafe/${cafeId}/posts/create`" ><fa icon="pencil-alt" size="2x" style="filter: drop-shadow(0 0 1px white)" /></router-link>
     <!-- global end-->
     <nav-bar />
       <div id="topbar" class="justify-content-between align-items-center">
@@ -14,6 +15,7 @@
         <div v-else>ERROR</div>
         <div class="mr-2"><fa icon="coffee" /></div>
       </div>
+      
     <div class="row m-0 mt-0 mt-lg-5 border-0" v-if="info">
 
       <single-cafe-map :cafe="info" :isOpen="isOpen" class="col-12 col-lg-5 p-0" />
@@ -26,7 +28,7 @@
         <div class="row mt-3 mt-lg-1 justify-content-between px-4">
           <h6 class="text-left shortinfo">
             <fa style="color:gold;margin-right:0.4rem" icon="crown" />대표자명:
-            <span class="text-muted">미등록</span>
+            <span class="text-muted">{{ info.owner_name || '미등록' }}</span>
           </h6>
 
           <h6 class="text-left shortinfo">
@@ -46,7 +48,7 @@
             <ICountUp
               style="font-family:monospaced"
               :delay="delay"
-              :endVal="29593"
+              :endVal="info.like_count"
               :options="options"
             />
             <span style="font-size:1rem">LIKED</span>
@@ -99,7 +101,7 @@
             <p>open</p>
             <p>close</p>
           </div>
-          <div v-for="i in info.time.length - 1" :key="i" class="col wcol" :id="i">
+          <div v-for="i in info.time.length - 1" :key="'time' + i" class="col wcol" :id="i">
             <p class="weekday">{{ info.time[i][2] }}</p>
             <p>{{ info.time[i][0].slice(11, 16) }}</p>
             <p>{{ info.time[i][1].slice(11, 16) }}</p>
@@ -117,10 +119,10 @@
     </div>
     <div class="container mt-5" v-if="menus" >
       <h4 class="my-5 cafe-page-section-name">
-        <fa icon="mug-hot" style="color:#FFD6BA;margin-right:0.5rem" />MENU
+        <fa icon="mug-hot" style="color: brown;margin-right:0.5rem" />MENU
       </h4>
       <hr />
-      <div  v-for="menu in menus" :key="menu.mid + menu.user_like" class="row menurow">
+      <div  v-for="menu in menus" :key="menu.mid * 1121" class="row menurow">
         <div class="col-4 justify-content-between">
           <p class="text-truncate text-left menutitle">{{ menu.product }}</p>
         </div>
@@ -136,7 +138,7 @@
           </p>
         </div>
         <div class="col-5 text-truncate">
-          <p class="text-muted menutitle">메뉴 설명</p>
+          <p class="text-muted menutitle">{{ menu.description || '(아직 설명이 없는 메뉴에요)' }}</p>
         </div>
 
         <div class="col-2 menutitle">
@@ -147,11 +149,11 @@
 
     <hr />
     <h4 class="my-5 cafe-page-section-name">
-      <fa icon="envelope-open-text" style="color:orange" />REVIEW
+      <fa icon="envelope-open-text" style="color:orange;margin-right:0.5rem" />REVIEW
     </h4>
-    <div class="row m-0 px-0 px-lg-4">
+    <div class="row m-0 px-0 container mx-auto">
       <div
-        class="container my-3 overflow-hidden col-12 col-lg-4 review-link p-0"
+        class="container my-3 overflow-hidden col-12 review-link p-0"
         v-for="review in reviews.slice().reverse()"
         :key="review.id"
 
@@ -159,7 +161,7 @@
         <router-link :to="`/cafe/${cafeId}/review/${review.id}/`">
           <div
             class="justify-content-center px-2 p-0 border"
-            style="background: #BEE3DB;"
+            style="background: #f3f3f3;"
           >
             <h1 class="py-2 text-center text-truncate" style="font-size: calc(1.5rem + 1vw)">
               {{ review.title }}
@@ -173,16 +175,15 @@
           </div>
           <div class="border">
             <div class="m-2 border">
-              <div class="row m-0 mt-2 justify-content-center">
+              <div class="row m-0 mt-2 justify-content-center" v-if="review.thumbnail">
                 <div
-                  :style="`background: url(${review.thumbnail});background-size:cover`"
+                  :style="`background: url(${review.thumbnail});height: 60vh;padding:0;background-size: cover !important;`"
                   class="col-11"
-                  style="height:300px;padding:0;"
                   @error="imgPlaceholder"
                 />
               </div>
               <div class="row p-1 justify-content-center line-clamp" style="height: 225px;">
-                <span class="col-11 text-left p-2 " v-html="review.content"></span>
+                <span class="col-11 text-left p-2 imghtml" v-html="review.content"></span>
               </div>
               <div style="font-size: calc(2rem+2vw)" class="row justify-content-center">
                 댓글 : (...)
@@ -192,6 +193,7 @@
           </div>
         </router-link>
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -253,6 +255,7 @@ export default {
       isLoading: false,
       fullPage: true,
       today: 0,
+      isDesktop: true,
       selectedImage: null,
       delay: 400,
       options: {
@@ -293,7 +296,7 @@ export default {
           // 리뷰 작성시간이 12시간 이내이면 '3시간 전' 이런 식으로 나오게 하고, 12시간 이전이면 날짜 시간 다 표시
           let now = Date.now();
           this.reviews.forEach(review => {
-            review.updated_at = review.updated_at.slice(0, 19);
+            review.updated_at = review.updated_at.slice(0, 20);
             let date = new Date(review.updated_at);
             if (now - Date.parse(date) <= 43200000) {
               review.updated_at = moment(review.updated_at)
@@ -336,19 +339,7 @@ export default {
             this.info.time[i].push(days[i]);
           }
         })
-        .catch(error => {
-          console.log(error.data);
-        });
-      // reponse.data.like.forEach(elem => {
-      //   menuselem.menuId
-      // })
     },
-    // deleteReview(reviewId) {
-    // 	axios.delete(`${this.$store.state.constants.SERVER}/post/${reviewId}`, {headers: {'Authorization': "Bearer " + this.$session.get('jwt')}})
-    // 		.then(response => {
-    // 			console.log(response)
-    // 		})
-    // },
     pushLikeMenu(menuId,likeornot) {
       if (!this.$store.getters.isLoggedIn) {
         alert("plz login");
@@ -383,6 +374,11 @@ export default {
       }
     }
   },
+  beforeMount() {
+    if (window.innerWidth < 991) {
+      this.isDesktop = false
+    }
+  },
   mounted() {
     this.getData();
     window.scrollTo(0, 0);
@@ -391,7 +387,7 @@ export default {
       let dayofweek = week[new Date().getDay()];
       let todayCal = document.getElementById(dayofweek);
       todayCal.style.backgroundColor = "#BEE3DB";
-    }, 250);
+    }, 500);
   },
 };
 </script>
@@ -402,6 +398,9 @@ export default {
 }
 .cafe-page-section-name {
   font-size: calc(1.2rem + 1vw)
+}
+.review-link {
+  max-width: 1440px !important;
 }
 .review-link:hover {
   box-shadow: 0 0 15px lightgray;
@@ -424,7 +423,7 @@ export default {
   right: 19px;
   background: gold;
   opacity: 0.9;
-  padding: 0.7rem 1rem;
+  padding: calc(0.5rem + 1vw) calc(0.7rem + 1vw);
   border-radius: 50%;
   z-index: 9999;
   box-shadow: 2px 3px 3px lightgray
@@ -525,7 +524,7 @@ export default {
   overflow: hidden;
 }
   .menutitle { 
-    font-size: calc(0.5rem + 1vw)
+    font-size: calc(0.5rem + 0.7vw)
   }
 @media only screen and (max-width: 991px) {
   .menutxt > div > p {

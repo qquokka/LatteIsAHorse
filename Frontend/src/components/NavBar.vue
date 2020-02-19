@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg sticky-top" id="topnav">
   <div id="toggler" data-toggle="modal" data-target="#staticBackdrop"> </div>
-  <router-link to="/" class="ml-2 row text-decoration-none d-none d-lg-flex" ><img src="../assets/logo_icon.png" style="margin: -30px" width="120px"><h4 class="my-auto ml-3" style="color:#3f3f3f">라떼는말이야</h4> </router-link>
+  <router-link to="/" class="ml-2 row text-decoration-none d-none d-lg-flex" ><img :src="require('../assets/navlogo.png')" style="margin: -30px" width="120px"><h4 class="mt-auto ml-3" style="font-size: 1.5vw;font-family:cursive !important">라떼는말이야</h4> </router-link>
   <div class="navbar-collapse" id="navbarNavDropdown">
     <div class="row ml-auto mr-1">
       <div class="col nav-col d-lg-none" >
@@ -138,6 +138,9 @@ destroyed() {
 }
 </script>
 <style>
+nav {
+  transition: 250ms;
+}
 #navbarNavDropdown > .row {
   min-width: fit-content;
 }
@@ -149,7 +152,7 @@ destroyed() {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem 0;
+  padding: 0.4rem 0;
 }
 
 .nav-link {
@@ -184,8 +187,8 @@ destroyed() {
     margin: 0;
 }
 .nav-text {
-  margin: 0 0 0 1rem;
-  font-size: calc(0.2rem + 1vw);
+  margin: 0 0 0 0.4vw;
+  font-size: calc(0.2rem + 0.8vw);
   overflow: nowrap;
   text-overflow: clip
 }
@@ -201,7 +204,7 @@ destroyed() {
     border-top: 1px solid lightgray;
     justify-content: start;
     text-align: center;
-    position: fixed;
+    position: fixed !important;
     height: fit-content;
     margin-top: auto;
     bottom: 0;
@@ -222,6 +225,9 @@ destroyed() {
   }
   .nav-mobile-text {
     display: block;
+  }
+  .container {
+    padding: 0 !important;
   }
 
 }
