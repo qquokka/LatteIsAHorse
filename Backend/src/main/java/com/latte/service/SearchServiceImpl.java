@@ -28,4 +28,10 @@ public class SearchServiceImpl implements ISearchService {
 		return searchDao.searchInCafe(query);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<CafeDto> searchInHashtag(String query) {
+		return searchDao.searchInHashtag(query);
+	}
+
 }

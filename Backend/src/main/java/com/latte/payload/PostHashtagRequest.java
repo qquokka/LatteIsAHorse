@@ -5,18 +5,18 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-public class PostHashtagRequest implements Serializable{
+public class PostHashtagRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@NotNull
 	private Long post_id;
 	@NotNull
-	private List<Integer> hashtag_ids;
+	private List<Integer> hashtag_id;
 
-	public PostHashtagRequest(Long post_id, List<Integer> hashtag_ids) {
+	public PostHashtagRequest(Long post_id, List<Integer> hashtag_id) {
 		super();
 		this.post_id = post_id;
-		this.hashtag_ids = hashtag_ids;
+		this.hashtag_id = hashtag_id;
 	}
 
 	public PostHashtagRequest() {
@@ -31,12 +31,12 @@ public class PostHashtagRequest implements Serializable{
 		this.post_id = post_id;
 	}
 
-	public List<Integer> getHashtag_ids() {
-		return hashtag_ids;
+	public List<Integer> getHashtag_id() {
+		return hashtag_id;
 	}
 
-	public void setHashtag_ids(List<Integer> hashtag_ids) {
-		this.hashtag_ids = hashtag_ids;
+	public void setHashtag_id(List<Integer> hashtag_id) {
+		this.hashtag_id = hashtag_id;
 	}
 
 }

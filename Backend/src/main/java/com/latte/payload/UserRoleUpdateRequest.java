@@ -1,7 +1,6 @@
 package com.latte.payload;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 public class UserRoleUpdateRequest {
 	private Long id;

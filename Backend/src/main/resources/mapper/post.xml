@@ -44,12 +44,15 @@
 
 	<select id="getPostListByCafeId"
 		parameterType="java.lang.Integer" resultType="post">
-		select p.*, u.username as writer_name,
-		ifnull(count(ulp.liked), 0) as like_count
-		from users u, posts p left outer join userslikepost ulp on p.id = ulp.post_id
+		select p.*, u.username as
+		writer_name,
+		ifnull(count(ulp.like_count), 0) as like_count
+		from users
+		u, posts p left outer join userslikepost ulp on p.id = ulp.post_id
 		where u.id = p.writer_id and p.cafe_id = #{cafe.id}
 		group by p.id
-		order by p.id asc;
+		order
+		by p.id asc
 	</select>
 
 	<!-- 가장 마지막에 저장된 Post의 ID 반환 -->

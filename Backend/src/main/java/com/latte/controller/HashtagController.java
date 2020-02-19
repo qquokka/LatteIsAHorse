@@ -170,8 +170,9 @@ public class HashtagController {
 	public ResponseEntity<Map<String, Object>> addHashtagId(@Valid @RequestBody PostHashtagRequest request)
 			throws Exception {
 		Map<String, Object> response = new HashMap<>();
-		logger.info(request.getHashtag_ids().toString());
-		if (request.getHashtag_ids().isEmpty()) {
+		logger.info(request.getHashtag_id().toString());
+
+		if (request.getHashtag_id().isEmpty()) {
 			response.put("message", "추가할 해쉬태그 ID가 없습니다.");
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
@@ -179,7 +180,8 @@ public class HashtagController {
 		PostHashtag post_hashtag = new PostHashtag();
 		post_hashtag.setPosts_id(request.getPost_id());
 
-		for (Integer id : request.getHashtag_ids()) {
+		for (Integer id : request.getHashtag_id()) {
+
 			post_hashtag.setHashtag_id(id);
 			int result = hashtagService.addHashtagId(post_hashtag);
 
@@ -207,7 +209,7 @@ public class HashtagController {
 		response.put("names", hashtagNames);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
-	
+
 	@ApiOperation(value = "DB에 등록된 모든 해쉬태그명과 빈도수 반환")
 	@GetMapping("/hashtags")
 	public ResponseEntity<Map<String, Object>> getAllHashtagNamesNumber() throws Exception {
@@ -224,6 +226,5 @@ public class HashtagController {
 		response.put("hashtags", hashtagNamesNumber);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
-	
-	
+
 }

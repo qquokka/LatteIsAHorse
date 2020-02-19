@@ -43,7 +43,6 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.latte.dto.Coupon;
 import com.latte.dto.QRCode;
-import com.latte.payload.ApiResponse;
 import com.latte.payload.CouponUseRequest;
 import com.latte.payload.CouponUseResponse;
 import com.latte.payload.EnrollCouponRequest;
@@ -79,22 +78,23 @@ public class CouponController {
 //	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
 	public ResponseEntity<Map<String, Object>> deleteQRCode(@RequestBody QRCode qrcode) throws Exception {
 		Map<String, Object> response = new HashMap<String, Object>();
-		
+
 		int result = qrcodeService.deleteQRCode(qrcode);
 
-		if(result < 1) {
+		if (result < 1) {
 			response.put("message", "QR코드 삭제 실패");
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-		}else {
+		} else {
 			response.put("message", "QR코드 삭제 성공");
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 	}
-	
+
 	@PutMapping("/coupon")
 	@ApiOperation(value = "쿠폰 등록하기")
 //	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
-	public ResponseEntity<Map<String, Object>> enrollCoupon(@RequestBody EnrollCouponRequest enroll, HttpServletRequest request) throws Exception {
+	public ResponseEntity<Map<String, Object>> enrollCoupon(@RequestBody EnrollCouponRequest enroll,
+			HttpServletRequest request) throws Exception {
 		String decryptedCode = decryptAES256(enroll.getCode());
 
 		// format : "cafe_id,count,time_stamp"
@@ -125,9 +125,8 @@ public class CouponController {
 		int result = couponService.isExist(coupon);
 
 		// 쿠폰 정보가 이미 DB에 존재 하는지
-		result = (result < 1) ? 
-				couponService.addCoupon(coupon) :  //DB에 쿠픈 등록 이력이 없으면 새로 등록
-				couponService.updateCoupon(coupon); //있으면 count update
+		result = (result < 1) ? couponService.addCoupon(coupon) : // DB에 쿠픈 등록 이력이 없으면 새로 등록
+				couponService.updateCoupon(coupon); // 있으면 count update
 
 		if (result >= 1) {
 			response.put("message", "쿠폰 등록 성공");
@@ -137,49 +136,50 @@ public class CouponController {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@GetMapping("/coupons/{cafe_id}")
 	@ApiOperation(value = "쿠폰 사용 요청 리스트 반환")
 //	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})") //카페 사장님(관리자)만 요청 가능
-	public ResponseEntity<Map<String, Object>> getCouponUseRequests(@PathVariable("cafe_id") Integer cafe_id) throws Exception {
+	public ResponseEntity<Map<String, Object>> getCouponUseRequests(@PathVariable("cafe_id") Integer cafe_id)
+			throws Exception {
 		Map<String, Object> response = new HashMap<String, Object>();
 		logger.info("asfasfasfasddfasfasdfa : " + cafe_id);
 		// 현재 보유한 쿠폰 갯수(등록되어 있지 않다면 기본값 = 0)
-		List<CouponUseResponse> couponUseRequestList = couponService.getCouponUseRequests(cafe_id.intValue()); 
+		List<CouponUseResponse> couponUseRequestList = couponService.getCouponUseRequests(cafe_id.intValue());
 
-		if(couponUseRequestList == null) {
+		if (couponUseRequestList == null) {
 			response.put("message", "couponUseRequest 리스트 가져오기 실패");
 			return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
-		}else {
+		} else {
 			response.put("message", "couponUseRequest 리스트 가져오기 성공");
 			response.put("requests", couponUseRequestList);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 
 	}
-	
+
 	@PostMapping("/coupon")
 	@ApiOperation(value = "쿠폰 사용 요청")
 //	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})") 
-	public ResponseEntity<Map<String, Object>> requestCouponUse(@Valid @RequestBody CouponUseRequest useRequest, HttpServletRequest request) 
-			throws Exception {
-		Long user_id = getLoggedInUserId(request); //owner's user id
+	public ResponseEntity<Map<String, Object>> requestCouponUse(@Valid @RequestBody CouponUseRequest useRequest,
+			HttpServletRequest request) throws Exception {
+		Long user_id = getLoggedInUserId(request); // owner's user id
 		Map<String, Object> response = new HashMap<String, Object>();
 
-		//나중에 주석 제거
+		// 나중에 주석 제거
 //		if (user_id == 0L) {
 //			response.put("message", "토근 만료, 다시 로그인 해주세요.");
 //			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
 //		}
-		
+
 		useRequest.setUser_id(8L);
-		
+
 		int result = couponService.requestCouponUse(useRequest);
-		
-		if(result < 1) {
+
+		if (result < 1) {
 			response.put("message", "쿠폰 사용 요청 실패");
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-		}else {
+		} else {
 			response.put("message", "쿠폰 사용 요청 성공");
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
@@ -201,7 +201,7 @@ public class CouponController {
 
 		Coupon coupon = new Coupon();
 		coupon.setCafe_id(cafe_id);
-		coupon.setUsers_id(4L); //users_id
+		coupon.setUsers_id(4L); // users_id
 
 		// 현재 보유한 쿠폰 갯수(등록되어 있지 않다면 기본값 = 0)
 		int numberOfCoupon = couponService.getCurrentCouponCount(coupon);

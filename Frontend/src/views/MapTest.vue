@@ -54,6 +54,7 @@
         :filtername="filtername"
         @cafe_change_event="cafeChange"
       />
+      <input @hashtag_get_event="getHashtags" type = "hidden">
     </div>
     <div class="d-none d-lg-block col-lg-3 bg-white px-0 infocol" v-if="cafe.cafeinfo">
       <loading

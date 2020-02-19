@@ -126,7 +126,7 @@ const routes = [
     name: 'taglist',
     component: HashTagList,
     props: true
-  },
+  }
 ]
 
 const router = new VueRouter({
