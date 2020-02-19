@@ -65,6 +65,8 @@
 <script>
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
+import axios from 'axios'
+
 export default {
   name: "GoogleMap",
   components: {

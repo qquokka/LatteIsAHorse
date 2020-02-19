@@ -49,7 +49,6 @@ import BSection from "@/views/section/BuisinessSection.vue"
 import Footer from "@/views/section/Footer.vue";
 import HashTags from "@/components/HashTags.vue"
 import axios from "axios";
-import WordCloud from "@/components/WordCloud.vue"
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faRoad, faCrosshairs, faPenNib } from "@fortawesome/free-solid-svg-icons";
 library.add(faRoad, faCrosshairs, faPenNib)
