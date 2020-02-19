@@ -112,6 +112,9 @@
         </div>
       </div>
     </div>
+    <div class="d-none d-md-block col-md-3 bg-white px-0 infocol d-flex" v-else>
+      <h4 class="my-auto" style="margin-top: 45vh">지도에서 마커를 눌러주세요</h4> 
+    </div>
   </div>
 </template>
 

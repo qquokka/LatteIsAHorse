@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg sticky-top" id="topnav">
   <div id="toggler" data-toggle="modal" data-target="#staticBackdrop"> </div>
-  <router-link to="/" class="ml-2 row text-decoration-none d-none d-lg-flex" ><img src="../assets/logo_icon.png" style="margin: -30px" width="120px"><h4 class="my-auto ml-3" style="color:#3f3f3f">라떼는말이야</h4> </router-link>
+  <router-link to="/" class="ml-2 row text-decoration-none d-none d-lg-flex" ><img :src="require('../assets/navlogo.png')" style="margin: -30px" width="120px"><h4 class="mt-auto ml-3" style="font-size: 1.5vw;font-family:cursive !important">라떼는말이야</h4> </router-link>
   <div class="navbar-collapse" id="navbarNavDropdown">
     <div class="row ml-auto mr-1">
       <div class="col nav-col d-lg-none" >

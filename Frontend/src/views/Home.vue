@@ -2,6 +2,7 @@
   <div class="container-fluid p-0">
     <nav-bar bgcolor="#FFD6BA" />
     <div class="home-header align-items-center d-flex flex-column justify-content-center">
+      <img style="position:absolute;height: 100vh;right:-16vw;bottom:13vh; opacity: 0.08;filter: grayscale(100%)" :src="require('../assets/navlogo.png')" alt="">
       <div>
         <h2
           class="d-none d-md-block brand"
