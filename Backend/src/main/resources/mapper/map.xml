@@ -26,7 +26,7 @@
 			- radians(#{longitude}))
 			+ sin(radians(#{latitude})) * sin(radians(latitude)))) as distance
 			from
-			cafe having distance <= #{meter} order by distance limit = #{limit}
+			cafe having distance <= #{meter} order by distance limit #{limit}
 		]]>
 	</select>
 
