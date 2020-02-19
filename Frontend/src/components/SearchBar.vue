@@ -6,7 +6,6 @@
       type="text"
       class="col-10 morph-text p-0"
       placeholder=" 지역명, 카페 이름 등🔍"
-      autofocus
       autocomplete
     />
     <div class="col h-100 p-0">
@@ -68,9 +67,10 @@ export default {
 }
 
 input[type="text"] {
-  border: 0;
+  border: 0 !important;
   background: #ffffff;
   border-radius: 10px 0 0 10px;
+  outline: none;
 }
 @media only screen and (max-width: 991px) {
   ::-webkit-input-placeholder,

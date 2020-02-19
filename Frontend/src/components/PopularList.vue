@@ -4,7 +4,7 @@
     <div class="popular row justify-content-center mx-auto">
       <router-link v-for="neighbor in neighborList" :to="`/searched?q=${neighbor}`" :key="neighbor" class="cube col-12 col-md-4 col-lg-2">
         <div class="flippety">
-          <p class="glow w-100" style="z-index: 5;background: rgba(0">{{ neighbor }}</p> 
+          <p class="glow" style="z-index: 1;background: rgba(0">{{ neighbor }}</p> 
           <img :src="require(`@/assets/img/${neighbor}-min.jpg`)" style="width: 100%; height: 100%; position:absolute;filter: brightness(0.6)">
           
         </div>
@@ -45,6 +45,7 @@ export default {
   transition: transform 0.33s;
   transform-style: preserve-3d;
 	cursor: pointer;
+  padding: 0 !important;
 }
 
 .flippety,
@@ -53,7 +54,7 @@ export default {
 	align-items: center !important;
 	justify-content: center !important;
 	display: flex;
-	border-radius: 5px;;
+	border-radius: 5px;
 }
 
 .flippety {
@@ -85,8 +86,13 @@ export default {
     padding: 0;
   }
   .cube {
-    margin: 1rem 0;
-    padding: 0 !important;
+    margin: 0.2rem 0;
+    z-index: 2;
+    
+  }
+  .flippety,
+  .flop {
+max-width: 350px !important;
   }
 }
 </style>

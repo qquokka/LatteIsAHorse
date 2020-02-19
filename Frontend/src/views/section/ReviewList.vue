@@ -4,7 +4,7 @@
       <div
         v-for="review in reviewData.slice(0, limits)"
         :key="review.id"
-        class="post-list col-12 col-sm-6 col-lg-4 p-3"
+        class="post-list col-12 col-sm-6 col-lg-4"
       >
         <router-link :to="`/cafe/${review.cafe_id}/review/${review.id}/`">
           <div class="postbody overflow-hidden border">
@@ -95,5 +95,8 @@ export default {
   left: 2rem;
   padding: 0.3rem;
   opacity: 0.7;
+}
+.post-list {
+  padding: 0 !important;
 }
 </style>
