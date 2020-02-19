@@ -24,4 +24,8 @@ public class SearchDaoImpl {
 		return sqlSession.selectList(ns + "searchInCafe", query);
 	}
 
+	public List<CafeDto> searchInHashtag(String query) {
+		return sqlSession.selectList(ns + "searchInHashtag", query);
+	}
+
 }

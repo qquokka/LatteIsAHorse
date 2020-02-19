@@ -32,7 +32,6 @@ import com.latte.dto.CafeDto;
 import com.latte.dto.MenuDto;
 import com.latte.dto.UsersLikeMenu;
 import com.latte.model.KaKaoGeoResponse;
-import com.latte.model.User;
 import com.latte.model.post.Post;
 import com.latte.payload.CafeEnrollRequest;
 import com.latte.repository.UserRepository;
@@ -133,7 +132,6 @@ public class CafeController {
 		userslikemenu.setCafe_id(cafe_id);
 
 		Long users_id = getLoggedInUserId(request);
-		System.out.println("#$#$#$#$#$#$ users_id : " + users_id);
 		Map<String, Object> response = new HashMap<>();
 		if (users_id != 0L) {
 			userslikemenu.setUsers_id(users_id);
@@ -142,11 +140,11 @@ public class CafeController {
 		List<MenuDto> menuList = ulmservice.getUsersLikeMenuByCafeIdNUserId(userslikemenu);
 
 		if (cafeInfo != null) {
-			Long cafe_owner_id = cafeInfo.getCafe_owner_id();
-			User owner = null;
-			if (cafe_owner_id != null && cafe_owner_id != 0L) {
-				owner = userRepository.findById(cafeInfo.getCafe_owner_id()).get();
-			}
+//			Long cafe_owner_id = cafeInfo.getCafe_owner_id();
+//			User owner = null;
+//			if (cafe_owner_id != null && cafe_owner_id != 0L) {
+//				owner = userRepository.findById(cafeInfo.getCafe_owner_id()).get();
+//			}
 			// Generate Cafe's Time Table
 			Instant[][] time = { { cafeInfo.getSun_open(), cafeInfo.getSun_close() },
 					{ cafeInfo.getMon_open(), cafeInfo.getMon_close() },
@@ -155,8 +153,8 @@ public class CafeController {
 					{ cafeInfo.getThu_open(), cafeInfo.getThu_close() },
 					{ cafeInfo.getFri_open(), cafeInfo.getFri_close() },
 					{ cafeInfo.getSat_open(), cafeInfo.getSat_close() } };
-			// response.put("time", time);
 			cafeInfo.setTime(time);
+
 			response.put("cafeinfo", cafeInfo);
 			if (menuList != null) {
 				response.put("menu", menuList);
@@ -164,9 +162,9 @@ public class CafeController {
 			if (postList != null) {
 				response.put("post", postList);
 			}
-			if (owner != null) {
-				response.put("owner_name", owner.getName());
-			}
+//			if (owner != null) {
+//				response.put("owner_name", owner.getName());
+//			}
 
 		} else {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);

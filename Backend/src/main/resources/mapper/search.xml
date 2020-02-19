@@ -4,17 +4,34 @@
 
 	<select id="searchInPosts" resultType="post">
 		select * from posts where
-		title regexp (#{query}) 
-		or content regexp(#{query}) 
-		order by updated_at limit 10
+		title regexp (#{query})
+		or content regexp(#{query})
+		order by updated_at
+		limit 10
 	</select>
 
 	<select id="searchInCafe" resultType="cafe">
 		select * from cafe where
 		cafe_name regexp (#{query})
-		or 
-		cafe_address regexp(#{query}) 
+		or
+		cafe_address
+		regexp(#{query})
 		<!-- order by like_count limit 10 -->
+	</select>
+
+	<select id="searchInHashtag" resultType="cafe">
+		select c.* from cafe c
+		join (select p.cafe_id from
+		posts p join (select
+		ph.posts_id from
+		post_hashtag ph join (select *
+		from hashtag h where
+		h.name regexp
+		(#{query})) as hh on ph.hashtag_id =
+		hh.hashtag_id) as phs
+		on
+		p.id=phs.posts_id) as pp on c.cafe_id =
+		pp.cafe_id
 	</select>
 
 </mapper>

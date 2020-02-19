@@ -43,7 +43,6 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.latte.dto.Coupon;
 import com.latte.dto.QRCode;
-import com.latte.payload.ApiResponse;
 import com.latte.payload.CouponUseRequest;
 import com.latte.payload.CouponUseResponse;
 import com.latte.payload.EnrollCouponRequest;

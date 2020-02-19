@@ -1,7 +1,5 @@
 package com.latte.payload;
 
-import java.time.Instant;
-
 public class CouponUseResponse {
 	private String username;
 	private String phone;
