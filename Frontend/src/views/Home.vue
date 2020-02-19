@@ -2,7 +2,7 @@
   <div class="container-fluid p-0">
     <nav-bar bgcolor="#FFD6BA" />
     <div class="home-header align-items-center d-flex flex-column justify-content-center">
-      <img style="position:absolute;height: 100vh;right:-16vw;bottom:13vh; opacity: 0.08;filter: grayscale(100%)" :src="require('../assets/navlogo.png')" alt="">
+      <img class="d-none d-lg-block" style="position:absolute;height: 100vh;right:-16vw;bottom:15vh; opacity: 0.08;filter: grayscale(100%)" :src="require('../assets/navlogo.png')" alt="">
       <div>
         <h2
           class="d-none d-md-block brand"
@@ -88,20 +88,12 @@ export default {
         lng: position.coords.longitude
       };
     },
-    fail(error) {
-      console.log(error);
-    },
   },
   beforeMount() {
     axios.get(`${this.$store.state.constants.SERVER}/cafe`)
       .then(response => {
-        console.log(response.data)
         this.cafeData = response.data.slice(0, 6);
       })
-      .catch(err => {
-        console.log(err.response);
-      });
-
     axios.get(`${this.$store.state.constants.SERVER}/post`)
       .then(response => {
         this.reviewData = response.data;

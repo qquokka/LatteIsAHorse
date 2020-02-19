@@ -22,7 +22,7 @@
         minZoom: 12,
         maxZoom: 18
       }"
-      :style="`height: ${avheight}px;`"
+      :style="`height: 107%`"
     >
       <gmap-marker
         :position="prop_center"
@@ -91,7 +91,7 @@ export default {
     };
   },
   beforeMount() {
-    this.avheight = Math.min(window.innerHeight - 75, window.innerWidth * 1.3);
+    this.avheight = Math.min(window.innerHeight - 52.78, window.innerWidth * 1.3);
     for (var lc=0;lc<1000;lc++) {
       this.window_open.push(false);
     }

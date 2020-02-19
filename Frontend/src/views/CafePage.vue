@@ -15,7 +15,7 @@
         <div v-else>ERROR</div>
         <div class="mr-2"><fa icon="coffee" /></div>
       </div>
-      <div class="container">
+      
     <div class="row m-0 mt-0 mt-lg-5 border-0" v-if="info">
 
       <single-cafe-map :cafe="info" :isOpen="isOpen" class="col-12 col-lg-5 p-0" />
@@ -28,7 +28,7 @@
         <div class="row mt-3 mt-lg-1 justify-content-between px-4">
           <h6 class="text-left shortinfo">
             <fa style="color:gold;margin-right:0.4rem" icon="crown" />대표자명:
-            <span class="text-muted">미등록</span>
+            <span class="text-muted">{{ info.owner_name || '미등록' }}</span>
           </h6>
 
           <h6 class="text-left shortinfo">
@@ -119,7 +119,7 @@
     </div>
     <div class="container mt-5" v-if="menus" >
       <h4 class="my-5 cafe-page-section-name">
-        <fa icon="mug-hot" style="color:#FFD6BA;margin-right:0.5rem" />MENU
+        <fa icon="mug-hot" style="color: brown;margin-right:0.5rem" />MENU
       </h4>
       <hr />
       <div  v-for="menu in menus" :key="menu.mid * 1121" class="row menurow">
@@ -138,7 +138,7 @@
           </p>
         </div>
         <div class="col-5 text-truncate">
-          <p class="text-muted menutitle">메뉴 설명</p>
+          <p class="text-muted menutitle">{{ menu.description || '(아직 설명이 없는 메뉴에요)' }}</p>
         </div>
 
         <div class="col-2 menutitle">
@@ -149,9 +149,9 @@
 
     <hr />
     <h4 class="my-5 cafe-page-section-name">
-      <fa icon="envelope-open-text" style="color:orange" />REVIEW
+      <fa icon="envelope-open-text" style="color:orange;margin-right:0.5rem" />REVIEW
     </h4>
-    <div class="row m-0 px-0 px-lg-4">
+    <div class="row m-0 px-0 container mx-auto">
       <div
         class="container my-3 overflow-hidden col-12 review-link p-0"
         v-for="review in reviews.slice().reverse()"
@@ -175,7 +175,7 @@
           </div>
           <div class="border">
             <div class="m-2 border">
-              <div class="row m-0 mt-2 justify-content-center">
+              <div class="row m-0 mt-2 justify-content-center" v-if="review.thumbnail">
                 <div
                   :style="`background: url(${review.thumbnail});height: 60vh;padding:0;background-size: cover !important;`"
                   class="col-11"
@@ -193,7 +193,6 @@
           </div>
         </router-link>
       </div>
-    </div>
     </div>
     </div>
   </div>
@@ -297,7 +296,7 @@ export default {
           // 리뷰 작성시간이 12시간 이내이면 '3시간 전' 이런 식으로 나오게 하고, 12시간 이전이면 날짜 시간 다 표시
           let now = Date.now();
           this.reviews.forEach(review => {
-            review.updated_at = review.updated_at.slice(0, 19);
+            review.updated_at = review.updated_at.slice(0, 20);
             let date = new Date(review.updated_at);
             if (now - Date.parse(date) <= 43200000) {
               review.updated_at = moment(review.updated_at)
@@ -525,7 +524,7 @@ export default {
   overflow: hidden;
 }
   .menutitle { 
-    font-size: calc(0.5rem + 1vw)
+    font-size: calc(0.5rem + 0.7vw)
   }
 @media only screen and (max-width: 991px) {
   .menutxt > div > p {
