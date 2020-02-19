@@ -23,6 +23,10 @@ public class MapDaoImpl {
 		return sqlSession.selectList(ns + "getCafesByUserLocation", location);
 	}
 
+	public List<CafeDto> getCafesByUserLocationLimit(UserLocation location) {
+		return sqlSession.selectList(ns + "getCafesByUserLocationLimit", location);
+	}
+
 	public List<MapHashtagResponse> getHashtagsByCafeIds(List<Integer> cafe_ids) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("cafe_ids", cafe_ids);

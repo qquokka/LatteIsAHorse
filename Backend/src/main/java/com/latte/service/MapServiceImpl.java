@@ -25,6 +25,12 @@ public class MapServiceImpl implements IMapService {
 
 	@Override
 	@Transactional(readOnly = true)
+	public List<CafeDto> getCafesByUserLocationLimit(UserLocation location) {
+		return mapDao.getCafesByUserLocationLimit(location);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
 	public List<MapHashtagResponse> getHashtagsByCafeIds(List<Integer> cafe_ids) {
 		return mapDao.getHashtagsByCafeIds(cafe_ids);
 	}

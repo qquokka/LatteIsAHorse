@@ -2,11 +2,11 @@ package com.latte.dto;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-//@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class CafeDto implements Serializable {
 	private static final long serialVersionUID = 1L;
