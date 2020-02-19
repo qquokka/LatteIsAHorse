@@ -138,6 +138,9 @@ destroyed() {
 }
 </script>
 <style>
+nav {
+  transition: 250ms;
+}
 #navbarNavDropdown > .row {
   min-width: fit-content;
 }

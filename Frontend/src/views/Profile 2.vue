@@ -38,6 +38,7 @@
 				<div v-if="contentNum === 0">
 					<h5 class="card-title mobile-display-block">내 카페 관리</h5>
 					<div v-if="myCafe">
+
 						<p class="card-text">내 카페 정보를 수정할 수 있습니다.</p>
 						<hr>
 						<cafe-list :cafeData="myCafe" />
@@ -60,7 +61,7 @@
 				</div>
 				<div v-if="contentNum === 2">
 					<h5 class="card-title mobile-display-block">내가 쓴 리뷰</h5>
-					<review-list limits="20" :reviewData="myReviews"/>
+					<review-list limits="3" :reviewData="myReviews"/>
 				</div>
 				<div v-if="contentNum === 3">
 					<h5 class="card-title mobile-display-block">내 정보 수정</h5>

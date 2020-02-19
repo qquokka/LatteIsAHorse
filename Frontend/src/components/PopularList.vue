@@ -41,7 +41,7 @@ export default {
 }
 .cube {
 	text-align: center;
-  height: 32vh;
+  height: 26vh;
   transition: transform 0.33s;
   transform-style: preserve-3d;
 	cursor: pointer;
@@ -49,7 +49,7 @@ export default {
 
 .flippety,
 .flop {
-  height: 32vh;
+  height: 26vh;
 	align-items: center !important;
 	justify-content: center !important;
 	display: flex;
@@ -57,11 +57,11 @@ export default {
 }
 
 .flippety {
-  transform: translateZ(16vh);
+  transform: translateZ(13vh);
 }
 
 .flop {
-  transform: rotateX(-90deg) translateZ(-16vh);
+  transform: rotateX(-90deg) translateZ(-13vh);
 	background-size: cover !important;
 }
 

@@ -10,7 +10,7 @@
           <div class="postbody overflow-hidden border">
             <img :src="review.thumbnail" width="100%" height="300px" @error="imgPlaceholder" />
 
-            <h3 class="p-2 posttitle text-truncate">{{ review.title }}</h3>
+            <h3 class="p-2 posttitle">{{ review.title }}</h3>
             <p style="font-size:0.8rem;">
               <fa icon="thumbs-up" style="color: skyblue" />
               {{ review.like_count }}

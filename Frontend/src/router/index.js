@@ -17,6 +17,7 @@ import QRcodeReader from '../components/QRcodeReader'
 import CouponUseRequestList from '../components/CouponUseRequestList'
 import CouponUseRequestPage from '../views/CouponUseRequestPage'
 import EditMyCafe from '../views/EditMyCafe.vue'
+import HashTagList from '../components/HashTagList.vue'
 
 Vue.use(VueRouter)
 
@@ -119,7 +120,13 @@ const routes = [
     path: '/coupon-use-request-page',
     name: 'CouponUseRequestPage',
     component: CouponUseRequestPage
-  }
+  },
+  {
+    path: '/hashtag/:tagname',
+    name: 'taglist',
+    component: HashTagList,
+    props: true
+  },
 ]
 
 const router = new VueRouter({
