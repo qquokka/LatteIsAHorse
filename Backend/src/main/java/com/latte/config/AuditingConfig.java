@@ -38,6 +38,3 @@ class SpringSecurityAuditAwareImpl implements AuditorAware<Long> {
 	}
 
 }
-
-//Now, to automatically populate the createdBy and updatedBy fields, 
-//we need to make the following modifications to the AuditingConfig class -

@@ -4,7 +4,9 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -69,17 +71,19 @@ public class AuthController {
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
 		// 회원탈퇴 처리된 경우
-		// User user =
-		// userRepository.findByUsernameOrEmail(loginRequest.getUsernameOrEmail(),
-		// loginRequest.getUsernameOrEmail());
+		User user = userRepository
+				.findByUsernameOrEmail(loginRequest.getUsernameOrEmail(), loginRequest.getUsernameOrEmail()).get();
+
+		if (!user.getActive().booleanValue()) { // 회원 탈퇴 처리됨
+			Map<String, Object> response = new HashMap<>();
+			response.put("message", "회원탈퇴 처리되어 로그인을 하실 수 없습니다.");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
+		}
 
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-
-		User user = userRepository
-				.findByUsernameOrEmail(loginRequest.getUsernameOrEmail(), loginRequest.getUsernameOrEmail()).get();
 
 		List<String> roles = new ArrayList<String>();
 		for (Role role : user.getRoles()) {
