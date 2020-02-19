@@ -9,4 +9,6 @@ public interface ISearchService {
 	List<Post> searchInPosts(String query);
 
 	List<CafeDto> searchInCafe(String query);
+	
+	List<CafeDto> searchInHashtag(String query);
 }

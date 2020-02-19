@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -44,7 +45,9 @@ public class FileUploadDownloadService {
 	// 파일을 저장
 	public String storeFile(MultipartFile file, String requestType) {
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
+		SimpleDateFormat format1 = new SimpleDateFormat ("yyyyMMddHHmmss");
+		String format_time1 = format1.format (System.currentTimeMillis());
+		fileName = format_time1+"_"+fileName;
 		try {
 			// 파일명에 부적합 문자가 있는지 확인한다.
 			if (fileName.contains(".."))

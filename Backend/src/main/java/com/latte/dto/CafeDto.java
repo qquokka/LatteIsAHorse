@@ -50,6 +50,7 @@ public class CafeDto implements Serializable {
 	private String description;
 	private Instant[][] time;
 	private int like_count;
+	private String owner_name;
 
 	public CafeDto() {
 		super();
@@ -59,7 +60,8 @@ public class CafeDto implements Serializable {
 			double longitude, String thumbnail, Instant mon_open, Instant mon_close, Instant tue_open,
 			Instant tue_close, Instant wed_open, Instant wed_close, Instant thu_open, Instant thu_close,
 			Instant fri_open, Instant fri_close, Instant sat_open, Instant sat_close, Instant sun_open,
-			Instant sun_close, Boolean closed, Long cafe_owner_id, Instant[][] time, int like_count) {
+			Instant sun_close, Boolean closed, Long cafe_owner_id, String description, Instant[][] time, int like_count,
+			String owner_name) {
 		super();
 		this.cafe_id = cafe_id;
 		this.cafe_name = cafe_name;
@@ -84,8 +86,10 @@ public class CafeDto implements Serializable {
 		this.sun_close = sun_close;
 		this.closed = closed;
 		this.cafe_owner_id = cafe_owner_id;
+		this.description = description;
 		this.time = time;
 		this.like_count = like_count;
+		this.owner_name = owner_name;
 	}
 
 	public CafeDto(String cafe_name, String cafe_address, String cafe_phone, String thumbnail, Boolean closed,
@@ -290,13 +294,29 @@ public class CafeDto implements Serializable {
 	public void setTime(Instant[][] time) {
 		this.time = time;
 	}
-	
+
 	public int getLike_count() {
 		return like_count;
 	}
 
 	public void setLike_count(int like_count) {
 		this.like_count = like_count;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getOwner_name() {
+		return owner_name;
+	}
+
+	public void setOwner_name(String owner_name) {
+		this.owner_name = owner_name;
 	}
 
 	public static long getSerialversionuid() {

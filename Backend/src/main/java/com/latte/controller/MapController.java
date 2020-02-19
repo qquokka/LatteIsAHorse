@@ -1,6 +1,5 @@
 package com.latte.controller;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.latte.dto.CafeDto;
-import com.latte.model.Hashtag;
 import com.latte.model.UserLocation;
 import com.latte.payload.CafeIdsRequest;
 import com.latte.payload.MapHashtagResponse;
@@ -56,7 +54,6 @@ public class MapController {
 		return new ResponseEntity<List<CafeDto>>(cafes, HttpStatus.OK);
 	}
 
-	
 	@ApiOperation(value = "카페 id들로 해시태그 찾아서 반환")
 	@PostMapping("/map/hashtags")
 	// @PreAuthorize("hasRole('USER') or hasRole('OWNER') or hasRole('ADMIN')")
@@ -83,7 +80,7 @@ public class MapController {
 		response.put("map_hashtags", mapHashtags);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
-	
+
 	private double convertLeveltoKilioMeter(Integer level) {
 		double meter = 0;
 
