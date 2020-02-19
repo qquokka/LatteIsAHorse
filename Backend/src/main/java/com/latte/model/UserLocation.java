@@ -8,9 +8,27 @@ public class UserLocation implements Serializable {
 	private Double latitude;
 	private Integer level;
 	private double meter;
+	private int limit;
 
 	public UserLocation() {
 		super();
+	}
+
+	public int getLimit() {
+		return limit;
+	}
+
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
+
+	public UserLocation(Double longitude, Double latitude, Integer level, double meter, int limit) {
+		super();
+		this.longitude = longitude;
+		this.latitude = latitude;
+		this.level = level;
+		this.meter = meter;
+		this.limit = limit;
 	}
 
 	public UserLocation(Double longitude, Double latitude) {

@@ -3,7 +3,6 @@
 <mapper namespace="mapper.coupon">
 
 	<!-- DB 에 저장된 모든 쿠폰을 반환[관리자용] -->
-
 	<select id="getCouponList" resultType="com.latte.dto.Coupon">
 		select
 		id,
@@ -14,7 +13,8 @@
 	</select>
 
 	<!-- 카페아이디로 등록된 쿠폰을 보여줍니다. -->
-	<select id="getCouponListByCafeId" parameterType="java.lang.Long" resultType="com.latte.dto.Coupon">
+	<select id="getCouponListByCafeId"
+		parameterType="java.lang.Long" resultType="com.latte.dto.Coupon">
 		select id, users_id,
 		cafe_id, count
 		from coupon where
@@ -34,7 +34,8 @@
 	</insert>
 
 	<!-- Read -->
-	<select id="getCouponByUserId" parameterType="java.lang.Long" resultType="com.latte.dto.Coupon">
+	<select id="getCouponByUserId" parameterType="java.lang.Long"
+		resultType="com.latte.dto.Coupon">
 		select id, users_id, cafe_id, count from coupon where
 		users_id =#{users_id}
 	</select>
@@ -42,51 +43,61 @@
 	<!-- Update -->
 	<update id="updateCoupon" parameterType="com.latte.dto.Coupon">
 		update coupon set
-		count = (#{count} + count)
+		count =
+		(#{count} + count)
 		where
 		users_id = #{users_id}
 		and cafe_id = #{cafe_id}
 	</update>
-	
+
 	<!-- Delete -->
 	<delete id="deleteCouponByUserId" parameterType="java.lang.Long">
 		delete from
 		coupon where
 		id=#{id}
 	</delete>
-	
+
 	<!-- Is Exist in DB -->
-	<select id="isExist" parameterType="coupon" resultType="java.lang.Integer">
-		select count(*) from coupon 
+	<select id="isExist" parameterType="coupon"
+		resultType="java.lang.Integer">
+		select count(*) from coupon
 		where users_id = #{users_id}
 		and cafe_id = #{cafe_id}
 	</select>
-	
+
 	<!-- plus coupon count -->
 	<update id="useCoupon" parameterType="coupon">
 		update coupon set
-		count = (count - #{count})
+		count =
+		(count - #{count})
 		where
 		users_id = #{users_id}
 		and cafe_id = #{cafe_id}
 	</update>
-	
-	<select id="getCurrentCouponCount" parameterType="coupon" resultType="java.lang.Integer">
+
+	<select id="getCurrentCouponCount" parameterType="coupon"
+		resultType="java.lang.Integer">
 		select count from coupon where
 		users_id = #{users_id}
-		and cafe_id = #{cafe_id}
+		and
+		cafe_id = #{cafe_id}
 	</select>
-	
-	<select id="getCouponUseRequests" resultType="com.latte.payload.CouponUseResponse">
-		select u.username, u.phone, u.email, m.product, 
+
+	<select id="getCouponUseRequests"
+		resultType="com.latte.payload.CouponUseResponse">
+		select u.username, u.phone, u.email, m.product,
 		date_format(cu.created_at, '%Y-%m-%d') as created_at
-		from users u, menu m, coupon_use cu
-		where cu.user_id = u.id and cu.mid = m.mid and cu.cafe_id = #{cafe_id}
+		from users u, menu
+		m, coupon_use cu
+		where cu.user_id = u.id and cu.mid = m.mid and
+		cu.cafe_id = #{cafe_id}
 	</select>
-	
-	<insert id="requestCouponUse" parameterType="com.latte.payload.CouponUseRequest">
-		insert into coupon_use (user_id, cafe_id, mid, created_at)
+
+	<insert id="requestCouponUse"
+		parameterType="com.latte.payload.CouponUseRequest">
+		insert into coupon_use (user_id, cafe_id, mid,
+		created_at)
 		values (#{user_id}, #{cafe_id}, #{mid}, now())
 	</insert>
-	
+
 </mapper>

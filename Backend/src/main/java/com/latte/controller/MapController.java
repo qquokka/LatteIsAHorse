@@ -54,6 +54,26 @@ public class MapController {
 		return new ResponseEntity<List<CafeDto>>(cafes, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "사용자 현재 위치와 확대 수준에 따른 카페 리스트 반환", response = List.class)
+	@PostMapping("/map/limit")
+	// @PreAuthorize("hasRole('USER') or hasRole('OWNER') or hasRole('ADMIN')")
+	public ResponseEntity<List<CafeDto>> getCafesByUserLocationLimit(@RequestBody UserLocation location)
+			throws Exception {
+		logger.info("MapController-------------Get near cafe list by current user location-------------" + new Date());
+
+		location.setMeter(limitRange);
+		logger.info("Level : " + location.getLevel());
+		logger.info("Latitude : " + location.getLatitude());
+		logger.info("Longitude : " + location.getLongitude());
+		List<CafeDto> cafes = mapService.getCafesByUserLocationLimit(location);
+
+		if (cafes == null || cafes.size() == 0) {
+			return new ResponseEntity<List<CafeDto>>(cafes, HttpStatus.NO_CONTENT);
+		}
+
+		return new ResponseEntity<List<CafeDto>>(cafes, HttpStatus.OK);
+	}
+
 	@ApiOperation(value = "카페 id들로 해시태그 찾아서 반환")
 	@PostMapping("/map/hashtags")
 	// @PreAuthorize("hasRole('USER') or hasRole('OWNER') or hasRole('ADMIN')")

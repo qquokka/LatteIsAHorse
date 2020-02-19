@@ -3,16 +3,19 @@
 <mapper namespace="mapper.qrcode">
 
 	<insert id="addQRCode" parameterType="qrcode">
-		insert into qrcode (cafe_id, time_stamp, code)
+		insert into qrcode
+		(cafe_id, time_stamp, code)
 		values (#{cafe_id}, #{time_stamp}, #{code})
 	</insert>
 
 	<delete id="deleteQRCode" parameterType="qrcode">
 		delete from qrcode
-		where cafe_id = #{cafe_id} and code = #{code}
+		where
+		cafe_id = #{cafe_id} and code = #{code}
 	</delete>
 
-	<select id="isExist" parameterType="java.lang.String" resultType="java.lang.Integer">
+	<select id="isExist" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
 		select count(*) from qrcode where code = #{encryptedcode}
 	</select>
 </mapper>

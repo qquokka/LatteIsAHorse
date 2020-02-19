@@ -60,40 +60,6 @@ public class PostController {
 		return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
 	}
 
-//	@ApiOperation(value = "post 등록", response = Map.class)
-//	@PostMapping("/post")
-//	@PreAuthorize("permitAll")
-//	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
-//	public ResponseEntity<Map<String, Object>> addPost(@RequestBody PostAddRequest post, HttpServletRequest request)
-//			throws Exception {
-//		logger.info("PostController-------------Post add-------------" + new Date());
-//
-//		Long userId = getLoggedInUserId(request);
-//		if (userId == 0L) {
-//			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-//		}
-//		Long lastId = postservice.getLastPostedId();
-//
-//		Map<String, Object> response = new HashMap<>();
-//
-//		if (userId != 0L) {
-//			post.setWriter_id(userId);
-//		}
-//		// 사진 있다면 사진 등록하는 로직 추가
-//		// NumberResult response = new NumberResult();
-//		int result = postservice.addPost(post);
-//
-//		if (result < 1) { // 등록 실패
-//			response.put("state", "fail");
-//			return new ResponseEntity(null, HttpStatus.EXPECTATION_FAILED);
-//		}
-//		response.put("state", "success");
-//		response.put("posted_id", lastId + 1);
-//		response.put("userId", userId);
-//
-//		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
-//	}
-
 	@ApiOperation(value = "post 등록", response = Map.class)
 	@PostMapping("/post")
 	public ResponseEntity<Map<String, Object>> addPost(@Valid @RequestBody PostAddRequest post,
