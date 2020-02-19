@@ -4,7 +4,7 @@
     style="height:100vh;background:lavender"
   >
     <div class="col-12 col-lg-8">
-      <router-link class="d-none d-lg-block" :to="`/cafe/${this.cafeId}/`">
+      <router-link class="d-none d-lg-block" :to="`/cafe/${$route.params.cafeId}/`">
         <fa icon="undo" class="float-right" size="3x" />
       </router-link>
       <div class="pt-3">
@@ -96,7 +96,7 @@ export default {
           "divider"
         ]
       },
-      editorHtml: "",
+      editorHtml: '',
       editorVisible: true,
       title: "",
       postId: null,
@@ -128,11 +128,11 @@ export default {
           headers: { Authorization: "Bearer " + this.$session.get("jwt") }
         })
         .then(r => {
-          console.log(r);
           let hashidbody = {
-            hashtag_ids: this.tagids,
+            hashtag_id: this.tagids,
             post_id: r.data.posted_id
           };
+          console.log(hashidbody);
           axios.post(`${this.serverAddr}/hashtag`, hashidbody).then(() => {
             this.$router.back();
           });

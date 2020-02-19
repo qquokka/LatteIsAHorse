@@ -152,7 +152,7 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem 0;
+  padding: 0.4rem 0;
 }
 
 .nav-link {
@@ -187,7 +187,7 @@ nav {
     margin: 0;
 }
 .nav-text {
-  margin: 0 0 0 1rem;
+  margin: 0 0 0 0.4vw;
   font-size: calc(0.2rem + 0.8vw);
   overflow: nowrap;
   text-overflow: clip
@@ -204,7 +204,7 @@ nav {
     border-top: 1px solid lightgray;
     justify-content: start;
     text-align: center;
-    position: fixed;
+    position: fixed !important;
     height: fit-content;
     margin-top: auto;
     bottom: 0;
@@ -225,6 +225,9 @@ nav {
   }
   .nav-mobile-text {
     display: block;
+  }
+  .container {
+    padding: 0 !important;
   }
 
 }
