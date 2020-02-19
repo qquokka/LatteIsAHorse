@@ -15,6 +15,7 @@
         <div v-else>ERROR</div>
         <div class="mr-2"><fa icon="coffee" /></div>
       </div>
+      <div class="container">
     <div class="row m-0 mt-0 mt-lg-5 border-0" v-if="info">
 
       <single-cafe-map :cafe="info" :isOpen="isOpen" class="col-12 col-lg-5 p-0" />
@@ -192,6 +193,7 @@
           </div>
         </router-link>
       </div>
+    </div>
     </div>
     </div>
   </div>
