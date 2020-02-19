@@ -201,6 +201,7 @@ div >>> img {
   font-size: calc(2rem + 1vw);
   color: white;
   text-shadow: 0 0 9px black;
+
 }
 .inputcomm {
   width: 50% ;
@@ -210,4 +211,5 @@ div >>> img {
 .inputcomm:focus {
   background: #BEE3DB
 }
+
 </style>

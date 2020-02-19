@@ -2,14 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.cafe">
 	<select id="getCafeList" resultType="cafe">
-		select * from cafe
+		select * from cafe limit 6
 	</select>
 
 	<select id="getCafeById" parameterType="java.lang.Integer"
 		resultType="cafe">
-		select cafe.*, ifnull(count(ulc.like_count), 0) as like_count
-		from cafe left outer join userslikecafe ulc on cafe.cafe_id = ulc.cafe_id
-		where cafe.cafe_id = #{cafe_id};
+		select cc.*, ifnull(count(ulc.like_count), 0) as like_count
+		from
+		(select c.*, us.name as owner_name from cafe c left outer join
+		users
+		us on
+		c.cafe_owner_id
+		= us.id) as cc
+		left outer join userslikecafe
+		ulc on
+		cc.cafe_id = ulc.cafe_id
+		where
+		cc.cafe_id = #{cafe_id}
 	</select>
 
 	<select id="getCafeByName" parameterType="java.lang.String"
@@ -119,8 +128,10 @@
 		cafe_owner_id =
 		#{cafe_owner_id}
 	</select>
-	
-	<select id="getMyCafeInfo" parameterType="java.lang.Long" resultType="cafe">
-		select * from cafe where cafe_owner_id = #{cafe_owner_id} limit 1
+
+	<select id="getMyCafeInfo" parameterType="java.lang.Long"
+		resultType="cafe">
+		select * from cafe where cafe_owner_id = #{cafe_owner_id}
+		limit 1
 	</select>
 </mapper>

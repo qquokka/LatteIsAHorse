@@ -110,5 +110,4 @@ public class PostComments implements Serializable {
 				+ post_id + ", writer_id=" + writer_id + ", content=" + content + ", writer_name=" + writer_name + "]";
 	}
 
-	
 }

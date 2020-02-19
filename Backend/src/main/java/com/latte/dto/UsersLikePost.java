@@ -12,18 +12,18 @@ public class UsersLikePost implements Serializable {
 	private Long id;
 	private Long user_id;
 	private Long post_id;
-	private Boolean liked;
+	private Boolean like_count;
 
 	public UsersLikePost() {
 		super();
 	}
 
-	public UsersLikePost(Long id, Long user_id, Long post_id, Boolean liked) {
+	public UsersLikePost(Long id, Long user_id, Long post_id, Boolean like_count) {
 		super();
 		this.id = id;
 		this.user_id = user_id;
 		this.post_id = post_id;
-		this.liked = liked;
+		this.like_count = like_count;
 	}
 
 	public Long getId() {
@@ -50,12 +50,12 @@ public class UsersLikePost implements Serializable {
 		this.post_id = post_id;
 	}
 
-	public Boolean getLiked() {
-		return liked;
+	public Boolean getLike_count() {
+		return like_count;
 	}
 
-	public void setLiked(Boolean liked) {
-		this.liked = liked;
+	public void setLike_count(Boolean like_count) {
+		this.like_count = like_count;
 	}
 
 	public static long getSerialversionuid() {

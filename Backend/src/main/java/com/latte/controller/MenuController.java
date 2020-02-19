@@ -1,5 +1,6 @@
 package com.latte.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,7 @@ public class MenuController {
 	@ApiOperation(value = "카페에 등록된 메뉴 리스트 반환")
 	public ResponseEntity<Map<String, Object>> getMyCafeInfo(@PathVariable("cafe_id") Integer cafe_id)
 			throws Exception {
+		logger.info("MenuController-------------getMyCafeInfo-------------" + new Date());
 		Map<String, Object> response = new HashMap<>();
 
 		List<MenuDto> menus = menuservice.getMenuListById(cafe_id.intValue());

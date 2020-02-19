@@ -21,7 +21,8 @@
 		select cafe_id,
 		count(like_count) like_count
 		from userslikecafe
-		where cafe_id = #{cafe_id}
+		where cafe_id =
+		#{cafe_id}
 	</select>
 
 	<!-- 카페의 좋아요를 누름 -->
@@ -60,13 +61,16 @@
 			outer join userslikemenu ulm on m.mid=ulm.menu_id where cafe_id= #{cafe_id} 
 			group by mid -->
 
-		select menu.mid, menu.cafe_id, menu.product, menu.price, menu.description, menu.num_coupon,
+		select menu.mid, menu.cafe_id, menu.product, menu.price,
+		menu.description, menu.num_coupon,
 		ifnull(sum(userslikemenu.like_count), 0) like_count,
 		if(userslikemenu.like_count, 'true', 'false') as user_like
-		from menu left outer join userslikemenu on menu.mid = userslikemenu.menu_id and
+		from menu
+		left outer join userslikemenu on menu.mid = userslikemenu.menu_id and
 		userslikemenu.users_id = #{users_id}
 		where menu.cafe_id = #{cafe_id}
-		group by menu.mid, menu.cafe_id, menu.product, menu.price, menu.description,
+		group by menu.mid, menu.cafe_id, menu.product, menu.price,
+		menu.description,
 		menu.num_coupon, userslikemenu.like_count
 	</select>
 
@@ -80,7 +84,8 @@
 	<delete id="deleteLikeByUserIdNMenuId"
 		parameterType="userslikemenu">
 		delete from userslikemenu where
-		users_id = #{users_id} and
+		users_id = #{users_id}
+		and
 		menu_id = #{menu_id}
 	</delete>
 

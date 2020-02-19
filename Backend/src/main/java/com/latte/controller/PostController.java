@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -62,10 +62,8 @@ public class PostController {
 
 	@ApiOperation(value = "post 등록", response = Map.class)
 	@PostMapping("/post")
-//	@PreAuthorize("permitAll")
-	@PreAuthorize("hasAnyRole({'USER','OWNER','ADMIN','EDITOR'})")
-	public ResponseEntity<Map<String, Object>> addPost(@RequestBody PostAddRequest post, HttpServletRequest request)
-			throws Exception {
+	public ResponseEntity<Map<String, Object>> addPost(@Valid @RequestBody PostAddRequest post,
+			HttpServletRequest request) throws Exception {
 		logger.info("PostController-------------Post add-------------" + new Date());
 
 		Long userId = getLoggedInUserId(request);

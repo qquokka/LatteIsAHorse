@@ -52,4 +52,21 @@ public class SearchController {
 
 		return new ResponseEntity<Map<String, Object>>(reponse, HttpStatus.OK);
 	}
+
+	@ApiOperation(value = "검색(Hashtag)", response = Map.class)
+	@GetMapping("/search/hashtag/{query}")
+	public ResponseEntity<Map<String, Object>> HashtagSearch(@PathVariable("query") String query) throws Exception {
+		logger.info("SearchController-------------HashtagSearch-------------" + new Date());
+		query = query.replace(',', '|');
+
+		List<CafeDto> hashtags = searchService.searchInHashtag(query);
+
+		Map<String, Object> reponse = new HashMap<String, Object>();
+
+		if (!hashtags.isEmpty()) {
+			reponse.put("hashtags", hashtags);
+		}
+		return new ResponseEntity<Map<String, Object>>(reponse, HttpStatus.OK);
+	}
+
 }

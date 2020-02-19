@@ -2,57 +2,71 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.hashtag">
 	<!-- Post Hashtag related queries -->
-	
-	<select id="isHashtagIdExist" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+
+	<select id="isHashtagIdExist" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
 		select count(*) from hashtag
-		where hashtag_id = #{hashtag_id}
+		where hashtag_id =
+		#{hashtag_id}
 	</select>
-	
-	<select id="isHashtagNameExist" parameterType="java.lang.String" resultType="java.lang.Integer">
-		select count(*) from hashtag 
+
+	<select id="isHashtagNameExist" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		select count(*) from hashtag
 		where name = #{name}
 	</select>
-	
-	<select id="getAllHashtagByNames" parameterType="java.util.HashMap" resultType="hashtag">
+
+	<select id="getAllHashtagByNames"
+		parameterType="java.util.HashMap" resultType="hashtag">
 		select * from hashtag
 		where name in
-		<foreach collection="names" item="name" open="(" close=")" separator=",">
+		<foreach collection="names" item="name" open="(" close=")"
+			separator=",">
 			#{name}
 		</foreach>
 	</select>
-	
+
 	<insert id="addHashtagName" parameterType="java.lang.String">
-		insert into hashtag (name) values (#{name})
+		insert into hashtag
+		(name) values (#{name})
 	</insert>
-	
+
 	<insert id="addHashtagId" parameterType="posthashtag">
-		insert into post_hashtag (posts_id, hashtag_id)
+		insert into post_hashtag
+		(posts_id, hashtag_id)
 		values (#{posts_id}, #{hashtag_id})
 	</insert>
-	
+
 	<delete id="deletePostHashtag" parameterType="posthashtag">
-	
-	 	delete from post_hashtag
-	 	where 
-	 	posts_id = #{posts_id}
-	 	and
-	 	hashtag_id = #{hashtag_id}
+
+		delete from post_hashtag
+		where
+		posts_id = #{posts_id}
+		and
+		hashtag_id = #{hashtag_id}
 	</delete>
-	
-	<select id="hashtagsInThePost" parameterType="java.lang.Long" resultType="java.lang.String">
+
+	<select id="hashtagsInThePost" parameterType="java.lang.Long"
+		resultType="java.lang.String">
 		select hashtag.name from post_hashtag
-		join hashtag on post_hashtag.posts_id = #{post_id}
-		and post_hashtag.hashtag_id = hashtag.hashtag_id 
+		join hashtag on
+		post_hashtag.posts_id = #{post_id}
+		and post_hashtag.hashtag_id =
+		hashtag.hashtag_id
 	</select>
-	
-	<select id="getAllHashtagIdByPostId" parameterType="java.lang.Long" resultType="java.lang.Integer">
-		select hashtag_id from post_hashtag
-		where posts_id = #{posts_id}	
+
+	<select id="getAllHashtagIdByPostId"
+		parameterType="java.lang.Long" resultType="java.lang.Integer">
+		select hashtag_id from
+		post_hashtag
+		where posts_id = #{posts_id}
 	</select>
-	
-	<select id="getAllHashtagNamesNumber" resultType="com.latte.payload.HashtagNamesNumberResponse">
+
+	<select id="getAllHashtagNamesNumber"
+		resultType="com.latte.payload.HashtagNamesNumberResponse">
 		select name, count(name) as count from post_hashtag
-		left outer join hashtag
+		left
+		outer join hashtag
 		on post_hashtag.hashtag_id = hashtag.hashtag_id
 		group by name order by count desc limit 20
 	</select>

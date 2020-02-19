@@ -15,6 +15,42 @@
 			cafe having distance <= #{meter} order by distance
 		]]>
 	</select>
+
+	<select id="getCafesByUserLocationLimit" resultType="cafe">
+		<![CDATA[
+			select *,
+			(6371
+			* acos(cos(radians(#{latitude}))
+			* cos(radians(latitude))
+			* cos(radians(longitude)
+			- radians(#{longitude}))
+			+ sin(radians(#{latitude})) * sin(radians(latitude)))) as distance
+			from
+			cafe having distance <= #{meter} order by distance limit #{limit}
+		]]>
+	</select>
+
+	<select id="getHashtagsByCafeIds"
+		parameterType="java.util.HashMap"
+		resultType="com.latte.payload.MapHashtagResponse">
+		select ps.hashtag_id, h.name, count(ps.hashtag_id) as count
+		from
+		post_hashtag ps, hashtag h
+		where
+		posts_id
+		in
+		(select id from posts where
+		cafe_id in
+		<foreach collection="cafe_ids" item="cafe_id" open="("
+			close=")" separator=",">
+			#{cafe_id}
+		</foreach>
+		)
+		and ps.hashtag_id = h.hashtag_id
+		group by ps.hashtag_id;
+
+	</select>
+
 </mapper>
 
 <!-- 해당 순으로 입력한 뒤, 계산을 하면 현재 위치에서 각각 원하는 장소가 얼마나 떨어져 있는지 계산이 된다. 앞에 6371은 
