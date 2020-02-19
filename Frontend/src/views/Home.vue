@@ -20,7 +20,7 @@
     <popular-list />
     <div class="main-section" style="margin-top:8rem;">
       <div class="text-center">
-        <h2 class="article-header" > <fa icon="road" /> 가까운 카페</h2>
+        <h2 class="article-header" > <fa icon="road" /> 가까운 인기 카페</h2>
         <div style="cursor:pointer; color: crimson;font-size: calc(5px + 0.5vw)" @onclick="geoPermission()"> <fa icon="crosshairs" /> 위치정보이용동의</div>
       </div>
       <cafe-list :cafeData="cafeData" />

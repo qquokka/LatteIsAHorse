@@ -1,7 +1,13 @@
 <template>
   <div id="search-result">
     <nav-bar />
-    <search-bar class="mx-auto" style="margin-top:9rem" />
+    <div class="container">
+      <div class="sresultheader">
+        <h3>"{{ $route.query.q }}" 에 대해 검색하여</h3>
+        <h4>{{ cafeData.length }} 개의 카페를 찾았어요</h4>
+        <search-bar class="mx-auto my-3 pb-4" />
+    </div>
+    <div class="container border">
     <div class="post-container">
       <review-list reviewData="reviewData" />
     </div>
@@ -9,6 +15,8 @@
     <div class="cafe-container">
       <cafe-list :cafeData="cafeData" />
     </div>
+    </div>
+  </div>
   </div>
 </template>
 
@@ -60,4 +68,10 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.sresultheader {
+  background: #89B0AE;
+  border-radius: 10px 10px 0 0;
+  border: 1px solid lightgray;  
+}
+</style>

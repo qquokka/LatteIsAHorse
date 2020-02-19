@@ -47,7 +47,7 @@
             <ICountUp
               style="font-family:monospaced"
               :delay="delay"
-              :endVal="29593"
+              :endVal="info.like_count"
               :options="options"
             />
             <span style="font-size:1rem">LIKED</span>
