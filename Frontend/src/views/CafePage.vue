@@ -176,14 +176,13 @@
             <div class="m-2 border">
               <div class="row m-0 mt-2 justify-content-center">
                 <div
-                  :style="`background: url(${review.thumbnail});`"
+                  :style="`background: url(${review.thumbnail});height: 60vh;padding:0;background-size: cover !important;`"
                   class="col-11"
-                  style="height: 60vh;padding:0;background-size: cover !important;"
                   @error="imgPlaceholder"
                 />
               </div>
               <div class="row p-1 justify-content-center line-clamp" style="height: 225px;">
-                <span class="col-11 text-left p-2 " v-html="review.content"></span>
+                <span class="col-11 text-left p-2 imghtml" v-html="review.content"></span>
               </div>
               <div style="font-size: calc(2rem+2vw)" class="row justify-content-center">
                 댓글 : (...)

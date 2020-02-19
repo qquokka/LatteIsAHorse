@@ -48,7 +48,6 @@
       </div>
 
       <google-map
-        v-if="gomap"
         class="col-12 col-md-9 p-0"
         :prop_center="center"
         :filtername="filtername"
@@ -79,8 +78,14 @@
         </p>
         <div class="border tag-zone">
           <p class="tag-zone-header">TAGS</p>
-          <p v-if="cafe.cafeinfo.tags">{{ cafe.tags }}</p>
-          <p v-else>(이 카페엔 등록된 태그가 없습니다.)</p>
+          <div class="row mx-auto" v-if="tags">
+            <router-link class="m-2 hashlink" v-for="tag in tags" :key="tag.hashtag_id + 'hash'"  :to="`/hashtag/${tag.name}`">
+              <span>
+                #{{ tag.name }}
+              </span>
+            </router-link>
+          </div>
+          <div class="row" v-else>(이 카페엔 등록된 태그가 없습니다.)</div>
         </div>
       </div>
       <div class="container px-1">
@@ -98,7 +103,7 @@
       </div>
       <div class="container">
         <p class="py-2">리뷰 : {{ cafe.post.length }}</p>
-        <div class="border" v-for="review in cafe.post.reverse()" :key="review.id">
+        <div class="border" v-for="review in cafe.post.slice().reverse()" :key="review.id">
           <h4 class="border-bottom text-left mx-2">
             {{ review.title }}
             <span style="font-size:0.8rem;" class="ml-3 text-info">@{{ review.writer_name }}</span>
@@ -135,12 +140,12 @@ export default {
   data() {
     return {
       avheight: 0,
-      gomap: false,
       filtername: "",
       center: { lat: parseFloat(37.5014281), lng: parseFloat(127.0385063) },
       locmeLoading: false,
       detailLoading: false,
       cafe: {},
+      tags: [],
       thumb: [
         "url(" + require("@/assets/noimage.png") + ")",
         "url(" + require("@/assets/noimage.png") + ")",
@@ -157,12 +162,24 @@ export default {
     },
     cafeChange(sc) {
       this.detailLoading = true;
+      axios.interceptors.request.use(request => {
+  console.log('Starting Request', request)
+  return request
+})
       axios
         .get(`${this.$store.state.constants.SERVER}/cafe/detail/${sc.cafe_id}`)
         .then(response => {
           this.cafe = response.data;
+          axios
+          .post(`${this.$store.state.constants.SERVER}/map/hashtags`,{"cafe_ids": [response.data.cafeinfo.cafe_id]})
+          .then(tagresponse=> [
+            this.tags = tagresponse.data.map_hashtags
+          ])
+          .catch(e => {
+            console.log(e.response);
+            
+          })
           this.detailLoading = false;
-
           for (let i = 0; i < 6; i++) {
             if (i < response.data.post.length) {
               this.$set(
@@ -183,7 +200,7 @@ export default {
     locateMe() {
       this.locmeLoading = true;
       navigator.geolocation.getCurrentPosition(this.success, this.fail, {
-        enableHighAccuracy: false
+        enableHighAccuracy: true
       });
     },
     success(position) {
@@ -200,17 +217,14 @@ export default {
         })
         .then(res => {
           this.$store.state.nearme.cafes = res.data;
-          this.gomap = true
         })
     },
     fail() {
       this.loadend();
-      this.gomap = true
     },
     loadend() {
       setTimeout(() => {
         this.locmeLoading = false;
-        
       }, 500);
     }
   },
@@ -231,7 +245,6 @@ img {
   max-width: 100% !important;
 }
 .tag-zone {
-  height: 3rem;
   margin: 1rem;
   font-weight: 400;
 }
@@ -255,6 +268,12 @@ img {
 }
 .mapnav {
   position: fixed;
+}
+.hashlink:hover {
+  color: royalblue !important;
+  border-radius: 10px;
+  padding: 5px;
+  border: 1px solid royalblue !important;
 }
 .menucol-1 {
   display: flex;

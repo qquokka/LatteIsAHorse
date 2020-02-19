@@ -31,17 +31,18 @@
       ></gmap-marker>
 
       <gmap-marker
-        :key="cafe.cafe_id"
-        v-for="cafe in filteredCafes"
+        :key="'marker' + cafe.cafe_id"
+        v-for="(cafe, idx) in filteredCafes"
         :position="{ lat: +cafe.latitude, lng: +cafe.longitude }"
         :clickable="true"
-        @click="infoWindow(cafe.cafe_id)"
+        @click="infoWindow(idx)"
       ></gmap-marker>
       <gmap-info-window
-        v-for="cafe in filteredCafes"
-        :key="'info' + cafe.cafe_id"
-        @closeclick="window_open[cafe.cafe_id]=false"
-        :opened="window_open[cafe.cafe_id]"
+        v-for="(cafe, idx) in filteredCafes"
+        :key="idx"
+        :ref="'info'+idx"
+        @closeclick="window_open[idx]=false"
+        :opened="window_open[idx]"
         :position="{ lat: +cafe.latitude, lng: +cafe.longitude }"
         :options="{
           pixelOffset: {
@@ -97,15 +98,15 @@ export default {
   },
   methods: {
     infoWindow(id) {
-      this.$set(this.window_open[id], 0, !this.window_open[id])
-      this.selected_cafe = this.filteredCafes.find(cafe => cafe.cafe_id == id);
+      this.window_open.splice(id, 1, !this.window_open[id])
+      this.selected_cafe = this.filteredCafes[id];
       this.$emit("cafe_change_event", this.selected_cafe);
     },
   },
   computed: {
     filteredCafes() {
         return this.$store.getters.filteredCafes(this.filtername)
-      }
+      },
   }
 };
 </script>
