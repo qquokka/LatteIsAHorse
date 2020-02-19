@@ -210,7 +210,8 @@ nav {
     bottom: 0;
     width: 100%;
     max-width: 100vw;
-    padding: 1rem 0;
+    padding: 1vw 0;
+    z-index: 10;
   }
   .nav-text {
     display: none;
@@ -225,9 +226,6 @@ nav {
   }
   .nav-mobile-text {
     display: block;
-  }
-  .container {
-    padding: 0 !important;
   }
 
 }

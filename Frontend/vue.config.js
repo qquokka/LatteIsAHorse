@@ -9,7 +9,7 @@ config => {
 var fs = require('fs');
 module.exports = {
   devServer: {
-    host: 'localhost',
+    // host: 'localhost',
     port: 443,
     https: true,
     https: {

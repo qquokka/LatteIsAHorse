@@ -2,7 +2,6 @@
   <div id="cafe-page-container" class="container-fluid p-0">
     <!-- global component -->
     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="fullPage" loader="bars" color="violet"></loading>
-    <div v-if="isDesktop">
     <div v-if="selectedImage" id="imgView">
       <img :src="selectedImage" @click.stop="selectedImage = null" />
     </div>
@@ -10,7 +9,7 @@
     <!-- global end-->
     <nav-bar />
       <div id="topbar" class="justify-content-between align-items-center">
-        <div class="ml-2"><fa icon="undo" /></div>
+        <div class="ml-2" @click="$router.back()"><fa icon="undo" /></div>
         <div v-if="info">{{ info.cafe_name }}</div>
         <div v-else>ERROR</div>
         <div class="mr-2"><fa icon="coffee" /></div>
@@ -38,11 +37,11 @@
 
           <h6 class="text-left shortinfo">
             <fa style="color:crimson;margin-right:0.5rem" icon="shopping-basket" />인기메뉴:
-            <span class="text-muted">구현 예정</span>
+            <span class="text-muted"></span>
           </h6>
         </div>
 
-        <div class="row justify-content-center my-4 justify-content-lg-center pl-lg-5">
+        <div class="row justify-content-center my-4 justify-content-lg-center m-0">
           <h3 class="px-2 mr-lg-5">
             <fa class="mr-2 bouncer" style="color: royalblue" icon="heartbeat" />
             <ICountUp
@@ -117,7 +116,7 @@
         </div>
       </div>
     </div>
-    <div class="container mt-5" v-if="menus" >
+    <div class="container px-4" v-if="menus" >
       <h4 class="my-5 cafe-page-section-name">
         <fa icon="mug-hot" style="color: brown;margin-right:0.5rem" />MENU
       </h4>
@@ -129,7 +128,7 @@
         <div class="col-1 ">
           <p
             style="cursor:pointer;"
-            class="menutitle"
+            class="menutitle text-left"
             @click="pushLikeMenu(menu.mid, menu.user_like)">
             <fa
               :icon="menu.user_like?['fas', 'heart']:['far', 'heart']"
@@ -137,7 +136,7 @@
             {{ menu.like_count? menu.like_count : 0 }}
           </p>
         </div>
-        <div class="col-5 text-truncate">
+        <div class="col-5 text-truncate text-left">
           <p class="text-muted menutitle">{{ menu.description || '(아직 설명이 없는 메뉴에요)' }}</p>
         </div>
 
@@ -195,7 +194,6 @@
       </div>
     </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -280,15 +278,12 @@ export default {
       const config = {
         headers: { Authorization: "Bearer " + this.$session.get("jwt") }
       };
-      console.log(config);
       axios
         .get(
           `${this.$store.state.constants.SERVER}/cafe/detail/${this.cafeId}`, config
         )
         .then(response => {
           this.isLoading=false
-          console.log("카페 데이터 ");
-          console.log(response.data);
           this.info = response.data.cafeinfo;
           this.reviews = response.data.post;
           this.menus = response.data.menu;
@@ -385,8 +380,14 @@ export default {
     setTimeout(() => {
       let week = ["0", "1", "2", "3", "4", "5", "6"];
       let dayofweek = week[new Date().getDay()];
+      try {
       let todayCal = document.getElementById(dayofweek);
       todayCal.style.backgroundColor = "#BEE3DB";
+      } catch (e) {
+        console.log(e);
+        
+      }
+
     }, 500);
   },
 };
@@ -465,6 +466,9 @@ export default {
 }
 .bouncer {
   animation: bounce ease infinite 3s;
+}
+.weekrow {
+  max-width: 100vw;
 }
 .weekday {
   font-weight: 650;

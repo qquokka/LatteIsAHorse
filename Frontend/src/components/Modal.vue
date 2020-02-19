@@ -118,7 +118,7 @@
 
 .modal-content {
   border-radius: 21px;
-  background: none;
+  background: white;
 }
 
 .loginbtn {
@@ -151,8 +151,11 @@
 }
 @media screen and (max-width: 768px) {
     .modal-backdrop {
-      background: lavender !important;
+      background: white !important;
       opacity: 1 !important;
+    }
+    .modal-content {
+      border: 0 !important;
     }
 }
 </style>

@@ -110,5 +110,8 @@ a,
   ::-webkit-scrollbar {
     width: 0 !important;
   }
+  body {
+    overflow: hidden !important;
+  }
 }
 </style>

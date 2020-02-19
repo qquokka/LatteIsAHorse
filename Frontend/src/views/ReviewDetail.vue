@@ -2,7 +2,7 @@
   <div id="postDetail">
     <NavBar />
     <div class="container">
-      <div class="row justify-content-center py-2">LOGO</div>
+      <div class="row justify-content-center py-2"><img :src="require('../assets/navlogo.png')" height="80vw" style="margin: -6vw"></div>
       <div class="container border">
         <div class="row align-content-center text-left border-bottom py-2" style="line-height:100%">
             <fa icon="user-circle" class="ml-1" style="color:#89B0AE" size="2x" />

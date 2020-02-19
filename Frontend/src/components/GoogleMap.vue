@@ -51,12 +51,18 @@
           }
         }"
       >
+      <div class="container pl-0">
         <h5>{{ cafe.cafe_name }}</h5>
         <small class="m-0">{{ cafe.cafe_address }}</small>
-        <h6 class="mt-3 font-weight-bold">
+        <br>
+                <small class="mt-3 font-weight-bold">
           <fa icon="phone-alt" />
           {{ cafe.cafe_phone }}
-        </h6>
+        </small>
+                <div class="d-block d-md-none border shadow"> <router-link :to="`/cafe/${cafe.cafe_id}`">자세히 보기</router-link> </div>
+
+
+        </div>
       </gmap-info-window>
     </gmap-map>
   </div>
