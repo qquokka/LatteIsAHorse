@@ -10,7 +10,7 @@
     <gmap-map
       ref="gmap"
       :center="prop_center"
-      :zoom="16"
+      :zoom="17"
       :options="{
         zoomControl: true,
         mapTypeControl: false,

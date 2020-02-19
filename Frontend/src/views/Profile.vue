@@ -60,7 +60,7 @@
 				</div>
 				<div v-if="contentNum === 2">
 					<h5 class="card-title mobile-display-block">내가 쓴 리뷰</h5>
-					<review-list limits="3" :reviewData="myReviews"/>
+					<review-list limits="20" :reviewData="myReviews"/>
 				</div>
 				<div v-if="contentNum === 3">
 					<h5 class="card-title mobile-display-block">내 정보 수정</h5>

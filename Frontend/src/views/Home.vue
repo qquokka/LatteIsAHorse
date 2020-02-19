@@ -15,8 +15,9 @@
       </div>
         <search-bar class="mx-auto mt-4" />
     </div>
-        <hash-tags class="mt-4" />
-
+        
+    <div class="container">
+      <hash-tags class="mt-4" />
     <popular-list />
     <div class="main-section" style="margin-top:8rem;">
       <div class="text-center">
@@ -29,6 +30,7 @@
     <div class="main-section">
       <h2 class="article-header my-5"><fa icon="pen-nib"/> EDITOR's PICK</h2>
       <review-list limits="6" :reviewData="reviewData" />
+    </div>
     </div>
     <b-section />
     <Footer />
