@@ -140,11 +140,6 @@ public class CafeController {
 		List<MenuDto> menuList = ulmservice.getUsersLikeMenuByCafeIdNUserId(userslikemenu);
 
 		if (cafeInfo != null) {
-//			Long cafe_owner_id = cafeInfo.getCafe_owner_id();
-//			User owner = null;
-//			if (cafe_owner_id != null && cafe_owner_id != 0L) {
-//				owner = userRepository.findById(cafeInfo.getCafe_owner_id()).get();
-//			}
 			// Generate Cafe's Time Table
 			Instant[][] time = { { cafeInfo.getSun_open(), cafeInfo.getSun_close() },
 					{ cafeInfo.getMon_open(), cafeInfo.getMon_close() },
@@ -162,10 +157,6 @@ public class CafeController {
 			if (postList != null) {
 				response.put("post", postList);
 			}
-//			if (owner != null) {
-//				response.put("owner_name", owner.getName());
-//			}
-
 		} else {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}

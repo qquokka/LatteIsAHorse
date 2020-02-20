@@ -71,7 +71,7 @@ public class FileController {
 	@GetMapping("/downloadFile/{fileName}") // 파일 다운로드
 	public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
 		// Load file as Resource
-		Resource resource = fileService.loadFileAsResource(fileName);
+		Resource resource = fileService.loadFileAsResource(fileName, "images");
 
 		// Try to determine file's content type
 		String contentType = null;
@@ -97,7 +97,7 @@ public class FileController {
 	@GetMapping("/downloadThumbnail/{fileName}") // 파일 다운로드
 	public ResponseEntity<Resource> downloadThumbnail(@PathVariable String fileName, HttpServletRequest request) {
 		// Load file as Resource
-		Resource resource = fileService.loadFileAsResource(fileName);
+		Resource resource = fileService.loadFileAsResource(fileName, "thumbnail");
 
 		// Try to determine file's content type
 		String contentType = null;

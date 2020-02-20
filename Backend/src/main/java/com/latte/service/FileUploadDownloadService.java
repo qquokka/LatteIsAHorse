@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -23,8 +25,7 @@ public class FileUploadDownloadService {
 	private final Path fileLocation;
 	private final Path thumbnailLocation;
 
-	// private static final Logger logger =
-	// LoggerFactory.getLogger(FileUploadDownloadService.class);
+	 private static final Logger logger = LoggerFactory.getLogger(FileUploadDownloadService.class);
 	/*
 	 * 다음으로 파일이 저장될 디렉토리를 설정하고 디렉토리를 생성하는 소스를 추가한다. Service가 실행될때 생성자에서 기존에 생성한
 	 * 설정클래스인 FileUploadProperties 클래스로 기본 디렉토리를 설정하고 생성한다.
@@ -69,9 +70,18 @@ public class FileUploadDownloadService {
 	}
 
 	// 파일 다운로드
-	public Resource loadFileAsResource(String fileName) {
+	public Resource loadFileAsResource(String fileName, String requestType) {
 		try {
-			Path filePath = this.fileLocation.resolve(fileName).normalize();
+			
+			Path filePath = null;;
+			if (requestType.equals("images"))
+				filePath = this.fileLocation.resolve(fileName).normalize();
+
+			if (requestType.equals("thumbnail")) {
+				filePath = this.thumbnailLocation.resolve(fileName).normalize();
+				logger.info(filePath.toString());
+			}
+			
 			Resource resource = new UrlResource(filePath.toUri());
 
 			if (resource.exists()) {
