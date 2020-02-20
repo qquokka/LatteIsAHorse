@@ -73,22 +73,22 @@
             :style="`background:url('${info.thumbnail}')`"
           />
           <div
-            v-if="reviews[0]"
+            v-if="reviews[lastreview]"
             class="col-12 col-md-4 col-lg-3 cafe-preview"
-            @click="zoom(reviews[0].thumbnail)"
-            :style="`background:url('${reviews[0].thumbnail}')`"
+            @click="zoom(reviews[lastreview].thumbnail)"
+            :style="`background:url('${reviews[lastreview].thumbnail}')`"
           />
           <div
-            v-if="reviews[1]"
+            v-if="reviews[lastreview-1]"
             class="col-12 col-md-4 col-lg-3 cafe-preview"
-            @click="zoom(reviews[1].thumbnail)"
-            :style="`background:url('${reviews[1].thumbnail}')`"
+            @click="zoom(reviews[lastreview-1].thumbnail)"
+            :style="`background:url('${reviews[lastreview-1].thumbnail}')`"
           />
           <div
-            v-if="reviews[2]"
+            v-if="reviews[lastreview-2]"
             class="col-12 col-md-4 col-lg-3 cafe-preview"
-            @click="zoom(reviews[2].thumbnail)"
-            :style="`background:url('${reviews[2].thumbnail}')`"
+            @click="zoom(reviews[lastreview-2].thumbnail)"
+            :style="`background:url('${reviews[lastreview-2].thumbnail}')`"
           />
         </div>
         <div class="my-2" style="font-size: calc(1rem + 0.5vw)">영업 시간 </div>
@@ -268,6 +268,11 @@ export default {
         suffix: ""
       }
     };
+  },
+  computed: {
+    lastreview() {
+      return this.reviews.length - 1
+    }
   },
   methods: {
     imgPlaceholder(e) {

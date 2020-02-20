@@ -28,7 +28,10 @@
           />
         </div>
         <div class="col m-0 border row bg-white align-items-center justify-content-center p-0">
-          <h4><fa class="text-muted pr-2" icon="user-circle" />@{{ getname }}</h4>
+          <h4>
+            <fa class="text-muted pr-2" icon="user-circle" />
+            @{{ getname }}
+          </h4>
         </div>
       </div>
       <editor
@@ -95,7 +98,7 @@ export default {
           "divider"
         ]
       },
-      editorHtml: '',
+      editorHtml: "",
       editorVisible: true,
       title: "",
       postId: null,
@@ -137,19 +140,22 @@ export default {
           });
         });
     },
-    editPost(body) {
+    editPost(ebody) {
       axios
-        .patch(`${this.serverAddr}/post`, body, {
+        .patch(`${this.serverAddr}/post`, ebody, {
           headers: { Authorization: "Bearer " + this.$session.get("jwt") }
         })
-        .then(r => {
+        .then(() => {
           let hashidbody = {
             hashtag_id: this.tagids,
-            post_id: r.data.posted_id
+            post_id: this.$route.params.reviewId
           };
-          axios.post(`${this.serverAddr}/hashtag`, hashidbody)
-          this.$router.back()
+          axios.patch(`${this.serverAddr}/hashtag`, hashidbody);
+          this.$router.back();
         })
+        .catch(e => {
+          console.log(e.response);
+        });
     },
     getHtml() {
       let html = document.querySelector(".te-ww-container").firstElementChild
@@ -186,8 +192,10 @@ export default {
     bodyCreator() {
       let hh = document.querySelector(".te-ww-container").firstElementChild
         .firstElementChild;
-      let thumb = hh.getElementsByTagName("img")[0] || require('../assets/img/thumbnail_placeholder.jpg');
-      
+      let thumb =
+        hh.getElementsByTagName("img")[0] ||
+        require("../assets/img/thumbnail_placeholder.jpg");
+
       let h = hh.innerHTML;
       if (this.$route.name !== "edit-review") {
         let tags = h.match(/#[0-9a-zA-Z가-힣]+/gi);
@@ -229,8 +237,11 @@ export default {
           }
         }
       } else {
-        let hh = document.querySelector(".te-ww-container").firstElementChild.firstElementChild;
-        let thumb = hh.getElementsByTagName("img")[0] || require('../assets/img/thumbnail_placeholder.jpg');
+        let hh = document.querySelector(".te-ww-container").firstElementChild
+          .firstElementChild;
+        let thumb =
+          hh.getElementsByTagName("img")[0] ||
+          require("../assets/img/thumbnail_placeholder.jpg");
         let h = hh.innerHTML;
         let tags = h.match(/#[0-9a-zA-Z가-힣]+/gi);
         if (tags === null) {
@@ -238,42 +249,45 @@ export default {
             title: this.title,
             content: h,
             thumbnail: thumb.src,
-            cafe_id: this.$route.params.cafeId
+            cafe_id: this.cafeId,
+            id: this.$route.params.postId,
+            writer_id: this.writerId,
+            writer_name: this.$session.get("username")
           };
           this.editPost(body);
           return;
-          }
-          for (var tt = 0; tt < tags.length; tt++) {
-            tags[tt] = tags[tt].slice(1);
-            if (tt === tags.length - 1) {
-              axios
-                .post(`${this.serverAddr}/hashtagname`, { names: tags })
-                .then(r => {
-                  let hashtags = r.data.hashtags;
-                  let mycontent = document.querySelector(".te-ww-container")
-                    .firstElementChild.firstElementChild.innerHTML;
-                  for (var hdx = 0; hdx < hashtags.length; hdx++) {
-                    var beforestr = `#${hashtags[hdx].name}`;
-                    var afterstr = `<a href="/hashtag/${hashtags[hdx].name}">#${hashtags[hdx].name}</a>`;
-                    mycontent = mycontent.replace(beforestr, afterstr);
-                    if (hdx === hashtags.length - 1) {
-                      let ebody = {
-                        title: this.title,
-                        content: mycontent,
-                        thumbnail: thumb.src,
-                        id: this.$route.params.postId,
-                        cafe_id: this.cafeId,
-                        writer_id: this.writerId,
-                        writer_name: this.$session.get("username")
-                      };
-                      this.editPost(ebody);
-                    }
+        }
+        for (var tt = 0; tt < tags.length; tt++) {
+          tags[tt] = tags[tt].slice(1);
+          if (tt === tags.length - 1) {
+            axios
+              .post(`${this.serverAddr}/hashtagname`, { names: tags })
+              .then(r => {
+                let hashtags = r.data.hashtags;
+                let mycontent = document.querySelector(".te-ww-container")
+                  .firstElementChild.firstElementChild.innerHTML;
+                for (var hdx = 0; hdx < hashtags.length; hdx++) {
+                  var beforestr = `#${hashtags[hdx].name}`;
+                  var afterstr = `<a href="/hashtag/${hashtags[hdx].name}">#${hashtags[hdx].name}</a>`;
+                  mycontent = mycontent.replace(beforestr, afterstr);
+                  if (hdx === hashtags.length - 1) {
+                    let ebody = {
+                      title: this.title,
+                      content: mycontent,
+                      thumbnail: thumb.src,
+                      id: this.$route.params.reviewId,
+                      cafe_id: this.cafeId,
+                      writer_id: this.writerId,
+                      writer_name: this.$session.get("username")
+                    };
+                    this.editPost(ebody);
                   }
-                });
-            }
+                }
+              });
           }
         }
       }
+    }
   },
   beforeCreate: function() {
     this.postId = this.$route.params.postId;
