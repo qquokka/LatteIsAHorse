@@ -8,7 +8,7 @@
 	<title>Latte is A Horse</title>
 	<style>
 		body {
-			background-image: url('/universe.jpg');
+			background-image: url('universe.jpg');
 			background-size: cover;
 			background-repeat: no-repeat;
 			background-position: center;
@@ -26,19 +26,21 @@
 </head>
 <body>
 	<div>
-		<img style="height: 30vh;" src="/unicorn.png" alt="unicorn">
-		<p id="errorCode" style="margin: 1.5rem; font-size: 4rem;">0</p>
+		<img style="height: 30vh;" src="unicorn.png" alt="unicorn">
+		<p id="errorCode" style="margin: 1.5rem; font-size: 4rem;">000</p>
 		<h3>Page not found</h3>
 		<p>찾을 수 없는 페이지입니다</p>
 	</div>
 	<script>
 		const num = document.getElementById('errorCode')
+		let n = 0
 		const animation = setInterval(countUp , 1)
 		function countUp() {
-			if (num.innerText == 404) {
+			if (n === 404) {
 				clearInterval(animation)
 			} else {
-				num.innerText++
+				n++
+				num.innerText = (n < 10 ? '0' : '') + (n < 100 ? '0' : '') + n
 			}
 		}
 	</script>
