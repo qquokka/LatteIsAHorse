@@ -194,7 +194,7 @@ nav {
 }
 @media only screen and (max-width: 991px) {
   body {
-    padding-bottom: 75px;
+    padding-bottom: 58px;
   }
   .nav-link:after {
     background: transparent

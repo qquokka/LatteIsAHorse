@@ -21,7 +21,7 @@
             </p>
             <p
               class="postcreate"
-              style="top:2rem;left:3rem;border-radius:15px"
+              style="top:2rem;left:3rem;border-radius:15px;background:rgba(255,255,255,0.8)"
             >{{ review.created_at.slice(0,10) }}</p>
           </div>
         </router-link>

@@ -123,7 +123,6 @@ export default {
     },
     checkPassword() {
       let pwLen = this.pw.password.length
-      // console.log('this.pw.password', this.pw.password)
       if (5 < pwLen && pwLen < 21) {
         this.isOkay.password = true
         this.bgColor.password = ''
@@ -134,7 +133,6 @@ export default {
         this.isOkay.password = false
         this.bgColor.password = this.warningColor
       }
-      // console.log(this.pw.passwordCheck)
       if (this.pw.passwordCheck === '') {
         this.isOkay.passwordCheck = false
         this.bgColor.passwordCheck = ''
@@ -148,7 +146,6 @@ export default {
     },
     checkNickname() {
       let nickLen = this.nickname.length
-      // console.log('nickname', this.nickname)
       if (nickLen === 0) {
         this.isOkay.nickname = false
         this.bgColor.nickname = ''
