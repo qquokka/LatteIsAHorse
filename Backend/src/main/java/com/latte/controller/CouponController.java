@@ -166,13 +166,12 @@ public class CouponController {
 		Long user_id = getLoggedInUserId(request); // owner's user id
 		Map<String, Object> response = new HashMap<String, Object>();
 
-		// 나중에 주석 제거
-//		if (user_id == 0L) {
-//			response.put("message", "토근 만료, 다시 로그인 해주세요.");
-//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
-//		}
+		if (user_id == 0L) {
+			useRequest.setUser_id(user_id);
+		} else {
+			response.put("message", "토근 만료, 다시 로그인 해주세요.");
 
-		useRequest.setUser_id(8L);
+		}
 
 		int result = couponService.requestCouponUse(useRequest);
 
@@ -194,14 +193,13 @@ public class CouponController {
 		Long users_id = getLoggedInUserId(request);
 		Map<String, Object> response = new HashMap<String, Object>();
 
-//		if (users_id == 0L) {
-//			response.put("message", "토근 만료");
-//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
-//		}
+		if (users_id == 0L) {
+			response.put("message", "토근 만료");
+		}
 
 		Coupon coupon = new Coupon();
 		coupon.setCafe_id(cafe_id);
-		coupon.setUsers_id(4L); // users_id
+		coupon.setUsers_id(users_id); // users_id
 
 		// 현재 보유한 쿠폰 갯수(등록되어 있지 않다면 기본값 = 0)
 		int numberOfCoupon = couponService.getCurrentCouponCount(coupon);
@@ -220,14 +218,13 @@ public class CouponController {
 		Long users_id = getLoggedInUserId(request);
 		Map<String, Object> response = new HashMap<String, Object>();
 
-//		if (users_id == 0L) {
-//			response.put("message", "토근 만료");
-//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.FORBIDDEN);
-//		}
-
 		Coupon coupon = new Coupon();
 		coupon.setCafe_id(ucr.getCafe_id()); // 수정
-		coupon.setUsers_id(4L);
+		if (users_id != 0L) {
+			coupon.setUsers_id(users_id);
+		} else {
+			response.put("message", "토근 만료");
+		}
 
 		// 현재 보유한 쿠폰 갯수(등록되어 있지 않다면 기본값 = 0)
 		int numberOfCoupon = couponService.getCurrentCouponCount(coupon);

@@ -39,7 +39,8 @@
 
 	<delete id="deletePostHashtag" parameterType="posthashtag">
 
-		delete from post_hashtag
+		delete from
+		post_hashtag
 		where
 		posts_id = #{posts_id}
 		and
