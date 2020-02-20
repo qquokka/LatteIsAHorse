@@ -24,7 +24,7 @@
             aria-label="제목"
             style="background:white"
             class="col"
-            placeholder="TITLE"
+            placeholder="제목을 써주세요"
           />
         </div>
         <div class="col m-0 border row bg-white align-items-center justify-content-center p-0">
@@ -147,11 +147,8 @@ export default {
             hashtag_id: this.tagids,
             post_id: r.data.posted_id
           };
-          console.log(hashidbody);
-          axios.post(`${this.serverAddr}/hashtag`, hashidbody).then(() => {
-            this.$router.push(`/post/${this.postId}`);
-          });
-          
+          axios.post(`${this.serverAddr}/hashtag`, hashidbody)
+          this.$router.back()
         })
     },
     getHtml() {
@@ -257,7 +254,7 @@ export default {
                     .firstElementChild.firstElementChild.innerHTML;
                   for (var hdx = 0; hdx < hashtags.length; hdx++) {
                     var beforestr = `#${hashtags[hdx].name}`;
-                    var afterstr = `<a href="/hashtag/${hashtags[hdx].hashtag_id}">#${hashtags[hdx].name}</a>`;
+                    var afterstr = `<a href="/hashtag/${hashtags[hdx].name}">#${hashtags[hdx].name}</a>`;
                     mycontent = mycontent.replace(beforestr, afterstr);
                     if (hdx === hashtags.length - 1) {
                       let ebody = {

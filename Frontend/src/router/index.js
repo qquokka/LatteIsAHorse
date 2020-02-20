@@ -18,6 +18,7 @@ import CouponUseRequestList from '../components/CouponUseRequestList'
 import CouponUseRequestPage from '../views/CouponUseRequestPage'
 import EditMyCafe from '../views/EditMyCafe.vue'
 import HashTagList from '../components/HashTagList.vue'
+import CafeCoupon from '../components/CafeCoupon.vue'
 
 Vue.use(VueRouter)
 
@@ -100,6 +101,11 @@ const routes = [
     path: '/coupon',
     name: 'coupon',
     component: Coupon
+  },
+  {
+    path: '/cafe/:cafeid/coupon',
+    name: 'cafecoupon',
+    component: CafeCoupon
   },
   {
     path: '/qrcode',

@@ -12,12 +12,12 @@
       :center="prop_center"
       :zoom="17"
       :options="{
-        zoomControl: true,
+        zoomControl: false,
         mapTypeControl: false,
         scaleControl: false,
-        streetViewControl: true,
+        streetViewControl: false,
         rotateControl: false,
-        fullscreenControl: true,
+        fullscreenControl: false,
         disableDefaultUi: false,
         minZoom: 12,
         maxZoom: 18

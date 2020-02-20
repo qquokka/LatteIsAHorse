@@ -3,7 +3,7 @@
     <div v-if="isGeneratedCoupon">
       <img id="qrCode" alt="QRCode" :src="qrcode" width="200" height="300"/>
       <br/>
-      <p>발급된 쿠폰 개수 : {{couponNum}}</p>
+      <p>발급된 쿠폰 개수 : {{ couponNum }}</p>
       <br/>
       <button type="button" class="couponbtn font-weight-bolder" 
       v-on:click="reGenerateCoupon">재발급</button>

@@ -6,12 +6,12 @@
       <div class="container border">
         <div class="row align-content-center text-left border-bottom py-2" style="line-height:100%">
             <fa icon="user-circle" class="ml-1" style="color:#89B0AE" size="2x" />
-            <p class="ml-1 my-auto text-info">{{ review.writer_name }}<br ><small class="text-muted">{{ displayTime(review.time) }}</small></p>
+            <p class="ml-1 my-auto text-info">{{ review.writer_name }}<br ><small class="text-muted">{{ displayTime(review.created_at) }}</small></p>
         </div>
         <div class="row">
           <h5 class="text-muted px-1">#{{ review.id }}</h5>
         </div>
-        <div class="review-detail-header" :style="`background: url('${review.thumbnail}')`">
+        <div class="review-detail-header" :style="`background: url('${review.thumbnail || require('@/assets/img/loginbg.jpg')}')`">
           <h1 class="review-detail-title">{{ review.title }}</h1>
         </div>
         <div class="container mt-3 text-left">

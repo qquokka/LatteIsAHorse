@@ -6,6 +6,7 @@
       <img :src="selectedImage" @click.stop="selectedImage = null" />
     </div>
     <router-link id="reviewWriteBtn" :to="`/cafe/${cafeId}/posts/create`" ><fa icon="pencil-alt" size="2x" style="filter: drop-shadow(0 0 1px white)" /></router-link>
+    <router-link class="d-fixed d-md-none" id="couponAddBtn" :to="`/cafe/${cafeId}/coupon`" ><fa icon="ticket-alt" size="2x" style="filter: drop-shadow(0 0 1px white)" /></router-link>
     <!-- global end-->
     <nav-bar />
       <div id="topbar" class="justify-content-between align-items-center">
@@ -181,8 +182,8 @@
                   @error="imgPlaceholder"
                 />
               </div>
-              <div class="row p-1 justify-content-center line-clamp" style="height: 225px;">
-                <span class="col-11 text-left p-2 imghtml" v-html="review.content"></span>
+              <div class="p-1 line-clamp" style="height: 225px;">
+                <div class="imghtml text-left" v-html="review.content"></div>
               </div>
               <div style="font-size: calc(2rem+2vw)" class="row justify-content-center">
                 댓글 : (...)
@@ -218,6 +219,7 @@ import {
   faUserCircle,
   faPencilAlt,
   faHeart as fasHeart,
+  faTicketAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 library.add(
@@ -232,7 +234,8 @@ library.add(
   faThumbsUp,
   faUserCircle,
   fasHeart, farHeart,
-  faPencilAlt
+  faPencilAlt,
+  faTicketAlt
 );
 
 export default {
@@ -394,6 +397,9 @@ export default {
 </script>
 
 <style>
+.imghtml > div > img {
+  display: none !important;
+}
 .shortinfo {
   font-size: calc(0.7rem + 0.7vw)
 }
@@ -417,6 +423,18 @@ export default {
 }
 .menurow > div {
   padding: 0;
+}
+#couponAddBtn {
+  position: fixed;
+  bottom: 25%;
+  right: 19px;
+  background: violet;
+  opacity: 0.9;
+  padding: calc(0.7rem + 1vw) calc(0.7rem + 1vw);
+  color: white !important;
+  border-radius: 50%;
+  z-index: 9999;
+  box-shadow: 2px 3px 3px lightgray
 }
 #reviewWriteBtn {
   position: fixed;

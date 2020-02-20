@@ -8,8 +8,7 @@
       >
         <router-link :to="`/cafe/${review.cafe_id}/review/${review.id}/`">
           <div class="postbody overflow-hidden border">
-            <img :src="review.thumbnail" width="100%" height="300px" @error="imgPlaceholder" />
-
+            <div :style="`background: url('${review.thumbnail || require('@/assets/img/loginbg.jpg')}');width:100%;height:300px;background-size:cover`"></div>
             <h3 class="p-2 posttitle text-truncate">{{ review.title }}</h3>
             <p style="font-size:0.8rem;">
               <fa icon="thumbs-up" style="color: skyblue" />
