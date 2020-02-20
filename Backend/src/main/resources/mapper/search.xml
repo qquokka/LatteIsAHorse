@@ -20,18 +20,30 @@
 	</select>
 
 	<select id="searchInHashtag" resultType="cafe">
-		select c.* from cafe c
-		join (select p.cafe_id from
-		posts p join (select
-		ph.posts_id from
-		post_hashtag ph join (select *
-		from hashtag h where
-		h.name regexp
-		(#{query})) as hh on ph.hashtag_id =
-		hh.hashtag_id) as phs
+		select main.* ,
+		count(ulc.like_count) as like_count from
+		(select c.*
+		from
+		cafe c
+		join
+		(select p.cafe_id from posts p
+		join
+		(select ph.posts_id from
+		post_hashtag ph
+		join
+		(select * from hashtag h where h.name regexp
+		(#{query})) as hh
+		on ph.hashtag_id = hh.hashtag_id) as phs
 		on
-		p.id=phs.posts_id) as pp on c.cafe_id =
-		pp.cafe_id group by cafe_id
+		p.id=phs.posts_id) as pp
+		on c.cafe_id = pp.cafe_id group by pp.cafe_id)
+		as main
+		left outer join
+		userslikecafe as ulc
+		on
+		main.cafe_id = ulc.cafe_id
+		group by
+		cafe_id
 	</select>
 
 </mapper>
