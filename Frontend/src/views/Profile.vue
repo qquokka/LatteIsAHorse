@@ -37,22 +37,11 @@
 			<div class="card-body">
 				<div v-if="contentNum === 0">
 					<h5 class="card-title mobile-display-block">내 카페 관리</h5>
-					<div v-if="myCafe">
-
-						<p class="card-text">내 카페 정보를 수정할 수 있습니다.</p>
-						<hr>
-						<cafe-list :cafeData="myCafe" />
-					</div>
-					<router-link to="/editcafe" v-else>
-						<p class="card-text">내 카페 페이지를 생성할 수 있습니다.</p>
-						<hr>
-						<div class="card m-auto" :style="`border: 4px dashed lightgray; width: ${l}px; height: ${l < 400? l : 400}px;`">
-							<div class="card-body p-0" style="cursor: pointer;">
-								<h1 style="margin: 0" :style="`line-height: ${l < 400? l : 400}px; font-size: 70px`">
-									<fa icon="plus-circle" style="color:lightgray"/>
-								</h1>
-							</div>
-						</div>
+					<p class="card-text">내 카페 정보를 수정할 수 있습니다.</p>
+					<hr>
+					<cafe-list :cafeData="myCafe" />
+					<router-link to="/editcafe">
+						<button class="btn btn-outline-warning">카페 상세 정보 수정하기</button>
 					</router-link>
 				</div>
 				<div v-if="contentNum === 1">
@@ -61,7 +50,7 @@
 				</div>
 				<div v-if="contentNum === 2">
 					<h5 class="card-title mobile-display-block">내가 쓴 리뷰</h5>
-					<review-list limits="3" :reviewData="myReviews"/>
+					<review-list :limit="myReviews.length" :reviewData="myReviews"/>
 				</div>
 				<div v-if="contentNum === 3">
 					<h5 class="card-title mobile-display-block">내 정보 수정</h5>

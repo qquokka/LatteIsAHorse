@@ -1,7 +1,12 @@
 <template>
   <div>
+    <nav-bar bgcolor="#FFD6BA" />
     <div class="my-5">
-			<img width="100%" style="margin-bottom: 2rem" :src="thumbnail || ''">
+      <img
+        width="100%"
+        style="margin-bottom: 2rem"
+        :src="thumbnail || 'src/assets/noimage.png'"
+      />
       <image-uploader
         :preview="false"
         :className="['fileinput', { 'fileinput--loaded': hasImage }]"
@@ -161,14 +166,9 @@
             <span class="input-group-text">매일</span>
           </div>
           <input type="time" class="opens form-control" v-model="time[1][0]" />
-          <input
-            type="time"
-            class="closes form-control"
-            v-model="time[1][1]"
-          />
+          <input type="time" class="closes form-control" v-model="time[1][1]" />
         </div>
       </div>
-      <button @click.prevent="getData">가져오기</button>
       <button
         @click="save"
         type="button"
@@ -181,22 +181,33 @@
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue";
 import axios from "axios";
 
 export default {
   name: "editMyCafe",
+  components: { NavBar },
   data() {
     return {
-			hasImage: "",
-			cafe_address: "",
+      hasImage: "",
+      cafe_address: "",
 			cafe_id: 0,
-			cafe_name: "",
-			cafe_phone: "",
-			description: "",
-			thumbnail: "",
-			thumbnailName: "",
-			time: [[0, 0], [0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0]],
-			timeOrigin : [],
+			cafe_owner_id: 0,
+      cafe_name: "",
+      cafe_phone: "",
+      description: "",
+      thumbnail: "",
+      thumbnailName: "",
+      time: [
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0]
+      ],
+      timeOrigin: [],
       timeIsDetail: 0
     };
   },
@@ -207,29 +218,31 @@ export default {
           headers: { Authorization: "Bearer " + this.$session.get("jwt") }
         })
         .then(response1 => {
-          console.log(response1);
+          console.log("my cafe 불러오기", response1);
           axios
             .get(
               `${this.$store.state.constants.SERVER}/cafe/detail/${response1.data.cafe.cafe_id}`
             )
             .then(response => {
-							console.log('response',response);
-							const info = response.data.cafeinfo
-							this.timeOrigin = info.time
-							for (let key in info) {
-								console.log('check', key, info[key])
-								if (key === 'time') {
-									let timetable = []
-									for (let i = 0; i < 7; i++) {
-										timetable.push([info.time[i][0].slice(11, 16), info.time[i][1].slice(11, 16)])
-										if (i === 6) {
-											this.$set(this, 'time', timetable)
-										}
-									}
-								} else {
-									this.$set(this, key, info[key])
-								}
-							}
+              console.log("카페 정보 불러오기", response);
+              const info = response.data.cafeinfo;
+              this.timeOrigin = info.time;
+              for (let key in info) {
+                if (key === "time") {
+                  let timetable = [];
+                  for (let i = 0; i < 7; i++) {
+                    timetable.push([
+                      info.time[i][0].slice(11, 16),
+                      info.time[i][1].slice(11, 16)
+                    ]);
+                    if (i === 6) {
+                      this.$set(this, "time", timetable);
+                    }
+                  }
+                } else {
+                  this.$set(this, key, info[key]);
+                }
+              }
             });
         })
         .catch(error => {
@@ -237,9 +250,9 @@ export default {
         });
     },
     setImage: function(output) {
-			this.thumbnail = output.dataUrl;
-			this.thumbnailName = output.info.name
-			this.hasImage = true
+      this.thumbnail = output.dataUrl;
+      this.thumbnailName = output.info.name;
+      this.hasImage = true;
     },
     setTimeDetail(level) {
       this.timeIsDetail = level;
@@ -249,52 +262,83 @@ export default {
       console.log("Info", this.thumbnail);
       // console.log("Exif", image.exif);
       fetch(this.thumbnail)
-      .then(r=>r.blob())
-      .then(blobbed => {
-				const file = new File([blobbed], this.thumbnailName);
-				console.log(file)
-        const fd = new FormData();
-        fd.append("file", file);
-				console.log(fd);
-				axios.post(`${this.$store.state.constants.SERVER}/uploadThumbnail`, fd)
-					.then(response => {
-						console.log(response)
-						this.thumbnail = response.data.fileDownloadUri
-						for (let i = 0; i < 7; i++) {
-							for (let j = 0; j < 2; j++) {
-								this.timeOrigin[i][j] = this.timeOrigin[i][j].slice(0, 11) + this.time[i][j] + this.timeOrigin[i][j].slice(16, 20)
-								if (i === 6  && j === 1) {
-									const cafe = {
-										cafe_address: this.cafe_address,
-										cafe_id: this.cafe_id,
-										cafe_name: this.cafe_name,
-										cafe_phone: this.cafe_phone,
-										closed: false,
-										thumbnail: this.thumbnail,
-										time: this.timeOrigin
-									}
-									console.log(cafe)
-									axios.patch(`${this.$store.state.constants.SERVER}/uploadThumbnail`, cafe, {headers: {Authorization: "Bearer " + this.$session.get("jwt")}})
-										.then(response2 => {
-											console.log(response2)
-										})
-										.catch(error2 => {
-											console.log(error2)
-										})
-								}
-							}
-						}
-						
-					})
-					.catch(error => {
-						console.log(error)
-					})
+        .then(r => r.blob())
+        .then(blobbed => {
+          const file = new File([blobbed], this.thumbnailName);
+          console.log("file", file);
+          const fd = new FormData();
+          fd.append("file", file);
+          console.log("formData", fd);
+          axios
+            .post(`${this.$store.state.constants.SERVER}/uploadThumbnail`, fd)
+            .then(response => {
+              console.log(response);
+              this.thumbnail = response.data.fileDownloadUri;
+              for (let i = 0; i < 7; i++) {
+                for (let j = 0; j < 2; j++) {
+                  this.timeOrigin[i][j] =
+                    this.timeOrigin[i][j].slice(0, 11) +
+                    this.time[i][j] +
+                    this.timeOrigin[i][j].slice(16, 20);
+                  if (i === 6 && j === 1) {
+                    const cafeee = {
+                      cafe_address: this.cafe_address,
+											cafe_id: this.cafe_id,
+											cafe_owner_id: this.cafe_owner_id,
+                      cafe_name: this.cafe_name,
+                      cafe_phone: this.cafe_phone,
+                      closed: false,
+                      thumbnail: this.thumbnail,
+											mon_open: this.timeOrigin[1][0],
+											mon_close: this.timeOrigin[1][1],
+											tue_open: this.timeOrigin[2][0],
+											tue_close: this.timeOrigin[2][1],
+											wed_open: this.timeOrigin[3][0],
+											wed_close: this.timeOrigin[3][1],
+											thu_open: this.timeOrigin[4][0],
+											thu_close: this.timeOrigin[4][1],
+											fri_open: this.timeOrigin[5][0],
+											fri_close: this.timeOrigin[5][1],
+											sat_open: this.timeOrigin[6][0],
+											sat_close: this.timeOrigin[6][1],
+											sun_open: this.timeOrigin[0][0],
+											sun_close: this.timeOrigin[0][1]
+                    };
+                    console.log("cafe 정보 업데이트", cafeee);
 
-      });
-		}
+                    axios
+                      .patch(
+                        `${this.$store.state.constants.SERVER}/cafe`,
+                        cafeee,
+                        {
+                          headers: {
+                            Authorization: "Bearer " + this.$session.get("jwt")
+                          }
+                        }
+                      )
+                      .then(response2 => {
+                        console.log(response2);
+                      })
+                      .catch(error2 => {
+                        console.log(error2);
+                      });
+                  }
+                }
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        });
+    }
   },
-  mount() {
-	}
+  mounted() {
+    axios.interceptors.request.use(request => {
+      console.log("Starting Request", request);
+      return request;
+    });
+    this.getData();
+  }
 };
 </script>
 
