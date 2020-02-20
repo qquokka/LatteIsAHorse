@@ -169,6 +169,17 @@ public class CafeController {
 		logger.info("CafeController-------------Cafe Update-------------" + new Date());
 		// 사용자 아이디 조회해서 수정하려는 카페가 로그인한 회원과 일치하는지 체크 구현안함.
 		Map<String, Object> response = new HashMap<>();
+		
+		//주소 -> 위도,경도 변환
+		// 주소로 위도 및 경도 알아내기
+		String address = cafedto.getCafe_address();
+		Map<String, Double> latlng = getLatLngByAddress(address);
+
+		if (latlng.size() > 0) {
+			cafedto.setLatitude(latlng.get("lat").doubleValue());
+			cafedto.setLongitude(latlng.get("lng").doubleValue());
+		}
+
 		int result = cafeservice.updateCafe(cafedto);
 
 		if (result < 1) { // 등록 실패
