@@ -125,7 +125,7 @@ public class AuthController {
 				.orElseThrow(() -> new AppException("User Role not set."));
 
 		user.setRoles(Collections.singleton(userRole));
-
+		user.setActive(true);
 		User result = userRepository.save(user);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}")

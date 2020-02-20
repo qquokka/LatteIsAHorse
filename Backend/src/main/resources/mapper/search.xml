@@ -31,7 +31,7 @@
 		hh.hashtag_id) as phs
 		on
 		p.id=phs.posts_id) as pp on c.cafe_id =
-		pp.cafe_id
+		pp.cafe_id group by cafe_id
 	</select>
 
 </mapper>
