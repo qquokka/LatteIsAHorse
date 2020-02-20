@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "file")
 public class FileUploadProperties {
 	private String uploadDir; // 파일 업로드할 디렉토리 경로
-	private String thumbnailDir; // 썸네일 업로드할 디렉토리 경호
+	private String thumbnailDir; // 썸네일 업로드할 디렉토리 경로
 
 	public String getUploadDir() {
 		return uploadDir;
