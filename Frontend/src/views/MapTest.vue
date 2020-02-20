@@ -54,7 +54,6 @@
         :filtername="filtername"
         @cafe_change_event="cafeChange"
       />
-      <input @hashtag_get_event="getHashtags" type = "hidden">
     </div>
     <div class="d-none d-lg-block col-lg-3 bg-white px-0 infocol" v-if="cafe.cafeinfo">
       <loading
@@ -167,10 +166,6 @@ export default {
     },
     cafeChange(sc) {
       this.detailLoading = true;
-      axios.interceptors.request.use(request => {
-  console.log('Starting Request', request)
-  return request
-})
       axios
         .get(`${this.$store.state.constants.SERVER}/cafe/detail/${sc.cafe_id}`)
         .then(response => {
@@ -206,15 +201,15 @@ export default {
       this.locmeLoading = true;
       navigator.geolocation.getCurrentPosition(this.success, this.fail, {
         enableHighAccuracy: true,
-        timeout: 27000,
+        timeout: 20000,
         maximumAge: 0
       });
     },
     success(position) {
       this.loadend();
       this.center = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
+        lat: +position.coords.latitude,
+        lng: +position.coords.longitude
       }
       axios
         .post(`${this.$store.state.constants.SERVER}/map/`, {

@@ -1,6 +1,13 @@
 <template>
   <div class="container-fluid p-0">
     <nav-bar bgcolor="#FFD6BA" />
+                  <loading
+                :active.sync="geoloading"
+                :can-cancel="false"
+                :is-full-page="true"
+                loader="bars"
+                color="crimson"
+              ></loading>
     <div class="home-header align-items-center d-flex flex-column justify-content-center">
       <img
         class="d-none d-lg-block"
@@ -31,8 +38,9 @@
           </h2>
           <div
             style="cursor:pointer; color: crimson;font-size: calc(5px + 0.5vw)"
-            @onclick="geoPermission()"
+            @click.once="geoPermission()"
           >
+
             <fa icon="crosshairs" />위치정보이용동의
           </div>
         </div>
@@ -62,6 +70,8 @@ import BSection from "@/views/section/BuisinessSection.vue";
 import Footer from "@/views/section/Footer.vue";
 import HashTags from "@/components/HashTags.vue";
 import axios from "axios";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faRoad,
@@ -79,7 +89,8 @@ export default {
     PopularList,
     BSection,
     Footer,
-    HashTags
+    HashTags,
+    Loading
   },
   data() {
     return {
@@ -90,6 +101,7 @@ export default {
       isAuthenticated: this.$store.state.token !== null,
       cafeData: [],
       reviewData: [],
+      geoloading: false,
       myungun: [
         "성공한 모든 여성 뒤에는 많은 양의 커피가 있다. -스테파니 파이로",
         "내게 정신을 차리게 만드는 것은 진한 커피, 아주 진한 커피이다. 커피는 내게 온기를 주고, 특이한 힘과 기쁨과 쾌락이 동반된 고통을 불러 일으킨다.- 나폴레옹",
@@ -103,6 +115,7 @@ export default {
       ]
     };
   },
+  
   computed: {
     ...mapGetters(["options", "user", "colors"]),
     getMyung() {
@@ -111,13 +124,21 @@ export default {
   },
   methods: {
     geoPermission() {
+      this.geoloading = true
       navigator.geolocation.getCurrentPosition(this.success, this.fail);
     },
     success(position) {
-      this.center = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
+      axios
+        .post(`${this.$store.state.constants.SERVER}/map/limit`, {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          level: 12,
+          limit: 6,
+        })
+        .then(r=> {
+          this.cafeData = r.data
+          this.geoloading = true
+        })
     }
   },
   beforeMount() {

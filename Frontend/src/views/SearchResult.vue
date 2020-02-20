@@ -1,7 +1,7 @@
 <template>
   <div id="search-result">
     <nav-bar />
-    <div class="container">
+    <div class=" p-0">
       <div class="sresultheader">
         <h3>"{{ $route.query.q }}" 에 대해 검색하여</h3>
         <h4>{{ cafeData.length }} 개의 카페를 찾았어요</h4>

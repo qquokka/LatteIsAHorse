@@ -28,8 +28,7 @@
           />
         </div>
         <div class="col m-0 border row bg-white align-items-center justify-content-center p-0">
-          <fa class="text-muted pr-2" icon="user-circle" size="3x" />
-          <h4>@{{ getname }}</h4>
+          <h4><fa class="text-muted pr-2" icon="user-circle" />@{{ getname }}</h4>
         </div>
       </div>
       <editor

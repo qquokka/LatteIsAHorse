@@ -59,8 +59,8 @@ export default {
       this.$store.commit("setToken", stored.jwt);
     }
     setInterval(() => {
-      if(this.$session.exists()){
-        if (Date.now() - this.$session.getItem("expire") > 3600000) {
+      if(this.$session){
+        if (Date.now() - this.$session.get("expire") > 3600000) {
           this.logout()
         }
       }

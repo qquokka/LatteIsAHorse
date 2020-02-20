@@ -1,33 +1,32 @@
 <template>
   <div class="container-fluid p-0">
-		<nav-bar blackOrWhite="true" />
-		<h1 class="mt-5">{{ getUserName() }} {{ getUserRole() }}님</h1>
-		<p>안녕하세요</p>
+		<nav-bar />
+		<h4 class="pt-5">{{ getUserName() }}님</h4>
+		<p>반갑습니다. 현재 [{{ getUserRole() }}]으로 로그인하셨습니다.</p>
 		<!-- 내 쿠폰 -->
 		<div class="card text-center">
 			<div class="card-header">
 				<ul class="nav nav-tabs card-header-tabs row">
 					<li v-if="isOwner" class="li-menu-tab nav-item col-3">
-						<div class="nav-link active d-flex align-items-center justify-content-center text-center"
-							@click="showContent(0)">
+						<div id="tab1" class="dtabs nav-link d-flex align-items-center justify-content-center text-center" @click="showContent(0)">
 							<p><fa icon="coffee"/></p>
 							<p class="mobile-display-none">내 카페 관리</p>
 						</div>
 					</li>
 					<li class="li-menu-tab nav-item" :class="{'col-3': isOwner, 'col-4': !isOwner}">
-						<div class="nav-link active d-flex align-items-center justify-content-center text-center" @click="showContent(1)">
+						<div id="tab2" class="dtabs nav-link d-flex align-items-center justify-content-center text-center" @click="showContent(1)">
 							<p><fa icon="heart"/></p>
 							<p class="mobile-display-none">내가 좋아하는 카페</p>
 						</div>
 					</li>
 					<li class="li-menu-tab nav-item" :class="{'col-3': isOwner, 'col-4': !isOwner}">
-						<div class="nav-link active d-flex align-items-center justify-content-center text-center" @click="showContent(2)">
+						<div id="tab3" class="dtabs nav-link d-flex align-items-center justify-content-center text-center" @click="showContent(2)">
 							<p><fa icon="pen"/></p>
 							<p class="mobile-display-none">내가 쓴 리뷰</p>
 						</div>
 					</li>
 					<li class="li-menu-tab nav-item" :class="{'col-3': isOwner, 'col-4': !isOwner}">
-						<div class="nav-link active d-flex align-items-center justify-content-center text-center" @click="showContent(3)">
+						<div id="tab0" class="dtabs nav-link d-flex align-items-center justify-content-center text-center" @click="showContent(3)">
 							<p><fa icon="user-edit"/></p>
 							<p class="mobile-display-none">내 정보 수정</p>
 						</div>
@@ -62,7 +61,7 @@
 						</div>
 						<p class="form-control text-left">{{ profile.email }}</p>
 					</div>
-					<div id="myNickname" class="input-group mb-3">
+					<div id="myNickname" class="input-group border mb-3">
 						<div class="input-group-prepend">
 							<span class="input-group-text">닉네임</span>
 						</div>
@@ -71,13 +70,13 @@
 							<button @click="checkNickname" type="button" class="btn btn-outline-secondary">중복확인</button>
 						</div>
 					</div>
-					<div class="input-group mb-3">
+					<div class="input-group border mb-3">
 						<div class="input-group-prepend text-center">
 							<span style="width:71.125px;" class="input-group-text justify-content-center">이름</span>
 						</div>
 						<input v-model="profile.name" type="text" class="form-control">
 					</div>
-					<div id="myPhone" class="input-group mb-3">
+					<div id="myPhone" class="input-group border mb-3">
 						<div class="input-group-prepend">
 							<span class="input-group-text">핸드폰</span>
 						</div>
@@ -138,6 +137,7 @@ export default {
 	data() {
 		return {
 			l: window.innerWidth * 0.8,
+			active: 0,
 			myCafe: [],
 			myReviews: [],
 			myFavoriteCafes: [],
@@ -247,6 +247,7 @@ export default {
 		showContent(num) {
 			this.contentNum = num
 			if (num === 0) {
+				this.active = 0
 				axios.get(`${this.$store.state.constants.SERVER}/mycafe`, {headers: {Authorization: "Bearer " + this.$session.get("jwt")}})
 					.then(response => {
 						this.myCafe = [response.data.cafe]
@@ -255,6 +256,7 @@ export default {
 						console.log(error)
 					})
 			} else if (num === 1) {
+				this.active = 1
 				axios.get(`${this.$store.state.constants.SERVER}/cafe/my`, {headers: {Authorization: "Bearer " + this.$session.get("jwt")}})
 					.then(response => {
 						this.myFavoriteCafes = response.data
@@ -263,6 +265,7 @@ export default {
 						console.log(error)
 					})
 			} else if (num === 2) {
+				this.active = 2
 				axios.get(`${this.$store.state.constants.SERVER}/post/my`, {headers: {Authorization: "Bearer " + this.$session.get("jwt")}})
 					.then(response => {
 						this.myReviews = response.data.reverse()
@@ -271,6 +274,7 @@ export default {
 						console.log(error)
 					})
 			}	else if (num === 3) {
+				this.active = 3
 				axios.get(`${this.$store.state.constants.SERVER}/user/my`, {headers: {Authorization: "Bearer " + this.$session.get("jwt")}})
 				.then(response => {
 					this.role = response.data.roles[0].id
@@ -300,6 +304,15 @@ export default {
 </script>
 
 <style>
+.dtabs {
+	border: 1px solid lightgray !important;
+	border-bottom: 0 !important;
+	background: mediumaquamarine;
+	color: white !important; 
+}
+.dtabs:active {
+	background: white !important;
+}
 .mobile-display-block {
 	display: none
 }
@@ -317,6 +330,9 @@ export default {
 .li-menu-tab {
 	padding: 0 0.25rem !important;
 	cursor: pointer;
+}
+.li-menu-tab:active {
+	background: white;
 }
 .card-header-tabs p {
 	margin: 0 0.3rem;
