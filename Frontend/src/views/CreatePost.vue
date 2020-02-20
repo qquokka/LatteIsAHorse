@@ -142,12 +142,17 @@ export default {
         .patch(`${this.serverAddr}/post`, body, {
           headers: { Authorization: "Bearer " + this.$session.get("jwt") }
         })
-        .then(() => {
-          this.$router.push(`/post/${this.postId}`);
+        .then(r => {
+          let hashidbody = {
+            hashtag_id: this.tagids,
+            post_id: r.data.posted_id
+          };
+          console.log(hashidbody);
+          axios.post(`${this.serverAddr}/hashtag`, hashidbody).then(() => {
+            this.$router.push(`/post/${this.postId}`);
+          });
+          
         })
-        .catch(e => {
-          console.log(e.response);
-        });
     },
     getHtml() {
       let html = document.querySelector(".te-ww-container").firstElementChild
@@ -230,17 +235,16 @@ export default {
         let hh = document.querySelector(".te-ww-container").firstElementChild.firstElementChild;
         let thumb = hh.getElementsByTagName("img")[0] || require('../assets/img/thumbnail_placeholder.jpg');
         let h = hh.innerHTML;
-        if (this.$route.name !== "edit-review") {
-          let tags = h.match(/#[0-9a-zA-Z가-힣]+/gi);
-          if (tags === null) {
-            let body = {
-              title: this.title,
-              content: h,
-              thumbnail: thumb.src,
-              cafe_id: this.$route.params.cafeId
-            };
-            this.editPost(body);
-            return;
+        let tags = h.match(/#[0-9a-zA-Z가-힣]+/gi);
+        if (tags === null) {
+          let body = {
+            title: this.title,
+            content: h,
+            thumbnail: thumb.src,
+            cafe_id: this.$route.params.cafeId
+          };
+          this.editPost(body);
+          return;
           }
           for (var tt = 0; tt < tags.length; tt++) {
             tags[tt] = tags[tt].slice(1);
@@ -273,7 +277,6 @@ export default {
           }
         }
       }
-    }
   },
   beforeCreate: function() {
     this.postId = this.$route.params.postId;
