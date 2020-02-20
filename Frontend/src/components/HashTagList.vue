@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="container border shadow">
-      <cafe-list :cafeData="order?cafeData:likeData" />
+      <cafe-list :key="listupdator" :cafeData="order?cafeData:likeData" />
     </div>
   </div>
 </template>
@@ -41,6 +41,7 @@ export default {
       cafeData: [],
       likeData: [],
       order: false,
+      listupdator: false
     };
 	},
 	props:["tagname"],
@@ -51,7 +52,7 @@ export default {
         .then(response => {
           this.cafeData = response.data.hashtags
           this.likeData = response.data.hashtags.sort(this.compare)
-          
+          this.listupdator = !this.listupdator
         });
     },
     compare(a, b) {

@@ -19,6 +19,7 @@ import CouponUseRequestPage from '../views/CouponUseRequestPage'
 import EditMyCafe from '../views/EditMyCafe.vue'
 import HashTagList from '../components/HashTagList.vue'
 import CafeCoupon from '../components/CafeCoupon.vue'
+import PageNotFound from '../components/PageNotFound.vue'
 
 Vue.use(VueRouter)
 
@@ -132,7 +133,11 @@ const routes = [
     name: 'taglist',
     component: HashTagList,
     props: true
-  }
+  },
+
+
+  // 무조건 맨 마지막에
+  { path: "*", component: PageNotFound }
 ]
 
 const router = new VueRouter({

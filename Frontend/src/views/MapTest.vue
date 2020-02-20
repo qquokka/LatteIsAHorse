@@ -8,7 +8,7 @@
       color="violet"
     ></loading>
 
-    <nav-bar class="mapnav" />
+    <nav-bar style="width:100vw" />
 
     <div id="fixcont" class="row p-0 m-0" :style="`height: ${avheight}px;background:#f2f2f2`">
       <div style="font-size:1vw;position:fixed;z-index:99">
@@ -267,9 +267,6 @@ img {
   position: fixed;
   top: 75px;
   width: 100%;
-}
-.mapnav {
-  position: fixed;
 }
 .hashlink:hover {
   color: royalblue !important;

@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :key="superkey">
     <modal :loginFailed="loginFailed" @login="login" />
     <router-view :key="$route.fullPath" />
   </div>
@@ -16,13 +16,15 @@ export default {
   data() {
     return {
       loginFailed: false,
-      fullPage: true
+      fullPage: true,
+      superkey: 0
     };
   },
   methods: {
     logout() {
       this.$session.destroy();
       this.$store.dispatch("logout");
+      this.superkey += 1
     },
     login(credentials) {
       axios
@@ -41,6 +43,7 @@ export default {
           this.$store.commit("setToken", token);
           console.log(response.data)
           document.querySelector("#modalCloseButton").click();
+          this.superkey += 1
         })
         .catch(error => {
           console.log(error)

@@ -208,7 +208,7 @@ nav {
     height: fit-content;
     margin-top: auto;
     bottom: 0;
-    width: 100%;
+    width: 100vw;
     max-width: 100vw;
     padding: 1vw 0;
     z-index: 10;

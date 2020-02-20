@@ -175,14 +175,14 @@
           </div>
           <div class="border">
             <div class="m-2 border">
-              <div class="row m-0 mt-2 justify-content-center" v-if="review.thumbnail">
+              <div class="row m-0 mt-2 justify-content-center">
                 <div
-                  :style="`background: url(${review.thumbnail});height: 60vh;padding:0;background-size: cover !important;`"
+                  :style="`background: url(${review.thumbnail || require('../assets/img/loginbg.jpg')});height: 60vh;padding:0;background-size: cover !important;`"
                   class="col-11"
                   @error="imgPlaceholder"
                 />
               </div>
-              <div class="p-1 line-clamp" style="height: 225px;">
+              <div class="p-3 p-lg-5 line-clamp" style="height: 225px;">
                 <div class="imghtml text-left" v-html="review.content"></div>
               </div>
               <div style="font-size: calc(2rem+2vw)" class="row justify-content-center">
