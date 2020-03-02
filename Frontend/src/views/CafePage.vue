@@ -38,7 +38,7 @@
 
           <h6 class="text-left shortinfo">
             <fa style="color:crimson;margin-right:0.5rem" icon="shopping-basket" />인기메뉴:
-            <span class="text-muted"></span>
+            <span class="text-muted">{{ mostPopular() }}</span>
           </h6>
         </div>
 
@@ -272,9 +272,17 @@ export default {
   computed: {
     lastreview() {
       return this.reviews.length - 1
-    }
+    },
   },
   methods: {
+    mostPopular() { 
+      let bestMenu = [0, '(없음)']
+      this.menus.forEach(function(elem) {
+        bestMenu[1] = elem.like_count > bestMenu[0] ? elem.product : bestMenu[1]
+        bestMenu[0] = elem.like_count > bestMenu[0] ? elem.like_count : bestMenu[0]
+      })
+      return bestMenu[1]
+    },
     imgPlaceholder(e) {
       e.target.src = require("../assets/noimage.png");
     },
